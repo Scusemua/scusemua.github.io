@@ -6,10 +6,10 @@ excerpt: 'We identify and evaluate a set of techniques to make DAG schedulers se
 date: 2019-10
 venue: 'PDSW 19'
 paperurl: 'https://arxiv.org/pdf/1910.05896.pdf'
-citation: 'Your Name, You. (2009). &quot;Paper Title Number 1.&quot; <i>Journal 1</i>. 1(1).'
+citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Yue Cheng, (2019). &quot;In Search of a Fast and Efficient Serverless DAG Engine.&quot; <i>PDSW19</i>. 1(1).'
 ---
 This paper is about the number 1. The number 2 is left for future work.
 
 [Download paper here](http://academicpages.github.io/files/wukong_pdsw.pdf)
 
-Recommended citation: Your Name, You. (2009). "Paper Title Number 1." <i>Journal 1</i>. 1(1).
+Recommended citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Yue Cheng, (2019). &quot;In Search of a Fast and Efficient Serverless DAG Engine.&quot; <i>PDSW19</i>. 1(1).'

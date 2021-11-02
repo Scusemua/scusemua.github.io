@@ -6,10 +6,10 @@ excerpt: 'In this paper, we thoroughly investigate the problem space of DAG sche
 date: 2020-10
 venue: 'SOCC 20'
 paperurl: 'https://arxiv.org/abs/2010.07268'
-citation: 'Benjamin Carver, You. (2010). &quot;Paper Title Number 2.&quot; <i>Journal 1</i>. 1(2).'
+citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Ali Anwar, Panruo Wu, Yue Cheng. (2020). &quot;Wukong: A Scalable and Locality-Enhanced Framework for Serverless Parallel Computing.&quot; <i>SoCC20</i>. 1(2).'
 ---
 This paper is about the number 2. The number 3 is left for future work.
 
 [Download paper here](http://academicpages.github.io/files/wukong_socc.pdf)
 
-Recommended citation: Your Name, You. (2010). "Paper Title Number 2." <i>Journal 1</i>. 1(2).
+Recommended citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Ali Anwar, Panruo Wu, Yue Cheng. (2020). &quot;Wukong: A Scalable and Locality-Enhanced Framework for Serverless Parallel Computing.&quot; <i>SoCC20</i>. 1(2).'
