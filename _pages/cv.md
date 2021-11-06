@@ -17,24 +17,26 @@ Education
 
 Work experience
 ======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
-  
-Skills
-======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* Spring 2019 - Ongoing: Undergraduate/Graduate Research Assistant
+    * George Mason University
+    * Conducting research under the direction of Professor Yue Cheng.
+
+* Spring 2018 & Fall 2018: Undergraduate Teaching Assistant
+    * George Mason University
+    * Assisted students with assignments and projects. Held review sessions for exams.
+
+* September 2016 - June 2020: Software Developer
+    * BRTRC Federal Solutions
+    * Worked as a development team member to extend a Geographic Information Systems (GIS) desktop application using Windows Presentation Foundation and C#/.NET.
+    * Implemented a user interface and memory-efficient algorithms for processing and displaying GIS data.
+    * Optimized algorithms for creating and displaying user-defined contour lines to produce realistic terrain maps.
+    * Decreased application load time by a factor of five and memory footprint by 70%.
+    * Implemented a system for manipulating, serializing, and viewing 3D models.
+
+* June - August 2016: Summer Intern
+  * BRTRC Federal Solutions
+  * Worked as a development team member to extend a .NET desktop application.
 
 Publications
 ======
