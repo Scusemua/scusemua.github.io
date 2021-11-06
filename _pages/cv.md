@@ -9,11 +9,21 @@ redirect_from:
 
 {% include base_path %}
 
+Download my full CV [here]('_includes/cv.pdf')
+
 Education
 ======
-* B.S. in Computer Science, George Mason University, 2016 - 2020
+* Ph.D in Computer Science, George Mason University, 2021 - Ongoing 
 * M.S. in Computer Science, George Mason University, 2020 - 2021
-* Ph.D in Computer Science, George Mason University, 2021 - 2024 (expected)
+    * 4.0 GPA
+* B.S. in Computer Science, George Mason University, 2016 - 2020
+    * 4.0 GPA, Dean's List every semester.
+
+Awards
+======
+* May 2021: Distinguished Academic Achievement Award.
+* May 2020: Distinguished Undergraduate Research Award.
+* May 2020: Distinguished Academic Achievement Award.
 
 Work experience
 ======
@@ -55,3 +65,9 @@ Teaching
   <ul>{% for post in site.teaching %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
+  
+Skills
+======
+* Languages: Python, C/C++, Java, SQL, C#
+* WebD: HTML/CSS, JavaScript, jQuery
+* Cloud: AWS, GCP, IBM Cloud
