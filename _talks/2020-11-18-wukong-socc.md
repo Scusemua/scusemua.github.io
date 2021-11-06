@@ -2,7 +2,7 @@
 title: "Wukong SoCC 2020 - Presentation"
 collection: talks
 type: "Talk"
-permalink: youtube.com/watch?v=W0tENnx_58I
+permalink: _site/socc_talk.mp4
 venue: "SOCC 2020"
 date: 2020-11-18
 location: "Online"

@@ -23,5 +23,7 @@ group :jekyll_plugins do
   # gem "jekyll-archives"
   gem "jekyll-feed"
   gem 'jekyll-sitemap'
+  gem 'tzinfo', '1.2.3'
+  gem 'tzinfo-data', '1.2017.2'
   gem 'hawkins'
 end
