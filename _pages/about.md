@@ -17,7 +17,7 @@ My research interests are centered around cloud computing, generally with a focu
 
 ### Wukong (Ongoing)
 
-{% include module.html image_path="./DAG.png" title="Wukong" description="Wukong DAG based workloads" %}
+{% include wukong.html image_path="./DAG.png" title="Wukong" description="Wukong DAG based workloads" %}
 
 [Wukong](https://mason-leap-lab.github.io/Wukong/) is a serverless-oriented, locality-aware directed acyclic graph (DAG) execution engine. I developed Wukong during my senior year as an undergraduate. Wukong uses serverless computing to scale to thousands of executors in seconds. The framework leverages serverless computings' pay-per-use pricing model to keep costs low while providing support for a wide variety from workloads, ranging from machine learning and linear algebra to data analytics. Wukong can be easily deployed on a home computer or in the cloud and is open source. The framework is able to execute parallel workloads up to 68.17x faster, reduce network I/O by several orders of magnitude, and achieves 92.96% tenant-side cost savings compared to other state-of-the-art frameworks. 
 
