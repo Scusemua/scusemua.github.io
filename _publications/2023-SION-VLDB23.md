@@ -4,8 +4,8 @@ collection: publications
 permalink: /publication/2023-SION-VLDB23
 excerpt: 'We design and implement SION (Serverless I/O Nirvana), a persistent and elastic cloud storage system, which seamlessly couples the function-based ServerlessMemory layer with a persistent, inexpensive cloud object store layer. SION enables durability despite function failures using a fast parallel recovery scheme built on the auto-scaling functionality of a FaaS (Function-as-a-Service) platform. We evaluate SION extensively using three real-world applications and results show that SION achieves 27.77% and 97.30% tenant-side cost reduction compared to InfiniCache (a serverless-function-based object cache) and AWS ElastiCache respectively, while offering pay-per-access with competitive performance.'
 date: 2023
-venue: 'SOCC 20'
-paperurl: 'https://arxiv.org/abs/2010.07268'
+venue: 'VLDB 23'
+paperurl: 'https://arxiv.org/abs/2209.01496'
 citation: 'Jingyuan Zhang, Ao Wang, Xiaolong Ma, Benjamin Carver, Nicholas John Newman, Ali Anwar, Lukas Rupprecht, Dimitrios Skourtis, Vasily Tarasov, Feng Yan, Yue Cheng. (2023). &quot;Sion: Elastic Serverless Cloud Storage.&quot; <i>VLDB23</i>. 1(2).'
 ---
 
