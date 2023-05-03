@@ -15,19 +15,21 @@ My research interests are centered around cloud computing, generally with a focu
 
 ## Current Projects
 
-### Wukong 
+### [Wukong](https://scusemua.github.io/publication/2020-Wukong-SoCC) 
 
 ![Wukong Logo](assets/images/wukong_logo.png)
 
 [Wukong](https://ds2-lab.github.io/Wukong/) is a serverless-oriented, locality-aware directed acyclic graph (DAG) execution engine. I developed Wukong during my senior year as an undergraduate. Wukong uses serverless computing to scale to thousands of executors in seconds. The framework leverages serverless computings' pay-per-use pricing model to keep costs low while providing support for a wide variety from workloads, ranging from machine learning and linear algebra to data analytics. Wukong can be easily deployed on a home computer or in the cloud and is open source. The framework is able to execute parallel workloads up to 68.17x faster, reduce network I/O by several orders of magnitude, and achieves 92.96% tenant-side cost savings compared to other state-of-the-art frameworks. Present work is focused on expanding the framework's programming model and exploring unique optimization strategies.
 
-### Serverless Metadata: λFS
+### [Serverless Metadata: λFS](https://scusemua.github.io/publication/2024-LFS-ASPLOS)
 
 ![λFS: Logo](assets/images/lfs_logo.png)
 
-λFS is an elastic, high-performance metadata service for large-scale distributed file systems. λMDS scales a DFS metadata cache on a FaaS (Function-as-a-Service) platform and synthesizes a series of techniques to overcome the obstacles that are encountered when building large stateful applications on FaaS platforms. λFS takes full advantage of the unique benefits offered by FaaS--elastic scaling and massive parallelism--to realize a highly-optimized metadata service capable of sustaining up to 4.13× higher throughput, 90.40% lower latency, 85.99% lower cost, and better resource utilization and efficiency than a state-of-the-art DFS for an industrial workload.
+λFS is an elastic, high-performance metadata service for large-scale distributed file systems. λMDS scales a DFS metadata cache on a FaaS (Function-as-a-Service) platform and synthesizes a series of techniques to overcome the obstacles that are encountered when building large stateful applications on FaaS platforms. 
 
-### InfiniStore (Ongoing)
+I am presently leading a project exploring the use of serverless functions to implement the metadata management component of distributed file systems. Using serverless functions for this purpose enables strong scalability and performance while keeping costs low and resource utilization high. Adapting serverless platforms for use in large-scale distributed file systems presents a number of interesting challenges and opportunities!
+
+### [InfiniStore](https://scusemua.github.io/publication/2023-InfiniStore-VLDB23)
 
 ![InfiniStore Logo](assets/images/infinistore_logo.png)
 

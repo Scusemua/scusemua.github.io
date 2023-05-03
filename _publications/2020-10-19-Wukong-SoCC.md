@@ -1,7 +1,7 @@
 ---
 title: "Wukong: A Scalable and Locality-Enhanced Framework for Serverless Parallel Computing"
 collection: publications
-permalink: /publication/2020-Wukong-SoCC-2
+permalink: /publication/2020-Wukong-SoCC
 excerpt: 'In this paper, we thoroughly investigate the problem space of DAG scheduling in serverless computing. We identify and evaluate a set of techniques to make DAG schedulers serverless-aware. These techniques have been implemented in Wukong, a serverless, DAG scheduler attuned to AWS Lambda. Wukong provides decentralized scheduling through a combination of static and dynamic scheduling. We present the results of an empirical study in which Wukong is applied to a range of microbenchmark and real-world DAG applications. Results demonstrate the efficacy of Wukong in minimizing the performance overhead introduced by AWS Lambda --- Wukong achieves competitive performance compared to a serverful DAG scheduler, while improving the performance of real-world DAG jobs by as much as 3.1X at larger scale.'
 date: 2020-10-19
 venue: 'SOCC 20'
