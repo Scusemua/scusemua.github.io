@@ -13,4 +13,15 @@ citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Yue Cheng, (2019). &quot;In
 
 <a href="{{ site.baseurl }}/pdfs/wukong_pdsw.pdf" target="_blank">Download paper here.</a>
 
-Recommended citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Yue Cheng, (2019). &quot;In Search of a Fast and Efficient Serverless DAG Engine.&quot; <i>PDSW19</i>.'
+### To cite Wukong (PDSW)
+```
+@INPROCEEDINGS {pdsw19-wukong,
+author = {B. Carver and J. Zhang and A. Wang and Y. Cheng},
+  booktitle = {2019 IEEE/ACM Fourth International Parallel Data Systems Workshop (PDSW)},
+  title = {In Search of a Fast and Efficient Serverless DAG Engine},
+  year = {2019},
+  doi = {10.1109/PDSW49588.2019.00005},
+  url = {https://doi.ieeecomputersociety.org/10.1109/PDSW49588.2019.00005},
+  publisher = {IEEE Computer Society}
+}
+```
