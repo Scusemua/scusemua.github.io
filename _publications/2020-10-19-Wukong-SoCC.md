@@ -15,7 +15,7 @@ citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Ali Anwar, Panruo Wu, Yue C
 
 ### To cite Wukong (SoCC)
 ```
-@inproceedings{10.1145/3419111.3421286,
+@inproceedings{socc20-wukong,
 author = {Carver, Benjamin and Zhang, Jingyuan and Wang, Ao and Anwar, Ali and Wu, Panruo and Cheng, Yue},
   title = {Wukong: A Scalable and Locality-Enhanced Framework for Serverless Parallel Computing},
   year = {2020},
