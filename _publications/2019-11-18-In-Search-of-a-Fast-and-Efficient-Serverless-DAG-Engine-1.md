@@ -9,7 +9,7 @@ paperurl: 'https://arxiv.org/pdf/1910.05896.pdf'
 citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Yue Cheng, (2019). &quot;In Search of a Fast and Efficient Serverless DAG Engine.&quot; <i>PDSW19</i>. 1(1).'
 ---
 
-![Wukong Logo](assets/images/wukong_logo.png)
+![Wukong Logo](/assets/images/wukong_logo.png)
 
 <a href="{{ site.baseurl }}/pdfs/wukong_pdsw.pdf" target="_blank">Download paper here.</a>
 

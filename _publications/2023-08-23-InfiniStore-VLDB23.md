@@ -9,7 +9,7 @@ paperurl: 'https://arxiv.org/abs/2209.01496'
 citation: 'Jingyuan Zhang, Ao Wang, Xiaolong Ma, Benjamin Carver, Nicholas John Newman, Ali Anwar, Lukas Rupprecht, Dimitrios Skourtis, Vasily Tarasov, Feng Yan, Yue Cheng. (2023). &quot;InfiniStore: Elastic Serverless Cloud Storage.&quot; <i>VLDB23</i>.'
 ---
 
-![InfiniStore Logo](assets/images/infinistore_logo.png)
+![InfiniStore Logo](/assets/images/infinistore_logo.png)
 
 Cloud object storage such as AWS S3 is cost-effective and highly elastic but relatively slow, while high-performance cloud storage such as AWS ElastiCache is expensive and provides limited elasticity. We present a new cloud storage service called ServerlessMemory, which stores data using the memory of serverless functions. ServerlessMemory employs a time-window-based data placement strategy to effectively segregate old and new data and provides high elasticity, performance, and a pay-per-access cost model with extremely low cost for a new memory-based storage. 
 

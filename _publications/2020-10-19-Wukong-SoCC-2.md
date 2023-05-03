@@ -9,7 +9,7 @@ paperurl: 'https://arxiv.org/abs/2010.07268'
 citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Ali Anwar, Panruo Wu, Yue Cheng. (2020). &quot;Wukong: A Scalable and Locality-Enhanced Framework for Serverless Parallel Computing.&quot; <i>SoCC20</i>. 1(2).'
 ---
 
-![Wukong Logo](assets/images/wukong_logo.png)
+![Wukong Logo](/assets/images/wukong_logo.png)
 
 <a href="{{ site.baseurl }}/pdfs/wukong_socc.pdf" target="_blank">Download paper here.</a>
 
