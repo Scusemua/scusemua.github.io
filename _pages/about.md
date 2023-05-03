@@ -22,5 +22,5 @@ My research interests are centered around cloud computing, generally with a focu
 ### Serverless Metadata 
 I am presently leading a project exploring the use of serverless functions to implement the metadata management component of distributed file systems. Using serverless functions for this purpose enables strong scalability and performance while keeping costs low and resource utilization high. Adapting serverless platforms for use in large-scale distributed file systems presents a number of interesting challenges and opportunities!
 
-### InfiniStore
+### InfiniStore (Ongoing)
 I am working with several of my fellow LeapLab collegues on a project of theirs titled [_InfiniStore_](https://github.com/ds2-lab/infinistore). InfiniStore is an elastic, cost-effective, and high-performance object storage built atop ephemeral cloud funtions. Built on top of the [InfiniCache](https://ds2-lab.github.io/infinicache/) codebase, InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.

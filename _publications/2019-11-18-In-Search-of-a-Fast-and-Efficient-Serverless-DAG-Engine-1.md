@@ -8,8 +8,7 @@ venue: 'PDSW 19'
 paperurl: 'https://arxiv.org/pdf/1910.05896.pdf'
 citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Yue Cheng, (2019). &quot;In Search of a Fast and Efficient Serverless DAG Engine.&quot; <i>PDSW19</i>. 1(1).'
 ---
-This paper is about the number 1. The number 2 is left for future work.
 
 [Download paper here](http://academicpages.github.io/files/wukong_pdsw.pdf)
 
-Recommended citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Yue Cheng, (2019). &quot;In Search of a Fast and Efficient Serverless DAG Engine.&quot; <i>PDSW19</i>. 1(1).'
+Recommended citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Yue Cheng, (2019). &quot;In Search of a Fast and Efficient Serverless DAG Engine.&quot; <i>PDSW19</i>.'
