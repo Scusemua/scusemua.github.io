@@ -17,9 +17,14 @@ My research interests are centered around cloud computing, generally with a focu
 
 ### Wukong 
 
+![Wukong Logo](assets/images/wukong_logo.png)
+
 [Wukong](https://ds2-lab.github.io/Wukong/) is a serverless-oriented, locality-aware directed acyclic graph (DAG) execution engine. I developed Wukong during my senior year as an undergraduate. Wukong uses serverless computing to scale to thousands of executors in seconds. The framework leverages serverless computings' pay-per-use pricing model to keep costs low while providing support for a wide variety from workloads, ranging from machine learning and linear algebra to data analytics. Wukong can be easily deployed on a home computer or in the cloud and is open source. The framework is able to execute parallel workloads up to 68.17x faster, reduce network I/O by several orders of magnitude, and achieves 92.96% tenant-side cost savings compared to other state-of-the-art frameworks. Present work is focused on expanding the framework's programming model and exploring unique optimization strategies.
 
 ### Serverless Metadata 
+
+![Serverless Metadata Logo](assets/images/lmds_logo.png)
+
 I am presently leading a project exploring the use of serverless functions to implement the metadata management component of distributed file systems. Using serverless functions for this purpose enables strong scalability and performance while keeping costs low and resource utilization high. Adapting serverless platforms for use in large-scale distributed file systems presents a number of interesting challenges and opportunities!
 
 ### InfiniStore (Ongoing)
