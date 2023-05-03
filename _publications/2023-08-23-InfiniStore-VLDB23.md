@@ -36,13 +36,13 @@ We then design and implement InfiniStore (Serverless I/O Nirvana), a persistent 
 @inproceedings {246184,
 author = {Ao Wang and Jingyuan Zhang and Xiaolong Ma and Ali Anwar and Lukas Rupprecht and Dimitrios Skourtis and Vasily Tarasov and Feng Yan and Yue Cheng},
 title = {InfiniCache: Exploiting Ephemeral Serverless Functions to Build a Cost-Effective Memory Cache},
-booktitle = {18th {USENIX} Conference on File and Storage Technologies ({FAST} 20)},
+booktitle = {18th USENIX Conference on File and Storage Technologies ({FAST} 20)},
 year = {2020},
 isbn = {978-1-939133-12-0},
 address = {Santa Clara, CA},
 pages = {267--281},
 url = {https://www.usenix.org/conference/fast20/presentation/wang-ao},
-publisher = {{USENIX} Association},
+publisher = {USENIX Association},
 month = feb,
 }
 ```
