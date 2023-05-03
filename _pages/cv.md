@@ -9,7 +9,7 @@ redirect_from:
 
 {% include base_path %}
 
-Download my full CV [here]('_includes/cv.pdf')
+Download my full CV <a href="https://scusemua.github.io/assets/ben_carver_cv.pdf" target="_blank">here.</a>
 
 Education
 ======
@@ -27,6 +27,9 @@ Awards
 
 Work experience
 ======
+
+* May 2022 - August 2022: Microsoft Research Intern, Microsoft Research Lab - Redmond.
+  * Under the mentorship of Dr. Rodrigo Fonseca, assisted in the design, development, testing, and evaluation of new microsecond-latency serverless stack.
 
 * Spring 2019 - Ongoing: Undergraduate/Graduate Research Assistant
     * George Mason University
