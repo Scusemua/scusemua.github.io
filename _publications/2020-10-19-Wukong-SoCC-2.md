@@ -6,7 +6,7 @@ excerpt: 'In this paper, we thoroughly investigate the problem space of DAG sche
 date: 2020-10-19
 venue: 'SOCC 20'
 paperurl: 'https://arxiv.org/abs/2010.07268'
-citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Ali Anwar, Panruo Wu, Yue Cheng. (2020). &quot;Wukong: A Scalable and Locality-Enhanced Framework for Serverless Parallel Computing.&quot; <i>SoCC20</i>. 1(2).'
+citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Ali Anwar, Panruo Wu, Yue Cheng. (2020). &quot;Wukong: A Scalable and Locality-Enhanced Framework for Serverless Parallel Computing.&quot; <i>SoCC20</i>.'
 ---
 
 ![Wukong Logo](/assets/images/wukong_logo.png)
