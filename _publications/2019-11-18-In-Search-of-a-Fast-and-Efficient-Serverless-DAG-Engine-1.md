@@ -12,6 +12,7 @@ citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Yue Cheng, (2019). &quot;In
 ![Wukong Logo](/assets/images/wukong_logo.png)
 
 <a href="{{ site.baseurl }}/pdfs/wukong_pdsw.pdf" target="_blank">Download paper here.</a>
+[Github link](https://github.com/ds2-lab/Wukong/tree/socc2020)
 
 ### To cite Wukong (PDSW)
 ```

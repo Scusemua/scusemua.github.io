@@ -12,6 +12,7 @@ citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Ali Anwar, Panruo Wu, Yue C
 ![Wukong Logo](/assets/images/wukong_logo.png)
 
 <a href="{{ site.baseurl }}/pdfs/wukong_socc.pdf" target="_blank">Download paper here.</a>
+[Github link](https://github.com/ds2-lab/Wukong/tree/socc2020)
 
 ### To cite Wukong (SoCC)
 ```
