@@ -6,13 +6,11 @@ excerpt: 'We identify and evaluate a set of techniques to make DAG schedulers se
 date: 2019-11-18
 venue: 'PDSW 2019'
 paperurl: 'https://arxiv.org/pdf/1910.05896.pdf'
-citation: 'Benjamin Carver, Jingyuan Zhang, Ao Wang, Yue Cheng, (2019). &quot;In Search of a Fast and Efficient Serverless DAG Engine.&quot; <i>PDSW19</i>.'
 ---
 
 ![Wukong Logo](/assets/images/wukong_logo.png)
 
-<a href="{{ site.baseurl }}/pdfs/wukong_pdsw.pdf" target="_blank">Download paper here.</a>
-[Github link](https://github.com/ds2-lab/Wukong/tree/socc2020)
+[View the GitHub repo here.](https://github.com/ds2-lab/Wukong/tree/socc2020)
 
 ### To cite Wukong (PDSW)
 ```

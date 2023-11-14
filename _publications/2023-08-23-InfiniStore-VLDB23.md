@@ -6,7 +6,6 @@ excerpt: 'We design and implement InfiniStore (Serverless I/O Nirvana), a persis
 date: 2023-08-23
 venue: 'VLDB 2023'
 paperurl: 'https://arxiv.org/abs/2209.01496'
-citation: 'Jingyuan Zhang, Ao Wang, Xiaolong Ma, Benjamin Carver, Nicholas John Newman, Ali Anwar, Lukas Rupprecht, Dimitrios Skourtis, Vasily Tarasov, Feng Yan, Yue Cheng. (2023). &quot;InfiniStore: Elastic Serverless Cloud Storage.&quot; <i>VLDB23</i>.'
 ---
 
 ![InfiniStore Logo](/assets/images/infinistore_logo.png)
@@ -15,8 +14,7 @@ Cloud object storage such as AWS S3 is cost-effective and highly elastic but rel
 
 We then design and implement InfiniStore (Serverless I/O Nirvana), a persistent and elastic cloud storage system, which seamlessly couples the function-based ServerlessMemory layer with a persistent, inexpensive cloud object store layer. InfiniStore enables durability despite function failures using a fast parallel recovery scheme built on the auto-scaling functionality of a FaaS (Function-as-a-Service) platform. We evaluate InfiniStore extensively using three real-world applications and results show that InfiniStore achieves 27.77% and 97.30% tenant-side cost reduction compared to InfiniCache (a serverless-function-based object cache) and AWS ElastiCache respectively, while offering pay-per-access with competitive performance.
 
-[Download paper here](https://arxiv.org/abs/2209.01496)
-[GitHub link](https://github.com/ds2-lab/infinistore)
+[View the GitHub repo here.](https://github.com/ds2-lab/infinistore)
 
 ### To cite InfiniStore
 ```
