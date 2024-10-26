@@ -47,7 +47,7 @@ export const LambdaFSProject: Project = {
 }
 
 export const JupyterNotebookProject: Project = {
-    name: "Distributed Jupyter NaaS",
+    name: "Jupyter NaaS",
     description: "I'm working on a Jupyter Notebooks-as-a-Service (NaaS) platform that is optimized for providing maximum interactivity for users.",
     venue: "",
     repo_url: "",

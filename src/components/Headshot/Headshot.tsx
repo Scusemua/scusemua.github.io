@@ -127,11 +127,11 @@ const Headshot: React.FunctionComponent = () => {
                                 University.</Box>
                             <br/>
                             My advisors are
+                            <Box component="span" fontWeight='fontWeightBold' color={"#F05D5E"}> Dr. Yue
+                                Cheng</Box> (University of Virginia) and
                             <Box component="span" color={"#F05D5E"} fontWeight='fontWeightBold'> Dr. Songqing
                                 Chen </Box>
-                            (GMU) and
-                            <Box component="span" fontWeight='fontWeightBold' color={"#F05D5E"}> Dr. Yue
-                                Cheng</Box> (University of Virginia).
+                            (GMU).
                             <br/>
                             My research interests are centered around cloud computing with a focus in serverless
                             computing. I'm interested in applications of serverless computing to various different
