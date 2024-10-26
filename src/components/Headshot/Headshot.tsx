@@ -1,4 +1,4 @@
-import styles from "../../styles/components/Headshot.module.scss";
+import styles from "@src/styles/components/Headshot.module.scss";
 
 import React from "react";
 
@@ -19,7 +19,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
 import {Variants, motion} from "framer-motion";
 
-const headshotAnimationVariant: Variants = {
+const springAnimVariant: Variants = {
     initial: {
         opacity: 0,
         x: "-50%",
@@ -46,7 +46,7 @@ const Headshot: React.FunctionComponent = () => {
     const downloadResume = () => {
         const link = document.createElement("a");
         link.download = 'CarverBenjamin_Resume.pdf';
-        link.href = 'CarverBenjamin_Resume.pdf'
+        link.href = 'portfolio/CarverBenjamin_Resume.pdf'
         link.click();
     }
 
@@ -95,7 +95,7 @@ const Headshot: React.FunctionComponent = () => {
                 justifyContent: "center",
                 alignItems: "center",
             }}>
-                <motion.div variants={headshotAnimationVariant}
+                <motion.div variants={springAnimVariant}
                             whileHover={{
                                 scale: 1.02,
                             }}>

@@ -1,4 +1,4 @@
-import styles from "../../styles/components/Projects.module.scss";
+import styles from "@src/styles/components/Projects.module.scss";
 
 import React from "react";
 

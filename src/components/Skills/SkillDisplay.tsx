@@ -1,4 +1,4 @@
-import styles from "../../styles/components/Skills.module.scss";
+import styles from "@src/styles/components/Skills.module.scss";
 import {Variants, motion} from "framer-motion";
 
 import React from "react";
@@ -31,6 +31,9 @@ const SkillDisplay: React.FunctionComponent<SkillProps> = (props: SkillProps) =>
                 scale: 1.12,
             }}
             className={`${styles.skills_body_within_category_container_skill}`}
+            style={{
+                margin: "0 auto",
+            }}
         >
             {props.skillName}
         </motion.div>
