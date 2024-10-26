@@ -3,7 +3,7 @@
 import React from "react";
 import Headshot from "@src/components/Headshot/Headshot";
 import Projects from "@src/components/Projects/Projects";
-import Skills from "@src/components/Skills/Skills";
+import SkillsSection from "@src/components/Skills/SkillsSection";
 
 export default function Home() {
     return (
@@ -11,7 +11,7 @@ export default function Home() {
             <div className="gradient_background">
                 <Headshot />
                 <Projects />
-                <Skills />
+                <SkillsSection />
             </div>
         </div>
     );

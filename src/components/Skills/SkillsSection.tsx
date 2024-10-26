@@ -1,12 +1,10 @@
 "use client";
-import {CloudPlatformSkills, Skills, SkillsData} from "@data/SkillsData";
+import {Skills, SkillsData} from "@data/SkillsData";
 import {Variants, motion} from "framer-motion";
 import React from "react";
-import styles from "../../styles/components/Skills.module.scss";
+import styles from "@src/styles/components/Skills.module.scss";
 import SkillDisplay from "./SkillDisplay";
 import Typography from "@mui/material/Typography";
-
-import CloudIcon from '@mui/icons-material/Cloud';
 
 const skillWrapperVariant: Variants = {
     animate: {
@@ -16,7 +14,7 @@ const skillWrapperVariant: Variants = {
     },
 };
 
-const Skills: React.FunctionComponent = () => {
+const SkillsSection: React.FunctionComponent = () => {
     return (
         <div className={`${styles.skills}`} id="skills">
             <Typography variant={"h2"} className={`${styles.skills_header_text}`}>Skills</Typography>
@@ -46,4 +44,4 @@ const Skills: React.FunctionComponent = () => {
         </div>
     );
 };
-export default Skills;
+export default SkillsSection;
