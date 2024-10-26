@@ -1,6 +1,10 @@
 "use client";
 
-import type {Metadata} from "next";
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 import "./globals.css";
 
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter';
@@ -9,8 +13,6 @@ import {Roboto} from 'next/font/google';
 import * as React from 'react';
 import {ThemeProvider} from "@mui/material";
 import theme from "@src/app/theme";
-
-
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],

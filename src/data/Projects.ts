@@ -36,7 +36,7 @@ export const InfiniStoreProject: Project = {
 
 export const LambdaFSProject: Project = {
     name: "λFS",
-    description: "λFS is an elastic, scalable, and high-performance metadata service for large-scale distributed file systems (DFSes). λFS scales a DFS metadata cache elastically atop serverless functions and uses a series of techniques to overcome the obstacles that are encountered when building large, stateful, and performance-sensitive applications on serverless computing platforms.",
+    description: "λFS is an elastic, scalable, and high-performance metadata service for large-scale distributed file systems (DFSes). λFS uses an elastically-scaled DFS metadata cache atop serverless functions to maximize performance & cost efficiency.",
     venue: "ASPLOS'23",
     repo_url: "https://github.com/ds2-lab/LambdaFS",
     project_website_url: "",

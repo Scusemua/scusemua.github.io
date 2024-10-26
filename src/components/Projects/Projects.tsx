@@ -23,7 +23,7 @@ const Projects: React.FunctionComponent = () => {
                     'padding': '3rem',
                 }}>
                     {ProjectData.map((project: Project) => (
-                        <Grid2 size={4}>
+                        <Grid2 size={{'xs': 4, 'sm': 4, 'md': 4, 'lg': 4, 'xl': 3}}>
                             <ProjectDisplay project={project}/>
                         </Grid2>
                     ))}

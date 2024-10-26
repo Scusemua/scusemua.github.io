@@ -15,11 +15,19 @@ import MailIcon from '@mui/icons-material/Mail';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import SchoolIcon from '@mui/icons-material/School';
+import DownloadIcon from '@mui/icons-material/Download';
 
 const Headshot: React.FunctionComponent = () => {
     const openInNewTab = (url: string | URL | undefined) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
+    }
+
+    const downloadResume = () => {
+        const link = document.createElement("a");
+        link.download = 'CarverBenjamin_Resume.pdf';
+        link.href = 'CarverBenjamin_Resume.pdf'
+        link.click();
     }
 
     return (
@@ -46,8 +54,8 @@ const Headshot: React.FunctionComponent = () => {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title={"Email Me (bcarver2@gmu.edu)"} arrow>
-                            <IconButton size="large" onClick={() => openInNewTab('mailto:bcarver2@gmu.edu')}>
-                                <MailIcon fontSize="inherit" />
+                            <IconButton size="large" href={'mailto:bcarver2@gmu.edu'}>
+                                <MailIcon fontSize="inherit"/>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title={"LinkedIn"} arrow>
@@ -76,13 +84,19 @@ const Headshot: React.FunctionComponent = () => {
                 <Typography variant={"h1"}>Ben Carver</Typography>
                 <Typography variant={"h5"}>Computer Science PhD Candidate at George Mason University</Typography>
             </div>
-            <Stack className={styles.headshot_cv_button_stack} direction={"row"} sx={{
+            <Stack className={styles.headshot_cv_button_stack} spacing={2} direction={"row"} sx={{
                 justifyContent: "center",
                 alignItems: "center",
             }}>
-                <Button variant={"contained"} color={'primary'}>
-                    Download my CV
+                <Button variant={"contained"} color={'primary'} onClick={downloadResume} startIcon={<DownloadIcon/>}>
+                    Download my Resume
                 </Button>
+                <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
+                    <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
+                            rel="noopener noreferrer" startIcon={<MailIcon/>}>
+                        Contact Me
+                    </Button>
+                </Tooltip>
             </Stack>
         </div>
     );

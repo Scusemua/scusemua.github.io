@@ -2,7 +2,18 @@ import styles from "../../styles/components/Projects.module.scss";
 
 import React, {ReactElement} from "react";
 
-import {Badge, Card, CardContent, CardMedia, Chip, Grid2, Stack, Tooltip} from "@mui/material";
+import {
+    Badge,
+    Card,
+    CardActionArea,
+    CardActions,
+    CardContent, CardHeader,
+    CardMedia,
+    Chip,
+    Grid2,
+    Stack,
+    Tooltip
+} from "@mui/material";
 
 import Typography from '@mui/material/Typography';
 import {Project} from "@data/Projects";
@@ -71,10 +82,40 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     const keywords = (
         <div className={styles.project_keywords}>
             {props.project.keywords.map((keyword: string) => (
-                <Chip className={styles.project_keyword} label={keyword} size={'small'} variant={'outlined'} />
+                <Chip className={styles.project_keyword} label={keyword} size={'small'} variant={'outlined'}/>
             ))}
         </div>
     );
+
+    const cardActions = (
+        <CardActions sx={{
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
+            <Stack>
+                {keywords}
+                <Stack direction={'row'} sx={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
+                        <IconButton aria-label={"GitHub Repo"} size="large"
+                                    onClick={() => openInNewTab(props.project.repo_url)}
+                                    color={"default"}>
+                            <GitHubIcon fontSize="inherit"/>
+                        </IconButton>
+                    </Tooltip>}
+                    {props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
+                        <IconButton size="large"
+                                    onClick={() => openInNewTab(props.project.project_website_url)}>
+                            <WebIcon fontSize="inherit"/>
+                        </IconButton>
+                    </Tooltip>}
+                    {getPaperLinks()}
+                </Stack>
+            </Stack>
+        </CardActions>
+    )
 
     return (
         <div className={styles.project}>
@@ -84,9 +125,9 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 justifyContent: "center",
                 alignItems: "center",
             }}>
-                <Card sx={{height: 495}}>
+                <Card>
                     <CardMedia component={'img'} image={props.project.image} height={225}/>
-                    <CardContent>
+                    <CardContent className={styles.project_card_content}>
                         <Stack direction={"row"} spacing={2} sx={{
                             justifyContent: "center",
                             alignItems: "center",
@@ -100,29 +141,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                                     sx={{color: 'text.secondary'}}>
                             {props.project.description}
                         </Typography>
-
-                        {keywords}
-
-                        <Stack direction={"row"} spacing={2} className={styles.project_links} sx={{
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}>
-                            {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
-                                <IconButton aria-label={"GitHub Repo"} size="large"
-                                            onClick={() => openInNewTab(props.project.repo_url)}
-                                            color={"default"}>
-                                    <GitHubIcon fontSize="inherit"/>
-                                </IconButton>
-                            </Tooltip>}
-                            {props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
-                                <IconButton size="large"
-                                            onClick={() => openInNewTab(props.project.project_website_url)}>
-                                    <WebIcon fontSize="inherit"/>
-                                </IconButton>
-                            </Tooltip>}
-                            {getPaperLinks()}
-                        </Stack>
                     </CardContent>
+                    {cardActions}
                 </Card>
             </Stack>
         </div>
