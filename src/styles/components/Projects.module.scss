@@ -1,0 +1,44 @@
+.project_section {
+  text-align: center;
+
+  &_header_text {
+    padding-top: 10rem;
+    height: 100%;
+    position: relative;
+    color: #EFF6EE;
+  }
+}
+
+.project {
+  text-align: center;
+
+  &_header_text {
+    padding-top: 10rem;
+    height: 100%;
+    position: relative;
+    color: #EFF6EE;
+  }
+
+  &_description {
+    height: 6rem;
+  }
+
+  &_keyword {
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+  }
+
+  &_keywords {
+    padding-top: 1rem;
+  }
+
+  &_links {
+    margin-top: 0.65rem;
+    &_drop_shadow {
+      display: flex;
+      background: rgba(0, 0, 0, 0.10);
+      border-radius: 16rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    }
+  }
+}

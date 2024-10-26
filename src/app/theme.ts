@@ -6,10 +6,10 @@ const theme = createTheme({
     cssVariables: true,
     palette: {
         primary: {
-            main: '#556cd6',
+            main: '#F05D5E',
         },
         secondary: {
-            main: '#19857b',
+            main: '#EFF6EE',
         },
         error: {
             main: red.A400,

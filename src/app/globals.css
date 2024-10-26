@@ -1,0 +1,102 @@
+.gradient_background::before,
+.gradient_background::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    opacity: 0.75;
+}
+
+body{
+
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.7;
+}
+
+.solid_background {
+    background: linear-gradient(90deg, #343434, #2F3061); /* Adjust colors as needed */
+    min-height: 100vh; /* Ensure gradient covers the entire viewport height */
+    display: flex; /* Optional: For centering content */
+    flex-direction: column; /* Optional: For vertical layout */
+    align-items: center; /* Optional: For centering content horizontally */
+    justify-content: center; /* Optional: For centering content vertically */
+}
+
+.gradient_background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: -20px; /* Increase/Decrease this value for cross-browser compatibility */
+    overflow-y: scroll;
+
+    /**/
+    /*other default setting ...*/
+    /**/
+    --secondary-glow: conic-gradient(
+            from 10deg at 50% 50%,
+            #de4e71 0deg,
+            #ae77b2 55deg,
+            #9491E2 120deg,
+            #B025CD 160deg,
+            transparent 360deg
+    );
+
+    --third-glow: conic-gradient(
+            from 90deg at 50% 50%,
+            #de4e71 0deg,
+            #9DB1DF 170deg,
+            #B025CD 150deg,
+            #A2C2DD 120deg,
+            #AFF2D8 55deg,
+            transparent 360deg
+    );
+}
+
+.gradient_background::before {
+    background: var(--third-glow);
+    border-radius: 50%;
+    width: 50vw;
+    height: 50vw;
+    margin-left: -15px;
+    filter: blur(90px);
+    top: calc(50vh - 50vw / 2);
+    left: calc(50vw);
+    animation: animateBefore 8s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
+}
+
+.gradient_background::after {
+    background: var(--secondary-glow);
+    border-radius: 50%;
+    width: 500px;
+    height: 700px;
+    filter: blur(90px);
+    top: calc(50vh - 50vw / 2);
+    left: calc(50vw - 50vw / 2);
+    animation: animateAfter 8s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
+}
+
+@keyframes animateBefore {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(400px) scale(0.8);
+
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes animateAfter {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-250px) scale(1.2);
+
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
