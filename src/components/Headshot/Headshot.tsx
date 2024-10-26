@@ -5,7 +5,8 @@ import React from "react";
 import Image from "next/image";
 
 import {PersonalData} from '@data/Personal';
-import {Button, Stack, Tooltip} from "@mui/material";
+import {Box, Button, Card, Stack, Tooltip} from "@mui/material";
+import {withStyles} from "@mui/styles";
 
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -30,6 +31,42 @@ const Headshot: React.FunctionComponent = () => {
         link.click();
     }
 
+    const socialLinks = (
+        <div className={styles.social_links_drop_shadow}>
+            <Stack direction={"row"} spacing={1} className={styles.social_links}>
+                <Tooltip title={"GitHub"} arrow>
+                    <IconButton aria-label={"GitHub"} size="large"
+                                onClick={() => openInNewTab('https://github.com/scusemua/')} color={"default"}>
+                        <GitHubIcon fontSize="inherit"/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={"Email Me (bcarver2@gmu.edu)"} arrow>
+                    <IconButton size="large" href={'mailto:bcarver2@gmu.edu'}>
+                        <MailIcon fontSize="inherit"/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={"LinkedIn"} arrow>
+                    <IconButton size="large"
+                                onClick={() => openInNewTab('https://www.linkedin.com/in/benjamin-carver-30988a1b6/')}>
+                        <LinkedInIcon fontSize="inherit"/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={"YouTube"} arrow>
+                    <IconButton size="large"
+                                onClick={() => openInNewTab('https://www.youtube.com/@benrcarver')}>
+                        <YouTubeIcon fontSize="inherit"/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={"Google Scholar"} arrow>
+                    <IconButton size="large"
+                                onClick={() => openInNewTab('https://scholar.google.com/citations?user=sCOVuPEAAAAJ&hl=en')}>
+                        <SchoolIcon fontSize="inherit"/>
+                    </IconButton>
+                </Tooltip>
+            </Stack>
+        </div>
+    )
+
     return (
         <div className={styles.headshot}>
             <Stack
@@ -45,58 +82,58 @@ const Headshot: React.FunctionComponent = () => {
                     alt={"Ben's Headshot"}
                 />
 
-                <div className={styles.social_links_drop_shadow}>
-                    <Stack direction={"row"} spacing={1} className={styles.social_links}>
-                        <Tooltip title={"GitHub"} arrow>
-                            <IconButton aria-label={"GitHub"} size="large"
-                                        onClick={() => openInNewTab('https://github.com/scusemua/')} color={"default"}>
-                                <GitHubIcon fontSize="inherit"/>
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title={"Email Me (bcarver2@gmu.edu)"} arrow>
-                            <IconButton size="large" href={'mailto:bcarver2@gmu.edu'}>
-                                <MailIcon fontSize="inherit"/>
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title={"LinkedIn"} arrow>
-                            <IconButton size="large"
-                                        onClick={() => openInNewTab('https://www.linkedin.com/in/benjamin-carver-30988a1b6/')}>
-                                <LinkedInIcon fontSize="inherit"/>
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title={"YouTube"} arrow>
-                            <IconButton size="large"
-                                        onClick={() => openInNewTab('https://www.youtube.com/@benrcarver')}>
-                                <YouTubeIcon fontSize="inherit"/>
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title={"Google Scholar"} arrow>
-                            <IconButton size="large"
-                                        onClick={() => openInNewTab('https://scholar.google.com/citations?user=sCOVuPEAAAAJ&hl=en')}>
-                                <SchoolIcon fontSize="inherit"/>
-                            </IconButton>
-                        </Tooltip>
-                    </Stack>
-                </div>
+                {socialLinks}
             </Stack>
-            <div className={styles.headshot_text}>
-                <Typography variant={"h5"}>Hi, I'm</Typography>
-                <Typography variant={"h1"}>Ben Carver</Typography>
+
+            <div className={styles.headshot_header_text_top}>
+                <Typography variant={"h5"}>Hello! I am</Typography>
+                <Typography variant={"h1"}>Benjamin Carver</Typography>
                 <Typography variant={"h5"}>Computer Science PhD Candidate at George Mason University</Typography>
             </div>
-            <Stack className={styles.headshot_cv_button_stack} spacing={2} direction={"row"} sx={{
-                justifyContent: "center",
-                alignItems: "center",
+            <div style={{
+                marginTop: '1rem',
             }}>
-                <Button variant={"contained"} color={'primary'} onClick={downloadResume} startIcon={<DownloadIcon/>}>
-                    Download my Resume
-                </Button>
-                <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
-                    <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
-                            rel="noopener noreferrer" startIcon={<MailIcon/>}>
-                        Contact Me
+                <div className={styles.headshot_header_text_container} style={{
+                    width: '55rem',
+                }}>
+                    <div className={styles.headshot_header_text}>
+                        <Typography variant={"h6"}>
+                            I'm a 3rd year PhD candidate in CS at
+                            <Box component="span" color={"#49B075"} fontWeight='fontWeightBold'> George Mason
+                                University.</Box>
+                            <br/>
+                            My advisors are
+                            <Box component="span" color={"#F05D5E"} fontWeight='fontWeightBold'> Dr. Songqing
+                                Chen </Box>
+                            (GMU) and
+                            <Box component="span" fontWeight='fontWeightBold' color={"#F05D5E"}> Dr. Yue
+                                Cheng</Box> (University of Virginia).
+                            <br/>
+                            My research interests are centered around cloud computing with a focus in serverless
+                            computing. I'm interested in applications of serverless computing to various different
+                            areas,
+                            including data analytics, machine learning, and file systems.
+                        </Typography>
+                    </div>
+                </div>
+            </div>
+            <Stack direction={'column'}>
+                <Stack className={styles.headshot_cv_button_stack} spacing={2} direction={"row"}
+                       sx={{
+                           justifyContent: "center",
+                           alignItems: "center",
+                       }}>
+                    <Button variant={"contained"} color={'primary'} onClick={downloadResume}
+                            startIcon={<DownloadIcon/>}>
+                        Download my Resume
                     </Button>
-                </Tooltip>
+                    <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
+                        <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
+                                rel="noopener noreferrer" startIcon={<MailIcon/>}>
+                            Contact Me
+                        </Button>
+                    </Tooltip>
+                </Stack>
             </Stack>
         </div>
     );

@@ -45,7 +45,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 badgeContent = (props.project.venue as string[])[idx];
             }
 
-            return (<Tooltip title={`View Paper on arXiv`} arrow>
+            return (<Tooltip title={`View Paper on arXiv`} arrow key={`paper-icon-${idx}`}>
                 <IconButton size="large"
                             onClick={() => openInNewTab(arxiv_url)}>
                     <Badge sx={{
@@ -82,7 +82,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     const keywords = (
         <div className={styles.project_keywords}>
             {props.project.keywords.map((keyword: string) => (
-                <Chip className={styles.project_keyword} label={keyword} size={'small'} variant={'outlined'}/>
+                <Chip key={`project-${props.project.name}-keyword-${keyword}`} className={styles.project_keyword}
+                      label={keyword} size={'small'} variant={'outlined'}/>
             ))}
         </div>
     );
@@ -94,7 +95,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         }}>
             <Stack>
                 {keywords}
-                <Stack direction={'row'} sx={{
+                <Stack direction={'row'} spacing={2} sx={{
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
@@ -131,7 +132,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                         <Stack direction={"row"} spacing={2} sx={{
                             justifyContent: "center",
                             alignItems: "center",
-                            'margin-bottom': '0.5rem',
+                            marginBottom: '0.5rem',
                         }}>
                             <Typography gutterBottom variant="h5" component="div">{props.project.name}</Typography>
                             <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}

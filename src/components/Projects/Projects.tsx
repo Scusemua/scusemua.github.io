@@ -17,13 +17,13 @@ const Projects: React.FunctionComponent = () => {
                 justifyContent: "center",
                 alignItems: "center",
             }}>
-                <Typography variant={"h2"} className={styles.project_section_header_text}>Projects</Typography>
+                <Typography variant={"h2"} className={styles.project_section_header_text}>Research Projects</Typography>
 
                 <Grid2 container rowSpacing={4} columnSpacing={8} sx={{
                     'padding': '3rem',
                 }}>
                     {ProjectData.map((project: Project) => (
-                        <Grid2 size={{'xs': 4, 'sm': 4, 'md': 4, 'lg': 4, 'xl': 3}}>
+                        <Grid2 size={{'xs': 4, 'sm': 4, 'md': 4, 'lg': 4, 'xl': 3}} key={`project-${project.name}-display`}>
                             <ProjectDisplay project={project}/>
                         </Grid2>
                     ))}

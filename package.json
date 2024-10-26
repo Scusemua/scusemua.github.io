@@ -12,6 +12,7 @@
     "@mui/icons-material": "^6.1.5",
     "@mui/material": "^6.1.5",
     "@mui/material-nextjs": "^6.1.5",
+    "@mui/styles": "^6.1.5",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "file-loader": "^6.2.0",

@@ -1,4 +1,8 @@
 .headshot {
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+
   &_container {
     left: 75%;
     position: absolute;
@@ -17,16 +21,27 @@
     }
   }
 
-  &_text {
-    padding-top: 10rem;
-    text-align: center;
-    height: 100%;
-    position: relative;
+  &_header_text {
     color: #EFF6EE;
+
+    &_top {
+      color: #EFF6EE;
+      padding-top: 10rem;
+    }
+
+    &_container {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 2rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      margin: 0 auto;
+      padding: 0.5rem 1rem;
+    }
   }
 }
 
 .social_links {
+  z-index: 5;
+
   &_drop_shadow {
     display: flex;
     background: rgba(0, 0, 0, 0.10);
