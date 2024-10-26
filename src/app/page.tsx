@@ -2,8 +2,8 @@
 
 import React from "react";
 import Headshot from "@src/components/Headshot/Headshot";
-import {Metadata} from "next";
 import Projects from "@src/components/Projects/Projects";
+import Skills from "@src/components/Skills/Skills";
 
 export default function Home() {
     return (
@@ -11,6 +11,7 @@ export default function Home() {
             <div className="gradient_background">
                 <Headshot />
                 <Projects />
+                <Skills />
             </div>
         </div>
     );

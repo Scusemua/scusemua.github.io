@@ -17,7 +17,7 @@ export const WukongProject: Project = {
     repo_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
     project_website_url: "https://ds2-lab.github.io/Wukong/",
     image: "images/wukong_logo.png",
-    keywords: ["serverless", "dag", "linear algebra"],
+    keywords: ["serverless", "dag", "linear algebra", "task scheduling", "distributed", "python", "data analytics"],
     arxiv_links: ["https://arxiv.org/abs/1910.05896", "https://arxiv.org/abs/2010.07268"],
     status: 'inactive',
 }
@@ -29,7 +29,7 @@ export const InfiniStoreProject: Project = {
     repo_url: "https://github.com/ds2-lab/infinistore",
     image: "images/infinistore_logo.png",
     project_website_url: "",
-    keywords: ["serverless", "object storage", "caching"],
+    keywords: ["serverless", "object storage", "caching", "persistence", "fault tolerance", "erasure coding"],
     arxiv_links: ["https://arxiv.org/abs/2209.01496"],
     status: 'inactive',
 }
@@ -41,19 +41,19 @@ export const LambdaFSProject: Project = {
     repo_url: "https://github.com/ds2-lab/LambdaFS",
     project_website_url: "",
     image: "images/lfs_logo.png",
-    keywords: ["serverless", "distributed file systems", "file storage", "metadata"],
+    keywords: ["serverless", "distributed file systems", "file storage", "metadata", "elasticity"],
     arxiv_links: ["https://arxiv.org/abs/2306.11877"],
     status: 'inactive',
 }
 
 export const JupyterNotebookProject: Project = {
-    name: "Distributed Jupyter Notebooks",
+    name: "Distributed Jupyter NaaS",
     description: "I'm working on a Jupyter Notebooks-as-a-Service (NaaS) platform that is optimized for providing maximum interactivity for users.",
     venue: "",
     repo_url: "",
     project_website_url: "",
     image: "images/jupyter_naas.png",
-    keywords: ["serverless", "deep learning", "jupyter notebooks", "gpu scheduling"],
+    keywords: ["serverless", "deep learning", "jupyter notebooks", "gpu scheduling", "platforms"],
     arxiv_links: [],
     status: 'active',
 }

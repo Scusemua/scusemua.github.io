@@ -16,13 +16,14 @@ import {
 } from "@mui/material";
 
 import Typography from '@mui/material/Typography';
-import {Project} from "@data/Projects";
+import {Project} from "@data/ProjectsData";
 import IconButton from "@mui/material/IconButton";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import ArticleIcon from '@mui/icons-material/Article';
 import WebIcon from '@mui/icons-material/Web';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import TerminalIcon from '@mui/icons-material/Terminal';
+import {Variants, motion} from "framer-motion";
 
 interface ProjectProps {
     project: Project;
@@ -32,6 +33,24 @@ const openInNewTab = (url: string | URL | undefined) => {
     const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
     if (newWindow) newWindow.opener = null
 }
+
+const projectCardAnimationVariant: Variants = {
+    initial: {
+        opacity: 0,
+        x: "-50%",
+    },
+    animate: {
+        opacity: 1,
+        x: "0%",
+        transition: {
+            type: 'spring',
+            stiffness: 25,
+            damping: 100,
+            mass: 100,
+            delay: 0.5,
+        },
+    },
+};
 
 const badgeColors: string[] = ["#F05D5E", "#3D3E78"]
 
@@ -94,7 +113,6 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             alignItems: 'center',
         }}>
             <Stack>
-                {keywords}
                 <Stack direction={'row'} spacing={2} sx={{
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -126,25 +144,31 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 justifyContent: "center",
                 alignItems: "center",
             }}>
-                <Card>
-                    <CardMedia component={'img'} image={props.project.image} height={225}/>
-                    <CardContent className={styles.project_card_content}>
-                        <Stack direction={"row"} spacing={2} sx={{
-                            justifyContent: "center",
-                            alignItems: "center",
-                            marginBottom: '0.5rem',
-                        }}>
-                            <Typography gutterBottom variant="h5" component="div">{props.project.name}</Typography>
-                            <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}
-                                  size={'small'}/>
-                        </Stack>
-                        <Typography className={styles.project_description} variant="body2"
-                                    sx={{color: 'text.secondary'}}>
-                            {props.project.description}
-                        </Typography>
-                    </CardContent>
-                    {cardActions}
-                </Card>
+                <motion.div variants={projectCardAnimationVariant}
+                            whileHover={{
+                                scale: 1.05,
+                            }}>
+                    <Card style={{height: 545}}>
+                        <CardMedia component={'img'} image={props.project.image} height={225}/>
+                        <CardContent>
+                            <Stack direction={"row"} spacing={2} sx={{
+                                justifyContent: "center",
+                                alignItems: "center",
+                                marginBottom: '0.5rem',
+                            }}>
+                                <Typography gutterBottom variant="h5" component="div">{props.project.name}</Typography>
+                                <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}
+                                      size={'small'}/>
+                            </Stack>
+                            <Typography className={styles.project_description} variant="body2"
+                                        sx={{color: 'text.secondary'}}>
+                                {props.project.description}
+                            </Typography>
+                            {keywords}
+                        </CardContent>
+                        {cardActions}
+                    </Card>
+                </motion.div>
             </Stack>
         </div>
     );

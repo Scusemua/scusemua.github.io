@@ -4,7 +4,7 @@ import React from "react";
 
 import Image from "next/image";
 
-import {PersonalData} from '@data/Personal';
+import {PersonalData} from '@data/PersonalData';
 import {Box, Button, Card, Stack, Tooltip} from "@mui/material";
 import {withStyles} from "@mui/styles";
 
@@ -17,6 +17,25 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
+import {Variants, motion} from "framer-motion";
+
+const headshotAnimationVariant: Variants = {
+    initial: {
+        opacity: 0,
+        x: "-50%",
+    },
+    animate: {
+        opacity: 1,
+        x: "0%",
+        transition: {
+            type: 'spring',
+            stiffness: 25,
+            damping: 100,
+            mass: 100,
+            delay: 0.5,
+        },
+    },
+};
 
 const Headshot: React.FunctionComponent = () => {
     const openInNewTab = (url: string | URL | undefined) => {
@@ -76,11 +95,16 @@ const Headshot: React.FunctionComponent = () => {
                 justifyContent: "center",
                 alignItems: "center",
             }}>
-                <Image
-                    className={styles.headshot_container_image + " box_shadow"}
-                    src={PersonalData.img}
-                    alt={"Ben's Headshot"}
-                />
+                <motion.div variants={headshotAnimationVariant}
+                            whileHover={{
+                                scale: 1.02,
+                            }}>
+                    <Image
+                        className={styles.headshot_container_image + " box_shadow"}
+                        src={PersonalData.img}
+                        alt={"Ben's Headshot"}
+                    />
+                </motion.div>
 
                 {socialLinks}
             </Stack>
