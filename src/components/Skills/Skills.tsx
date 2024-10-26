@@ -6,6 +6,8 @@ import styles from "../../styles/components/Skills.module.scss";
 import SkillDisplay from "./SkillDisplay";
 import Typography from "@mui/material/Typography";
 
+import CloudIcon from '@mui/icons-material/Cloud';
+
 const skillWrapperVariant: Variants = {
     animate: {
         transition: {
@@ -29,7 +31,7 @@ const Skills: React.FunctionComponent = () => {
                     key={index}
                 >
                     <Typography variant={"h3"}>
-                        {skills.category.toString()}
+                        {skills.icon} {skills.category.toString()}
                     </Typography>
 
                     <div
