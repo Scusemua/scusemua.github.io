@@ -2,6 +2,8 @@
   justify-content: center;
   text-align: center;
   color: #EFF6EE;
+  width: 65%;
+  margin: 0 auto;
 
   &_header_text {
     text-align: center;
@@ -16,7 +18,7 @@
     &_within_category_container {
       display: flex;
       flex-wrap: wrap;
-      gap: 2rem;
+      gap: 1rem;
       margin-top: 1.5rem;
 
       &_skill {

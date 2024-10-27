@@ -40,9 +40,10 @@
 }
 
 .social_links {
-  z-index: 5;
+  z-index: 1;
 
   &_drop_shadow {
+    z-index: 1;
     display: flex;
     background: rgba(0, 0, 0, 0.10);
     border-radius: 16rem;

@@ -86,6 +86,78 @@ const Headshot: React.FunctionComponent = () => {
         </div>
     )
 
+    const headshotImage = (
+        <motion.div variants={springAnimVariant}
+                    whileHover={{
+                        scale: 1.02,
+                    }}>
+            <Image
+                className={styles.headshot_container_image + " box_shadow"}
+                src={PersonalData.img}
+                alt={"Ben's Headshot"}
+            />
+        </motion.div>
+    );
+
+    const headerText = (
+        <div className={styles.headshot_header_text_top}>
+            <Typography variant={"h5"}>Hello! I am</Typography>
+            <Typography variant={"h1"}>Benjamin Carver</Typography>
+            <Typography variant={"h5"}>Computer Science PhD Candidate at George Mason University</Typography>
+        </div>
+    );
+
+    const introText = (
+        <div style={{
+            marginTop: '1rem',
+        }}>
+            <div className={styles.headshot_header_text_container} style={{
+                width: '55rem',
+            }}>
+                <div className={styles.headshot_header_text}>
+                    <Typography variant={"h6"}>
+                        I'm a 3rd year PhD candidate in CS at
+                        <Box component="span" color={"#49B075"} fontWeight='fontWeightBold'> George Mason
+                            University.</Box>
+                        <br/>
+                        My advisors are
+                        <Box component="span" fontWeight='fontWeightBold' color={"#F05D5E"}> Dr. Yue
+                            Cheng</Box> (University of Virginia) and
+                        <Box component="span" color={"#F05D5E"} fontWeight='fontWeightBold'> Dr. Songqing
+                            Chen </Box>
+                        (GMU).
+                        <br/>
+                        My research interests are centered around cloud computing with a focus on serverless
+                        computing. Specifically, I'm interested in applications of serverless computing to data
+                        analytics/data
+                        science, machine learning, file systems, and other areas.
+                    </Typography>
+                </div>
+            </div>
+        </div>
+    );
+
+    const headerButtons = (
+        <Stack direction={'column'}>
+            <Stack className={styles.headshot_cv_button_stack} spacing={2} direction={"row"}
+                   sx={{
+                       justifyContent: "center",
+                       alignItems: "center",
+                   }}>
+                <Button variant={"contained"} color={'primary'} onClick={downloadResume}
+                        startIcon={<DownloadIcon/>}>
+                    Download my Resume
+                </Button>
+                <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
+                    <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
+                            rel="noopener noreferrer" startIcon={<MailIcon/>}>
+                        Contact Me
+                    </Button>
+                </Tooltip>
+            </Stack>
+        </Stack>
+    );
+
     return (
         <div className={styles.headshot}>
             <Stack
@@ -95,69 +167,13 @@ const Headshot: React.FunctionComponent = () => {
                 justifyContent: "center",
                 alignItems: "center",
             }}>
-                <motion.div variants={springAnimVariant}
-                            whileHover={{
-                                scale: 1.02,
-                            }}>
-                    <Image
-                        className={styles.headshot_container_image + " box_shadow"}
-                        src={PersonalData.img}
-                        alt={"Ben's Headshot"}
-                    />
-                </motion.div>
-
+                {headshotImage}
                 {socialLinks}
             </Stack>
 
-            <div className={styles.headshot_header_text_top}>
-                <Typography variant={"h5"}>Hello! I am</Typography>
-                <Typography variant={"h1"}>Benjamin Carver</Typography>
-                <Typography variant={"h5"}>Computer Science PhD Candidate at George Mason University</Typography>
-            </div>
-            <div style={{
-                marginTop: '1rem',
-            }}>
-                <div className={styles.headshot_header_text_container} style={{
-                    width: '55rem',
-                }}>
-                    <div className={styles.headshot_header_text}>
-                        <Typography variant={"h6"}>
-                            I'm a 3rd year PhD candidate in CS at
-                            <Box component="span" color={"#49B075"} fontWeight='fontWeightBold'> George Mason
-                                University.</Box>
-                            <br/>
-                            My advisors are
-                            <Box component="span" fontWeight='fontWeightBold' color={"#F05D5E"}> Dr. Yue
-                                Cheng</Box> (University of Virginia) and
-                            <Box component="span" color={"#F05D5E"} fontWeight='fontWeightBold'> Dr. Songqing
-                                Chen </Box>
-                            (GMU).
-                            <br/>
-                            My research interests are centered around cloud computing with a focus on serverless
-                            computing. I'm interested in applications of serverless computing to data analytics/data
-                            science, machine learning, file systems, and other areas.
-                        </Typography>
-                    </div>
-                </div>
-            </div>
-            <Stack direction={'column'}>
-                <Stack className={styles.headshot_cv_button_stack} spacing={2} direction={"row"}
-                       sx={{
-                           justifyContent: "center",
-                           alignItems: "center",
-                       }}>
-                    <Button variant={"contained"} color={'primary'} onClick={downloadResume}
-                            startIcon={<DownloadIcon/>}>
-                        Download my Resume
-                    </Button>
-                    <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
-                        <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
-                                rel="noopener noreferrer" startIcon={<MailIcon/>}>
-                            Contact Me
-                        </Button>
-                    </Tooltip>
-                </Stack>
-            </Stack>
+            {headerText}
+            {introText}
+            {headerButtons}
         </div>
     );
 };

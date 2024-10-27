@@ -20,13 +20,13 @@ export interface Skills {
 export const CloudPlatformSkills: Skills = {
     category: SkillCategory.Platforms,
     icon: <CloudIcon fontSize={"inherit"} style={{fontSize: "24pt"}}/>,
-    skills: ["Amazon Web Services", "Google Cloud Platform", "Azure Cloud", "IBM Cloud", "EC2", "ECS", "EKS", "GKE", "IAM"]
+    skills: ["Amazon Web Services", "Google Cloud Platform", "Azure Cloud", "IBM Cloud", "EC2", "ECS", "EKS", "GKE"]
 }
 
 export const ToolSkills: Skills = {
     category: SkillCategory.Tools,
     icon: <BuildIcon fontSize={"inherit"} style={{fontSize: "24pt"}}/>,
-    skills: ["Docker", "Docker Compose", "Docker Swarm", "Kubernetes", "Grafana", "Loki/Promtail", "Prometheus", "Kafka", "Traefik", "Visual Studio", "IntelliJ", "Eclipse", "YourKit Profiler", "RedGate Profilers", "Goland", "WebStorm", "Linux", "Windows"]
+    skills: ["Docker", "Docker Compose", "Docker Swarm", "Kubernetes", "Grafana", "Loki/Promtail", "Prometheus", "Kafka", "Traefik", "Visual Studio", "IntelliJ", "YourKit Profiler", "RedGate Profilers", "Goland", "WebStorm", "Linux"]
 }
 
 export const ProgrammingLanguagesSkills: Skills = {
@@ -38,7 +38,7 @@ export const ProgrammingLanguagesSkills: Skills = {
 export const RelevantCoursework: Skills = {
     category: SkillCategory.Coursework,
     icon: <SchoolIcon fontSize={"inherit"} style={{fontSize: "24pt"}}/>,
-    skills: ["C Programming", "Linear Algebra", "Data Structures", "Operating Systems", "Database Systems", "Computer Architecture", "Algorithms", "Systems Programming", "Compilers", "Object Oriented Software Design", "Machine Learning", "Artificial Intelligence", "Advanced Artificial Intelligence", "Graph Algorithms", "Deep Learning", "Data Analytics", "Mobile Development", "Large-Scale Optimization for Deep Learning", "Distributed Systems", "Convex Analysis & Theory of Deep Learning", "Concurrent and Distributed Systems"]
+    skills: ["Programming in C", "Linear Algebra", "Data Structures", "Operating Systems", "Databases", "Computer Architecture", "Algorithms", "Systems Programming", "Compilers", "Object Oriented Software Design", "Machine Learning", "Artificial Intelligence", "Advanced Artificial Intelligence", "Graph Algorithms", "Deep Learning", "Data Analytics", "Mobile Development", "Convex Analysis", "Large-Scale Optimization for Deep Learning", "Distributed Systems", "Concurrent & Distributed Systems"]
 }
 
 export const SkillsData: Skills[] = [
