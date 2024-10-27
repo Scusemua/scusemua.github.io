@@ -6,7 +6,6 @@ import Image from "next/image";
 
 import {PersonalData} from '@data/PersonalData';
 import {Box, Button, Card, Stack, Tooltip} from "@mui/material";
-import {withStyles} from "@mui/styles";
 
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -17,25 +16,6 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
-import {Variants, motion} from "framer-motion";
-
-const springAnimVariant: Variants = {
-    initial: {
-        opacity: 0,
-        x: "-50%",
-    },
-    animate: {
-        opacity: 1,
-        x: "0%",
-        transition: {
-            type: 'spring',
-            stiffness: 25,
-            damping: 100,
-            mass: 100,
-            delay: 0.5,
-        },
-    },
-};
 
 const Headshot: React.FunctionComponent = () => {
     const openInNewTab = (url: string | URL | undefined) => {

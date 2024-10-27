@@ -16,7 +16,7 @@ const cardContainerVariant = {
         scale: 1,
         transition: {
             delayChildren: 0.125,
-            staggerChildren: 0.5
+            staggerChildren: 0.35
         }
     }
 }
@@ -27,7 +27,7 @@ const cardVariant = {
         y: 0,
         opacity: 1,
         transition: {
-            duration: 0.75,
+            duration: 0.5,
         },
     }
 }

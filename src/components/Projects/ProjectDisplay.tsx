@@ -5,9 +5,8 @@ import React, {ReactElement} from "react";
 import {
     Badge,
     Card,
-    CardActionArea,
     CardActions,
-    CardContent, CardHeader,
+    CardContent,
     CardMedia,
     Chip,
     Grid2,
