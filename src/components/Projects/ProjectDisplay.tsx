@@ -23,6 +23,7 @@ import WebIcon from '@mui/icons-material/Web';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import {Variants, motion} from "framer-motion";
+import Image from "next/image";
 
 interface ProjectProps {
     project: Project;
@@ -148,7 +149,17 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                                 scale: 1.05,
                             }}>
                     <Card style={{height: 545}}>
-                        <CardMedia component={'img'} image={props.project.image} height={225}/>
+                        <CardMedia sx={{position: 'relative'}}>
+                            <div style={{position: 'relative', width: '100%', height: '100%'}} >
+                                <Image
+                                    src={props.project.image}
+                                    width={405}
+                                    height={200}
+                                    alt="Project Logo"
+                                    style={{objectFit: 'cover'}}
+                                />
+                            </div>
+                        </CardMedia>
                         <CardContent>
                             <Stack direction={"row"} spacing={2} sx={{
                                 justifyContent: "center",

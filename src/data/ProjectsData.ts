@@ -1,3 +1,9 @@
+import wukong_logo from "@images/wukong_logo.png";
+import infinistore_logo from "@images/infinistore_logo.png";
+import lfs_logo from "@images/lfs_logo.png";
+import jupyter_naas from "@images/jupyter_naas.png";
+
+
 export interface Project {
     name: string;
     description: string;
@@ -16,7 +22,7 @@ export const WukongProject: Project = {
     venue: ["PDSW'19", "SoCC'20"],
     repo_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
     project_website_url: "https://ds2-lab.github.io/Wukong/",
-    image: "portfolio/images/wukong_logo.png",
+    image: wukong_logo,
     keywords: ["serverless", "dag", "linear algebra", "task scheduling", "distributed", "python", "data analytics"],
     arxiv_links: ["https://arxiv.org/abs/1910.05896", "https://arxiv.org/abs/2010.07268"],
     status: 'inactive',
@@ -27,7 +33,7 @@ export const InfiniStoreProject: Project = {
     description: "InfiniStore is an elastic, cost-effective, and high-performance object storage built atop ephemeral cloud funtions. Built on top of the InfiniCache codebase, InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.",
     venue: "VLDB'23",
     repo_url: "https://github.com/ds2-lab/infinistore",
-    image: "portfolio/images/infinistore_logo.png",
+    image: infinistore_logo,
     project_website_url: "",
     keywords: ["serverless", "object storage", "caching", "persistence", "fault tolerance", "erasure coding"],
     arxiv_links: ["https://arxiv.org/abs/2209.01496"],
@@ -40,7 +46,7 @@ export const LambdaFSProject: Project = {
     venue: "ASPLOS'23",
     repo_url: "https://github.com/ds2-lab/LambdaFS",
     project_website_url: "",
-    image: "portfolio/images/lfs_logo.png",
+    image: lfs_logo,
     keywords: ["serverless", "distributed file systems", "file storage", "metadata", "elasticity"],
     arxiv_links: ["https://arxiv.org/abs/2306.11877"],
     status: 'inactive',
@@ -52,7 +58,7 @@ export const JupyterNotebookProject: Project = {
     venue: "",
     repo_url: "",
     project_website_url: "",
-    image: "portfolio/images/jupyter_naas.png",
+    image: jupyter_naas,
     keywords: ["serverless", "deep learning", "jupyter notebooks", "gpu scheduling", "platforms"],
     arxiv_links: [],
     status: 'active',
