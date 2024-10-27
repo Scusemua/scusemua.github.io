@@ -87,16 +87,11 @@ const Headshot: React.FunctionComponent = () => {
     )
 
     const headshotImage = (
-        <motion.div variants={springAnimVariant}
-                    whileHover={{
-                        scale: 1.02,
-                    }}>
-            <Image
-                className={styles.headshot_container_image + " box_shadow"}
-                src={PersonalData.img}
-                alt={"Ben's Headshot"}
-            />
-        </motion.div>
+        <Image
+            className={styles.headshot_container_image}
+            src={PersonalData.img}
+            alt={"Ben's Headshot"}
+        />
     );
 
     const headerText = (

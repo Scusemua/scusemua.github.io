@@ -2,6 +2,7 @@ import styles from "@src/styles/components/Skills.module.scss";
 import {Variants, motion} from "framer-motion";
 
 import React from "react";
+import Typography from "@mui/material/Typography";
 
 interface SkillProps {
     skillName: string;
@@ -28,14 +29,14 @@ const SkillDisplay: React.FunctionComponent<SkillProps> = (props: SkillProps) =>
         <motion.div
             variants={SkillAnimationVariant}
             whileHover={{
-                scale: 1.12,
+                scale: 1.08,
             }}
-            className={`${styles.skills_body_within_category_container_skill}`}
+            className={`${styles.skills_category_container_skill}`}
             style={{
                 margin: "0 auto",
             }}
         >
-            {props.skillName}
+            <Typography variant={"h5"}>{props.skillName}</Typography>
         </motion.div>
     );
 };

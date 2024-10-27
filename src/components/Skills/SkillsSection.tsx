@@ -17,8 +17,7 @@ const skillWrapperVariant: Variants = {
 const SkillsSection: React.FunctionComponent = () => {
     return (
         <div className={`${styles.skills}`} id="skills">
-            <Typography variant={"h2"} className={`${styles.skills_header_text}`}>Skills</Typography>
-
+            <Typography variant={"h2"} className={styles.skills_header_text}>Skills</Typography>
             {SkillsData.map((skills: Skills, index: number) => (
                 <motion.div
                     variants={skillWrapperVariant}
@@ -33,10 +32,12 @@ const SkillsSection: React.FunctionComponent = () => {
                     </Typography>
 
                     <div
-                        className={`${styles.skills_body_within_category_container}`}
+                        className={`${styles.skills_category_container}`}
                     >
                         {skills.skills.map((skill, i) => (
-                            <SkillDisplay key={i} skillName={skill}/>
+                            <div key={i}>
+                                <SkillDisplay key={i} skillName={skill}/>
+                            </div>
                         ))}
                     </div>
                 </motion.div>
