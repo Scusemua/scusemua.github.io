@@ -21,6 +21,8 @@ import Image from "next/image";
 import IconButton from "@mui/material/IconButton";
 import ArticleIcon from "@mui/icons-material/Article";
 
+import GMU_Logo from "@images/GMU_Logo.svg";
+
 interface DegreeDisplay {
     degree: DegreeInfo;
 }
@@ -76,14 +78,15 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisp
             }}
         >
             <Card>
-                <CardMedia sx={{position: 'relative', marginTop: "5px"}}>
-                    <Image
-                        src={"portfolio/images/GMU_Logo.svg"}
-                        width={225}
-                        height={150}
-                        alt="School Logo"
-                        style={{objectFit: 'cover'}}
-                    />
+                <CardMedia sx={{position: 'relative'}}>
+                    <div style={{position: 'relative', width: '100%', height: '200px'}}>
+                        <Image
+                            src={GMU_Logo}
+                            fill
+                            alt="Project Logo"
+                            style={{objectFit: 'cover'}}
+                        />
+                    </div>
                 </CardMedia>
                 <CardContent>
                     <Stack direction={"column"} spacing={0.125} sx={{
