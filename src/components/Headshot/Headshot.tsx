@@ -133,10 +133,9 @@ const Headshot: React.FunctionComponent = () => {
                                 Chen </Box>
                             (GMU).
                             <br/>
-                            My research interests are centered around cloud computing with a focus in serverless
-                            computing. I'm interested in applications of serverless computing to various different
-                            areas,
-                            including data analytics, machine learning, and file systems.
+                            My research interests are centered around cloud computing with a focus on serverless
+                            computing. I'm interested in applications of serverless computing to data analytics/data
+                            science, machine learning, file systems, and other areas.
                         </Typography>
                     </div>
                 </div>

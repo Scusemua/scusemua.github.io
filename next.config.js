@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
     /**
      * Enable static exports for the App Router.
      *
@@ -24,5 +24,3 @@ const nextConfig = {
         unoptimized: true,
     },
 };
-
-export default nextConfig;
