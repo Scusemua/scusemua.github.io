@@ -150,11 +150,10 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                             }}>
                     <Card style={{height: 545}}>
                         <CardMedia sx={{position: 'relative'}}>
-                            <div style={{position: 'relative', width: '100%', height: '100%'}} >
+                            <div style={{position: 'relative', width: '100%', height: '225px'}}>
                                 <Image
                                     src={props.project.image}
-                                    width={405}
-                                    height={200}
+                                    fill
                                     alt="Project Logo"
                                     style={{objectFit: 'cover'}}
                                 />
