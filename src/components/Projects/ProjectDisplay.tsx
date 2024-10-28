@@ -34,24 +34,6 @@ const openInNewTab = (url: string | URL | undefined) => {
     if (newWindow) newWindow.opener = null
 }
 
-const projectCardAnimationVariant: Variants = {
-    initial: {
-        opacity: 0,
-        x: "-50%",
-    },
-    animate: {
-        opacity: 1,
-        x: "0%",
-        transition: {
-            type: 'spring',
-            stiffness: 25,
-            damping: 100,
-            mass: 100,
-            delay: 0.5,
-        },
-    },
-};
-
 const badgeColors: string[] = ["#F05D5E", "#3D3E78"]
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
@@ -112,78 +94,62 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             justifyContent: 'center',
             alignItems: 'center',
         }}>
-            <Stack>
-                <Stack direction={'row'} spacing={2} sx={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
-                    {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
-                        <IconButton aria-label={"GitHub Repo"} size="large"
-                                    onClick={() => openInNewTab(props.project.repo_url)}
-                                    color={"default"}>
-                            <GitHubIcon fontSize="inherit"/>
-                        </IconButton>
-                    </Tooltip>}
-                    {props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
-                        <IconButton size="large"
-                                    onClick={() => openInNewTab(props.project.project_website_url)}>
-                            <WebIcon fontSize="inherit"/>
-                        </IconButton>
-                    </Tooltip>}
-                    {getPaperLinks()}
-                </Stack>
+            <Stack direction={'row'} spacing={2} sx={{
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}>
+                {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
+                    <IconButton aria-label={"GitHub Repo"} size="large"
+                                onClick={() => openInNewTab(props.project.repo_url)}
+                                color={"default"}>
+                        <GitHubIcon fontSize="inherit"/>
+                    </IconButton>
+                </Tooltip>}
+                {props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
+                    <IconButton size="large"
+                                onClick={() => openInNewTab(props.project.project_website_url)}>
+                        <WebIcon fontSize="inherit"/>
+                    </IconButton>
+                </Tooltip>}
+                {getPaperLinks()}
             </Stack>
         </CardActions>
     )
 
     return (
-        <div className={styles.project}>
-            <Stack
-                direction={"column"}
-                spacing={2} sx={{
-                justifyContent: "center",
-                alignItems: "center",
-            }}>
-                <motion.div variants={projectCardAnimationVariant}
-                            whileHover={{
-                                scale: 1.05,
-                            }}>
-                    <Card style={{height: 570}}>
-                        <CardMedia sx={{position: 'relative'}}>
-                            <div style={{position: 'relative', width: '100%', height: '225px'}}>
-                                <Image
-                                    src={props.project.image}
-                                    fill
-                                    alt="Project Logo"
-                                    style={{objectFit: 'cover'}}
-                                />
-                            </div>
-                        </CardMedia>
-                        <CardContent>
-                            <Stack direction={"row"} spacing={2} sx={{
-                                justifyContent: "center",
-                                alignItems: "center",
-                                marginBottom: '0.5rem',
-                            }}>
-                                <Typography gutterBottom variant="h5" component="div">{props.project.name}</Typography>
-                                <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}
-                                      size={'small'}/>
-                            </Stack>
-                            <Stack direction={"column"} spacing={2} sx={{
-                                justifyContent: "center",
-                                alignItems: "center",
-                            }}>
-                            <Typography className={styles.project_description} variant="body2"
-                                        sx={{color: 'text.secondary'}}>
-                                {props.project.description}
-                            </Typography>
-                            {keywords}
-                            </Stack>
-                        </CardContent>
-                        {cardActions}
-                    </Card>
-                </motion.div>
-            </Stack>
+        <div>
+            <CardMedia sx={{position: 'relative'}}>
+                <div style={{position: 'relative', width: '100%', height: '225px'}}>
+                    <Image
+                        src={props.project.image}
+                        fill
+                        alt="Project Logo"
+                        style={{objectFit: 'cover'}}
+                    />
+                </div>
+            </CardMedia>
+            <CardContent>
+                <Stack direction={"row"} spacing={2} sx={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginBottom: '0.5rem',
+                }}>
+                    <Typography gutterBottom variant="h5" component="div">{props.project.name}</Typography>
+                    <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}
+                          size={'small'}/>
+                </Stack>
+                <Stack direction={"column"} spacing={2} sx={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
+                    <Typography className={styles.project_description} variant="body2"
+                                sx={{color: 'text.secondary'}}>
+                        {props.project.description}
+                    </Typography>
+                    {keywords}
+                </Stack>
+                {cardActions}
+            </CardContent>
         </div>
     );
 };

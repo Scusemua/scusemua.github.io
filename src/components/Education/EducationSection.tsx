@@ -4,8 +4,8 @@ import styles from "@src/styles/components/Education.module.scss";
 import Typography from "@mui/material/Typography";
 import {AllDegreeInfo, DegreeInfo} from "@data/EducationData";
 import DegreeDisplay from "@src/components/Education/DegreeDisplay";
-import {Grid2} from "@mui/material";
-import {motion} from "framer-motion";
+import {Card, Grid2} from "@mui/material";
+import {motion, Variants} from "framer-motion";
 
 const degreeVariant = {
     hidden: {y: 20, opacity: 0},
@@ -17,6 +17,24 @@ const degreeVariant = {
         },
     }
 }
+
+const degreeCardAnimationVariant: Variants = {
+    initial: {
+        opacity: 0,
+        x: "-50%",
+    },
+    animate: {
+        opacity: 1,
+        x: "0%",
+        transition: {
+            type: 'spring',
+            stiffness: 25,
+            damping: 100,
+            mass: 100,
+            delay: 0.5,
+        },
+    },
+};
 
 const EducationSection: React.FunctionComponent = () => {
     return (
@@ -30,9 +48,10 @@ const EducationSection: React.FunctionComponent = () => {
             >
                 <Grid2 container rowSpacing={4} columnSpacing={8} sx={{
                     'padding': '3rem',
-                }}>
+                }} alignItems="stretch">
                     {AllDegreeInfo.map((degree: DegreeInfo, index: number) => (
-                        <Grid2 key={index} size={{'xs': 12, 'sm': 12, 'md': 6, 'lg': 6, 'xl': 4}}>
+                        <Grid2 component={Card} key={index} size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 12, 'xl': 4}}
+                        >
                             <DegreeDisplay degree={degree}/>
                         </Grid2>
                     ))}

@@ -25,24 +25,6 @@ interface DegreeDisplay {
     degree: DegreeInfo;
 }
 
-const degreeCardAnimationVariant: Variants = {
-    initial: {
-        opacity: 0,
-        x: "-50%",
-    },
-    animate: {
-        opacity: 1,
-        x: "0%",
-        transition: {
-            type: 'spring',
-            stiffness: 25,
-            damping: 100,
-            mass: 100,
-            delay: 0.5,
-        },
-    },
-};
-
 const downloadThesis = (filename: string) => {
     const link = document.createElement("a");
     link.download = filename;
@@ -65,53 +47,42 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisp
     }
 
     return (
-        <motion.div
-            variants={degreeCardAnimationVariant}
-            whileHover={{
-                scale: 1.08,
-            }}
-            className={styles.education_degree_container}
-            style={{
-                margin: "0 auto",
-            }}
-        >
-            <Card style={{height: 500}}>
-                <CardMedia sx={{position: 'relative'}}>
-                    <div style={{position: 'relative', width: '300px', height: '200px', margin: '0 auto'}}>
-                        <Image
-                            src={"portfolio/images/GMU_logo.svg"}
-                            fill
-                            alt="Project Logo"
-                            style={{objectFit: 'cover'}}
-                        />
-                    </div>
-                </CardMedia>
-                <CardContent>
-                    <Stack direction={"column"} spacing={0.125} sx={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}>
-                        <Typography gutterBottom variant="h4" component="div">{props.degree.degree}</Typography>
-                        <Typography gutterBottom variant="h5" component="div"
-                                    sx={{color: 'text.secondary', mb: 1.5}}>{props.degree.subject}</Typography>
-                    </Stack>
-                    <Typography className={styles.project_description} variant="h6"
-                                sx={{color: 'text.secondary'}}>
-                        {props.degree.institution}
-                    </Typography>
-                    <Typography className={styles.project_description} variant="h6"
-                                sx={{color: 'text.secondary'}}>
-                        May, {props.degree.endDate}
-                    </Typography>
-                    <Typography className={styles.project_description} variant="h6"
-                                sx={{color: 'text.secondary'}}>
-                        <b>GPA:</b> {props.degree.gpa}.0
-                    </Typography>
+        <React.Fragment>
+            <CardMedia sx={{position: 'relative'}}>
+                <div style={{position: 'relative', width: '300px', height: '200px', margin: '0 auto'}}>
+                    <Image
+                        src={"portfolio/images/GMU_logo.svg"}
+                        fill
+                        alt="Project Logo"
+                        style={{objectFit: 'cover'}}
+                    />
+                </div>
+            </CardMedia>
+            <CardContent>
+                <Stack direction={"column"} spacing={0.125} sx={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
+                    <Typography gutterBottom variant="h4" component="div">{props.degree.degree}</Typography>
+                    <Typography gutterBottom variant="h5" component="div"
+                                sx={{color: 'text.secondary', mb: 1.5}}>{props.degree.subject}</Typography>
+                </Stack>
+                <Typography className={styles.project_description} variant="h6"
+                            sx={{color: 'text.secondary'}}>
+                    {props.degree.institution}
+                </Typography>
+                <Typography className={styles.project_description} variant="h6"
+                            sx={{color: 'text.secondary'}}>
+                    May, {props.degree.endDate}
+                </Typography>
+                <Typography className={styles.project_description} variant="h6"
+                            sx={{color: 'text.secondary'}}>
+                    <b>GPA:</b> {props.degree.gpa}.0
+                </Typography>
 
-                    {props.degree.hasThesis && getThesis()}
-                </CardContent>
-            </Card>
-        </motion.div>
+                {props.degree.hasThesis && getThesis()}
+            </CardContent>
+        </React.Fragment>
     );
 };
 export default DegreeDisplay;
