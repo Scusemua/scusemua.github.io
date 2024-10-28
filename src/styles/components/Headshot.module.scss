@@ -1,56 +1,55 @@
 .headshot {
   &_container {
     margin: auto;
-
     width: 65%;
+    z-index: 1;
 
     &_image {
       width: 20rem;
       height: 20rem;
       border-radius: 16rem;
-      overflow: hidden;
-      box-shadow: 5px 5px 500px #ffd217,
-      -5px 5px 500px #5ac7ff,
-      5px -5px 500px #B025CD,
-      -5px -5px 500px #de4e71,
-      5px 5px 500px #440880;
+      box-shadow: 5px 5px 250px rgba(255, 210, 23, 0.75),
+      -5px 5px 250px rgba(90, 199, 255, 0.75),
+      5px -5px 250px rgba(176, 37, 205, 0.75),
+      -5px -5px 250px rgba(222, 78, 113, 0.75),
+      5px 5px 250px rgba(68, 8, 128, 0.75);
+      z-index: 1;
     }
   }
 
   &_header_text {
-    color: #EFF6EE;
-
-    &_top {
+    &_greeting {
       color: #EFF6EE;
       padding-top: 10rem;
+      text-align: center;
+      z-index: 2;
+      width: 100%;
     }
 
-    &_intro {
-
+    &_bio_text {
+      color: #EFF6EE;
+      text-align: center;
+      z-index: 2;
     }
 
-    &_container {
+    &_bio_container {
       background: rgba(0, 0, 0, 0.25);
       border-radius: 2rem;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      margin: 0 auto;
-      padding: 0.5rem 1rem;
+      padding: 1rem 1rem;
+      z-index: 2;
     }
   }
 }
 
-.social_links {
-  z-index: 1;
-
-  &_drop_shadow {
-    margin: 0 auto;
-    justify-content: center;
-    z-index: 1;
-    display: flex;
-    background: rgba(0, 0, 0, 0.10);
-    border-radius: 16rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  }
+.social_links_container {
+  margin-top: 2rem;
+  justify-content: center;
+  display: flex;
+  background: rgba(0, 0, 0, 0.10);
+  border-radius: 16rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  z-index: 2;
 }
 
 .headshot_cv_button_stack {

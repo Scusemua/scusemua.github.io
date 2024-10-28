@@ -31,8 +31,7 @@ const Headshot: React.FunctionComponent = () => {
     }
 
     const socialLinks = (
-        <div className={styles.social_links_drop_shadow}>
-            <Stack direction={"row"} spacing={1} className={styles.social_links}>
+            <Stack direction={"row"} spacing={1} style={{zIndex: 2}}>
                 <Tooltip title={"GitHub"} arrow>
                     <IconButton aria-label={"GitHub"} size="large"
                                 onClick={() => openInNewTab('https://github.com/scusemua/')} color={"default"}>
@@ -63,7 +62,6 @@ const Headshot: React.FunctionComponent = () => {
                     </IconButton>
                 </Tooltip>
             </Stack>
-        </div>
     )
 
     const headshotImage = (
@@ -74,31 +72,34 @@ const Headshot: React.FunctionComponent = () => {
         />
     );
 
-    const headerText = (
-        <div className={styles.headshot_header_text_top}>
+    const headerGreetingText = (
+        <div className={styles.headshot_header_text_greeting}>
             <Typography variant={"h5"}>Hello! I am</Typography>
             <Typography variant={"h1"}>Benjamin Carver</Typography>
             <Typography variant={"h5"}>Computer Science PhD Candidate at George Mason University</Typography>
         </div>
     );
 
-    const introText = (
+    const headerBioText = (
         <div style={{
             marginTop: '1rem',
         }}>
-            <div className={styles.headshot_header_text_container}>
-                <div className={styles.headshot_header_text}>
+            <div className={styles.headshot_header_text_bio_container}>
+                <div className={styles.headshot_header_text_bio_text}>
                     <Typography variant={"h6"}>
                         I'm a 3rd year PhD candidate in CS at
                         <Box component="span" color={"#49B075"} fontWeight='fontWeightBold'> George Mason
                             University.</Box>
                         <br/>
                         My advisors are
-                        <Box component="span" fontWeight='fontWeightBold' color={"#F05D5E"}> Dr. Yue
+                        <Box component="span" fontWeight='fontWeightBold' color={"#ff0002"} fontSize="1.35rem"> Dr. Yue
                             Cheng</Box> (University of Virginia) and
-                        <Box component="span" color={"#F05D5E"} fontWeight='fontWeightBold'> Dr. Songqing
+                        <Box component="span" color={"#ff0003"} fontWeight='fontWeightBold' fontSize="1.35rem"> Dr.
+                            Songqing
                             Chen </Box>
-                        (GMU). My research interests are centered around cloud computing with a focus on serverless
+                        (GMU).
+                        <br/>
+                        My research interests are centered around cloud computing with a focus on serverless
                         computing. Specifically, I'm interested in applications of serverless computing to data
                         analytics/data science, machine learning, file systems, and other areas.
                     </Typography>
@@ -108,7 +109,8 @@ const Headshot: React.FunctionComponent = () => {
     );
 
     const headerButtons = (
-        <Stack className={styles.headshot_cv_button_stack} spacing={2} direction={{'xs': 'column', 'sm': 'row', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
+        <Stack className={styles.headshot_cv_button_stack} spacing={2}
+               direction={{'xs': 'column', 'sm': 'row', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
                sx={{
                    justifyContent: "center",
                    alignItems: "center",
@@ -133,22 +135,19 @@ const Headshot: React.FunctionComponent = () => {
                 direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
                 justifyContent={'center'}
                 spacing={4}
-                alignItems={'flex-end'}>
-                <Stack
-                    direction={"column"}
-                    spacing={2}>
-                    {headerText}
-                    {introText}
-                </Stack>
+                alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
                 <Stack
                     direction={"column"}
                     spacing={2}
-                    sx={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}>
+                    style={{zIndex: 2}}>
+                    {headerGreetingText}
+                    {headerBioText}
+                </Stack>
+                <Stack
+                    direction={"column"}
+                    spacing={2}>
                     {headshotImage}
-                    <div style={{marginTop: "1rem"}}>
+                    <div className={styles.social_links_container}>
                         {socialLinks}
                     </div>
                 </Stack>
