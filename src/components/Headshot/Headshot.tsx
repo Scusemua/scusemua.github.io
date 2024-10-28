@@ -67,16 +67,16 @@ const Headshot: React.FunctionComponent = () => {
     const headshotImage = (
         <Image
             className={styles.headshot_container_image}
-            src={PersonalData.img}
+            src={PersonalData.image}
             alt={"Ben's Headshot"}
         />
     );
 
     const headerGreetingText = (
         <div className={styles.headshot_header_text_greeting}>
-            <Typography variant={"h5"}>Hello! I am</Typography>
-            <Typography variant={"h1"}>Benjamin Carver</Typography>
-            <Typography variant={"h5"}>Computer Science PhD Candidate at George Mason University</Typography>
+            <Typography variant={"h5"}>{PersonalData.greeting}</Typography>
+            <Typography variant={"h1"}>{PersonalData.name}</Typography>
+            <Typography variant={"h5"}>{PersonalData.occupation}</Typography>
         </div>
     );
 

@@ -48,14 +48,12 @@ const Projects: React.FunctionComponent = () => {
                     <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch" className={styles.project_container}>
                         {ProjectData.map((project: Project) => (
                             <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12, 'md': 6, 'lg': 4, 'xl': 4}}
-                                   component={motion.div} variants={cardVariant}
+                                   component={motion.div} variants={cardVariant} sx = {{ justifyContent: 'center' }}
                                    whileHover={{
                                        scale: 1.05,
                                    }}
                                    key={`project-${project.name}-display`}>
-                                <Card style={{width: "100%"}}>
                                     <ProjectDisplay project={project}/>
-                                </Card>
                             </Grid2>
                         ))}
                     </Grid2>

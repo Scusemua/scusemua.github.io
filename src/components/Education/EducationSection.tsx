@@ -35,7 +35,6 @@ const EducationSection: React.FunctionComponent = () => {
 
     return (
         <div className={`${styles.education}`} id="skills" ref={scrollRef}>
-
             <Typography
                 variant={"h2"} className={styles.education_header_text}>Education</Typography>
             <motion.div variants={degreeContainerVariant}
@@ -45,19 +44,17 @@ const EducationSection: React.FunctionComponent = () => {
                         viewport={{once: true, amount: 0.25, margin: "50px"}}
                         onViewportEnter={() => console.log("Education Section has entered viewport")}
             >
-
-                <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch" className={styles.education_degree_container}>
-                    {AllDegreeInfo.map((degree: DegreeInfo, index: number) => (
-                        <Grid2 key={`degree-card-${degree.degree}`} style={{display: 'flex'}}
+                <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
+                       className={styles.education_degree_container}>
+                    {AllDegreeInfo.map((degree: DegreeInfo) => (
+                        <Grid2 key={`degree-card-${degree.degree}`} style={{display: 'flex', justifyContent: 'center'}}
                                size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 12, 'xl': 4}}
                                component={motion.div} variants={degreeVariant}
                                whileHover={{
                                    scale: 1.05,
                                }}
                         >
-                            <Card style={{width: "100%"}}>
-                                <DegreeDisplay degree={degree}/>
-                            </Card>
+                            <DegreeDisplay degree={degree}/>
                         </Grid2>
                     ))}
                 </Grid2>

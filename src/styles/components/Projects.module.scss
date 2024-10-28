@@ -1,5 +1,14 @@
 .project_section {
   text-align: center;
+  max-width: 1920px;
+  margin: 0 auto;
+
+  &_card {
+    max-width: 1280px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
 
   &_header_text {
     padding-top: 10rem;
@@ -10,8 +19,8 @@
 }
 
 .project_container {
-  margin: 1rem;
   padding: 1rem;
+  margin: 1rem;
 }
 
 .project {
@@ -21,9 +30,6 @@
     height: 100%;
     position: relative;
     color: #EFF6EE;
-  }
-
-  &_description {
   }
 
   &_keyword {

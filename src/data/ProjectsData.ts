@@ -20,7 +20,7 @@ export interface Project {
 
 export const WukongProject: Project = {
     name: "Wukong",
-    description: "Wukong is a high-performance and highly scalable locality-aware, serverless workflow and DAG engine. Wukong uses serverless computing to accelerate the execution of DAG-based scientific, linear algebra, machine learning, and data analytics workloads.",
+    description: "Wukong is a high-performance and highly scalable locality-aware, serverless DAG engine. Wukong uses serverless computing to accelerate the execution of DAG-based linear algebra, machine learning, and data analytics workloads.",
     venue: ["PDSW'19", "SoCC'20"],
     repo_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
     project_website_url: "https://ds2-lab.github.io/Wukong/",
@@ -32,7 +32,7 @@ export const WukongProject: Project = {
 
 export const InfiniStoreProject: Project = {
     name: "InfiniStore",
-    description: "InfiniStore is an elastic, cost-effective, and high-performance object storage built atop ephemeral cloud funtions. Built on top of the InfiniCache codebase, InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.",
+    description: "InfiniStore is an elastic, cost-effective, and high-performance object storage built atop ephemeral cloud funtions. InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.",
     venue: "VLDB'23",
     repo_url: "https://github.com/ds2-lab/infinistore",
     image: infinistore_logo,
@@ -44,12 +44,12 @@ export const InfiniStoreProject: Project = {
 
 export const LambdaFSProject: Project = {
     name: "λFS",
-    description: "λFS is an elastic, scalable, and high-performance metadata service for large-scale distributed file systems (DFSes). λFS uses an elastically-scaled DFS metadata cache atop serverless functions to maximize performance & cost efficiency.",
+    description: "λFS is an elastic, scalable, and high-performance metadata service for large-scale distributed file systems (DFSes). λFS uses an elastic metadata cache built atop serverless functions to maximize performance & cost efficiency.",
     venue: "ASPLOS'23",
     repo_url: "https://github.com/ds2-lab/LambdaFS",
     project_website_url: "",
     image: lfs_logo,
-    keywords: ["serverless", "distributed file systems", "file storage", "metadata", "elasticity"],
+    keywords: ["serverless", "distributed file systems", "file storage", "metadata", "elasticity", "fault tolerance"],
     arxiv_links: ["https://arxiv.org/abs/2306.11877"],
     status: 'inactive',
 }
@@ -68,18 +68,18 @@ export const JupyterNotebookProject: Project = {
 
 export const ObliviousInfiniStoreProject: Project = {
     name: "Oblivious InfiniStore",
-    description: "I'm developing an extension of InfiniStore with a focus on privacy and security.",
+    description: "An extension of InfiniStore with a focus on data security (obliviousness) that offers good performance as well as security guarantees.",
     venue: "",
     repo_url: "",
     arxiv_links: [],
     image: obliv_inf_store_logo,
     project_website_url: "",
-    keywords: ["serverless", "object storage", "obliviousness", "persistence", "security", "privacy"],
+    keywords: ["serverless", "storage", "obliviousness", "persistence", "security", "privacy"],
     status: 'active',
 }
 
 export const FaasPlatformProject: Project = {
-    name: "Enhanced FaaS Platform",
+    name: "FaaS Platforms",
     description: "I'm using my prior experiences developing stateful applications for serverless computing to design and create a highly-optimized and scalable FaaS platform.",
     venue: "",
     repo_url: "",
