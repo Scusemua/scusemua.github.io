@@ -46,7 +46,7 @@ const Projects: React.FunctionComponent = () => {
                 <motion.div variants={cardContainerVariant}
                             initial="hidden"
                             whileInView="visible"
-                            viewport={{once: true, amount: 0, margin: "1300px"}}
+                            viewport={{once: true, amount: 0, margin: "1500px"}}
                             onViewportEnter={() => console.log("Project Section has entered viewport")}>
                     <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                            className={styles.project_container}>

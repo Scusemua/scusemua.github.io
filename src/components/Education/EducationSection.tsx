@@ -38,7 +38,7 @@ const EducationSection: React.FunctionComponent = () => {
             <motion.div variants={degreeContainerVariant}
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{once: true, amount: 0.25, margin: "250px"}}
+                        viewport={{once: true, amount: 0.25, margin: "475px"}}
                         onViewportEnter={() => console.log("Education Section has entered viewport")}
             >
                 <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
