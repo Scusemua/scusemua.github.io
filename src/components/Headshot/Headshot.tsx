@@ -155,12 +155,12 @@ const Headshot: React.FunctionComponent = () => {
                         alignItems: "center",
                     }}>
                     {headshotImage}
+                    <div style={{marginTop: "1rem"}}>
+                        {socialLinks}
+                    </div>
                 </Stack>
             </Stack>
             {headerButtons}
-            <div style={{marginTop: "1rem"}}>
-                {socialLinks}
-            </div>
         </div>
     );
 };
