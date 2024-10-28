@@ -62,7 +62,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisp
                     <Stack direction={'row'} sx={{justifyContent: 'center'}} spacing={2}>
                         <Typography className={styles.project_description} variant="h6"
                                     sx={{color: 'text.secondary'}}>
-                            <b>Graduated:</b> May, {props.degree.endDate}
+                            May, {props.degree.endDate}
                         </Typography>
                         <Typography className={styles.project_description} variant="h6"
                                     sx={{color: 'text.secondary'}}>
