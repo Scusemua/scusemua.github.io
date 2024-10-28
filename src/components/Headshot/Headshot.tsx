@@ -139,8 +139,6 @@ const Headshot: React.FunctionComponent = () => {
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
-    console.log(`mq_xs: ${mq_xs}, mq_sm: ${mq_sm}, mq_md: ${mq_md}, mq_lg: ${mq_lg}, mq_xl: ${mq_xl}`);
-
     const getLayoutXs = () => {
         return (
             <React.Fragment>
@@ -166,7 +164,6 @@ const Headshot: React.FunctionComponent = () => {
                 <div className={styles.social_links_container}>
                     {socialLinks}
                 </div>
-                {headerButtons}
             </React.Fragment>
         );
     }
@@ -195,10 +192,6 @@ const Headshot: React.FunctionComponent = () => {
                     </Stack>
                 </Stack>
                 {headerBioText}
-                {headerButtons}
-                {!mq_sm && !mq_md && <div className={styles.social_links_container}>
-                    {socialLinks}
-                </div>}
             </React.Fragment>
         );
     }
@@ -228,7 +221,6 @@ const Headshot: React.FunctionComponent = () => {
                     </Stack>
                 </Stack>
                 {headerBioText}
-                {headerButtons}
             </React.Fragment>
         );
     }
@@ -261,44 +253,18 @@ const Headshot: React.FunctionComponent = () => {
                         </Stack>
                     </Stack>
                 </Stack>
-                {headerButtons}
             </React.Fragment>
         );
     }
 
     return (
         <div className={styles.headshot}>
+            {/*{(!mq_xs && !mq_sm && !mq_md && !mq_lg && !mq_xl) && getLayoutXL()}*/}
             {mq_xl && getLayoutXL()}
             {mq_lg && getLayoutLg()}
             {(mq_sm || mq_md) && getLayoutSmToMd()}
             {mq_xs && getLayoutXs()}
-            {/*<Stack*/}
-            {/*    className={styles.headshot_container}*/}
-            {/*    direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}*/}
-            {/*    justifyContent={'center'}*/}
-            {/*    spacing={4}*/}
-            {/*    alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>*/}
-            {/*    <Stack*/}
-            {/*        direction={"column"}*/}
-            {/*        spacing={2}*/}
-            {/*        style={{zIndex: 2}}>*/}
-            {/*        {!xsToLg && headerGreetingText}*/}
-            {/*        {!xsToLg && headerBioText}*/}
-            {/*    </Stack>*/}
-            {/*    <Stack direction={'row'} spacing={4} sx={{justifyContent: 'center', alignItems: 'center'}}>*/}
-            {/*        {xsToLg && headerGreetingText}*/}
-            {/*        <Stack*/}
-            {/*            direction={"column"}*/}
-            {/*            spacing={2}>*/}
-            {/*            {headshotImage}*/}
-            {/*            <div className={styles.social_links_container}>*/}
-            {/*                {socialLinks}*/}
-            {/*            </div>*/}
-            {/*        </Stack>*/}
-            {/*    </Stack>*/}
-            {/*</Stack>*/}
-            {/*{xsToLg && headerBioText}*/}
-            {/*{headerButtons}*/}
+            {headerButtons}
         </div>
     );
 };

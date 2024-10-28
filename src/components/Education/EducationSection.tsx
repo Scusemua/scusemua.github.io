@@ -31,17 +31,14 @@ const degreeVariant = {
 }
 
 const EducationSection: React.FunctionComponent = () => {
-    const scrollRef = React.useRef(null);
-
     return (
-        <div className={`${styles.education}`} id="skills" ref={scrollRef}>
+        <div className={`${styles.education}`} id="skills">
             <Typography
                 variant={"h2"} className={styles.education_header_text}>Education</Typography>
             <motion.div variants={degreeContainerVariant}
                         initial="hidden"
                         whileInView="visible"
-                        ref={scrollRef}
-                        viewport={{once: true, amount: 0.25, margin: "50px"}}
+                        viewport={{once: true, amount: 0.25, margin: "250px"}}
                         onViewportEnter={() => console.log("Education Section has entered viewport")}
             >
                 <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
