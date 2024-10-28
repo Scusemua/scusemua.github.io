@@ -1,7 +1,7 @@
-import wukong_logo from "@images/wukong_logo.png";
-import infinistore_logo from "@images/infinistore_logo.png";
+import wukong_logo from "@images/wukong_logo.jpg";
+import infinistore_logo from "@images/infinistore_logo.jpg";
 import obliv_inf_store_logo from "@images/obliv_inf_store_logo.png";
-import lfs_logo from "@images/lfs_logo.png";
+import lfs_logo from "@images/lfs_logo.jpg";
 import jupyter_naas from "@images/jupyter_naas2.jpg";
 import faas_platform_logo from "@images/faas_platform_logo.jpg";
 
