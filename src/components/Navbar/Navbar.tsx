@@ -60,7 +60,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                             }}
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
-                            <Typography variant={"body1"}><b>Research Projects</b></Typography>
+                            <Typography variant={"body1"}><b>Research</b></Typography>
                         </Button>
                         <Button
                             key={"education_section"}
