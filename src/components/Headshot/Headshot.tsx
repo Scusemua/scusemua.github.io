@@ -136,19 +136,31 @@ const Headshot: React.FunctionComponent = () => {
     return (
         <div className={styles.headshot}>
             <Stack
-                direction={"column"}
-                spacing={2}
-                className={styles.headshot_container} sx={{
-                justifyContent: "center",
-                alignItems: "center",
-            }}>
-                {headshotImage}
-                {socialLinks}
+                className={styles.headshot_container}
+                direction={"row"}
+                justifyContent={'center'}
+                spacing={4}
+                alignItems={'flex-end'}>
+                <Stack
+                    direction={"column"}
+                    spacing={2}>
+                    {headerText}
+                    {introText}
+                </Stack>
+                <Stack
+                    direction={"column"}
+                    spacing={2}
+                    sx={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}>
+                    {headshotImage}
+                </Stack>
             </Stack>
-
-            {headerText}
-            {introText}
             {headerButtons}
+            <div style={{marginTop: "1rem"}}>
+                {socialLinks}
+            </div>
         </div>
     );
 };
