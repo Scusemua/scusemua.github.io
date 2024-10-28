@@ -23,7 +23,7 @@ const SkillsSection: React.FunctionComponent = () => {
                     variants={skillWrapperVariant}
                     initial="initial"
                     whileInView="animate"
-                    viewport={{once: true, amount: 0.5}}
+                    viewport={{once: true, amount: "some"}}
                     className={`${styles.skills_body}`}
                     key={index}
                 >

@@ -7,13 +7,13 @@ import SkillsSection from "@src/components/Skills/SkillsSection";
 import EducationSection from "@src/components/Education/EducationSection";
 
 export default function Home() {
-    return (
+   return (
         <div className="solid_background">
             <div className="gradient_background">
-                <Headshot />
-                <Projects />
-                <EducationSection />
-                <SkillsSection />
+                <Headshot/>
+                <Projects/>
+                <EducationSection/>
+                <SkillsSection/>
             </div>
         </div>
     );

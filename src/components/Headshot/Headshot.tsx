@@ -86,9 +86,7 @@ const Headshot: React.FunctionComponent = () => {
         <div style={{
             marginTop: '1rem',
         }}>
-            <div className={styles.headshot_header_text_container} style={{
-                width: '55rem',
-            }}>
+            <div className={styles.headshot_header_text_container}>
                 <div className={styles.headshot_header_text}>
                     <Typography variant={"h6"}>
                         I'm a 3rd year PhD candidate in CS at
@@ -100,12 +98,9 @@ const Headshot: React.FunctionComponent = () => {
                             Cheng</Box> (University of Virginia) and
                         <Box component="span" color={"#F05D5E"} fontWeight='fontWeightBold'> Dr. Songqing
                             Chen </Box>
-                        (GMU).
-                        <br/>
-                        My research interests are centered around cloud computing with a focus on serverless
+                        (GMU). My research interests are centered around cloud computing with a focus on serverless
                         computing. Specifically, I'm interested in applications of serverless computing to data
-                        analytics/data
-                        science, machine learning, file systems, and other areas.
+                        analytics/data science, machine learning, file systems, and other areas.
                     </Typography>
                 </div>
             </div>
@@ -113,23 +108,21 @@ const Headshot: React.FunctionComponent = () => {
     );
 
     const headerButtons = (
-        <Stack direction={'column'}>
-            <Stack className={styles.headshot_cv_button_stack} spacing={2} direction={"row"}
-                   sx={{
-                       justifyContent: "center",
-                       alignItems: "center",
-                   }}>
-                <Button variant={"contained"} color={'primary'} onClick={downloadResume}
-                        startIcon={<DownloadIcon/>} style={{height: 45}}>
-                    Download my Resume
+        <Stack className={styles.headshot_cv_button_stack} spacing={2} direction={{'xs': 'column', 'sm': 'row', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
+               sx={{
+                   justifyContent: "center",
+                   alignItems: "center",
+               }}>
+            <Button variant={"contained"} color={'primary'} onClick={downloadResume}
+                    startIcon={<DownloadIcon/>} style={{height: 45}}>
+                Download my Resume
+            </Button>
+            <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
+                <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
+                        rel="noopener noreferrer" startIcon={<MailIcon/>} style={{height: 45}}>
+                    Contact Me
                 </Button>
-                <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
-                    <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
-                            rel="noopener noreferrer" startIcon={<MailIcon/>} style={{height: 45}}>
-                        Contact Me
-                    </Button>
-                </Tooltip>
-            </Stack>
+            </Tooltip>
         </Stack>
     );
 
@@ -137,7 +130,7 @@ const Headshot: React.FunctionComponent = () => {
         <div className={styles.headshot}>
             <Stack
                 className={styles.headshot_container}
-                direction={"row"}
+                direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
                 justifyContent={'center'}
                 spacing={4}
                 alignItems={'flex-end'}>
