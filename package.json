@@ -1,7 +1,7 @@
 {
   "name": "Portfolio",
   "version": "5.0.0",
-  "homepage": "https://scusemua.github.io/portfolio",
+  "homepage": "https://scusemua.github.io/",
   "private": true,
   "dependencies": {
     "@emotion/cache": "^11.13.1",
