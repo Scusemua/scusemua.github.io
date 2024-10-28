@@ -46,7 +46,7 @@ const degreeCardAnimationVariant: Variants = {
 const downloadThesis = (filename: string) => {
     const link = document.createElement("a");
     link.download = filename;
-    link.href = "portfolio/" + filename;
+    link.href = filename;
     link.click();
 }
 
