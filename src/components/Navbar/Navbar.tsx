@@ -30,8 +30,8 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
     return (
         <AppBar position="sticky" sx={{bgcolor: "rgba(0,0,0,0.31)"}}>
             <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <Stack direction={'row'} spacing={4}>
+                <Toolbar disableGutters  sx={{alignItems: "center", justifyContent: "center"}}>
+                    <Stack direction={'row'} spacing={4} sx={{alignItems: "center", justifyContent: "center"}}>
                         <IconButton
                             key={"header_section"}
                             onClick={() => {
