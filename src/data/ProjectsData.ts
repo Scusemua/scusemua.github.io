@@ -80,7 +80,7 @@ export const ObliviousInfiniStoreProject: Project = {
 
 export const FaasPlatformProject: Project = {
     name: "FaaS Platforms",
-    description: "I'm using my prior experiences developing stateful applications for serverless computing to design and create a highly-optimized and scalable FaaS platform.",
+    description: "I'm using my prior experiences developing stateful applications for serverless computing to design and create a highly-optimized and scalable Functions-as-a-Service (FaaS) platform.",
     venue: "",
     repo_url: "",
     arxiv_links: [],

@@ -38,7 +38,7 @@ export const ProgrammingLanguagesSkills: Skills = {
 export const RelevantCoursework: Skills = {
     category: SkillCategory.Coursework,
     icon: <SchoolIcon fontSize={"inherit"} style={{fontSize: "24pt"}}/>,
-    skills: ["Programming in C", "Linear Algebra", "Data Structures", "Operating Systems", "Databases", "Computer Architecture", "Algorithms", "Systems Programming", "Compilers", "Object Oriented Software Design", "Machine Learning", "Artificial Intelligence", "Advanced Artificial Intelligence", "Graph Algorithms", "Deep Learning", "Data Analytics", "Mobile Development", "Convex Analysis", "Large-Scale Optimization for Deep Learning", "Distributed Systems", "Concurrent & Distributed Systems"]
+    skills: ["Programming in C", "Linear Algebra", "Data Structures", "Operating Systems", "Computer Networks", "Databases", "Computer Architecture", "Algorithms", "Systems Programming", "Compilers", "Object Oriented Software Design", "Machine Learning", "Artificial Intelligence", "Advanced Artificial Intelligence", "Graph Algorithms", "Deep Learning", "Data Analytics", "Mobile Development", "Convex Analysis", "Large-Scale Optimization for Deep Learning", "Distributed Systems", "Concurrent & Distributed Systems"]
 }
 
 export const SkillsData: Skills[] = [
