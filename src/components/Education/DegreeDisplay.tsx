@@ -47,7 +47,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisp
     }
 
     return (
-        <React.Fragment>
+        <div>
             <CardMedia sx={{position: 'relative'}}>
                 <div style={{position: 'relative', width: '300px', height: '200px', margin: '0 auto'}}>
                     <Image
@@ -59,10 +59,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisp
                 </div>
             </CardMedia>
             <CardContent>
-                <Stack direction={"column"} spacing={0.125} sx={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}>
+                <Stack direction={"column"} spacing={0.125}>
                     <Typography gutterBottom variant="h4" component="div">{props.degree.degree}</Typography>
                     <Typography gutterBottom variant="h5" component="div"
                                 sx={{color: 'text.secondary', mb: 1.5}}>{props.degree.subject}</Typography>
@@ -82,7 +79,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisp
 
                 {props.degree.hasThesis && getThesis()}
             </CardContent>
-        </React.Fragment>
+        </div>
     );
 };
 export default DegreeDisplay;

@@ -39,10 +39,7 @@ const Projects: React.FunctionComponent = () => {
         <div className={styles.project_section}>
             <Stack
                 direction={"column"}
-                spacing={2} sx={{
-                justifyContent: "center",
-                alignItems: "center",
-            }}>
+                spacing={2} >
                 <Typography variant={"h2"} className={styles.project_section_header_text}>Research Projects</Typography>
 
                 <motion.div variants={cardContainerVariant}
@@ -58,7 +55,7 @@ const Projects: React.FunctionComponent = () => {
                                        scale: 1.05,
                                    }}
                                    key={`project-${project.name}-display`}>
-                                <Card>
+                                <Card style={{width: "100%"}}>
                                     <ProjectDisplay project={project}/>
                                 </Card>
                             </Grid2>

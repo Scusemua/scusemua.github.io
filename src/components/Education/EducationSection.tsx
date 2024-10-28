@@ -7,33 +7,29 @@ import DegreeDisplay from "@src/components/Education/DegreeDisplay";
 import {Card, Grid2} from "@mui/material";
 import {motion, Variants} from "framer-motion";
 
-const degreeVariant = {
+const degreeContainerVariant = {
+    hidden: {opacity: 1, scale: 0},
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: {
+            delayChildren: 0.125,
+            staggerChildren: 0.35
+        }
+    }
+}
+
+const degreeVariant: Variants = {
     hidden: {y: 20, opacity: 0},
     visible: {
         y: 0,
         opacity: 1,
         transition: {
+            delayChildren: 0.125,
+            staggerChildren: 0.35,
             duration: 0.5,
         },
     }
-}
-
-const degreeCardAnimationVariant: Variants = {
-    initial: {
-        opacity: 0,
-        x: "-50%",
-    },
-    animate: {
-        opacity: 1,
-        x: "0%",
-        transition: {
-            type: 'spring',
-            stiffness: 25,
-            damping: 100,
-            mass: 100,
-            delay: 0.5,
-        },
-    },
 };
 
 const EducationSection: React.FunctionComponent = () => {
@@ -42,17 +38,23 @@ const EducationSection: React.FunctionComponent = () => {
             <Typography variant={"h2"} className={styles.education_header_text}>Education</Typography>
 
             <motion.div
-                variants={degreeVariant}
+                variants={degreeContainerVariant}
                 initial="hidden"
                 animate="visible"
             >
-                <Grid2 container rowSpacing={4} columnSpacing={8} sx={{
+                <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch" sx={{
                     'padding': '3rem',
-                }} alignItems="stretch">
+                }}>
                     {AllDegreeInfo.map((degree: DegreeInfo, index: number) => (
-                        <Grid2 component={Card} key={index} size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 12, 'xl': 4}}
+                        <Grid2 key={`degree-card-${degree.degree}`} style={{display: 'flex'}} size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 12, 'xl': 4}}
+                               component={motion.div} className="item" variants={degreeVariant}
+                               whileHover={{
+                                   scale: 1.05,
+                               }}
                         >
-                            <DegreeDisplay degree={degree}/>
+                            <Card style={{width: "100%"}}>
+                                <DegreeDisplay degree={degree}/>
+                            </Card>
                         </Grid2>
                     ))}
                 </Grid2>
