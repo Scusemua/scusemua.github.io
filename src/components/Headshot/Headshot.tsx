@@ -1,6 +1,6 @@
 import styles from "@src/styles/components/Headshot.module.scss";
 
-import React from "react";
+import React, {forwardRef} from "react";
 
 import Image from "next/image";
 
@@ -18,7 +18,8 @@ import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
 import theme from "@src/app/theme";
 
-const Headshot: React.FunctionComponent = () => {
+// const Headshot: React.FunctionComponent = () => {
+const Headshot = forwardRef<HTMLInputElement, undefined>((_props, ref: React.ForwardedRef<HTMLInputElement>) => {
     const openInNewTab = (url: string | URL | undefined) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
@@ -198,7 +199,7 @@ const Headshot: React.FunctionComponent = () => {
 
     const getLayoutLg = () => {
         return (
-            <React.Fragment>
+            <div>
                 <Stack
                     className={styles.headshot_container}
                     direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
@@ -221,7 +222,7 @@ const Headshot: React.FunctionComponent = () => {
                     </Stack>
                 </Stack>
                 {headerBioText}
-            </React.Fragment>
+            </div>
         );
     }
 
@@ -258,7 +259,7 @@ const Headshot: React.FunctionComponent = () => {
     }
 
     return (
-        <div className={styles.headshot}>
+        <div className={styles.headshot} ref={ref}>
             {/*{(!mq_xs && !mq_sm && !mq_md && !mq_lg && !mq_xl) && getLayoutXL()}*/}
             {mq_xl && getLayoutXL()}
             {mq_lg && getLayoutLg()}
@@ -267,5 +268,6 @@ const Headshot: React.FunctionComponent = () => {
             {headerButtons}
         </div>
     );
-};
+});
+
 export default Headshot;
