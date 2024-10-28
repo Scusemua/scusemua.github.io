@@ -32,24 +32,6 @@ const cardVariant = {
     }
 }
 
-const projectCardAnimationVariant: Variants = {
-    initial: {
-        opacity: 0,
-        x: "-50%",
-    },
-    animate: {
-        opacity: 1,
-        x: "0%",
-        transition: {
-            type: 'spring',
-            stiffness: 25,
-            damping: 100,
-            mass: 100,
-            delay: 0.5,
-        },
-    },
-};
-
 const Projects: React.FunctionComponent = () => {
     return (
         <div className={styles.project_section}>
@@ -61,17 +43,23 @@ const Projects: React.FunctionComponent = () => {
             }}>
                 <Typography variant={"h2"} className={styles.project_section_header_text}>Research Projects</Typography>
 
-                <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch" sx={{
-                    'padding': '3rem',
-                }}>
-                    {ProjectData.map((project: Project, index: number) => (
-                        <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12, 'md': 6, 'lg': 4, 'xl': 3}}
-                               component={Card}
-                               key={`project-${project.name}-display`}>
-                            <ProjectDisplay project={project}/>
-                        </Grid2>
-                    ))}
-                </Grid2>
+                <motion.div variants={cardContainerVariant}
+                            initial="hidden"
+                            animate="visible">
+                    <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch" sx={{
+                        'padding': '3rem',
+                    }}>
+                        {ProjectData.map((project: Project, index: number) => (
+                                <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12, 'md': 6, 'lg': 4, 'xl': 3}}
+                                       component={Card}
+                                       key={`project-${project.name}-display`}>
+
+
+                                    <ProjectDisplay project={project}/>
+                                </Grid2>
+                        ))}
+                    </Grid2>
+                </motion.div>
             </Stack>
         </div>
     );
