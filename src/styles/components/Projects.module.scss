@@ -1,6 +1,5 @@
 .project_section {
   text-align: center;
-  position: relative;
 
   &_header_text {
     padding-top: 10rem;
@@ -10,18 +9,21 @@
   }
 }
 
+.project_container {
+  margin: 1rem;
+  padding: 1rem;
+}
+
 .project {
   text-align: center;
 
   &_header_text {
-    padding-top: 10rem;
     height: 100%;
     position: relative;
     color: #EFF6EE;
   }
 
   &_description {
-    height: 6rem;
   }
 
   &_keyword {
@@ -30,6 +32,6 @@
   }
 
   &_keywords {
-    padding-top: 1rem;
+    padding-top: 1.5rem;
   }
 }

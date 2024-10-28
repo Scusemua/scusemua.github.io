@@ -1,6 +1,6 @@
 .headshot {
   &_container {
-    margin: auto;
+    margin: 0 auto 0 auto;
     width: 65%;
     z-index: 1;
 
@@ -20,7 +20,7 @@
   &_header_text {
     &_greeting {
       color: #EFF6EE;
-      padding-top: 10rem;
+      padding-top: 5rem;
       text-align: center;
       z-index: 2;
       width: 100%;

@@ -7,6 +7,8 @@ import '@fontsource/roboto/700.css';
 
 import "./globals.css";
 
+import CssBaseline from '@mui/material/CssBaseline';
+
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter';
 import {Roboto} from 'next/font/google';
 
@@ -34,6 +36,7 @@ export default function RootLayout({
         </head>
         <body className={"solid_background " + roboto.variable}>
         <AppRouterCacheProvider>
+            <CssBaseline />
             <ThemeProvider theme={theme}>
                 <main>
                     {children}

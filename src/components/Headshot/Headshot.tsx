@@ -92,9 +92,9 @@ const Headshot: React.FunctionComponent = () => {
                             University.</Box>
                         <br/>
                         My advisors are
-                        <Box component="span" fontWeight='fontWeightBold' color={"#ff0002"} fontSize="1.35rem"> Dr. Yue
+                        <Box component="span" fontWeight='fontWeightBold' color={"#ff2022"} fontSize="1.35rem"> Dr. Yue
                             Cheng</Box> (University of Virginia) and
-                        <Box component="span" color={"#ff0003"} fontWeight='fontWeightBold' fontSize="1.35rem"> Dr.
+                        <Box component="span" color={"#ff2022"} fontWeight='fontWeightBold' fontSize="1.35rem"> Dr.
                             Songqing
                             Chen </Box>
                         (GMU).
