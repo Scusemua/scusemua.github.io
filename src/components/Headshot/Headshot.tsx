@@ -260,8 +260,18 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         );
     }
 
+    const getTopMargin = () => {
+        if (mq_xl) {
+            return "2rem";
+        } else if (mq_xs) {
+            return "4rem";
+        } else {
+            return "6rem";
+        }
+    };
+
     return (
-        <div className={styles.headshot} ref={ref}>
+        <div className={styles.headshot} ref={ref} style={{marginTop: getTopMargin()}}>
             {/*{(!mq_xs && !mq_sm && !mq_md && !mq_lg && !mq_xl) && getLayoutXL()}*/}
             {mq_xl && getLayoutXL()}
             {mq_lg && getLayoutLg()}
