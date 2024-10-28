@@ -30,8 +30,8 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
     return (
         <AppBar position="fixed" sx={{bgcolor: "rgba(0,0,0,0.31)", width: "100%", overflow: "hidden"}}>
             <Container maxWidth="xl">
-                <Toolbar disableGutters  sx={{alignItems: "center", justifyContent: "center"}}>
-                    <Stack direction={'row'} spacing={4} sx={{alignItems: "center", justifyContent: "center"}}>
+                <Toolbar disableGutters sx={{alignItems: "center", justifyContent: "center"}}>
+                    <Stack direction={'row'} spacing={{'xs': 1, 'sm': 2, 'md': 6, 'lg': 8, 'xl': 10}} sx={{alignItems: "center", justifyContent: "center"}}>
                         <IconButton
                             key={"header_section"}
                             onClick={() => {
