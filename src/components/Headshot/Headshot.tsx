@@ -26,7 +26,7 @@ const Headshot: React.FunctionComponent = () => {
     const downloadResume = () => {
         const link = document.createElement("a");
         link.download = 'CarverBenjamin_Resume.pdf';
-        link.href = 'https://scusemua.github.io/portfolio/CarverBenjamin_Resume.pdf'
+        link.href = 'portfolio/CarverBenjamin_Resume.pdf'
         link.click();
     }
 

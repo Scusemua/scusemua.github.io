@@ -148,7 +148,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                             whileHover={{
                                 scale: 1.05,
                             }}>
-                    <Card style={{height: 545}}>
+                    <Card style={{height: 570}}>
                         <CardMedia sx={{position: 'relative'}}>
                             <div style={{position: 'relative', width: '100%', height: '225px'}}>
                                 <Image
@@ -169,11 +169,16 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                                 <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}
                                       size={'small'}/>
                             </Stack>
+                            <Stack direction={"column"} spacing={2} sx={{
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}>
                             <Typography className={styles.project_description} variant="body2"
                                         sx={{color: 'text.secondary'}}>
                                 {props.project.description}
                             </Typography>
                             {keywords}
+                            </Stack>
                         </CardContent>
                         {cardActions}
                     </Card>

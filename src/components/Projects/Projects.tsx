@@ -52,7 +52,7 @@ const Projects: React.FunctionComponent = () => {
                         'padding': '3rem',
                     }}>
                         {ProjectData.map((project: Project, index: number) => (
-                            <Grid2 size={{'xs': 4, 'sm': 4, 'md': 4, 'lg': 4, 'xl': 3}} component={motion.div}
+                            <Grid2 size={{'xs': 12, 'sm': 12, 'md': 6, 'lg': 4, 'xl': 3}} component={motion.div}
                                    variants={cardVariant}
                                    key={`project-${project.name}-display`}>
                                 <ProjectDisplay project={project}/>
