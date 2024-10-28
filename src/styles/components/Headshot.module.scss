@@ -3,12 +3,10 @@
 
   &_container {
     margin: 0 auto 0 auto;
-    width: 65%;
+    width: 80%;
     z-index: 1;
 
     &_image {
-      width: 20rem;
-      height: 20rem;
       background: #1d1e46;
       border-radius: 16rem;
       box-shadow: 5px 5px 300px rgba(255, 210, 23, 0.65),
@@ -27,6 +25,13 @@
       text-align: center;
       z-index: 2;
       width: 100%;
+
+      &_xs {
+        color: #EFF6EE;
+        text-align: center;
+        z-index: 2;
+        width: 100%;
+      }
     }
 
     &_bio_text {
@@ -39,20 +44,24 @@
       background: rgba(0, 0, 0, 0.25);
       border-radius: 2rem;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      padding: 1rem 1rem;
+      padding: 1rem;
       z-index: 2;
+      max-width: 1000px;
+      width: 90%;
+      margin: 0 auto;
     }
   }
 }
 
 .social_links_container {
-  margin-top: 2rem;
+  margin: 2rem auto 0 auto;
   justify-content: center;
   display: flex;
   background: rgba(0, 0, 0, 0.10);
   border-radius: 16rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   z-index: 2;
+  max-width: 350px;
 }
 
 .headshot_cv_button_stack {

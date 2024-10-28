@@ -5,7 +5,7 @@ import React from "react";
 import Image from "next/image";
 
 import {PersonalData} from '@data/PersonalData';
-import {Box, Button, Card, Stack, Tooltip} from "@mui/material";
+import {Box, Button, Card, Stack, Tooltip, useMediaQuery} from "@mui/material";
 
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -16,6 +16,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
+import theme from "@src/app/theme";
 
 const Headshot: React.FunctionComponent = () => {
     const openInNewTab = (url: string | URL | undefined) => {
@@ -31,54 +32,58 @@ const Headshot: React.FunctionComponent = () => {
     }
 
     const socialLinks = (
-            <Stack direction={"row"} spacing={1} style={{zIndex: 2}}>
-                <Tooltip title={"GitHub"} arrow>
-                    <IconButton aria-label={"GitHub"} size="large"
-                                onClick={() => openInNewTab('https://github.com/scusemua/')} color={"default"}>
-                        <GitHubIcon fontSize="inherit"/>
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={"Email Me (bcarver2@gmu.edu)"} arrow>
-                    <IconButton size="large" href={'mailto:bcarver2@gmu.edu'}>
-                        <MailIcon fontSize="inherit"/>
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={"LinkedIn"} arrow>
-                    <IconButton size="large"
-                                onClick={() => openInNewTab('https://www.linkedin.com/in/benjamin-carver-30988a1b6/')}>
-                        <LinkedInIcon fontSize="inherit"/>
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={"YouTube"} arrow>
-                    <IconButton size="large"
-                                onClick={() => openInNewTab('https://www.youtube.com/@benrcarver')}>
-                        <YouTubeIcon fontSize="inherit"/>
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={"Google Scholar"} arrow>
-                    <IconButton size="large"
-                                onClick={() => openInNewTab('https://scholar.google.com/citations?user=sCOVuPEAAAAJ&hl=en')}>
-                        <SchoolIcon fontSize="inherit"/>
-                    </IconButton>
-                </Tooltip>
-            </Stack>
+        <Stack direction={"row"} spacing={1} style={{zIndex: 2, justifyContent: "center", alignItems: "center"}}>
+            <Tooltip title={"GitHub"} arrow>
+                <IconButton aria-label={"GitHub"} size="large"
+                            onClick={() => openInNewTab('https://github.com/scusemua/')} color={"default"}>
+                    <GitHubIcon fontSize="inherit"/>
+                </IconButton>
+            </Tooltip>
+            <Tooltip title={"Email Me (bcarver2@gmu.edu)"} arrow>
+                <IconButton size="large" href={'mailto:bcarver2@gmu.edu'}>
+                    <MailIcon fontSize="inherit"/>
+                </IconButton>
+            </Tooltip>
+            <Tooltip title={"LinkedIn"} arrow>
+                <IconButton size="large"
+                            onClick={() => openInNewTab('https://www.linkedin.com/in/benjamin-carver-30988a1b6/')}>
+                    <LinkedInIcon fontSize="inherit"/>
+                </IconButton>
+            </Tooltip>
+            <Tooltip title={"YouTube"} arrow>
+                <IconButton size="large"
+                            onClick={() => openInNewTab('https://www.youtube.com/@benrcarver')}>
+                    <YouTubeIcon fontSize="inherit"/>
+                </IconButton>
+            </Tooltip>
+            <Tooltip title={"Google Scholar"} arrow>
+                <IconButton size="large"
+                            onClick={() => openInNewTab('https://scholar.google.com/citations?user=sCOVuPEAAAAJ&hl=en')}>
+                    <SchoolIcon fontSize="inherit"/>
+                </IconButton>
+            </Tooltip>
+        </Stack>
     )
 
-    const headshotImage = (
+    const getHeadshotImage = (width: number | `${number}` | undefined = 320) => (
         <Image
             className={styles.headshot_container_image}
             src={PersonalData.image}
             alt={"Ben's Headshot"}
+            width={width}
         />
     );
 
-    const headerGreetingText = (
-        <div className={styles.headshot_header_text_greeting}>
-            <Typography variant={"h5"}>{PersonalData.greeting}</Typography>
-            <Typography variant={"h1"}>{PersonalData.name}</Typography>
-            <Typography variant={"h5"}>{PersonalData.occupation}</Typography>
-        </div>
-    );
+    const getHeaderGreetingText = (addBreak: boolean, nameTextVariant: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" = "h1") => {
+        return (<div className={styles.headshot_header_text_greeting}>
+            <Typography variant={"h5"}>Hello! I am</Typography>
+            <Typography variant={nameTextVariant}>{PersonalData.name}</Typography>
+            {addBreak &&
+                <Typography variant={"h5"}>Computer Science PhD Candidate<br/>at George Mason University</Typography>}
+            {!addBreak &&
+                <Typography variant={"h5"}>Computer Science PhD Candidate at George Mason University</Typography>}
+        </div>);
+    };
 
     const headerBioText = (
         <div style={{
@@ -128,31 +133,172 @@ const Headshot: React.FunctionComponent = () => {
         </Stack>
     );
 
-    return (
-        <div className={styles.headshot}>
-            <Stack
-                className={styles.headshot_container}
-                direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
-                justifyContent={'center'}
-                spacing={4}
-                alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
+
+    console.log(`mq_xs: ${mq_xs}, mq_sm: ${mq_sm}, mq_md: ${mq_md}, mq_lg: ${mq_lg}, mq_xl: ${mq_xl}`);
+
+    const getLayoutXs = () => {
+        return (
+            <React.Fragment>
                 <Stack
-                    direction={"column"}
-                    spacing={2}
-                    style={{zIndex: 2}}>
-                    {headerGreetingText}
-                    {headerBioText}
-                </Stack>
-                <Stack
-                    direction={"column"}
-                    spacing={2}>
-                    {headshotImage}
-                    <div className={styles.social_links_container}>
-                        {socialLinks}
+                    className={styles.headshot_container}
+                    direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
+                    justifyContent={'center'}
+                    spacing={4}
+                    alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
+                    <Stack direction={'row'} spacing={1} sx={{justifyContent: 'center', alignItems: 'flex-end'}}>
+                        <div className={styles.headshot_header_text_greeting}>
+                            <Typography variant={"h5"}>Hello! I am</Typography>
+                            <Typography variant={"h2"}>{PersonalData.name}</Typography>
+                        </div>
+                        {getHeadshotImage(200)}
+                    </Stack>
+                    <div className={styles.headshot_header_text_greeting_xs}>
+                        <Typography variant={"h5"}>Computer Science PhD Candidate<br/>at George Mason
+                            University</Typography>
                     </div>
                 </Stack>
-            </Stack>
-            {headerButtons}
+                {headerBioText}
+                <div className={styles.social_links_container}>
+                    {socialLinks}
+                </div>
+                {headerButtons}
+            </React.Fragment>
+        );
+    }
+
+    const getLayoutSmToMd = () => {
+        return (
+            <React.Fragment>
+                <Stack
+                    className={styles.headshot_container}
+                    direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
+                    justifyContent={'center'}
+                    spacing={4}
+                    style={{marginTop: '4rem'}}
+                    alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
+                    <Stack direction={'row'} spacing={4} sx={{justifyContent: 'center', alignItems: 'center'}}>
+                        {getHeaderGreetingText(true, "h2")}
+                        <Stack
+                            direction={"column"}
+                            spacing={2}
+                            sx={{justifyContent: 'center', alignItems: 'center'}}>
+                            {getHeadshotImage(225)}
+                            {(mq_sm || mq_md) && <div className={styles.social_links_container}>
+                                {socialLinks}
+                            </div>}
+                        </Stack>
+                    </Stack>
+                </Stack>
+                {headerBioText}
+                {headerButtons}
+                {!mq_sm && !mq_md && <div className={styles.social_links_container}>
+                    {socialLinks}
+                </div>}
+            </React.Fragment>
+        );
+    }
+
+    const getLayoutLg = () => {
+        return (
+            <React.Fragment>
+                <Stack
+                    className={styles.headshot_container}
+                    direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
+                    justifyContent={'center'}
+                    spacing={4}
+                    style={{marginTop: '4rem'}}
+                    alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
+                    <Stack direction={'row'} spacing={4} sx={{justifyContent: 'center', alignItems: 'center'}}>
+                        {getHeaderGreetingText(true)}
+                        <Stack
+                            direction={"column"}
+                            spacing={2}
+                            sx={{justifyContent: 'center', alignItems: 'center'}}
+                        >
+                            {getHeadshotImage(250)}
+                            <div className={styles.social_links_container}>
+                                {socialLinks}
+                            </div>
+                        </Stack>
+                    </Stack>
+                </Stack>
+                {headerBioText}
+                {headerButtons}
+            </React.Fragment>
+        );
+    }
+
+    const getLayoutXL = () => {
+        return (
+            <React.Fragment>
+                <Stack
+                    className={styles.headshot_container}
+                    direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
+                    justifyContent={'center'}
+                    spacing={4}
+                    alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
+                    <Stack
+                        direction={"column"}
+                        spacing={2}
+                        style={{zIndex: 2}}>
+                        {getHeaderGreetingText(false)}
+                        {headerBioText}
+                    </Stack>
+                    <Stack direction={'row'} spacing={4} sx={{justifyContent: 'center', alignItems: 'center'}}>
+                        <Stack
+                            direction={"column"}
+                            spacing={2}
+                            sx={{justifyContent: 'center', alignItems: 'center'}}>
+                            {getHeadshotImage(320)}
+                            <div className={styles.social_links_container}>
+                                {socialLinks}
+                            </div>
+                        </Stack>
+                    </Stack>
+                </Stack>
+                {headerButtons}
+            </React.Fragment>
+        );
+    }
+
+    return (
+        <div className={styles.headshot}>
+            {mq_xl && getLayoutXL()}
+            {mq_lg && getLayoutLg()}
+            {(mq_sm || mq_md) && getLayoutSmToMd()}
+            {mq_xs && getLayoutXs()}
+            {/*<Stack*/}
+            {/*    className={styles.headshot_container}*/}
+            {/*    direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}*/}
+            {/*    justifyContent={'center'}*/}
+            {/*    spacing={4}*/}
+            {/*    alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>*/}
+            {/*    <Stack*/}
+            {/*        direction={"column"}*/}
+            {/*        spacing={2}*/}
+            {/*        style={{zIndex: 2}}>*/}
+            {/*        {!xsToLg && headerGreetingText}*/}
+            {/*        {!xsToLg && headerBioText}*/}
+            {/*    </Stack>*/}
+            {/*    <Stack direction={'row'} spacing={4} sx={{justifyContent: 'center', alignItems: 'center'}}>*/}
+            {/*        {xsToLg && headerGreetingText}*/}
+            {/*        <Stack*/}
+            {/*            direction={"column"}*/}
+            {/*            spacing={2}>*/}
+            {/*            {headshotImage}*/}
+            {/*            <div className={styles.social_links_container}>*/}
+            {/*                {socialLinks}*/}
+            {/*            </div>*/}
+            {/*        </Stack>*/}
+            {/*    </Stack>*/}
+            {/*</Stack>*/}
+            {/*{xsToLg && headerBioText}*/}
+            {/*{headerButtons}*/}
         </div>
     );
 };
