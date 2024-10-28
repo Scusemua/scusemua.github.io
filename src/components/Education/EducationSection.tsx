@@ -32,7 +32,7 @@ const EducationSection: React.FunctionComponent = () => {
                     'padding': '3rem',
                 }}>
                     {AllDegreeInfo.map((degree: DegreeInfo, index: number) => (
-                        <Grid2 key={index} size={4}>
+                        <Grid2 key={index} size={{'xs': 12, 'sm': 12, 'md': 6, 'lg': 6, 'xl': 4}}>
                             <DegreeDisplay degree={degree}/>
                         </Grid2>
                     ))}
