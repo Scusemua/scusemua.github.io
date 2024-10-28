@@ -120,12 +120,12 @@ const Headshot: React.FunctionComponent = () => {
                        alignItems: "center",
                    }}>
                 <Button variant={"contained"} color={'primary'} onClick={downloadResume}
-                        startIcon={<DownloadIcon/>}>
+                        startIcon={<DownloadIcon/>} style={{height: 45}}>
                     Download my Resume
                 </Button>
                 <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
                     <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
-                            rel="noopener noreferrer" startIcon={<MailIcon/>}>
+                            rel="noopener noreferrer" startIcon={<MailIcon/>} style={{height: 45}}>
                         Contact Me
                     </Button>
                 </Tooltip>
