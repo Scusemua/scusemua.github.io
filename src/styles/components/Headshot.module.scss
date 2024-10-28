@@ -7,12 +7,13 @@
     &_image {
       width: 20rem;
       height: 20rem;
+      background: #1d1e46;
       border-radius: 16rem;
-      box-shadow: 5px 5px 250px rgba(255, 210, 23, 0.75),
-      -5px 5px 250px rgba(90, 199, 255, 0.75),
-      5px -5px 250px rgba(176, 37, 205, 0.75),
-      -5px -5px 250px rgba(222, 78, 113, 0.75),
-      5px 5px 250px rgba(68, 8, 128, 0.75);
+      box-shadow: 5px 5px 300px rgba(255, 210, 23, 0.65),
+      -5px 5px 300px rgba(90, 199, 255, 0.75),
+      5px -5px 300px rgba(176, 37, 205, 0.75),
+      -5px -5px 300px rgba(222, 78, 113, 0.75),
+      5px 5px 300px rgba(68, 8, 128, 0.75);
       z-index: 1;
     }
   }

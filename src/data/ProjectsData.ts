@@ -1,7 +1,9 @@
 import wukong_logo from "@images/wukong_logo.png";
 import infinistore_logo from "@images/infinistore_logo.png";
+import obliv_inf_store_logo from "@images/obliv_inf_store_logo.png";
 import lfs_logo from "@images/lfs_logo.png";
-import jupyter_naas from "@images/jupyter_naas.png";
+import jupyter_naas from "@images/jupyter_naas2.jpg";
+import faas_platform_logo from "@images/faas_platform_logo.jpg";
 
 
 export interface Project {
@@ -64,6 +66,30 @@ export const JupyterNotebookProject: Project = {
     status: 'active',
 }
 
+export const ObliviousInfiniStoreProject: Project = {
+    name: "Oblivious InfiniStore",
+    description: "I'm developing an extension of InfiniStore with a focus on privacy and security.",
+    venue: "",
+    repo_url: "",
+    arxiv_links: [],
+    image: obliv_inf_store_logo,
+    project_website_url: "",
+    keywords: ["serverless", "object storage", "obliviousness", "persistence", "security", "privacy"],
+    status: 'active',
+}
+
+export const FaasPlatformProject: Project = {
+    name: "Enhanced FaaS Platform",
+    description: "I'm using my prior experiences developing stateful applications for serverless computing to design and create a highly-optimized and scalable FaaS platform.",
+    venue: "",
+    repo_url: "",
+    arxiv_links: [],
+    image: faas_platform_logo,
+    project_website_url: "",
+    keywords: ["serverless", "cloud provider", "functions as a service", "platform", "scalability"],
+    status: 'active',
+}
+
 export const ProjectData: Project[] = [
-    WukongProject, InfiniStoreProject, LambdaFSProject, JupyterNotebookProject
+    WukongProject, InfiniStoreProject, LambdaFSProject, JupyterNotebookProject, ObliviousInfiniStoreProject, FaasPlatformProject
 ]

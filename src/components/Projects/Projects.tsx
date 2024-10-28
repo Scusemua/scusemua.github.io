@@ -47,7 +47,7 @@ const Projects: React.FunctionComponent = () => {
                             onViewportEnter={() => console.log("Project Section has entered viewport")}>
                     <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch" className={styles.project_container}>
                         {ProjectData.map((project: Project) => (
-                            <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12, 'md': 6, 'lg': 4, 'xl': 3}}
+                            <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12, 'md': 6, 'lg': 4, 'xl': 4}}
                                    component={motion.div} variants={cardVariant}
                                    whileHover={{
                                        scale: 1.05,

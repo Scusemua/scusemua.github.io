@@ -8,7 +8,7 @@ import EducationSection from "@src/components/Education/EducationSection";
 
 export default function Home() {
    return (
-        <div className="solid_background">
+        <div className="gradient_background">
             <Headshot/>
             <Projects/>
             <EducationSection/>
