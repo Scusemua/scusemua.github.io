@@ -1,22 +1,15 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 
 import headshot from '@images/headshot.jpg'
 import Image from "next/image";
 import styles from "@src/styles/components/Headshot.module.scss";
-import {PersonalData} from "@data/PersonalData";
 import {Stack} from "@mui/material";
 
 interface NavbarProps {
@@ -31,7 +24,8 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
         <AppBar position="fixed" sx={{bgcolor: "rgba(0,0,0,0.31)", width: "100%", overflow: "hidden"}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{alignItems: "center", justifyContent: "center"}}>
-                    <Stack direction={'row'} spacing={{'xs': 1, 'sm': 2, 'md': 6, 'lg': 8, 'xl': 10}} sx={{alignItems: "center", justifyContent: "center"}}>
+                    <Stack direction={'row'} spacing={{'xs': 1, 'sm': 2, 'md': 6, 'lg': 8, 'xl': 10}}
+                           sx={{alignItems: "center", justifyContent: "center"}}>
                         <IconButton
                             key={"header_section"}
                             onClick={() => {
