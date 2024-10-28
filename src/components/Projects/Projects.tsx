@@ -33,8 +33,10 @@ const cardVariant = {
     }
 }
 
+interface ProjectsProps {}
+
 // const Projects: React.FunctionComponent = () => {
-const Projects = forwardRef<HTMLInputElement, undefined>((_props, ref: React.ForwardedRef<HTMLInputElement>) => (
+const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsProps, ref: React.ForwardedRef<HTMLInputElement>) => (
     <div className={styles.project_section} ref={ref}>
         <Stack
             direction={"column"}>

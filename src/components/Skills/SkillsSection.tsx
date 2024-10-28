@@ -15,7 +15,9 @@ const skillWrapperVariant: Variants = {
     },
 };
 
-const SkillsSection = forwardRef<HTMLInputElement, undefined>((_props, ref: React.ForwardedRef<HTMLInputElement>) => (
+interface SkillsSectionProps { }
+
+const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((_props: SkillsSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => (
     <div className={`${styles.skills}`} id="skills" ref={ref}>
         <Typography variant={"h2"} className={styles.skills_header_text}>Skills</Typography>
         {SkillsData.map((skills: Skills, index: number) => (

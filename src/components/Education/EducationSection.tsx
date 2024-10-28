@@ -31,12 +31,10 @@ const degreeVariant = {
     }
 }
 
-interface EducationSectionProps {
-    ref: React.LegacyRef<HTMLDivElement> | undefined;
-}
+interface EducationSectionProps {}
 
 // const EducationSection: React.FunctionComponent<EducationSectionProps> = (props: EducationSectionProps) => {
-const EducationSection = forwardRef<HTMLInputElement, undefined>((_props, ref: React.ForwardedRef<HTMLInputElement>) => (
+const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_props: EducationSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => (
     <div className={`${styles.education}`} id="skills" ref={ref}>
         <Typography variant={"h2"} className={styles.education_header_text}>Education</Typography>
         <motion.div variants={degreeContainerVariant}

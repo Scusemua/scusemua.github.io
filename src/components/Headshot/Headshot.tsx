@@ -18,8 +18,10 @@ import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
 import theme from "@src/app/theme";
 
+interface HeadshotProps {}
+
 // const Headshot: React.FunctionComponent = () => {
-const Headshot = forwardRef<HTMLInputElement, undefined>((_props, ref: React.ForwardedRef<HTMLInputElement>) => {
+const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotProps, ref: React.ForwardedRef<HTMLInputElement>) => {
     const openInNewTab = (url: string | URL | undefined) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null

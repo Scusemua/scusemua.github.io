@@ -13,10 +13,10 @@ import Typography from "@mui/material/Typography";
 import Navbar from "@src/components/Navbar/Navbar";
 
 export default function Home() {
-    const headshotRef: LegacyRef<HTMLDivElement> | undefined = React.useRef<HTMLInputElement>(null);
-    const projectRef: LegacyRef<HTMLDivElement> | undefined = React.useRef<HTMLInputElement>(null);
-    const educationRef: LegacyRef<HTMLDivElement> | undefined = React.useRef<HTMLInputElement>(null);
-    const skillsRef: LegacyRef<HTMLDivElement> | undefined = React.useRef<HTMLInputElement>(null);
+    const headshotRef = React.useRef<HTMLInputElement>(null) as React.MutableRefObject<HTMLInputElement>;
+    const projectRef = React.useRef<HTMLInputElement>(null);
+    const educationRef = React.useRef<HTMLInputElement>(null);
+    const skillsRef = React.useRef<HTMLInputElement>(null);
 
     const [mounted, setMounted] = React.useState(false);
     React.useEffect(() => {
@@ -30,8 +30,9 @@ export default function Home() {
     return (
         <div>
             <div style={{width: "100%", height: "0px", zIndex: -1}} className="gradient_background"/>
-            <Navbar headshotRef={headshotRef} educationRef={educationRef} projectRef={projectRef} skillsRef={skillsRef} />
-            <Headshot ref={headshotRef }/>
+            <Navbar headshotRef={headshotRef} educationRef={educationRef} projectRef={projectRef}
+                    skillsRef={skillsRef}/>
+            <Headshot ref={headshotRef}/>
             <Projects ref={projectRef}/>
             <EducationSection ref={educationRef}/>
             <SkillsSection ref={skillsRef}/>

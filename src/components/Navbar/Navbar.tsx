@@ -20,10 +20,10 @@ import {PersonalData} from "@data/PersonalData";
 import {Stack} from "@mui/material";
 
 interface NavbarProps {
-    headshotRef: React.LegacyRef<HTMLDivElement> | undefined;
-    projectRef: React.LegacyRef<HTMLDivElement> | undefined;
-    educationRef: React.LegacyRef<HTMLDivElement> | undefined;
-    skillsRef: React.LegacyRef<HTMLDivElement> | undefined;
+    headshotRef: React.RefObject<HTMLInputElement> | undefined;
+    projectRef: React.RefObject<HTMLInputElement> | undefined;
+    educationRef: React.RefObject<HTMLInputElement> | undefined;
+    skillsRef: React.RefObject<HTMLInputElement> | undefined;
 }
 
 const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
