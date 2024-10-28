@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import {DegreeInfo} from "@data/EducationData";
 import {
     Avatar,
-    Badge,
+    Badge, Button,
     Card,
     CardActions,
     CardContent,
@@ -34,14 +34,16 @@ const downloadThesis = (filename: string) => {
 
 const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisplay) => {
     const getThesis = () => {
-        return (<Stack direction={"row"} spacing={1}>
+        return (<Stack direction={"column"} spacing={0} sx={{alignItems: "center", justifyContent: "center"}}>
             <Typography sx={{color: 'text.secondary'}} variant={"h6"}><b>Thesis: </b></Typography>
-            <Typography sx={{color: 'text.secondary'}} variant={"h6"}><i>{props.degree.thesisTitle}</i></Typography>
+            <div style={{width: "75%"}}>
+                <Typography sx={{color: 'text.secondary'}} variant={"h6"}><i>{props.degree.thesisTitle}</i></Typography>
+            </div>
             <Tooltip title={`Download Thesis: "${props.degree.thesisTitle}"`}>
-                <IconButton size="large"
+                <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} color={'info'}
                             onClick={() => downloadThesis(props.degree.thesisFile!)}>
-                    <ArticleIcon fontSize="inherit"/>
-                </IconButton>
+                    Download Thesis
+                </Button>
             </Tooltip>
         </Stack>)
     }
@@ -50,7 +52,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisp
         <CardHeader
             title={
                 <Typography gutterBottom variant="h4" component="div">{props.degree.degree}</Typography>
-        }
+            }
             subheader={
                 <Stack direction={'column'}>
                     <Typography gutterBottom variant="h5" component="div"
@@ -71,7 +73,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisp
                     </Stack>
                 </Stack>
             }
-            sx = {{
+            sx={{
                 marginBottom: 'auto',
             }}
         >
