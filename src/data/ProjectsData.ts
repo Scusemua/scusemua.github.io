@@ -15,7 +15,8 @@ export interface Project {
     image: string;
     keywords: string[];
     arxiv_links: string[];
-    status: 'active' | 'inactive';
+    builtWith?: string[];
+    status: 'ongoing' | 'inactive';
 }
 
 export const WukongProject: Project = {
@@ -26,6 +27,7 @@ export const WukongProject: Project = {
     project_website_url: "https://ds2-lab.github.io/Wukong/",
     image: wukong_logo,
     keywords: ["serverless", "dag", "linear algebra", "task scheduling", "distributed", "python", "data analytics"],
+    builtWith: ["AWS", "AWS Lambda", "Python", "Dask"],
     arxiv_links: ["https://arxiv.org/abs/1910.05896", "https://arxiv.org/abs/2010.07268"],
     status: 'inactive',
 }
@@ -38,6 +40,7 @@ export const InfiniStoreProject: Project = {
     image: infinistore_logo,
     project_website_url: "",
     keywords: ["serverless", "object storage", "caching", "persistence", "fault tolerance", "erasure coding"],
+    builtWith: ["AWS", "AWS Lambda", "AWS S3", "Golang"],
     arxiv_links: ["https://arxiv.org/abs/2209.01496"],
     status: 'inactive',
 }
@@ -50,6 +53,7 @@ export const LambdaFSProject: Project = {
     project_website_url: "",
     image: lfs_logo,
     keywords: ["serverless", "distributed file systems", "file storage", "metadata", "elasticity", "fault tolerance"],
+    builtWith: ["AWS", "Google Cloud", "IBM cloud", "Nuclio", "OpenWhisk", "Java", "C++", "Python", "Golang", "MySQL Cluster NDB", "HopsFS", "HDFS", "Hadoop"],
     arxiv_links: ["https://arxiv.org/abs/2306.11877"],
     status: 'inactive',
 }
@@ -63,7 +67,7 @@ export const JupyterNotebookProject: Project = {
     image: jupyter_naas,
     keywords: ["serverless", "deep learning", "jupyter notebooks", "gpu scheduling", "platforms"],
     arxiv_links: [],
-    status: 'active',
+    status: 'ongoing',
 }
 
 export const ObliviousInfiniStoreProject: Project = {
@@ -75,7 +79,7 @@ export const ObliviousInfiniStoreProject: Project = {
     image: obliv_inf_store_logo,
     project_website_url: "",
     keywords: ["serverless", "storage", "obliviousness", "persistence", "security", "privacy"],
-    status: 'active',
+    status: 'ongoing',
 }
 
 export const FaasPlatformProject: Project = {
@@ -87,7 +91,7 @@ export const FaasPlatformProject: Project = {
     image: faas_platform_logo,
     project_website_url: "",
     keywords: ["serverless", "cloud provider", "functions as a service", "platform", "scalability"],
-    status: 'active',
+    status: 'ongoing',
 }
 
 export const ProjectData: Project[] = [

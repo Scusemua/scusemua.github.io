@@ -64,7 +64,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     }
 
     const getStatusIcon = (): ReactElement => {
-        if (props.project.status == 'active') {
+        if (props.project.status === 'ongoing') {
             return <TerminalIcon/>
         } else {
             return <BedtimeIcon/>
@@ -72,7 +72,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     }
 
     const getStatusColor = (): "info" | "default" => {
-        if (props.project.status == 'active') {
+        if (props.project.status === 'ongoing') {
             return "info"
         } else {
             return "default"
@@ -82,6 +82,10 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     const keywords = (
         <div className={styles.project_keywords}>
             {props.project.keywords.map((keyword: string) => (
+                <Chip key={`project-${props.project.name}-keyword-${keyword}`} className={styles.project_keyword}
+                      label={keyword} size={'small'}/>
+            ))}
+            {props.project.builtWith?.map((keyword: string) => (
                 <Chip key={`project-${props.project.name}-keyword-${keyword}`} className={styles.project_keyword}
                       label={keyword} size={'small'} variant={'outlined'}/>
             ))}
