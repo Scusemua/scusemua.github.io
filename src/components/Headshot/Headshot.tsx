@@ -70,13 +70,22 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     )
 
     const getHeadshotImage = (width: number | `${number}` | undefined = 320) => (
-        <Image
-            className={styles.headshot_container_image}
-            src={PersonalData.image}
-            alt={"Ben's Headshot"}
-            width={width}
-            // style={{ width: '50%', height: 'auto'}}
-        />
+        // <Image
+        //     className={styles.headshot_container_image}
+        //     src={PersonalData.image}
+        //     alt={"Ben's Headshot"}
+        //     width={width}
+        //     // style={{ width: '50%', height: 'auto'}}
+        // />
+        <div style={{position: "relative", width: "50%", height: "auto"}}>
+            <Image
+                src={PersonalData.image}
+                alt={"Ben's Headshot"}
+                objectFit="cover"
+                layout="responsive"
+                className={styles.headshot_container_image}
+            />
+        </div>
     );
 
     const getHeaderGreetingText = (addBreak: boolean, nameTextVariant: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" = "h1") => {
@@ -176,11 +185,11 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             <div key={"sm_to_md_layout_headshot"}>
                 <Stack
                     className={styles.headshot_container}
-                    direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
+                    direction={{'sm': 'column', 'md': 'row'}}
                     justifyContent={'center'}
                     spacing={4}
                     style={{marginTop: '4rem'}}
-                    alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
+                    alignItems={{'sm': 'center', 'md': 'flex-end'}}>
                     <Stack direction={'row'} spacing={4} sx={{justifyContent: 'center', alignItems: 'center'}}>
                         <Stack
                             direction={"column"}
@@ -204,18 +213,23 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             <div key={"lg_layout_headshot"}>
                 <Stack
                     className={styles.headshot_container}
-                    direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
+                    direction={'row'}
                     justifyContent={'center'}
                     spacing={4}
                     style={{marginTop: '4rem'}}
-                    alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
-                    <Stack direction={'row'} spacing={4} sx={{justifyContent: 'center', alignItems: 'center'}}>
+                    alignItems={'flex-end'}>
+                    <Stack direction={'row'} spacing={1} sx={{justifyContent: 'center', alignItems: 'center', width: "100%"}}>
                         <Stack
                             direction={"column"}
                             spacing={2}
-                            sx={{justifyContent: 'center', alignItems: 'center'}}
+                            sx={{justifyContent: 'center', alignItems: 'center', width: "25%"}}
                         >
-                            {getHeadshotImage(250)}
+                            <Image
+                                src={PersonalData.image}
+                                alt={"Ben's Headshot"}
+                                className={styles.headshot_container_image}
+                                style={{width: "75%", height: "auto"}}
+                            />
                             <div className={styles.social_links_container}>
                                 {socialLinks}
                             </div>
@@ -233,20 +247,23 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             <div key={"xl_layout_headshot"}>
                 <Stack
                     className={styles.headshot_container}
-                    direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
+                    direction={'row'}
                     justifyContent={'center'}
                     spacing={1}
-                    alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
-                    <Stack direction={'row'} spacing={1} sx={{justifyContent: 'center', alignItems: 'center'}}>
-                        <Stack
-                            direction={"column"}
-                            spacing={2}
-                            sx={{justifyContent: 'center', alignItems: 'center'}}>
-                            {getHeadshotImage(320)}
-                            <div className={styles.social_links_container}>
-                                {socialLinks}
-                            </div>
-                        </Stack>
+                    alignItems={'flex-end'}>
+                    <Stack
+                        direction={"column"}
+                        spacing={2}
+                        sx={{justifyContent: 'center', alignItems: 'center', width: "25%"}}>
+                        <Image
+                            src={PersonalData.image}
+                            alt={"Ben's Headshot"}
+                            className={styles.headshot_container_image}
+                            style={{width: "75%", height: "auto"}}
+                        />
+                        <div className={styles.social_links_container}>
+                            {socialLinks}
+                        </div>
                     </Stack>
                     <Stack
                         direction={"column"}
