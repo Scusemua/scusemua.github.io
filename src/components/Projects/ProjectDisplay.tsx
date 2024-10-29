@@ -99,7 +99,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                           size={'small'}/>
                 </Stack>}
             subheader={
-                <Typography className={styles.project_description} variant="body2"
+                <Typography className={styles.project_description} variant="body1"
                             sx={{color: 'text.secondary'}}>
                     {props.project.description}
                 </Typography>
