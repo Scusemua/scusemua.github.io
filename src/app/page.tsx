@@ -31,12 +31,12 @@ export default function Home() {
         <div>
             <div style={{width: "100%", height: "0px", zIndex: -1}} className="gradient_background"/>
             <Navbar headshotRef={headshotRef} educationRef={educationRef} projectRef={projectRef}
-                    skillsRef={skillsRef}/>
-            <Headshot ref={headshotRef}/>
-            <Projects ref={projectRef}/>
-            <EducationSection ref={educationRef}/>
-            <SkillsSection ref={skillsRef}/>
-            <CopyrightNotice/>
+                    skillsRef={skillsRef} key={"navbar"}/>
+            <Headshot ref={headshotRef} key={"headshot_section"}/>
+            <Projects ref={projectRef} key={"projects_section"}/>
+            <EducationSection ref={educationRef} key={"education_section"}/>
+            <SkillsSection ref={skillsRef} key={"skills_section"}/>
+            <CopyrightNotice key={"copyright_section"}/>
         </div>
     );
 }

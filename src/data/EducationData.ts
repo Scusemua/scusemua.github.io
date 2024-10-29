@@ -69,4 +69,4 @@ export const DoctoralDegree: DegreeInfo = {
     hasThesis: true,
 }
 
-export const AllDegreeInfo: DegreeInfo[] = [ BachelorsDegree, MastersDegree, DoctoralDegree]
+export const AllDegreeInfo: DegreeInfo[] = [ DoctoralDegree, MastersDegree, BachelorsDegree]

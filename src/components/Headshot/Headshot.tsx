@@ -116,7 +116,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     );
 
     const headerButtons = (
-        <Stack className={styles.headshot_cv_button_stack} spacing={2}
+        <Stack className={styles.headshot_cv_button_stack} spacing={2} key={"headshot_header_buttons"}
                direction={{'xs': 'column', 'sm': 'row', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
                sx={{
                    justifyContent: "center",
@@ -143,7 +143,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
 
     const getLayoutXs = () => {
         return (
-            <React.Fragment>
+            <div key={"xs_layout_headshot"}>
                 <Stack
                     className={styles.headshot_container}
                     direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
@@ -166,13 +166,13 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                 <div className={styles.social_links_container}>
                     {socialLinks}
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 
     const getLayoutSmToMd = () => {
         return (
-            <React.Fragment>
+            <div key={"sm_to_md_layout_headshot"}>
                 <Stack
                     className={styles.headshot_container}
                     direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
@@ -194,13 +194,13 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     </Stack>
                 </Stack>
                 {headerBioText}
-            </React.Fragment>
+            </div>
         );
     }
 
     const getLayoutLg = () => {
         return (
-            <div>
+            <div key={"lg_layout_headshot"}>
                 <Stack
                     className={styles.headshot_container}
                     direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
@@ -229,7 +229,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
 
     const getLayoutXL = () => {
         return (
-            <div>
+            <div key={"xl_layout_headshot"}>
                 <Stack
                     className={styles.headshot_container}
                     direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
@@ -270,7 +270,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     };
 
     return (
-        <div className={styles.headshot} ref={ref}
+        <div className={styles.headshot} ref={ref} key={"headshot_layout_wrapper"}
              style={{marginTop: getTopMargin(), marginLeft: 'auto', marginRight: 'auto'}}>
             {/*{(!mq_xs && !mq_sm && !mq_md && !mq_lg && !mq_xl) && getLayoutXL()}*/}
             {mq_xl && getLayoutXL()}

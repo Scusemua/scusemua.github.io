@@ -20,19 +20,19 @@ interface SkillsSectionProps {
 
 const GetSkill = (skill: string, i: number) => {
     if (skill === "{{break}}") {
-        return <div style={{flexBasis: "100%", height: 0}}/>;
+        return <div key={`skill-line-break-${i}`} style={{flexBasis: "100%", height: 0}}/>;
     }
 
     return (
-        <div style={{marginTop: "2rem"}}>
-            <SkillDisplay key={i} skillName={skill}/>
+        <div style={{marginTop: "2rem"}} key={`skill-${skill}-idx-${i}_wrapper`}>
+            <SkillDisplay key={`skill-${skill}-idx-${i}`} skillName={skill}/>
         </div>
     );
 }
 
 const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((_props: SkillsSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => (
     <div className={`${styles.skills}`} id="skills" ref={ref}>
-        <Typography variant={"h2"} className={styles.skills_header_text}>Skills</Typography>
+        <Typography key="skills_section_header" variant={"h2"} className={styles.skills_header_text}>Skills</Typography>
         {SkillsData.map((skills: Skills, index: number) => (
             <motion.div
                 variants={skillWrapperVariant}
@@ -40,13 +40,13 @@ const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((_props: 
                 whileInView="animate"
                 viewport={{once: true, amount: "some"}}
                 className={`${styles.skills_body}`}
-                key={index}
+                key={`skills-category-${skills.category}-${index}`}
             >
-                <Typography variant={"h3"} className={styles.skills_body_category_header}>
+                <Typography key={`skills_category_header_${skills.category}`} variant={"h3"} className={styles.skills_body_category_header}>
                     {skills.icon} {skills.category.toString()}
                 </Typography>
 
-                <div className={`${styles.skills_category_container}`}>
+                <div key={`skills_category_header_${skills.category}_wrapper`} className={`${styles.skills_category_container}`}>
                     {skills.skills.map((skill, i) => {
                         return GetSkill(skill, i);
                     })}
