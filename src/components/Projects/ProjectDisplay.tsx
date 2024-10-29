@@ -152,8 +152,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                         position: 'relative',
                         margin: "0 auto",
                         width: '65%',
-                        height: '150px',
-                        background: "red"
+                        height: '150px'
                     }}>
                         <Image
                             src={props.project.image}

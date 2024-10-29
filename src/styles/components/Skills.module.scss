@@ -23,7 +23,7 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
-    max-width: 65%;
+    max-width: 75%;
     // Set to 0; we explicitly set marginTop on each skill so we can add line-breaks to the rows of skills
     // without adding a blank line in between the rows (by adding a div with flex-basis: 100% to add the new row).
     row-gap: 0;

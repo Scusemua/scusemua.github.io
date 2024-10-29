@@ -23,9 +23,9 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
     return (
         <AppBar position="fixed" sx={{bgcolor: "rgba(0,0,0,0.31)", width: "100%", overflow: "hidden"}}>
             <Container maxWidth="xl">
-                <Toolbar disableGutters sx={{alignItems: "center", justifyContent: "center"}}>
-                    <Stack direction={'row'} spacing={{'xs': 1, 'sm': 2, 'md': 6, 'lg': 8, 'xl': 10}}
-                           sx={{alignItems: "center", justifyContent: "center"}}>
+                <Toolbar disableGutters sx={{alignItems: "center", justifyContent: "center", overflow: "hidden"}}>
+                    <Stack direction={'row'} spacing={{'xs': 0, 'sm': 2, 'md': 6, 'lg': 8, 'xl': 10}}
+                           sx={{alignItems: "center", justifyContent: "center", overflow: "hidden"}}>
                         <IconButton
                             key={"header_section"}
                             onClick={() => {
@@ -54,7 +54,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                             }}
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
-                            <Typography variant={"body1"}><b>Research</b></Typography>
+                            <Typography
+                                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
+                            >
+                                <b>Research</b>
+                            </Typography>
                         </Button>
                         <Button
                             key={"education_section"}
@@ -66,7 +70,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                             }}
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
-                            <Typography variant={"body1"}><b>Education</b></Typography>
+                            <Typography
+                                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
+                            >
+                                <b>Education</b>
+                            </Typography>
                         </Button>
                         <Button
                             key={"skills_section"}
@@ -78,7 +86,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                             }}
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
-                            <Typography variant={"body1"}><b>Skills</b></Typography>
+                            <Typography
+                                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
+                            >
+                                <b>Skills</b>
+                            </Typography>
                         </Button>
                     </Stack>
                 </Toolbar>
