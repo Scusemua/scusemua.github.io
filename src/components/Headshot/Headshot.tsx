@@ -75,6 +75,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             src={PersonalData.image}
             alt={"Ben's Headshot"}
             width={width}
+            // style={{ width: '50%', height: 'auto'}}
         />
     );
 
@@ -148,9 +149,9 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     className={styles.headshot_container}
                     direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
                     justifyContent={'center'}
-                    spacing={4}
+                    spacing={2}
                     alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
-                    <Stack direction={'row'} spacing={1} sx={{justifyContent: 'center', alignItems: 'flex-end'}}>
+                    <Stack direction={'row'} spacing={1} sx={{justifyContent: 'center', alignItems: 'flex-end', width: "80%", margin: "0 auto"}}>
                         {getHeadshotImage(200)}
                         <div className={styles.headshot_header_text_greeting}>
                             <Typography variant={"h5"}>Hello! I am</Typography>
@@ -234,9 +235,9 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     className={styles.headshot_container}
                     direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
                     justifyContent={'center'}
-                    spacing={4}
+                    spacing={1}
                     alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
-                    <Stack direction={'row'} spacing={4} sx={{justifyContent: 'center', alignItems: 'center'}}>
+                    <Stack direction={'row'} spacing={1} sx={{justifyContent: 'center', alignItems: 'center'}}>
                         <Stack
                             direction={"column"}
                             spacing={2}
