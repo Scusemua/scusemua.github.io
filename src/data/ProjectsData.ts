@@ -1,10 +1,9 @@
 import wukong_logo from "@images/logos/wukong_logo.webp";
 import infinistore_logo from "@images/logos/infinistore_logo.webp";
-import obliv_inf_store_logo from "@images/obliv_inf_store_logo.png";
+import obliv_inf_store_logo from "@images/logos/oblivious_infinistore_logo.webp";
 import lfs_logo from "@images/logos/lambda_fs_logo.webp";
-import jupyter_naas from "@images/jupyter_naas2.jpg";
-import faas_platform_logo from "@images/faas_platform_logo.jpg";
-
+import jupyter_naas from "@images/logos/jupyter_naas_logo.webp";
+import faas_platform_logo from "@images/logos/faas_platforms_logo.webp";
 
 export interface Project {
     name: string;
