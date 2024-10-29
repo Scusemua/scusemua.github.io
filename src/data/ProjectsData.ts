@@ -53,7 +53,7 @@ export const LambdaFSProject: Project = {
     project_website_url: "",
     image: lfs_logo,
     keywords: ["serverless", "distributed file systems", "file storage", "metadata", "elasticity", "fault tolerance"],
-    builtWith: ["AWS", "Google Cloud", "IBM cloud", "Nuclio", "OpenWhisk", "Java", "C++", "Python", "Golang", "MySQL Cluster NDB", "HopsFS", "HDFS", "Hadoop"],
+    builtWith: ["AWS", "Google Cloud", "IBM Cloud", "Nuclio", "OpenWhisk", "Java", "C++", "Python", "Golang", "MySQL Cluster NDB", "HopsFS", "HDFS", "Hadoop"],
     arxiv_links: ["https://arxiv.org/abs/2306.11877"],
     status: 'inactive',
 }

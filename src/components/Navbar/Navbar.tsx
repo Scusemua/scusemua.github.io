@@ -54,7 +54,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                             }}
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
-                            <Typography variant={"body1"}><b>Research</b></Typography>
+                            <Typography
+                                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
+                            >
+                                <b>Research</b>
+                            </Typography>
                         </Button>
                         <Button
                             key={"education_section"}
@@ -66,7 +70,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                             }}
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
-                            <Typography variant={"body1"}><b>Education</b></Typography>
+                            <Typography
+                                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
+                            >
+                                <b>Education</b>
+                            </Typography>
                         </Button>
                         <Button
                             key={"skills_section"}
@@ -78,7 +86,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                             }}
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
-                            <Typography variant={"body1"}><b>Skills</b></Typography>
+                            <Typography
+                                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
+                            >
+                                <b>Skills</b>
+                            </Typography>
                         </Button>
                     </Stack>
                 </Toolbar>

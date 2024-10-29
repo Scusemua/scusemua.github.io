@@ -160,7 +160,8 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     justifyContent={'center'}
                     spacing={2}
                     alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
-                    <Stack direction={'row'} spacing={1} sx={{justifyContent: 'center', alignItems: 'flex-end', width: "80%", margin: "0 auto"}}>
+                    <Stack direction={'row'} spacing={1}
+                           sx={{justifyContent: 'center', alignItems: 'flex-end', width: "80%", margin: "0 auto"}}>
                         {getHeadshotImage(200)}
                         <div className={styles.headshot_header_text_greeting}>
                             <Typography variant={"h5"}>Hello! I am</Typography>
@@ -180,7 +181,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         );
     }
 
-    const getLayoutSmToMd = () => {
+    const getLayoutSm = () => {
         return (
             <div key={"sm_to_md_layout_headshot"}>
                 <Stack
@@ -208,7 +209,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         );
     }
 
-    const getLayoutLg = () => {
+    const getLayoutMdToLg = () => {
         return (
             <div key={"lg_layout_headshot"}>
                 <Stack
@@ -218,17 +219,26 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     spacing={4}
                     style={{marginTop: '4rem'}}
                     alignItems={'flex-end'}>
-                    <Stack direction={'row'} spacing={1} sx={{justifyContent: 'center', alignItems: 'center', width: "100%"}}>
+                    <Stack
+                        direction={'row'}
+                        spacing={8}
+                        sx={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: "100%",
+                            background: 'red',
+                        }}
+                    >
                         <Stack
                             direction={"column"}
                             spacing={2}
-                            sx={{justifyContent: 'center', alignItems: 'center', width: "25%"}}
+                            sx={{justifyContent: 'center', alignItems: 'center', width: "50%"}}
                         >
                             <Image
                                 src={PersonalData.image}
                                 alt={"Ben's Headshot"}
                                 className={styles.headshot_container_image}
-                                style={{width: "75%", height: "auto"}}
+                                style={{width: "16rem", height: "auto"}}
                             />
                             <div className={styles.social_links_container}>
                                 {socialLinks}
@@ -254,12 +264,12 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     <Stack
                         direction={"column"}
                         spacing={2}
-                        sx={{justifyContent: 'center', alignItems: 'center', width: "25%"}}>
+                        sx={{justifyContent: 'center', alignItems: 'center', width: "40%"}}>
                         <Image
                             src={PersonalData.image}
                             alt={"Ben's Headshot"}
                             className={styles.headshot_container_image}
-                            style={{width: "75%", height: "auto"}}
+                            style={{width: "376px", height: "auto"}}
                         />
                         <div className={styles.social_links_container}>
                             {socialLinks}
@@ -271,6 +281,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         style={{zIndex: 2}}>
                         {getHeaderGreetingText(false)}
                         {headerBioText}
+                        {headerButtons}
                     </Stack>
                 </Stack>
             </div>
@@ -291,11 +302,10 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         <div className={styles.headshot} ref={ref} key={"headshot_layout_wrapper"}
              style={{marginTop: getTopMargin(), marginLeft: 'auto', marginRight: 'auto'}}>
             {/*{(!mq_xs && !mq_sm && !mq_md && !mq_lg && !mq_xl) && getLayoutXL()}*/}
-            {mq_xl && getLayoutXL()}
-            {mq_lg && getLayoutLg()}
-            {(mq_sm || mq_md) && getLayoutSmToMd()}
-            {mq_xs && getLayoutXs()}
-            {headerButtons}
+            {(mq_xl) && getLayoutXL()}
+            {(mq_sm || mq_md || mq_lg) && getLayoutMdToLg()}
+            {(mq_xs) && getLayoutXs()}
+            {!mq_xl && headerButtons}
         </div>
     );
 });
