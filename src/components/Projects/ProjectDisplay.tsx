@@ -152,14 +152,15 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     <div style={{
                         position: 'relative',
                         margin: "0 auto",
-                        width: '65%',
-                        height: '150px'
+                        width: '100%',
+                        height: '200px',
+                        zIndex: 5,
                     }}>
                         <Image
                             src={props.project.image}
                             fill
                             alt="Project Logo"
-                            style={{objectFit: 'cover'}}
+                            style={{objectFit: 'contain'}}
                         />
                     </div>
                 </CardMedia>
