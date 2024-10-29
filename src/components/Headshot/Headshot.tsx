@@ -97,8 +97,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     <Typography variant={"h6"}>
                         I'm a 3rd year PhD candidate in CS at
                         <Box component="span" color={"#49B075"} fontWeight='fontWeightBold'> George Mason
-                            University.</Box>
-                        <br/>
+                            University. </Box>
                         My advisors are
                         <Box component="span" fontWeight='fontWeightBold' color={"#ff2022"} fontSize="1.35rem"> Dr. Yue
                             Cheng</Box> (University of Virginia) and
@@ -106,7 +105,6 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                             Songqing
                             Chen </Box>
                         (GMU).
-                        <br/>
                         My research interests are centered around cloud computing with a focus on serverless
                         computing. Specifically, I'm interested in applications of serverless computing to data
                         analytics/data science, machine learning, file systems, and other areas.
