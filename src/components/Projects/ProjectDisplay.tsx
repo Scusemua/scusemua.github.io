@@ -104,7 +104,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     {props.project.description}
                 </Typography>
             }
-            sx = {{
+            sx={{
                 marginBottom: 'auto',
             }}
         >
@@ -142,16 +142,24 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
 
     return (
         <Card className={styles.project_section_card}>
-            <CardMedia>
-                <div style={{position: 'relative', width: '100%', height: '225px'}}>
-                    <Image
-                        src={props.project.image}
-                        fill
-                        alt="Project Logo"
-                        style={{objectFit: 'cover'}}
-                    />
-                </div>
-            </CardMedia>
+            <div style={{width: '100%', background: "#1C192E"}}>
+                <CardMedia>
+                    <div style={{
+                        position: 'relative',
+                        margin: "0 auto",
+                        width: '65%',
+                        height: '150px',
+                        background: "red"
+                    }}>
+                        <Image
+                            src={props.project.image}
+                            fill
+                            alt="Project Logo"
+                            style={{objectFit: 'cover'}}
+                        />
+                    </div>
+                </CardMedia>
+            </div>
             {cardHeader}
             {cardActions}
         </Card>
