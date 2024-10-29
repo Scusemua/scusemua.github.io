@@ -97,16 +97,19 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             title={
                 <Stack direction={"row"} spacing={2} sx={{
                     justifyContent: "center",
+                    alignItems: 'center',
+                    paddingBottom: "1rem",
                 }}>
-                    <Typography gutterBottom variant="h5" component="div">{props.project.name}</Typography>
-                    <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}
-                          size={'small'}/>
+                    <Typography gutterBottom variant="h3" component="div">{props.project.name}</Typography>
+                    <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}/>
                 </Stack>}
             subheader={
-                <Typography className={styles.project_description} variant="body1"
-                            sx={{color: 'text.secondary'}}>
-                    {props.project.description}
-                </Typography>
+                <div style={{width: "90%", margin: "0 auto"}}>
+                    <Typography className={styles.project_description} variant="body1"
+                                sx={{color: 'text.secondary', fontSize: "1.25rem"}}>
+                        {props.project.description}
+                    </Typography>
+                </div>
             }
             sx={{
                 marginBottom: 'auto',
@@ -151,19 +154,26 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     <div style={{
                         position: 'relative',
                         margin: "0 auto",
-                        width: '65%',
-                        height: '150px'
+                        width: '100%',
+                        height: '200px',
+                        zIndex: 5,
                     }}>
                         <Image
                             src={props.project.image}
                             fill
                             alt="Project Logo"
-                            style={{objectFit: 'cover'}}
+                            style={{objectFit: 'contain'}}
                         />
                     </div>
                 </CardMedia>
             </div>
             {cardHeader}
+            {/*<CardContent sx={{margin: 'auto'}}>*/}
+            {/*    <Typography className={styles.project_description} variant="h5"*/}
+            {/*                sx={{color: 'text.secondary'}}>*/}
+            {/*        {props.project.description}*/}
+            {/*    </Typography>*/}
+            {/*</CardContent>*/}
             {cardActions}
         </Card>
     );
