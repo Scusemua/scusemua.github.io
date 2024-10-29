@@ -97,13 +97,14 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             title={
                 <Stack direction={"row"} spacing={2} sx={{
                     justifyContent: "center",
+                    alignItems: 'center',
                 }}>
-                    <Typography gutterBottom variant="h5" component="div">{props.project.name}</Typography>
+                    <Typography gutterBottom variant="h3" component="div">{props.project.name}</Typography>
                     <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}
                           size={'small'}/>
                 </Stack>}
             subheader={
-                <Typography className={styles.project_description} variant="body1"
+                <Typography className={styles.project_description} variant="h5"
                             sx={{color: 'text.secondary'}}>
                     {props.project.description}
                 </Typography>
@@ -164,6 +165,12 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 </CardMedia>
             </div>
             {cardHeader}
+            {/*<CardContent sx={{margin: 'auto'}}>*/}
+            {/*    <Typography className={styles.project_description} variant="h5"*/}
+            {/*                sx={{color: 'text.secondary'}}>*/}
+            {/*        {props.project.description}*/}
+            {/*    </Typography>*/}
+            {/*</CardContent>*/}
             {cardActions}
         </Card>
     );

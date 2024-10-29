@@ -83,7 +83,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
     return (
         <Card className={styles.education_card}>
             <CardMedia sx={{position: 'relative'}}>
-                <div style={{position: 'relative', width: '150px', height: '100px', margin: '0 auto'}}>
+                <div style={{position: 'relative', width: '150px', height: '100px', margin: '0.5rem auto 0 auto'}}>
                     <Image
                         src={GMU_Logo}
                         fill
