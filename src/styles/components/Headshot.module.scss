@@ -2,7 +2,7 @@
   max-width: 1920px;
 
   &_container {
-    margin: 0 auto 0 auto;
+    margin: 0 auto;
     z-index: 1;
     width: 75%;
 
@@ -21,7 +21,6 @@
   &_header_text {
     &_greeting {
       color: #EFF6EE;
-      padding-top: 5rem;
       text-align: center;
       z-index: 2;
       margin: 0 auto;
@@ -48,7 +47,7 @@
       padding: 1rem;
       z-index: 2;
       max-width: 1000px;
-      width: 90%;
+      width: 80%;
       margin: 0 auto;
     }
   }
