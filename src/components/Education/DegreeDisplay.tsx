@@ -21,7 +21,7 @@ import Image from "next/image";
 import IconButton from "@mui/material/IconButton";
 import ArticleIcon from "@mui/icons-material/Article";
 
-interface DegreeDisplay {
+interface DegreeDisplayProps {
     degree: DegreeInfo;
 }
 
@@ -32,19 +32,19 @@ const downloadThesis = (filename: string) => {
     link.click();
 }
 
-const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisplay) => {
+const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: DegreeDisplayProps) => {
     const getThesis = () => {
         return (<Stack direction={"column"} spacing={0} sx={{alignItems: "center", justifyContent: "center"}}>
-            <Typography sx={{color: 'text.secondary'}} variant={"h6"}><b>Thesis: </b></Typography>
+            <Typography sx={{color: 'text.secondary'}} variant={"h6"}><b>{props.degree.thesisKind}: </b></Typography>
             <div style={{width: "75%"}}>
                 <Typography sx={{color: 'text.secondary'}} variant={"h6"}><i>{props.degree.thesisTitle}</i></Typography>
             </div>
-            <Tooltip title={`Download Thesis: "${props.degree.thesisTitle}"`}>
+            {props.degree.thesisUrl && <Tooltip title={`Download Thesis: "${props.degree.thesisTitle}"`}>
                 <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} color={'info'}
-                            onClick={() => downloadThesis(props.degree.thesisFile!)}>
+                        onClick={() => downloadThesis(props.degree.thesisFile!)}>
                     Download Thesis
                 </Button>
-            </Tooltip>
+            </Tooltip>}
         </Stack>)
     }
 
@@ -61,7 +61,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisp
                                 sx={{color: 'text.secondary'}}>
                         {props.degree.institution}
                     </Typography>
-                    <Stack direction={'row'} sx={{justifyContent: 'center'}} spacing={2}>
+                    <Stack direction={'row'} sx={{justifyContent: 'center'}} spacing={5}>
                         <Typography className={styles.project_description} variant="h6"
                                     sx={{color: 'text.secondary'}}>
                             May, {props.degree.endDate}
@@ -83,7 +83,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplay> = (props: DegreeDisp
     return (
         <Card className={styles.education_card}>
             <CardMedia sx={{position: 'relative'}}>
-                <div style={{position: 'relative', width: '300px', height: '200px', margin: '0 auto'}}>
+                <div style={{position: 'relative', width: '150px', height: '100px', margin: '0 auto'}}>
                     <Image
                         src={GMU_Logo}
                         fill

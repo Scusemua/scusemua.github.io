@@ -14,6 +14,7 @@ export interface DegreeInfo {
     thesisTitle?: string;
     thesisUrl?: string;
     thesisFile?: string;
+    thesisKind?: string;
     researchAdvisors: AdvisorInfo[];
     phase?: string;
 }
@@ -50,6 +51,7 @@ export const MastersDegree: DegreeInfo = {
     thesisTitle: "Wukong: A Fast, Cost-Effective, and Easy-to-Use Serverless DAG Engine",
     thesisUrl: "https://hdl.handle.net/1920/12093",
     thesisFile: "CarverBenjamin_MastersThesis.pdf",
+    thesisKind: "Thesis",
     hasThesis: true,
 }
 
@@ -62,8 +64,9 @@ export const DoctoralDegree: DegreeInfo = {
     phase: "Candidacy",
     startDate: 2021,
     endDate: "2025 (Estimated)",
-    // thesisTitle: "Towards Elastic, Stateful Serverless Systems",
-    hasThesis: false,
+    thesisKind: "Dissertation",
+    thesisTitle: "Towards Elastic, Stateful Serverless Systems",
+    hasThesis: true,
 }
 
 export const AllDegreeInfo: DegreeInfo[] = [ BachelorsDegree, MastersDegree, DoctoralDegree]
