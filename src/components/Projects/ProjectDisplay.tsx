@@ -100,8 +100,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     alignItems: 'center',
                 }}>
                     <Typography gutterBottom variant="h3" component="div">{props.project.name}</Typography>
-                    <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}
-                          size={'small'}/>
+                    <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}/>
                 </Stack>}
             subheader={
                 <Typography className={styles.project_description} variant="h5"
