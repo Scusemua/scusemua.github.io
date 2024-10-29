@@ -18,7 +18,8 @@ import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
 import theme from "@src/app/theme";
 
-interface HeadshotProps {}
+interface HeadshotProps {
+}
 
 // const Headshot: React.FunctionComponent = () => {
 const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotProps, ref: React.ForwardedRef<HTMLInputElement>) => {
@@ -150,11 +151,11 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     spacing={4}
                     alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
                     <Stack direction={'row'} spacing={1} sx={{justifyContent: 'center', alignItems: 'flex-end'}}>
+                        {getHeadshotImage(200)}
                         <div className={styles.headshot_header_text_greeting}>
                             <Typography variant={"h5"}>Hello! I am</Typography>
                             <Typography variant={"h2"}>{PersonalData.name}</Typography>
                         </div>
-                        {getHeadshotImage(200)}
                     </Stack>
                     <div className={styles.headshot_header_text_greeting_xs}>
                         <Typography variant={"h5"}>Computer Science PhD Candidate<br/>at George Mason
@@ -180,7 +181,6 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     style={{marginTop: '4rem'}}
                     alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
                     <Stack direction={'row'} spacing={4} sx={{justifyContent: 'center', alignItems: 'center'}}>
-                        {getHeaderGreetingText(true, "h2")}
                         <Stack
                             direction={"column"}
                             spacing={2}
@@ -190,6 +190,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                                 {socialLinks}
                             </div>}
                         </Stack>
+                        {getHeaderGreetingText(true, "h2")}
                     </Stack>
                 </Stack>
                 {headerBioText}
@@ -208,7 +209,6 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     style={{marginTop: '4rem'}}
                     alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
                     <Stack direction={'row'} spacing={4} sx={{justifyContent: 'center', alignItems: 'center'}}>
-                        {getHeaderGreetingText(true)}
                         <Stack
                             direction={"column"}
                             spacing={2}
@@ -219,6 +219,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                                 {socialLinks}
                             </div>
                         </Stack>
+                        {getHeaderGreetingText(true)}
                     </Stack>
                 </Stack>
                 {headerBioText}
@@ -228,20 +229,13 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
 
     const getLayoutXL = () => {
         return (
-            <React.Fragment>
+            <div>
                 <Stack
                     className={styles.headshot_container}
                     direction={{'xs': 'column', 'sm': 'column', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
                     justifyContent={'center'}
                     spacing={4}
                     alignItems={{'xs': 'center', 'sm': 'center', 'md': 'flex-end', 'lg': 'flex-end', 'xl': 'flex-end'}}>
-                    <Stack
-                        direction={"column"}
-                        spacing={2}
-                        style={{zIndex: 2}}>
-                        {getHeaderGreetingText(false)}
-                        {headerBioText}
-                    </Stack>
                     <Stack direction={'row'} spacing={4} sx={{justifyContent: 'center', alignItems: 'center'}}>
                         <Stack
                             direction={"column"}
@@ -253,8 +247,15 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                             </div>
                         </Stack>
                     </Stack>
+                    <Stack
+                        direction={"column"}
+                        spacing={2}
+                        style={{zIndex: 2}}>
+                        {getHeaderGreetingText(false)}
+                        {headerBioText}
+                    </Stack>
                 </Stack>
-            </React.Fragment>
+            </div>
         );
     }
 
@@ -269,7 +270,8 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     };
 
     return (
-        <div className={styles.headshot} ref={ref} style={{marginTop: getTopMargin()}}>
+        <div className={styles.headshot} ref={ref}
+             style={{marginTop: getTopMargin(), marginLeft: 'auto', marginRight: 'auto'}}>
             {/*{(!mq_xs && !mq_sm && !mq_md && !mq_lg && !mq_xl) && getLayoutXL()}*/}
             {mq_xl && getLayoutXL()}
             {mq_lg && getLayoutLg()}
