@@ -87,7 +87,7 @@ const UndergraduateResearchAssistant: Employment = {
     end_year: 2020,
     title: "Undergraduate Research Assistant",
     employer: "George Mason University",
-    description: "Conducting research under the direction of Dr. Yue Cheng (University of Virginia) and Dr. Songqing Chen (George Mason University).",
+    description: "Conducting research under the direction of Dr. Yue Cheng (University of Virginia).",
     icon: (<Avatar style={{width: 45, height: 45}}>
         <DeveloperMonitorIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.1, 1.1)"/>
     </Avatar>)
