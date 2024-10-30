@@ -11,10 +11,12 @@ import Box from '@mui/material/Box';
 import {Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Navbar from "@src/components/Navbar/Navbar";
+import EmploymentHistory from "@src/components/EmploymentHistory/EmploymentHistory";
 
 export default function Home() {
     const headshotRef = React.useRef<HTMLInputElement>(null) as React.MutableRefObject<HTMLInputElement>;
     const projectRef = React.useRef<HTMLInputElement>(null);
+    const employmentRef = React.useRef<HTMLInputElement>(null);
     const educationRef = React.useRef<HTMLInputElement>(null);
     const skillsRef = React.useRef<HTMLInputElement>(null);
 
@@ -31,9 +33,10 @@ export default function Home() {
         <div>
             <div style={{width: "100%", height: "0px", zIndex: -1}} className="gradient_background"/>
             <Navbar headshotRef={headshotRef} educationRef={educationRef} projectRef={projectRef}
-                    skillsRef={skillsRef} key={"navbar"}/>
+                    skillsRef={skillsRef} employmentHistoryRef={employmentRef} key={"navbar"}/>
             <Headshot ref={headshotRef} key={"headshot_section"}/>
             <Projects ref={projectRef} key={"projects_section"}/>
+            <EmploymentHistory ref={employmentRef} key={"employment_section"}/>
             <EducationSection ref={educationRef} key={"education_section"}/>
             <SkillsSection ref={skillsRef} key={"skills_section"}/>
             <CopyrightNotice key={"copyright_section"}/>

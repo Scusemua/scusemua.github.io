@@ -1,0 +1,34 @@
+.employment {
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
+
+  &_header_text {
+    padding-top: 4rem;
+    height: 100%;
+    position: relative;
+    padding-bottom: 2rem;
+    color: #EFF6EE;
+  }
+
+  &_timeline {
+    border-radius: 6rem;
+    margin: 0 auto;
+    width: 90%;
+
+    &_entry {
+      &_title {
+        color: #ffffff;
+      }
+
+      &_employer {
+        color: #e0dbdb;
+      }
+
+      &_description {
+        color: #cecece;
+        margin: 0 auto;
+      }
+    }
+  }
+}

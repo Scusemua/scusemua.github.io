@@ -15,6 +15,7 @@ import {Stack} from "@mui/material";
 interface NavbarProps {
     headshotRef: React.RefObject<HTMLInputElement> | undefined;
     projectRef: React.RefObject<HTMLInputElement> | undefined;
+    employmentHistoryRef: React.RefObject<HTMLInputElement> | undefined;
     educationRef: React.RefObject<HTMLInputElement> | undefined;
     skillsRef: React.RefObject<HTMLInputElement> | undefined;
 }
@@ -58,6 +59,22 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                                 sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
                             >
                                 <b>Research</b>
+                            </Typography>
+                        </Button>
+                        <Button
+                            key={"employment_history_section"}
+                            onClick={() => {
+                                if (props.employmentHistoryRef?.current) {
+                                    console.log("Scrolling to Employment History section.");
+                                    props.employmentHistoryRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
+                                }
+                            }}
+                            sx={{my: 2, color: 'white', display: 'block'}}
+                        >
+                            <Typography
+                                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
+                            >
+                                <b>Employment History</b>
                             </Typography>
                         </Button>
                         <Button
