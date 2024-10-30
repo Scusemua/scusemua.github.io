@@ -42,7 +42,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
             direction={"column"}>
             <Typography variant={"h2"}
                         className={styles.project_section_header_text}>
-                Research Projects
+                Research
             </Typography>
 
             <motion.div variants={cardContainerVariant}

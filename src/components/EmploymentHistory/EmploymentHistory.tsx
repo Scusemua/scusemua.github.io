@@ -16,7 +16,8 @@ import {Employment, EmploymentHistoryData} from "@data/EmploymentHistoryData";
 import theme from "@src/app/theme";
 import {Variants, motion} from "framer-motion";
 
-interface EmploymentHistoryProps {}
+interface EmploymentHistoryProps {
+}
 
 const contentVariant = {
     hidden: {y: -10, opacity: 0},
@@ -77,20 +78,24 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
 
     return (
         <div className={`${styles.employment}`} id="skills" ref={ref}>
-            <Typography variant={"h2"} className={styles.employment_header_text}>Employment History</Typography>
+            <Typography variant={"h2"} className={styles.employment_header_text}>
+                Employment History
+            </Typography>
             <Timeline position="alternate" className={styles.employment_timeline}>
                 {mq_xs && <div style={{paddingTop: "2rem"}}/>}
-                    {EmploymentHistoryData.map((employment: Employment) => {
-                        return (<motion.div
-                            variants={contentVariant}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{once: true, amount: 1.0, margin: "-55px"}}
-                            onViewportEnter={() => console.log("Education Section has entered viewport")}
-                        >
-                            {getTimelineContent(employment)}
-                        </motion.div>);
-                    })}
+                {EmploymentHistoryData.map((employment: Employment) => {
+                    return (
+                        // <motion.div
+                        //     variants={contentVariant}
+                        //     initial="hidden"
+                        //     whileInView="visible"
+                        //     viewport={{once: true, amount: 1.0, margin: "-55px"}}
+                        //     onViewportEnter={() => console.log("Education Section has entered viewport")}
+                        // >
+                        getTimelineContent(employment)
+                        // {/*</motion.div>*/}
+                    );
+                })}
                 {mq_xs && <div style={{paddingBottom: "2rem"}}/>}
             </Timeline>
         </div>

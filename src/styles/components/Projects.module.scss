@@ -1,10 +1,9 @@
 .project_section {
   text-align: center;
-  max-width: 1920px;
+  max-width: 85%;
   margin: 0 auto;
 
   &_card {
-    max-width: 1280px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -38,6 +37,8 @@
 
   &_keywords {
     padding-top: 1.5rem;
+    margin: 0 auto;
+    max-width: 80%;
   }
 
   &_built_with {

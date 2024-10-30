@@ -1,6 +1,6 @@
 import styles from "@src/styles/components/Projects.module.scss";
 
-import React, {ReactElement} from "react";
+import React, {ReactElement, ReactNode} from "react";
 
 import {
     Badge,
@@ -37,30 +37,41 @@ const badgeColors: string[] = ["#F05D5E", "#3D3E78"]
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
     const getPaperLinks = () => {
-        return props.project.arxiv_links.map((arxiv_url: string, idx: number) => {
-            let badgeContent: string = "";
-            if (props.project.arxiv_links.length === 1) {
-                badgeContent = props.project.venue as string;
-            } else {
-                badgeContent = (props.project.venue as string[])[idx];
-            }
+        return <Stack
+            direction={{xs: "column", sm: "row", md: "row", lg: "row", xl: "row"}}
+            spacing={{xs: 0, sm: 3, md: 3, lg: 3, xl: 3}}
+            justifyContent={"center"}
+            alignItems={"center"}
+        >
+            {props.project.arxiv_links.map((arxiv_url: string, idx: number) => {
+                let badgeContent: ReactNode;
+                if (props.project.arxiv_links.length === 1) {
+                    badgeContent = (<Typography variant={"body2"}>
+                        {props.project.venue as string}
+                    </Typography>);
+                } else {
+                    badgeContent = (<Typography variant={"body2"}>
+                        {(props.project.venue as string[])[idx]}
+                    </Typography>);
+                }
 
-            return (<Tooltip title={`View Paper on arXiv`} arrow key={`paper-icon-${idx}`}>
-                <IconButton size="large"
-                            onClick={() => openInNewTab(arxiv_url)}>
-                    <Badge sx={{
-                        "& .MuiBadge-badge": {
-                            color: "#fff",
-                            backgroundColor: badgeColors[idx],
-                        }
-                    }} badgeContent={badgeContent} anchorOrigin={{
-                        vertical: 'bottom', horizontal: 'right',
-                    }}>
-                        <ArticleIcon fontSize="inherit"/>
-                    </Badge>
-                </IconButton>
-            </Tooltip>);
-        })
+                return (<Tooltip title={`View Paper on arXiv`} arrow key={`paper-icon-${idx}`}>
+                    <IconButton size="large"
+                                onClick={() => openInNewTab(arxiv_url)}>
+                        <Badge sx={{
+                            "& .MuiBadge-badge": {
+                                color: "#fff",
+                                backgroundColor: badgeColors[idx],
+                            }
+                        }} badgeContent={badgeContent} anchorOrigin={{
+                            vertical: 'bottom', horizontal: 'right',
+                        }}>
+                            <ArticleIcon fontSize="inherit"/>
+                        </Badge>
+                    </IconButton>
+                </Tooltip>);
+            })}
+        </Stack>
     }
 
     const getStatusIcon = (): ReactElement => {
@@ -95,17 +106,18 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     const cardHeader = (
         <CardHeader
             title={
-                <Stack direction={"row"} spacing={2} sx={{
+                <Stack direction={{xs: "column", sm: "row"}} spacing={1} sx={{
                     justifyContent: "center",
                     alignItems: 'center',
                     paddingBottom: "1rem",
                 }}>
-                    <Typography gutterBottom variant="h3" component="div">{props.project.name}</Typography>
+                    <Typography gutterBottom sx={{typography: {xs: 'h4', sm: 'h4', md: "h3", lg: "h3", xl: "h3"}}}
+                                component="div">{props.project.name}</Typography>
                     <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}/>
                 </Stack>}
             subheader={
                 <div style={{width: "90%", margin: "0 auto"}}>
-                    <Typography className={styles.project_description} variant="body1"
+                    <Typography variant="body1"
                                 sx={{color: 'text.secondary', fontSize: "1.25rem"}}>
                         {props.project.description}
                     </Typography>
@@ -123,11 +135,10 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             justifyContent: 'center',
             marginTop: 'auto',
         }}>
-            <Stack direction={'column'} spacing={1}>
+            <Stack direction={'column'} spacing={1} justifyContent={"center"} alignItems={"center"}>
                 {keywords}
-                <Stack direction={'row'} spacing={3} sx={{
-                    justifyContent: 'center',
-                }}>
+                <Stack direction={'row'} spacing={{xs: 0, sm: 3, md: 3, lg: 3, xl: 3}} justifyContent={"center"}
+                       alignItems={"center"}>
                     {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
                         <IconButton aria-label={"GitHub Repo"} size="large"
                                     onClick={() => openInNewTab(props.project.repo_url)}
@@ -168,12 +179,6 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 </CardMedia>
             </div>
             {cardHeader}
-            {/*<CardContent sx={{margin: 'auto'}}>*/}
-            {/*    <Typography className={styles.project_description} variant="h5"*/}
-            {/*                sx={{color: 'text.secondary'}}>*/}
-            {/*        {props.project.description}*/}
-            {/*    </Typography>*/}
-            {/*</CardContent>*/}
             {cardActions}
         </Card>
     );
