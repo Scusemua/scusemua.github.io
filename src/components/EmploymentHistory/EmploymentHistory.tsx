@@ -16,23 +16,10 @@ import {Employment, EmploymentHistoryData} from "@data/EmploymentHistoryData";
 import theme from "@src/app/theme";
 import {Variants, motion} from "framer-motion";
 
-interface EmploymentHistoryProps {
-}
-
-const entryWrapperVariant = {
-    hidden: {opacity: 1, scale: 0},
-    visible: {
-        opacity: 1,
-        scale: 1,
-        transition: {
-            delayChildren: 2,
-            staggerChildren: 2
-        }
-    }
-}
+interface EmploymentHistoryProps {}
 
 const contentVariant = {
-    hidden: {y: 100, opacity: 0},
+    hidden: {y: -10, opacity: 0},
     visible: {
         y: 0,
         opacity: 1,
@@ -51,7 +38,7 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
 
     const getTimelineContent = (employment: Employment) => {
         return (
-            <TimelineItem className={styles.employment_timeline_entry}>
+            <TimelineItem position={'alternate'} className={styles.employment_timeline_entry}>
                 <TimelineOppositeContent
                     sx={{
                         typography: {xs: 'body1', sm: 'h6', md: "h6", lg: "h6", xl: "h6"},
@@ -93,25 +80,17 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
             <Typography variant={"h2"} className={styles.employment_header_text}>Employment History</Typography>
             <Timeline position="alternate" className={styles.employment_timeline}>
                 {mq_xs && <div style={{paddingTop: "2rem"}}/>}
-                <motion.div
-                    variants={entryWrapperVariant}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{once: true, amount: 1.0, margin: "-145px"}}
-                    onViewportEnter={() => console.log("Education Section has entered viewport")}
-                >
                     {EmploymentHistoryData.map((employment: Employment) => {
                         return (<motion.div
                             variants={contentVariant}
                             initial="hidden"
                             whileInView="visible"
-                            viewport={{once: true, amount: 1.0, margin: "-145px"}}
+                            viewport={{once: true, amount: 1.0, margin: "-55px"}}
                             onViewportEnter={() => console.log("Education Section has entered viewport")}
                         >
                             {getTimelineContent(employment)}
                         </motion.div>);
                     })}
-                </motion.div>
                 {mq_xs && <div style={{paddingBottom: "2rem"}}/>}
             </Timeline>
         </div>
