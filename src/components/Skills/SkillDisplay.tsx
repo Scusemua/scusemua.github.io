@@ -36,7 +36,9 @@ const SkillDisplay: React.FunctionComponent<SkillProps> = (props: SkillProps) =>
                 margin: "0 auto",
             }}
         >
-            <Typography variant={"h5"}>{props.skillName}</Typography>
+            <Typography sx={{typography: {xs: 'body2', sm: 'h6', md: "h6", lg: "h5", xl: "h5"}}}>
+                {props.skillName}
+            </Typography>
         </motion.div>
     );
 };

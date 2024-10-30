@@ -64,7 +64,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     }
 
     const getStatusIcon = (): ReactElement => {
-        if (props.project.status == 'active') {
+        if (props.project.status === 'ongoing') {
             return <TerminalIcon/>
         } else {
             return <BedtimeIcon/>
@@ -72,7 +72,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     }
 
     const getStatusColor = (): "info" | "default" => {
-        if (props.project.status == 'active') {
+        if (props.project.status === 'ongoing') {
             return "info"
         } else {
             return "default"
@@ -82,6 +82,10 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     const keywords = (
         <div className={styles.project_keywords}>
             {props.project.keywords.map((keyword: string) => (
+                <Chip key={`project-${props.project.name}-keyword-${keyword}`} className={styles.project_keyword}
+                      label={keyword} size={'small'}/>
+            ))}
+            {props.project.builtWith?.map((keyword: string) => (
                 <Chip key={`project-${props.project.name}-keyword-${keyword}`} className={styles.project_keyword}
                       label={keyword} size={'small'} variant={'outlined'}/>
             ))}
@@ -93,18 +97,21 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             title={
                 <Stack direction={"row"} spacing={2} sx={{
                     justifyContent: "center",
+                    alignItems: 'center',
+                    paddingBottom: "1rem",
                 }}>
-                    <Typography gutterBottom variant="h5" component="div">{props.project.name}</Typography>
-                    <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}
-                          size={'small'}/>
+                    <Typography gutterBottom variant="h3" component="div">{props.project.name}</Typography>
+                    <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}/>
                 </Stack>}
             subheader={
-                <Typography className={styles.project_description} variant="body2"
-                            sx={{color: 'text.secondary'}}>
-                    {props.project.description}
-                </Typography>
+                <div style={{width: "90%", margin: "0 auto"}}>
+                    <Typography className={styles.project_description} variant="body1"
+                                sx={{color: 'text.secondary', fontSize: "1.25rem"}}>
+                        {props.project.description}
+                    </Typography>
+                </div>
             }
-            sx = {{
+            sx={{
                 marginBottom: 'auto',
             }}
         >
@@ -142,17 +149,31 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
 
     return (
         <Card className={styles.project_section_card}>
-            <CardMedia>
-                <div style={{position: 'relative', width: '100%', height: '225px'}}>
-                    <Image
-                        src={props.project.image}
-                        fill
-                        alt="Project Logo"
-                        style={{objectFit: 'cover'}}
-                    />
-                </div>
-            </CardMedia>
+            <div style={{width: '100%', background: "#1C192E"}}>
+                <CardMedia>
+                    <div style={{
+                        position: 'relative',
+                        margin: "0 auto",
+                        width: '100%',
+                        height: '200px',
+                        zIndex: 5,
+                    }}>
+                        <Image
+                            src={props.project.image}
+                            fill
+                            alt="Project Logo"
+                            style={{objectFit: 'contain'}}
+                        />
+                    </div>
+                </CardMedia>
+            </div>
             {cardHeader}
+            {/*<CardContent sx={{margin: 'auto'}}>*/}
+            {/*    <Typography className={styles.project_description} variant="h5"*/}
+            {/*                sx={{color: 'text.secondary'}}>*/}
+            {/*        {props.project.description}*/}
+            {/*    </Typography>*/}
+            {/*</CardContent>*/}
             {cardActions}
         </Card>
     );
