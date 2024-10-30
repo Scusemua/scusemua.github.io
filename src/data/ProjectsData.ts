@@ -51,8 +51,8 @@ export const LambdaFSProject: Project = {
     repo_url: "https://github.com/ds2-lab/LambdaFS",
     project_website_url: "",
     image: lfs_logo,
-    keywords: ["serverless", "distributed file systems", "file storage", "metadata", "elasticity", "fault tolerance"],
-    builtWith: ["AWS", "Google Cloud", "IBM Cloud", "Nuclio", "OpenWhisk", "Java", "C++", "Python", "Golang", "MySQL Cluster NDB", "HopsFS", "HDFS", "Hadoop"],
+    keywords: ["serverless", "distributed file systems", "file storage", "metadata"],
+    builtWith: ["AWS", "Google Cloud", "IBM Cloud", "Nuclio", "OpenWhisk", "Java", "C++", "MySQL Cluster NDB", "HopsFS", "HDFS"],
     arxiv_links: ["https://arxiv.org/abs/2306.11877"],
     status: 'inactive',
 }

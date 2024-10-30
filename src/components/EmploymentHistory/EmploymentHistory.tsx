@@ -33,9 +33,6 @@ const contentVariant = {
 const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((_props: EmploymentHistoryProps, ref: React.ForwardedRef<HTMLInputElement>) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
-    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
-    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
-    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const getTimelineContent = (employment: Employment) => {
         return (
@@ -89,7 +86,7 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
                             variants={contentVariant}
                             initial="hidden"
                             whileInView="visible"
-                            viewport={{once: true, amount: 1.0, margin: (mq_xs ? "-10px" : "-45px")}}
+                            viewport={{once: true, amount: 1.0, margin: (mq_xs ? "-10px" : "-100px")}}
                             onViewportEnter={() => console.log("Education Section has entered viewport")}
                         >
                             {getTimelineContent(employment)}

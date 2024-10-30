@@ -5,9 +5,9 @@
     margin: 0 auto;
     z-index: 1;
     width: 75%;
-    //overflow: hidden;
 
     &_image {
+      z-index: 1;
       background: #1d1e46;
       border-radius: 16rem;
       transform: translate3d(0, 0, 0);
@@ -17,7 +17,6 @@
       //5px -5px 300px rgba(176, 37, 205, 0.75),
       //-5px -5px 300px rgba(222, 78, 113, 0.75),
       //5px 5px 300px rgba(68, 8, 128, 0.75);
-      z-index: 1;
     }
   }
 

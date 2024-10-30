@@ -139,7 +139,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     className={styles.headshot_container}
                     direction={'column'}
                     justifyContent={'center'}
-                    spacing={1}
+                    spacing={3}
                     alignItems={'center'}
                 >
                     <Image
@@ -270,7 +270,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     alignItems={'flex-end'}>
                     <Stack
                         direction={"column"}
-                        spacing={2}
+                        spacing={4}
                         sx={{justifyContent: 'center', alignItems: 'center', width: "40%"}}>
                         <Image
                             src={PersonalData.image}

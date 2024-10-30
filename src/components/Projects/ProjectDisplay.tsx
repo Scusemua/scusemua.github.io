@@ -3,15 +3,15 @@ import styles from "@src/styles/components/Projects.module.scss";
 import React, {ReactElement, ReactNode} from "react";
 
 import {
-    Badge,
-    Card,
+    Badge, Button,
+    Card, CardActionArea,
     CardActions,
     CardContent, CardHeader,
     CardMedia,
     Chip,
     Grid2,
     Stack,
-    Tooltip
+    Tooltip, useMediaQuery
 } from "@mui/material";
 
 import Typography from '@mui/material/Typography';
@@ -23,6 +23,7 @@ import WebIcon from '@mui/icons-material/Web';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import Image from "next/image";
+import theme from "@src/app/theme";
 
 interface ProjectProps {
     project: Project;
@@ -36,6 +37,16 @@ const openInNewTab = (url: string | URL | undefined) => {
 const badgeColors: string[] = ["#F05D5E", "#3D3E78"]
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
+
+    const cardRef = React.useRef(null);
+
+    const [expanded, setExpanded] = React.useState<boolean>(false);
+
     const getPaperLinks = () => {
         return <Stack
             direction={{xs: "column", sm: "row", md: "row", lg: "row", xl: "row"}}
@@ -111,14 +122,14 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     alignItems: 'center',
                     paddingBottom: "1rem",
                 }}>
-                    <Typography gutterBottom sx={{typography: {xs: 'h4', sm: 'h4', md: "h3", lg: "h3", xl: "h3"}}}
+                    <Typography gutterBottom sx={{typography: {xs: 'h5', sm: 'h5', md: "h4", lg: "h4", xl: "h4"}}}
                                 component="div">{props.project.name}</Typography>
                     <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}/>
                 </Stack>}
             subheader={
                 <div style={{width: "90%", margin: "0 auto"}}>
                     <Typography variant="body1"
-                                sx={{color: 'text.secondary', fontSize: "1.25rem"}}>
+                                sx={{color: 'text.secondary', fontSize: "1.125rem"}}>
                         {props.project.description}
                     </Typography>
                 </div>
@@ -134,9 +145,13 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         <CardActions sx={{
             justifyContent: 'center',
             marginTop: 'auto',
+            marginBottom: 0,
         }}>
             <Stack direction={'column'} spacing={1} justifyContent={"center"} alignItems={"center"}>
-                {keywords}
+                {expanded && keywords}
+                {!expanded && <Button variant={"text"} color={"info"}>
+                    Click Anywhere to Expand
+                </Button>}
                 <Stack direction={'row'} spacing={{xs: 0, sm: 3, md: 3, lg: 3, xl: 3}} justifyContent={"center"}
                        alignItems={"center"}>
                     {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
@@ -158,28 +173,38 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         </CardActions>
     )
 
+    const onClickCard = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        setExpanded(!expanded);
+    }
+
     return (
-        <Card className={styles.project_section_card}>
-            <div style={{width: '100%', background: "#1C192E"}}>
-                <CardMedia>
-                    <div style={{
-                        position: 'relative',
-                        margin: "0 auto",
-                        width: '100%',
-                        height: '200px',
-                        zIndex: 5,
-                    }}>
-                        <Image
-                            src={props.project.image}
-                            fill
-                            alt="Project Logo"
-                            style={{objectFit: 'contain'}}
-                        />
-                    </div>
-                </CardMedia>
-            </div>
-            {cardHeader}
-            {cardActions}
+        <Card
+            className={styles.project_section_card}
+            ref={cardRef}>
+            <CardActionArea onClick={(evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                onClickCard(evt)
+            }}>
+                <div style={{width: '100%', background: "#1C192E"}}>
+                    <CardMedia>
+                        <div style={{
+                            position: 'relative',
+                            margin: "0 auto",
+                            width: '100%',
+                            height: '150px',
+                            zIndex: 5,
+                        }}>
+                            <Image
+                                src={props.project.image}
+                                fill
+                                alt="Project Logo"
+                                style={{objectFit: 'contain'}}
+                            />
+                        </div>
+                    </CardMedia>
+                </div>
+                {cardHeader}
+                {cardActions}
+            </CardActionArea>
         </Card>
     );
 };

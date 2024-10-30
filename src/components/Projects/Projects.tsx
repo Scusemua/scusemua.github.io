@@ -11,20 +11,25 @@ import {Variant, motion, Variants, useInView} from "framer-motion";
 import theme from "@src/app/theme";
 
 const cardContainerVariant = {
-    hidden: {opacity: 1, scale: 0},
+    hidden: {
+        opacity: 1,
+    },
     visible: {
         opacity: 1,
-        scale: 1,
         transition: {
             delayChildren: 0.125,
             staggerChildren: 0.35,
             bounce: 0.4,
+            duration: 0.75,
         }
     }
 }
 
 const cardVariant = {
-    hidden: {y: 300, opacity: 0},
+    hidden: {
+        y: 10,
+        opacity: 0
+    },
     visible: {
         y: 0,
         opacity: 1,
@@ -41,13 +46,30 @@ interface ProjectsProps {
 const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsProps, ref: React.ForwardedRef<HTMLInputElement>) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
+
+    const getAnimMargin = ():string => {
+        if (mq_xl) {
+            return "-50px";
+        } else if (mq_lg) {
+            return "45px";
+        } else if (mq_md) {
+            return "75px";
+        } else if (mq_sm) {
+            return "125px";
+        }
+
+        return "150px";
+    }
 
     const getPastProjects = (projects: Project[]) => {
         if (mq_xs || mq_sm) {
             return (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                            className={styles.project_container}>
                 {projects.map((project: Project) => (
-                    <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12, 'md': 6, 'lg': 4, 'xl': 4}}
+                    <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12}}
                            component={motion.div} variants={cardVariant} sx={{justifyContent: 'center'}}
                            whileHover={{
                                scale: 1.05,
@@ -64,12 +86,12 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
             return (<motion.div variants={cardContainerVariant}
                                 initial="hidden"
                                 whileInView="visible"
-                                viewport={{once: true, amount: 0, margin: "500px"}}
+                                viewport={{once: true, amount: 0.125, margin: getAnimMargin()}}
                                 onViewportEnter={() => console.log("Project Section has entered viewport")}>
                 <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                        className={styles.project_container}>
                     {projects.map((project: Project) => (
-                        <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12, 'md': 6, 'lg': 4, 'xl': 4}}
+                        <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 4, 'xl': 4}}
                                component={motion.div} variants={cardVariant} sx={{justifyContent: 'center'}}
                                whileHover={{
                                    scale: 1.05,

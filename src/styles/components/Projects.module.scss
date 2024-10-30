@@ -2,11 +2,13 @@
   text-align: center;
   max-width: 85%;
   margin: 0 auto;
+  transition: height 0.5s ease;
 
   &_card {
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
+    justify-content: space-between;
+    transition: height 0.5s ease; /* Smooth height transition */
   }
 
   &_header_text {
@@ -31,6 +33,7 @@
 
 .project {
   text-align: center;
+  transition: height 0.5s ease;
 
   &_header_text {
     height: 100%;
