@@ -14,7 +14,7 @@ const degreeContainerVariant = {
         opacity: 1,
         scale: 1,
         transition: {
-            delayChildren: 0.2,
+            delayChildren: 0.5,
             staggerChildren: 0.35
         }
     }
@@ -26,7 +26,7 @@ const degreeVariant = {
         y: 0,
         opacity: 1,
         transition: {
-            duration: 0.5,
+            duration: 0.75,
         },
     }
 }

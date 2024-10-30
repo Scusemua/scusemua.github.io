@@ -85,15 +85,15 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
                 {mq_xs && <div style={{paddingTop: "2rem"}}/>}
                 {EmploymentHistoryData.map((employment: Employment) => {
                     return (
-                        // <motion.div
-                        //     variants={contentVariant}
-                        //     initial="hidden"
-                        //     whileInView="visible"
-                        //     viewport={{once: true, amount: 1.0, margin: "-55px"}}
-                        //     onViewportEnter={() => console.log("Education Section has entered viewport")}
-                        // >
-                        getTimelineContent(employment)
-                        // {/*</motion.div>*/}
+                        <motion.div
+                            variants={contentVariant}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{once: true, amount: 1.0, margin: (mq_xs ? "-10px" : "-45px")}}
+                            onViewportEnter={() => console.log("Education Section has entered viewport")}
+                        >
+                            {getTimelineContent(employment)}
+                        </motion.div>
                     );
                 })}
                 {mq_xs && <div style={{paddingBottom: "2rem"}}/>}
