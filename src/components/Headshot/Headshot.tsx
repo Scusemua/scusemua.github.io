@@ -183,7 +183,6 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                             justifyContent: 'center',
                             alignItems: 'center',
                             width: "100%",
-                            background: 'red',
                         }}
                     >
                         <Stack
@@ -231,7 +230,6 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                             justifyContent: 'center',
                             alignItems: 'center',
                             width: "100%",
-                            background: 'red',
                         }}
                     >
                         <Stack
