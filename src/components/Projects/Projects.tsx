@@ -42,7 +42,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
 
-    const getPastProjects = (projects) => {
+    const getPastProjects = (projects: Project[]) => {
         if (mq_xs || mq_sm) {
             return (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                            className={styles.project_container}>
