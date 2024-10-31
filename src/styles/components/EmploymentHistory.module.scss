@@ -37,6 +37,11 @@
       &_description {
         color: #cecece;
         margin: 0 auto;
+
+        &_small {
+          color: #cecece;
+          font-size: 0.75rem;
+        }
       }
     }
   }

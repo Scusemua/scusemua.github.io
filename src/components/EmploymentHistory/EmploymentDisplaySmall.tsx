@@ -13,7 +13,7 @@ import {Employment} from "@data/EmploymentHistoryData";
 import theme from "@src/app/theme";
 import FramerTimelineItem from "@src/components/FramerBox/FramerTimelineContent";
 
-interface EmploymentDisplayProps {
+interface EmploymentDisplaySmallProps {
     employment: Employment;
 }
 
@@ -28,11 +28,9 @@ const contentVariant = {
     }
 }
 
-const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (props: EmploymentDisplayProps) => {
-    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
-
+const EmploymentDisplaySmall: React.FunctionComponent<EmploymentDisplaySmallProps> = (props: EmploymentDisplaySmallProps) => {
     const [expanded, setExpanded] = React.useState<boolean>(false);
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
 
     return (
         <FramerTimelineItem
@@ -76,33 +74,31 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
                             className={styles.employment_timeline_entry_employer}>
                     {props.employment.employer}
                 </Typography>
-                {!mq_xs && !mq_sm &&
-                    <Typography variant="body1"
-                                className={styles.employment_timeline_entry_description}>
-                        {props.employment.description}
-                    </Typography>}
-                {!mq_xs && !mq_sm && <Collapse
+                <Collapse
                     in={expanded}
                     timeout={"auto"}
                     unmountOnExit
                 >
+                    <Typography variant="body2"
+                                className={styles.employment_timeline_entry_description_small}>
+                        {props.employment.description}
+                    </Typography>
                     <ul style={{color: "white"}}>
                         {props.employment.descriptionList?.map((entry: string, idx: number) =>
                             <li>
                                 <Typography variant="body2" key={`employment-desc-list-${idx}`}
-                                            className={styles.employment_timeline_entry_description}>
+                                            className={styles.employment_timeline_entry_description_small}>
                                     {entry}
                                 </Typography>
                             </li>
                         )}
                     </ul>
-                </Collapse>}
-                {!mq_xs && !mq_sm && props.employment.descriptionList && props.employment.descriptionList.length > 0 &&
-                    <Button variant={"text"} style={{color: "#d5e3e3", paddingLeft: 0}} onClick={() => setExpanded(!expanded)}>
-                        {expanded ? "Show Less" : "Show More"}
-                    </Button>}
+                </Collapse>
+                <Button variant={"text"} style={{color: "#d5e3e3", paddingLeft: 0}} onClick={() => setExpanded(!expanded)}>
+                    {expanded ? "Show Less" : "Show More"}
+                </Button>
             </TimelineContent>
         </FramerTimelineItem>
     );
 };
-export default EmploymentDisplay;
+export default EmploymentDisplaySmall;

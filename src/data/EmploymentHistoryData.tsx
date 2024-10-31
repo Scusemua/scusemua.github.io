@@ -54,7 +54,7 @@ const JuniorDeveloper: Employment = {
     </Avatar>)
 }
 
-const UndergraduateTeachingAssitant: Employment = {
+const UndergraduateTeachingAssistant: Employment = {
     start_month: "Jan",
     start_year: 2018,
     end_month: "Dec",
@@ -63,7 +63,7 @@ const UndergraduateTeachingAssitant: Employment = {
     employer: "George Mason University",
     description: "Assisted students with assignments and projects. Held review sessions for exams.",
     icon: (<Avatar style={{width: 45, height: 45}}>
-        <TeacherIcon fill={"#fff"} transform="scale(1.25, 1.25)"/>
+        <TeacherIcon fill={"#fff"} transform="scale(1.125, 1.125)"/>
     </Avatar>)
 }
 
@@ -87,7 +87,7 @@ const UndergraduateResearchAssistant: Employment = {
     end_year: 2020,
     title: "Undergraduate Research Assistant",
     employer: "George Mason University",
-    description: "Conducting research under the direction of Dr. Yue Cheng (University of Virginia).",
+    description: "Conducted research under the direction of Dr. Yue Cheng (University of Virginia).",
     icon: (<Avatar style={{width: 45, height: 45}}>
         <DeveloperMonitorIcon fill={"#fff"} transform="scale(1.1, 1.1)"/>
     </Avatar>)
@@ -106,6 +106,6 @@ const GraduateResearchAssistant: Employment = {
 }
 
 export const EmploymentHistoryData: Employment[] = [
-    // SummerInternship, JuniorDeveloper, UndergraduateTeachingAssitant, MicrosoftResearchIntern, UndergraduateResearchAssistant, GraduateResearchAssistant
-    GraduateResearchAssistant, UndergraduateResearchAssistant, MicrosoftResearchIntern, UndergraduateTeachingAssitant, JuniorDeveloper, SummerInternship
+    // SummerInternship, JuniorDeveloper, UndergraduateTeachingAssistant, MicrosoftResearchIntern, UndergraduateResearchAssistant, GraduateResearchAssistant
+    GraduateResearchAssistant, UndergraduateResearchAssistant, MicrosoftResearchIntern, UndergraduateTeachingAssistant, JuniorDeveloper, SummerInternship
 ];

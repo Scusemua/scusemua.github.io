@@ -87,13 +87,10 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             <div className={styles.headshot_header_text_bio_container}>
                 <div className={styles.headshot_header_text_bio_text}>
                     <Typography variant={"h6"}>
-                        I'm a 3rd year PhD candidate in CS at
-                        <Box component="span" color={"#49B075"} fontWeight='fontWeightBold'> George Mason
-                            University. </Box>
-                        My advisors are
-                        <Box component="span" fontWeight='fontWeightBold' color={"#ff2022"} fontSize="1.35rem"> Dr. Yue
+                        I'm a 3rd year PhD candidate in CS at George Mason University. My advisors are
+                        <Box component="span" fontWeight='fontWeightBold' color={"#ffffff"} fontSize="1.35rem"> Dr. Yue
                             Cheng</Box> (University of Virginia) and
-                        <Box component="span" color={"#ff2022"} fontWeight='fontWeightBold' fontSize="1.35rem"> Dr.
+                        <Box component="span" color={"#ffffff"} fontWeight='fontWeightBold' fontSize="1.35rem"> Dr.
                             Songqing
                             Chen </Box>
                         (GMU).
