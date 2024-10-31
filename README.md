@@ -8,7 +8,7 @@ This website serves as an interactive portfolio where I display my research, ski
 
 ## ⚙️ Technologies Used
 
-- **Frontend**: [ReactJS](https://reactjs.org/) - A JavaScript library for building user interfaces.
+- **Frontend**: [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
 - **UI Library**: [Material UI](https://mui.com/) - A popular React UI framework that provides pre-designed components.
 - **Backend**: [Next.js](https://nextjs.org/) - A React framework that offers server-side rendering and static site generation.
 
