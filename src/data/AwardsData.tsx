@@ -19,13 +19,13 @@ const DistinguishedAcademicAchievement2020: AwardData = {
     description: "For excellent academic performance.",
     additionalInfoHeader: <b>Courses Taken During Award Period:</b>,
     additionalInfo: [
-        "CS571 - Operating Systems (Graduate Level)",
-        "CS550 - Database Systems (Graduate Level)",
-        "CS498 - Independent Study in CS (Wukong)",
-        "CS475 - Concurrent & Distributed Systems",
-        "CS465 - Computer Systems Architecture",
-        "CS321 - Software Engineering",
-        "CS306 - Synthesis of Ethics & Law",
+        "CS 571 - Operating Systems (Graduate Level)",
+        "CS 550 - Database Systems (Graduate Level)",
+        "CS 498 - Independent Study in CS (Wukong)",
+        "CS 475 - Concurrent & Distributed Systems",
+        "CS 465 - Computer Systems Architecture",
+        "CS 321 - Software Engineering",
+        "CS 306 - Synthesis of Ethics & Law",
     ]
 }
 
@@ -44,16 +44,16 @@ const DistinguishedAcademicAchievement2021: AwardData = {
     description: "For excellent academic performance.",
     additionalInfoHeader: <b>Courses Taken During Award Period (All Graduate Level):</b>,
     additionalInfo: [
-        "CS799 - Master's Thesis",
-        "CS747 - Deep Learning",
-        "CS700 - Research in CS",
-        "CS697 - Independent Reading & Research",
-        "CS687 - Advanced Artificial Intelligence",
-        "CS684 - Graph Algorithms",
-        "CS600 - Theory of Computation",
-        "CS583 - Analysis of Algorithms",
-        "CS580 - Intro Artificial Intelligence",
-        "CS555 - Computer Communication & Networking",
+        "CS 799 - Master's Thesis",
+        "CS 747 - Deep Learning",
+        "CS 700 - Research in CS",
+        "CS 697 - Independent Reading & Research",
+        "CS 687 - Advanced Artificial Intelligence",
+        "CS 684 - Graph Algorithms",
+        "CS 600 - Theory of Computation",
+        "CS 583 - Analysis of Algorithms",
+        "CS 580 - Intro Artificial Intelligence",
+        "CS 555 - Computer Communication & Networking",
     ]
 }
 
