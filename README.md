@@ -2,6 +2,8 @@
 
 Welcome to my personal portfolio website! This project showcases my work, experience, and research as a Computer Science PhD student at George Mason University, specializing in cloud and serverless computing.
 
+You can view the live website [here](https://scusemua.github.io/).
+
 ## 🌐 Project Overview
 
 This website serves as an interactive portfolio where I display my research, skills, and personal projects. It aims to provide a seamless user experience through a modern UI and smooth navigation.
