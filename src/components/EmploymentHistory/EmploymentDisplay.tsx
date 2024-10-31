@@ -93,8 +93,8 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
                         </Typography>)}
                 </Collapse>}
                 {!mq_xs && !mq_sm && props.employment.descriptionList && props.employment.descriptionList.length > 0 &&
-                    <Button variant={"text"} style={{color: "#d5e3e3"}} onClick={() => setExpanded(!expanded)}>
-                        {expanded ? "Hide" : "Show More"}
+                    <Button variant={"text"} style={{color: "#d5e3e3", paddingLeft: 0}} onClick={() => setExpanded(!expanded)}>
+                        {expanded ? "Show Less" : "Show More"}
                     </Button>}
             </TimelineContent>
         </FramerTimelineItem>

@@ -5,8 +5,8 @@
   transition: height 0.5s ease;
 
   &_card {
-    justify-content: space-between;
     transition: height 0.5s ease; /* Smooth height transition */
+    width: 100%;
   }
 
   &_header_text {
@@ -33,6 +33,7 @@
 .project {
   text-align: center;
   transition: height 0.5s ease;
+  width: 100%;
 
   &_header_text {
     height: 100%;

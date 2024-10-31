@@ -79,16 +79,35 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
                     timeout={"auto"}
                     unmountOnExit
                 >
-                    {props.award.additionalInfo?.map((entry: string | ReactNode, idx: number) =>
-                        <Typography variant="body2"
-                                    key={`award-desc-list-${idx}`}
-                                    className={styles.awards_timeline_entry_description}>
-                            {entry}
-                        </Typography>)}
+                    <div>
+                        {props.award.additionalInfoHeader &&
+                            <Typography variant="body2"
+                                        key={`award-${props.award.name}-desc-additional-header`}
+                                        className={styles.awards_timeline_entry_description}>
+                                {props.award.additionalInfoHeader}
+                            </Typography>
+                        }
+                        <ul style={{color: "white"}}>
+                            {props.award.additionalInfo?.map((entry: string | ReactNode, idx: number) =>
+                                <li>
+                                    <Typography variant="body2"
+                                                key={`award-desc-list-${idx}`}
+                                                className={styles.awards_timeline_entry_description}>
+                                        {entry}
+                                    </Typography>
+                                </li>)}
+                        </ul>
+                    </div>
                 </Collapse>}
                 {!mq_xs && !mq_sm && props.award.additionalInfo && props.award.additionalInfo.length > 0 &&
-                    <Button variant={"text"} style={{color: "#d5e3e3"}} onClick={() => setExpanded(!expanded)}>
-                        {expanded ? "Hide" : "Show More"}
+                    <Button
+                        variant={"text"}
+                        style={{
+                            color: "#d5e3e3",
+                            paddingLeft: 0,
+                        }}
+                        onClick={() => setExpanded(!expanded)}>
+                        {expanded ? "Show Less" : "Show More"}
                     </Button>}
             </TimelineContent>
         </FramerTimelineItem>

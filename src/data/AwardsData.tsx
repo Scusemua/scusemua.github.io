@@ -9,6 +9,7 @@ export interface AwardData {
     date: string;
     description?: string | ReactNode;
     additionalInfo?: (string | ReactNode)[];
+    additionalInfoHeader?: string | ReactNode;
     icon?: ReactNode;
 }
 
@@ -16,15 +17,15 @@ const DistinguishedAcademicAchievement2020: AwardData = {
     name: "Distinguished Academic Achievement",
     date: "May 2020",
     description: "For excellent academic performance.",
+    additionalInfoHeader: <b>Courses Taken During Award Period:</b>,
     additionalInfo: [
-        <b>Courses Taken During Award Period:</b>,
-        "» CS571 - Operating Systems (Graduate Level)",
-        "» CS550 - Database Systems (Graduate Level)",
-        "» CS498 - Independent Study in CS (Wukong)",
-        "» CS475 - Concurrent & Distributed Systems",
-        "» CS465 - Computer Systems Architecture",
-        "» CS321 - Software Engineering",
-        "» CS306 - Synthesis of Ethics & Law",
+        "CS571 - Operating Systems (Graduate Level)",
+        "CS550 - Database Systems (Graduate Level)",
+        "CS498 - Independent Study in CS (Wukong)",
+        "CS475 - Concurrent & Distributed Systems",
+        "CS465 - Computer Systems Architecture",
+        "CS321 - Software Engineering",
+        "CS306 - Synthesis of Ethics & Law",
     ]
 }
 
@@ -41,25 +42,25 @@ const DistinguishedAcademicAchievement2021: AwardData = {
     name: "Distinguished Academic Achievement",
     date: "May 2021",
     description: "For excellent academic performance.",
+    additionalInfoHeader: <b>Courses Taken During Award Period (All Graduate Level):</b>,
     additionalInfo: [
-        <b>Courses Taken During Award Period (All Graduate Level):</b>,
-        "» CS799 - Master's Thesis",
-        "» CS747 - Deep Learning",
-        "» CS700 - Research in CS",
-        "» CS697 - Independent Reading & Research",
-        "» CS687 - Advanced Artificial Intelligence",
-        "» CS684 - Graph Algorithms",
-        "» CS600 - Theory of Computation",
-        "» CS583 - Analysis of Algorithms",
-        "» CS580 - Intro Artificial Intelligence",
-        "» CS555 - Computer Communication & Networking",
+        "CS799 - Master's Thesis",
+        "CS747 - Deep Learning",
+        "CS700 - Research in CS",
+        "CS697 - Independent Reading & Research",
+        "CS687 - Advanced Artificial Intelligence",
+        "CS684 - Graph Algorithms",
+        "CS600 - Theory of Computation",
+        "CS583 - Analysis of Algorithms",
+        "CS580 - Intro Artificial Intelligence",
+        "CS555 - Computer Communication & Networking",
     ]
 }
 
 const GMUPresidentialScholar: AwardData = {
     name: "GMU CS Presidential Scholarship",
     date: "May 2021",
-    description: "Prestigious scholarship awarded to at-most 2 new PhD students per academic year (within a given PhD program). Awards are merit-based and require a strong faculty nomination.",
+    description: "Prestigious, merit-based scholarship awarded to at-most 2 students per academic year (within a PhD program). Requires a strong faculty nomination.",
     icon: (<Avatar style={{width: 45, height: 45}}>
         <EmojiEventsIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.1, 1.1)"/>
     </Avatar>)

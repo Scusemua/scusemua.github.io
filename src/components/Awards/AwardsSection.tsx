@@ -25,7 +25,7 @@ const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>(
             <Typography variant={"h2"} className={styles.awards_header_text} key={"awards_section_header"}>
                 Awards
             </Typography>
-            <Timeline position="alternate" className={styles.awards_timeline} key={"awards_section_timeline"}>
+            <Timeline position="right" className={styles.awards_timeline} key={"awards_section_timeline"}>
                 <div className={styles.awards_timeline_background} key={"awards_section_timeline_content_wrapper"}>
                     {mq_xs && <div style={{paddingTop: "2rem"}}/>}
                     {AwardsData.map((award: AwardData) => <AwardDisplay key={`award_${award.name}_${award.date}_component`} award={award}/>)}`

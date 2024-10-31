@@ -39,7 +39,8 @@ const cardVariant = {
     }
 }
 
-interface ProjectsProps {}
+interface ProjectsProps {
+}
 
 // const Projects: React.FunctionComponent = () => {
 const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsProps, ref: React.ForwardedRef<HTMLInputElement>) => {
@@ -82,27 +83,35 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                 ))}
             </Grid2>)
         } else {
-            return (<motion.div variants={cardContainerVariant}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{once: true, amount: 0.125, margin: getAnimMargin()}}
-                                onViewportEnter={() => console.log("Project Section has entered viewport")}>
-                <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
-                       className={styles.project_container} sx={{marginBottom: "4rem"}}>
-                    {projects.map((project: Project) => {
-                        return (<Grid2 size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 4, 'xl': 4}}
-                                       component={motion.div} variants={cardVariant} sx={{justifyContent: 'center'}}
-                                       whileHover={{
-                                           scale: 1.05,
-                                       }}
-                                       key={`project-${project.name}-display`}>
-                            <div style={{overflow:"hidden", display: "inline-block"}}>
-                                <ProjectDisplay project={project}/>
-                            </div>
-                        </Grid2>);
-                    })}
-                </Grid2>
-            </motion.div>);
+            return (
+                <motion.div variants={cardContainerVariant}
+                            initial="hidden"
+                            whileInView="visible"
+                            style={{width: "100%"}}
+                            viewport={{once: true, amount: 0.125, margin: getAnimMargin()}}
+                            onViewportEnter={() => console.log("Project Section has entered viewport")}>
+                    <Grid2
+                        container
+                        rowSpacing={4}
+                        columnSpacing={8}
+                        className={styles.project_container}
+                        sx={{marginBottom: "4rem"}}
+                    >
+                        {projects.map((project: Project) => {
+                            return (<Grid2 size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 4, 'xl': 4}}
+                                           component={motion.div} variants={cardVariant} sx={{justifyContent: 'center'}}
+                                           whileHover={{
+                                               scale: 1.05,
+                                           }}
+                                           key={`project-${project.name}-display`}>
+                                <div style={{overflow: "hidden", width: "90%"}}>
+                                    <ProjectDisplay project={project}/>
+                                </div>
+                            </Grid2>);
+                        })}
+                    </Grid2>
+                </motion.div>
+            );
         }
     }
 
