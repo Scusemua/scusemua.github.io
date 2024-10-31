@@ -38,9 +38,9 @@ export default function Home() {
                     skillsRef={skillsRef} employmentHistoryRef={employmentRef} awardRef={awardRef} key={"navbar"}/>
             <Headshot ref={headshotRef} key={"headshot_section"}/>
             <Projects ref={projectRef} key={"projects_section"}/>
-            <EmploymentHistory ref={employmentRef} key={"employment_section"}/>
-            <EducationSection ref={educationRef} key={"education_section"}/>
             <AwardsSection ref={awardRef} key={"awardsSection"}/>
+            <EducationSection ref={educationRef} key={"education_section"}/>
+            <EmploymentHistory ref={employmentRef} key={"employment_section"}/>
             <SkillsSection ref={skillsRef} key={"skills_section"}/>
             <CopyrightNotice key={"copyright_section"}/>
         </div>

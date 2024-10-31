@@ -142,9 +142,9 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                            sx={{alignItems: "center", justifyContent: "center", overflow: "hidden"}}>
                         {headshotButton}
                         {projectsButton}
-                        {getEmploymentButton(mq_xs ? "Work" : "Employment")}
-                        {getEducationButton(mq_xs ? "School" : "Education")}
                         {awardsButton}
+                        {getEducationButton(mq_xs ? "School" : "Education")}
+                        {getEmploymentButton(mq_xs ? "Work" : "Employment")}
                         {!mq_xs && skillsButton}
                     </Stack>
                 </Toolbar>
