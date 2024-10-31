@@ -107,5 +107,5 @@ const GraduateResearchAssistant: Employment = {
 
 export const EmploymentHistoryData: Employment[] = [
     // SummerInternship, JuniorDeveloper, UndergraduateTeachingAssistant, MicrosoftResearchIntern, UndergraduateResearchAssistant, GraduateResearchAssistant
-    GraduateResearchAssistant, UndergraduateResearchAssistant, MicrosoftResearchIntern, UndergraduateTeachingAssistant, JuniorDeveloper, SummerInternship
+    GraduateResearchAssistant, MicrosoftResearchIntern, UndergraduateResearchAssistant, UndergraduateTeachingAssistant, JuniorDeveloper, SummerInternship
 ];
