@@ -1,17 +1,17 @@
 import styles from "@src/styles/components/Projects.module.scss";
 
-import React, {LegacyRef, ReactElement, ReactNode} from "react";
+import React, {ReactElement, ReactNode} from "react";
 
 import {
-    Badge, Button,
+    Badge,
     Card, CardActionArea,
     CardActions,
-    CardContent, CardHeader,
+    CardHeader,
     CardMedia,
     Chip, Collapse,
-    Grid2, IconButtonProps,
+    IconButtonProps,
     Stack,
-    Tooltip, useMediaQuery
+    Tooltip
 } from "@mui/material";
 
 import Typography from '@mui/material/Typography';
@@ -22,12 +22,9 @@ import ArticleIcon from '@mui/icons-material/Article';
 import WebIcon from '@mui/icons-material/Web';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import TerminalIcon from '@mui/icons-material/Terminal';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Image from "next/image";
-import {styled} from "@mui/styles";
+import PresentationIcon from "@icons/presentation";
 
 interface ProjectProps {
     project: Project;
@@ -167,6 +164,13 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     <WebIcon fontSize="inherit"/>
                 </IconButton>
             </Tooltip>}
+            {props.project.presentation_url && props.project.presentation_url !== "" &&
+                <Tooltip title={"Paper Presentation"} arrow>
+                    <IconButton size="large"
+                                onClick={() => openInNewTab(props.project.presentation_url)}>
+                        <PresentationIcon fill={"#757575"} fontSize="inherit"/>
+                    </IconButton>
+                </Tooltip>}
             {getPaperLinks()}
             <IconButton size="large" style={{marginLeft: "auto"}}
                         onClick={() => onClickCard()}>

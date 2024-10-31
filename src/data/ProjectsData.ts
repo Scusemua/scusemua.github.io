@@ -11,6 +11,7 @@ export interface Project {
     venue: string | string[];
     repo_url: string;
     project_website_url: string;
+    presentation_url?: string;
     image: string;
     keywords: string[];
     arxiv_links: string[];
@@ -28,6 +29,7 @@ export const WukongProject: Project = {
     keywords: ["serverless", "dag", "linear algebra", "task scheduling", "distributed", "python", "data analytics"],
     builtWith: ["AWS", "AWS Lambda", "Python", "Dask"],
     arxiv_links: ["https://arxiv.org/abs/1910.05896", "https://arxiv.org/abs/2010.07268"],
+    presentation_url: "https://youtu.be/W0tENnx_58I",
     status: 'inactive',
 }
 
