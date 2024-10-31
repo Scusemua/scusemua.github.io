@@ -74,7 +74,7 @@ const MicrosoftResearchIntern: Employment = {
     employer: "Microsoft Research Lab - Redmond",
     description: "Under the mentorship of Dr. Rodrigo Fonseca, assisted in the design, development, testing, and evaluation of new a microsecond-latency serverless stack.",
     icon: (<Avatar style={{width: 45, height: 45}}>
-        <MicrosoftIcon transform="scale(-1.5, 1.5)"/>
+        <MicrosoftIcon transform="scale(-1.65, 1.65)" style={{margin: "0 auto"}}/>
     </Avatar>)
 }
 

@@ -37,7 +37,7 @@ const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>(
             <Timeline position="right" className={styles.awards_timeline} key={"awards_section_timeline"}>
                 <div className={styles.awards_timeline_background} key={"awards_section_timeline_content_wrapper"}>
                     {mq_xs && <div style={{paddingTop: "2rem"}}/>}
-                    {AwardsData.map((award: AwardData) => getAwardDisplay(award))}`
+                    {AwardsData.map((award: AwardData) => getAwardDisplay(award))}
                 </div>
                 {mq_xs && <div style={{paddingBottom: "2rem"}}/>}
             </Timeline>
