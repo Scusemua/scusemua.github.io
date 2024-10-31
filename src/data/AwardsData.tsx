@@ -28,7 +28,7 @@ const DistinguishedUndergradResearch: AwardData = {
 
 const DistinguishedAcademicAchievement2021: AwardData = {
     name: "Distinguished Academic Achievement",
-    date: "May 2020",
+    date: "May 2021",
     description: "For excellent academic performance (i.e., maintaining a 4.0 GPA)."
 }
 

@@ -37,7 +37,7 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
     return (
         <FramerTimelineItem
             className={styles.employment_timeline_entry}
-            key={`motion-div-wrapper-props.award-${props.award.name}`}
+            key={`motion-div-wrapper-props.award-${props.award.name}_${props.award.date}`}
             variants={contentVariant}
             initial="hidden"
             whileInView="visible"

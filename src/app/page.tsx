@@ -40,7 +40,7 @@ export default function Home() {
             <Projects ref={projectRef} key={"projects_section"}/>
             <EmploymentHistory ref={employmentRef} key={"employment_section"}/>
             <EducationSection ref={educationRef} key={"education_section"}/>
-            <AwardsSection ref={awardRef} key={"awards_section"}/>
+            <AwardsSection ref={awardRef} key={"awardsSection"}/>
             <SkillsSection ref={skillsRef} key={"skills_section"}/>
             <CopyrightNotice key={"copyright_section"}/>
         </div>

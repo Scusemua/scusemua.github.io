@@ -99,7 +99,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
 
     const awardsButton = (
         <Button
-            key={"awards_section"}
+            key={"awards_section_button"}
             onClick={() => {
                 if (props.educationRef?.current) {
                     console.log("Scrolling to Awards section.");
