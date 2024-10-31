@@ -8,6 +8,6 @@ const FramerTimelineItemComponent = React.forwardRef((props: TimelineItemProps, 
     <TimelineItem {...props} ref={ref} />
 ));
 
-const FramerTimelineItem = motion(FramerTimelineItemComponent);
+const FramerTimelineItem = motion.create(FramerTimelineItemComponent);
 
 export default FramerTimelineItem;

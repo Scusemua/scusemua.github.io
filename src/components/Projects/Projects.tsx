@@ -119,7 +119,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
 
             <Typography variant={"h3"}
                         className={styles.project_section_subheader_text}>
-                Previous Research Projects
+                Past Research Projects
             </Typography>
 
             {getProjects(PastProjects)}

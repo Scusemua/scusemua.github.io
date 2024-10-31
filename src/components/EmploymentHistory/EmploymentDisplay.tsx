@@ -32,20 +32,7 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
 
-    const [backgroundColor, setBackgroundColor] = React.useState<string>("");
-
     const [expanded, setExpanded] = React.useState<boolean>(false);
-
-    const getStyle = () => {
-        if (props.employment.descriptionList && props.employment.descriptionList.length > 0) {
-            return {
-                "background": backgroundColor,
-                "cursor": "pointer"
-            };
-        }
-
-        return {}
-    }
 
     return (
         <FramerTimelineItem
@@ -58,6 +45,7 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
             onViewportEnter={() => console.log("Education Section has entered viewport")}
         >
             <TimelineOppositeContent
+                key={`motion-div-wrapper-props.employment-${props.employment.title}-content-opposite`}
                 sx={{
                     typography: {xs: 'body1', sm: 'h6', md: "h6", lg: "h6", xl: "h6"},
                     margin: "auto 0",
@@ -67,14 +55,19 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
             >
                 {props.employment.start_month}, {props.employment.start_year} - {props.employment.end_month}{props.employment.end_year && `, ${props.employment.end_year}`}
             </TimelineOppositeContent>
-            <TimelineSeparator>
-                <TimelineConnector/>
-                <TimelineDot>
+            <TimelineSeparator
+                key={`motion-div-wrapper-props.employment-${props.employment.title}-separator`}>
+                <TimelineConnector
+                    key={`motion-div-wrapper-props.employment-${props.employment.title}-connector1`}/>
+                <TimelineDot
+                    key={`motion-div-wrapper-props.employment-${props.employment.title}-dot`}>
                     {props.employment.icon || <FastfoodIcon/>}
                 </TimelineDot>
-                <TimelineConnector/>
+                <TimelineConnector
+                    key={`motion-div-wrapper-props.employment-${props.employment.title}-connector2`}/>
             </TimelineSeparator>
-            <TimelineContent>
+            <TimelineContent
+                key={`motion-div-wrapper-props.employment-${props.employment.title}-content`}>
                 <Typography sx={{typography: {xs: 'body1', sm: 'h5', md: "h5", lg: "h4", xl: "h4"}}}
                             className={styles.employment_timeline_entry_title}>
                     {props.employment.title}
@@ -92,18 +85,8 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
                     in={expanded}
                     timeout={"auto"}
                     unmountOnExit
-                    // style={getStyle()}
-                    // onClick={() => {
-                    //     setExpanded(!expanded)
-                    // }}
-                    // onMouseEnter={() => {
-                    //     setBackgroundColor("rgba(16, 16, 16, 0.25)")
-                    // }}
-                    // onMouseLeave={() => {
-                    //     setBackgroundColor("")
-                    // }}
                 >
-                    {props.employment.descriptionList?.map((entry: string) => <Typography variant="body2"
+                    {props.employment.descriptionList?.map((entry: string, idx: number) => <Typography variant="body2" key={`employment-desc-list-${idx}`}
                                                                                           className={styles.employment_timeline_entry_description}>
                         {entry}
                     </Typography>)}

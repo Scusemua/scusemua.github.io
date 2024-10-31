@@ -8,6 +8,6 @@ const FramerBoxComponent = React.forwardRef((props: BoxProps, ref) => (
     <MuiBox {...props} ref={ref} />
 ));
 
-const FramerBox = motion(FramerBoxComponent);
+const FramerBox = motion.create(FramerBoxComponent);
 
 export default FramerBox;

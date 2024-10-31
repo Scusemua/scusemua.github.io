@@ -19,6 +19,7 @@ interface NavbarProps {
     employmentHistoryRef: React.RefObject<HTMLInputElement> | undefined;
     educationRef: React.RefObject<HTMLInputElement> | undefined;
     skillsRef: React.RefObject<HTMLInputElement> | undefined;
+    awardRef: React.RefObject<HTMLInputElement> | undefined;
 }
 
 const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
@@ -96,6 +97,25 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
         </Button>
     );
 
+    const awardsButton = (
+        <Button
+            key={"awards_section"}
+            onClick={() => {
+                if (props.educationRef?.current) {
+                    console.log("Scrolling to Awards section.");
+                    props.educationRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
+                }
+            }}
+            sx={{my: 2, color: 'white', display: 'block'}}
+        >
+            <Typography
+                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
+            >
+                <b>Awards</b>
+            </Typography>
+        </Button>
+    );
+
     const skillsButton = (
         <Button
             key={"skills_section"}
@@ -124,6 +144,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                         {projectsButton}
                         {getEmploymentButton(mq_xs ? "Work" : "Employment")}
                         {getEducationButton(mq_xs ? "School" : "Education")}
+                        {awardsButton}
                         {!mq_xs && skillsButton}
                     </Stack>
                 </Toolbar>

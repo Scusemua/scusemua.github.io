@@ -23,24 +23,23 @@ interface EmploymentHistoryProps {
 }
 
 const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((_props: EmploymentHistoryProps, ref: React.ForwardedRef<HTMLInputElement>) => {
-    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_sm = useMediaQuery(theme.breakpoints.down('sm'));
 
     const getMaxWidth = () => {
-        return (mq_xs || mq_sm) ? "100%" : "85%";
+        return (mq_sm) ? "100%" : "85%";
     }
 
     return (
-        <div className={`${styles.employment}`} id="skills" ref={ref} style={{maxWidth: getMaxWidth()}}>
-            <Typography variant={"h2"} className={styles.employment_header_text}>
+        <div className={`${styles.employment}`} id="skills" ref={ref} key={"employment_history_section"} style={{maxWidth: getMaxWidth()}}>
+            <Typography variant={"h2"} className={styles.employment_header_text} key={"employment_history_header"}>
                 Employment History
             </Typography>
-            <Timeline position="alternate" className={styles.employment_timeline}>
-                <div className={styles.employment_timeline_background}>
-                    {mq_xs && <div style={{paddingTop: "2rem"}}/>}
-                    {EmploymentHistoryData.map((employment: Employment) => <EmploymentDisplay employment={employment}/>)}
+            <Timeline position="alternate" className={styles.employment_timeline} key={"employment_history_section_timeline"}>
+                <div className={styles.employment_timeline_background} key={"employment_history_section_timeline_background"}>
+                    {mq_sm && <div style={{paddingTop: "2rem"}}/>}
+                    {EmploymentHistoryData.map((employment: Employment, idx: number) => <EmploymentDisplay key={`employment_display_${employment.title}_${idx}`} employment={employment}/>)}
                 </div>
-                {mq_xs && <div style={{paddingBottom: "2rem"}}/>}
+                {mq_sm && <div style={{paddingBottom: "2rem"}} key={"employment_history_section_timeline_padding_bottom"}/>}
             </Timeline>
         </div>
     );

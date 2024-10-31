@@ -1,0 +1,43 @@
+.awards {
+  text-align: center;
+  margin: 0 auto;
+
+  &_header_text {
+    padding-top: 4rem;
+    height: 100%;
+    position: relative;
+    padding-bottom: 2rem;
+    color: #EFF6EE;
+  }
+
+  &_timeline {
+    margin: 0 auto;
+    width: 100%;
+
+    &_background {
+      background: rgba(16, 16, 16, 0.25);
+      border-radius: 6rem;
+      padding: 2rem 0;
+      margin: 0 auto;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+      align-self: center;
+    }
+
+    &_entry {
+      &_title {
+        color: #ffffff;
+      }
+
+      &_employer {
+        color: #e0dbdb;
+      }
+
+      &_description {
+        color: #cecece;
+        margin: 0 auto;
+      }
+    }
+  }
+}
