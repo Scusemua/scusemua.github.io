@@ -1,13 +1,13 @@
 import {ReactElement} from "react";
 import {Avatar} from "@mui/material";
-import Image from "next/image";
-import styles from "@src/styles/components/Headshot.module.scss";
-import headshot from "@images/headshot.jpg";
+import MicrosoftIcon from '@mui/icons-material/Microsoft';
 import * as React from "react";
 import DeveloperIcon from "@icons/developer";
+import SchoolIcon from '@mui/icons-material/School';
 import DeveloperMonitorIcon from "@icons/developer_monitor";
 import DeveloperDeskIcon from "@icons/developer_desk";
 import TeacherIcon from "@icons/teacher";
+import OldResearcherIcon from "@icons/old_researcher";
 
 export interface Employment {
     start_month: string;
@@ -31,7 +31,7 @@ const SummerInternship: Employment = {
     employer: "BRTRC Federal Solutions",
     description: "Worked as a development team member to extend a .NET desktop application.",
     icon: (<Avatar style={{width: 45, height: 45}}>
-        <DeveloperMonitorIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.1, 1.1)"/>
+        <DeveloperIcon fill={"#fff"} transform="scale(1.1, 1.1)"/>
     </Avatar>)
 }
 
@@ -50,7 +50,7 @@ const JuniorDeveloper: Employment = {
         "Implemented a system for manipulating, serializing, and viewing 3D models.",
     ],
     icon: (<Avatar style={{width: 45, height: 45}}>
-        <DeveloperDeskIcon fill={"#fff"} stroke={"#fff"} transform="scale(-1.25, 1.25)"/>
+        <DeveloperDeskIcon fill={"#fff"} transform="scale(-1.25, 1.25)"/>
     </Avatar>)
 }
 
@@ -63,7 +63,7 @@ const UndergraduateTeachingAssitant: Employment = {
     employer: "George Mason University",
     description: "Assisted students with assignments and projects. Held review sessions for exams.",
     icon: (<Avatar style={{width: 45, height: 45}}>
-        <TeacherIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.25, 1.25)"/>
+        <TeacherIcon fill={"#fff"} transform="scale(1.25, 1.25)"/>
     </Avatar>)
 }
 
@@ -76,7 +76,7 @@ const MicrosoftResearchIntern: Employment = {
     employer: "Microsoft Research Lab - Redmond",
     description: "Under the mentorship of Dr. Rodrigo Fonseca, assisted in the design, development, testing, and evaluation of new microsecond-latency serverless stack.",
     icon: (<Avatar style={{width: 45, height: 45}}>
-        <DeveloperIcon fill={"#fff"} stroke={"#fff"} transform="scale(-1.1, 1.1)"/>
+        <MicrosoftIcon transform="scale(-1.5, 1.5)"/>
     </Avatar>)
 }
 
@@ -89,7 +89,7 @@ const UndergraduateResearchAssistant: Employment = {
     employer: "George Mason University",
     description: "Conducting research under the direction of Dr. Yue Cheng (University of Virginia).",
     icon: (<Avatar style={{width: 45, height: 45}}>
-        <DeveloperMonitorIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.1, 1.1)"/>
+        <DeveloperMonitorIcon fill={"#fff"} transform="scale(1.1, 1.1)"/>
     </Avatar>)
 }
 
@@ -101,7 +101,7 @@ const GraduateResearchAssistant: Employment = {
     employer: "George Mason University",
     description: "Conducting research under the direction of Dr. Yue Cheng (University of Virginia) and Dr. Songqing Chen (George Mason University).",
     icon: (<Avatar style={{width: 45, height: 45}}>
-        <DeveloperMonitorIcon fill={"#fff"} stroke={"#fff"} transform="scale(-1.1, 1.1)"/>
+        <DeveloperMonitorIcon fill={"#fff"} transform="scale(-1.1, 1.1)"/>
     </Avatar>)
 }
 
