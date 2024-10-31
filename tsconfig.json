@@ -28,6 +28,9 @@
       ],
       "@images/*": [
         "public/images/*"
+      ],
+      "@icons/*": [
+        "public/icons/*"
       ]
     },
     "importHelpers": true,

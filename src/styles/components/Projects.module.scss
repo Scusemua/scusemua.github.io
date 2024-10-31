@@ -1,17 +1,25 @@
 .project_section {
   text-align: center;
-  max-width: 1920px;
+  max-width: 95%;
   margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  transition: height 0.5s ease;
 
   &_card {
-    max-width: 1280px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
+    transition: height 0.5s ease; /* Smooth height transition */
+    width: 100%;
   }
 
   &_header_text {
     padding-top: 4rem;
+    height: 100%;
+    position: relative;
+    color: #EFF6EE;
+  }
+
+  &_subheader_text {
+    padding-top: 2rem;
     height: 100%;
     position: relative;
     color: #EFF6EE;
@@ -21,10 +29,13 @@
 .project_container {
   padding: 1rem;
   margin: 1rem;
+  height: auto;
 }
 
 .project {
   text-align: center;
+  transition: height 0.5s ease;
+  width: 100%;
 
   &_header_text {
     height: 100%;
@@ -38,6 +49,8 @@
 
   &_keywords {
     padding-top: 1.5rem;
+    margin: 0 auto;
+    max-width: 80%;
   }
 
   &_built_with {

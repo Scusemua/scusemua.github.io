@@ -11,6 +11,8 @@ export interface Project {
     venue: string | string[];
     repo_url: string;
     project_website_url: string;
+    presentation_url?: string;
+    presentation_venue?: string;
     image: string;
     keywords: string[];
     arxiv_links: string[];
@@ -20,7 +22,7 @@ export interface Project {
 
 export const WukongProject: Project = {
     name: "Wukong",
-    description: "Wukong is a high-performance and highly scalable locality-aware, serverless DAG engine. Wukong uses serverless computing to accelerate the execution of DAG-based linear algebra, machine learning, and data analytics workloads.",
+    description: "Wukong is a high-performance and highly scalable locality-aware, serverless DAG engine. Wukong uses FaaS to accelerate the execution of linear algebra, machine learning, and data analytics workloads.",
     venue: ["PDSW'19", "SoCC'20"],
     repo_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
     project_website_url: "https://ds2-lab.github.io/Wukong/",
@@ -28,6 +30,8 @@ export const WukongProject: Project = {
     keywords: ["serverless", "dag", "linear algebra", "task scheduling", "distributed", "python", "data analytics"],
     builtWith: ["AWS", "AWS Lambda", "Python", "Dask"],
     arxiv_links: ["https://arxiv.org/abs/1910.05896", "https://arxiv.org/abs/2010.07268"],
+    presentation_url: "https://youtu.be/W0tENnx_58I",
+    presentation_venue: "SoCC'20",
     status: 'inactive',
 }
 
@@ -46,13 +50,13 @@ export const InfiniStoreProject: Project = {
 
 export const LambdaFSProject: Project = {
     name: "λFS",
-    description: "λFS is an elastic, scalable, and high-performance metadata service for large-scale distributed file systems (DFSes). λFS uses a metadata cache built serverless functions to maximize performance & cost efficiency.",
+    description: "λFS is an elastic, scalable, and high-performance metadata service for large-scale distributed file systems (DFSes) that uses a FaaS-based metadata cache to maximize performance & cost efficiency.",
     venue: "ASPLOS'23",
     repo_url: "https://github.com/ds2-lab/LambdaFS",
     project_website_url: "",
     image: lfs_logo,
-    keywords: ["serverless", "distributed file systems", "file storage", "metadata", "elasticity", "fault tolerance"],
-    builtWith: ["AWS", "Google Cloud", "IBM Cloud", "Nuclio", "OpenWhisk", "Java", "C++", "Python", "Golang", "MySQL Cluster NDB", "HopsFS", "HDFS", "Hadoop"],
+    keywords: ["serverless", "distributed file systems", "file storage", "metadata"],
+    builtWith: ["AWS", "Google Cloud", "IBM Cloud", "Nuclio", "OpenWhisk", "Java", "C++", "MySQL Cluster NDB", "HopsFS", "HDFS"],
     arxiv_links: ["https://arxiv.org/abs/2306.11877"],
     status: 'inactive',
 }
@@ -93,6 +97,10 @@ export const FaasPlatformProject: Project = {
     status: 'ongoing',
 }
 
-export const ProjectData: Project[] = [
-    WukongProject, InfiniStoreProject, LambdaFSProject, JupyterNotebookProject, ObliviousInfiniStoreProject, FaasPlatformProject
+export const PastProjects: Project[] = [
+    WukongProject, InfiniStoreProject, LambdaFSProject,
+]
+
+export const CurrentProjects: Project[] = [
+    JupyterNotebookProject, ObliviousInfiniStoreProject, FaasPlatformProject
 ]
