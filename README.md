@@ -27,10 +27,11 @@ I'm a 3rd year PhD candidate in CS at George Mason University. My advisors are D
 
 ## 📂 Project Structure
 
-- **components/** - Contains reusable React components used throughout the site.
-- **pages/** - Holds the main pages of the website, built with Next.js for server-side rendering.
-- **styles/** - Custom CSS and Material UI theme settings.
-- **public/** - Static assets like images, icons, and other media files.
+- **`src/components/`** - Contains reusable React components used throughout the site.
+- **`src/app/`** - Holds the main pages of the website, built with Next.js for server-side rendering.
+- **`src/styles/`** - Custom CSS and Material UI theme settings.
+- **`src/data/`** - Contains modular data definitions of my research projects, employment history, academic awards, etc.
+- **`public/`** - Static assets like images, icons, and other media files.
 
 ## 🔧 Setup and Installation
 
