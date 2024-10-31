@@ -33,7 +33,7 @@ const DistinguishedAcademicAchievement2021: AwardData = {
 }
 
 const GMUPresidentialScholar: AwardData = {
-    name: "George Mason University Presidential Scholarship",
+    name: "GMU CS Presidential Scholarship",
     date: "May 2021",
     description: "Prestigious scholarship awarded to at-most 2 new PhD students per academic year (within a given PhD program). Awards are merit-based and require a strong faculty nomination.",
     icon: (<Avatar style={{width: 45, height: 45}}>
