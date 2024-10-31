@@ -1,6 +1,6 @@
 import styles from "@src/styles/components/Projects.module.scss";
 
-import React, {ReactElement, ReactNode} from "react";
+import React, {LegacyRef, ReactElement, ReactNode} from "react";
 
 import {
     Badge, Button,
@@ -8,8 +8,8 @@ import {
     CardActions,
     CardContent, CardHeader,
     CardMedia,
-    Chip,
-    Grid2,
+    Chip, Collapse,
+    Grid2, IconButtonProps,
     Stack,
     Tooltip, useMediaQuery
 } from "@mui/material";
@@ -22,11 +22,19 @@ import ArticleIcon from '@mui/icons-material/Article';
 import WebIcon from '@mui/icons-material/Web';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import TerminalIcon from '@mui/icons-material/Terminal';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Image from "next/image";
-import theme from "@src/app/theme";
+import {styled} from "@mui/styles";
 
 interface ProjectProps {
     project: Project;
+}
+
+interface ExpandMoreProps extends IconButtonProps {
+    expand: boolean;
 }
 
 const openInNewTab = (url: string | URL | undefined) => {
@@ -37,20 +45,12 @@ const openInNewTab = (url: string | URL | undefined) => {
 const badgeColors: string[] = ["#F05D5E", "#3D3E78"]
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
-    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
-    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
-    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
-    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
-
-    const cardRef = React.useRef(null);
-
     const [expanded, setExpanded] = React.useState<boolean>(false);
 
     const getPaperLinks = () => {
         return <Stack
-            direction={{xs: "column", sm: "row", md: "row", lg: "row", xl: "row"}}
-            spacing={{xs: 0, sm: 3, md: 3, lg: 3, xl: 3}}
+            direction="row"
+            spacing={{xs: 3, sm: 3, md: 3, lg: 3, xl: 3}}
             justifyContent={"center"}
             alignItems={"center"}
         >
@@ -127,10 +127,14 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}/>
                 </Stack>}
             subheader={
-                <div style={{width: "90%", margin: "0 auto"}}>
+                <div style={{width: "100%", margin: "0 auto"}}>
                     <Typography variant="body1"
                                 sx={{color: 'text.secondary', fontSize: "1.125rem"}}>
-                        {props.project.description}
+                        {!expanded && props.project.description.substring(0, 95) + "..."}
+                        <Collapse in={expanded} timeout={"auto"} unmountOnExit>
+                            {expanded && props.project.description}
+                            {keywords}
+                        </Collapse>
                     </Typography>
                 </div>
             }
@@ -141,49 +145,41 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         </CardHeader>
     );
 
-    const cardActions = (
-        <CardActions sx={{
-            justifyContent: 'center',
-            marginTop: 'auto',
-            marginBottom: 0,
-        }}>
-            <Stack direction={'column'} spacing={1} justifyContent={"center"} alignItems={"center"}>
-                {expanded && keywords}
-                {!expanded && <Button variant={"text"} color={"info"}>
-                    Click Anywhere to Expand
-                </Button>}
-                <Stack direction={'row'} spacing={{xs: 0, sm: 3, md: 3, lg: 3, xl: 3}} justifyContent={"center"}
-                       alignItems={"center"}>
-                    {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
-                        <IconButton aria-label={"GitHub Repo"} size="large"
-                                    onClick={() => openInNewTab(props.project.repo_url)}
-                                    color={"default"}>
-                            <GitHubIcon fontSize="inherit"/>
-                        </IconButton>
-                    </Tooltip>}
-                    {props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
-                        <IconButton size="large"
-                                    onClick={() => openInNewTab(props.project.project_website_url)}>
-                            <WebIcon fontSize="inherit"/>
-                        </IconButton>
-                    </Tooltip>}
-                    {getPaperLinks()}
-                </Stack>
-            </Stack>
-        </CardActions>
-    )
-
-    const onClickCard = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const onClickCard = () => {
         setExpanded(!expanded);
     }
 
+    const cardActions = (
+        <CardActions disableSpacing sx={{
+            marginTop: 'auto',
+            marginBottom: '0',
+        }}>
+            {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
+                <IconButton aria-label={"GitHub Repo"} size="large"
+                            onClick={() => openInNewTab(props.project.repo_url)}
+                            color={"default"}>
+                    <GitHubIcon fontSize="inherit"/>
+                </IconButton>
+            </Tooltip>}
+            {props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
+                <IconButton size="large"
+                            onClick={() => openInNewTab(props.project.project_website_url)}>
+                    <WebIcon fontSize="inherit"/>
+                </IconButton>
+            </Tooltip>}
+            {getPaperLinks()}
+            <IconButton size="large" style={{marginLeft: "auto"}}
+                        onClick={() => onClickCard()}>
+                <ExpandMoreIcon fontSize="inherit" style={{transform: (expanded ? "rotate(180deg)" : "")}}/>
+            </IconButton>
+        </CardActions>
+    )
+
     return (
         <Card
-            className={styles.project_section_card}
-            ref={cardRef}>
-            <CardActionArea onClick={(evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                onClickCard(evt)
-            }}>
+            style={{height: (expanded ? "auto" : "100%")}}
+            className={styles.project_section_card}>
+            <CardActionArea onClick={() => onClickCard()}>
                 <div style={{width: '100%', background: "#1C192E"}}>
                     <CardMedia>
                         <div style={{
@@ -203,8 +199,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     </CardMedia>
                 </div>
                 {cardHeader}
-                {cardActions}
             </CardActionArea>
+            {cardActions}
         </Card>
     );
 };

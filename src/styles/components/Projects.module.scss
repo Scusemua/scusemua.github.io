@@ -1,12 +1,10 @@
 .project_section {
   text-align: center;
-  max-width: 85%;
+  max-width: 100%;
   margin: 0 auto;
   transition: height 0.5s ease;
 
   &_card {
-    display: flex;
-    flex-direction: column;
     justify-content: space-between;
     transition: height 0.5s ease; /* Smooth height transition */
   }
@@ -29,6 +27,7 @@
 .project_container {
   padding: 1rem;
   margin: 1rem;
+  height: auto;
 }
 
 .project {

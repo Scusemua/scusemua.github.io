@@ -83,6 +83,7 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
                 {EmploymentHistoryData.map((employment: Employment) => {
                     return (
                         <motion.div
+                            key={`motion-div-wrapper-employment-${employment.title}`}
                             variants={contentVariant}
                             initial="hidden"
                             whileInView="visible"

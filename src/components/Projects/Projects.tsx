@@ -39,8 +39,7 @@ const cardVariant = {
     }
 }
 
-interface ProjectsProps {
-}
+interface ProjectsProps {}
 
 // const Projects: React.FunctionComponent = () => {
 const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsProps, ref: React.ForwardedRef<HTMLInputElement>) => {
@@ -50,7 +49,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
-    const getAnimMargin = ():string => {
+    const getAnimMargin = (): string => {
         if (mq_xl) {
             return "-50px";
         } else if (mq_lg) {
@@ -64,11 +63,11 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
         return "150px";
     }
 
-    const getPastProjects = (projects: Project[]) => {
+    const getProjects = (projects: Project[]) => {
         if (mq_xs || mq_sm) {
             return (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                            className={styles.project_container}>
-                {projects.map((project: Project) => (
+                {projects.map((project: Project, index: number) => (
                     <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12}}
                            component={motion.div} variants={cardVariant} sx={{justifyContent: 'center'}}
                            whileHover={{
@@ -89,17 +88,19 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                                 viewport={{once: true, amount: 0.125, margin: getAnimMargin()}}
                                 onViewportEnter={() => console.log("Project Section has entered viewport")}>
                 <Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
-                       className={styles.project_container}>
-                    {projects.map((project: Project) => (
-                        <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 4, 'xl': 4}}
-                               component={motion.div} variants={cardVariant} sx={{justifyContent: 'center'}}
-                               whileHover={{
-                                   scale: 1.05,
-                               }}
-                               key={`project-${project.name}-display`}>
-                            <ProjectDisplay project={project}/>
-                        </Grid2>
-                    ))}
+                       className={styles.project_container} sx={{marginBottom: "4rem"}}>
+                    {projects.map((project: Project) => {
+                        return (<Grid2 size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 4, 'xl': 4}}
+                                       component={motion.div} variants={cardVariant} sx={{justifyContent: 'center'}}
+                                       whileHover={{
+                                           scale: 1.05,
+                                       }}
+                                       key={`project-${project.name}-display`}>
+                            <div style={{overflow:"hidden", display: "inline-block"}}>
+                                <ProjectDisplay project={project}/>
+                            </div>
+                        </Grid2>);
+                    })}
                 </Grid2>
             </motion.div>);
         }
@@ -121,14 +122,14 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                 Previous Research Projects
             </Typography>
 
-            {getPastProjects(PastProjects)}
+            {getProjects(PastProjects)}
 
             <Typography variant={"h3"}
                         className={styles.project_section_subheader_text}>
                 Ongoing Research Projects
             </Typography>
 
-            {getPastProjects(CurrentProjects)}
+            {getProjects(CurrentProjects)}
         </Stack>
     </div>)
 });
