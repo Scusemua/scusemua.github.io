@@ -44,7 +44,7 @@ To run this project locally, follow these steps:
 
 2. **Navigate into the project directory**:
     ``` bash
-    cd your-repo-name
+    cd scusemua.github.io
     ```
 
 3. **Install dependencies**:
