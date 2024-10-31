@@ -1,19 +1,18 @@
 "use client";
-import styles from "@src/styles/components/EmploymentHistory.module.scss";
+import styles from "@src/styles/components/Awards.module.scss";
 import * as React from 'react';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import FastfoodIcon from '@mui/icons-material/Fastfood';
 import {Avatar, Button, Collapse, Typography, useMediaQuery} from "@mui/material";
 
 import theme from "@src/app/theme";
 import FramerTimelineItem from "@src/components/FramerBox/FramerTimelineContent";
 import {AwardData} from "@data/AwardsData";
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
-import EmojiEventsIcon from "@mui/icons-material/MilitaryTech";
+import {ReactNode} from "react";
 
 interface AwardDisplayProps {
     award: AwardData;
@@ -34,9 +33,11 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
 
+    const [expanded, setExpanded] = React.useState<boolean>(false);
+
     return (
         <FramerTimelineItem
-            className={styles.employment_timeline_entry}
+            className={styles.awards_timeline_entry}
             key={`motion-div-wrapper-props.award-${props.award.name}_${props.award.date}`}
             variants={contentVariant}
             initial="hidden"
@@ -65,14 +66,30 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
             </TimelineSeparator>
             <TimelineContent>
                 <Typography sx={{typography: {xs: 'body1', sm: 'h5', md: "h5", lg: "h4", xl: "h4"}}}
-                            className={styles.employment_timeline_entry_title}>
+                            className={styles.awards_timeline_entry_title}>
                     {props.award.name}
                 </Typography>
                 {!mq_xs && !mq_sm &&
                     <Typography variant="body1"
-                                className={styles.employment_timeline_entry_description}>
+                                className={styles.awards_timeline_entry_description}>
                         {props.award.description}
                     </Typography>}
+                {!mq_xs && !mq_sm && <Collapse
+                    in={expanded}
+                    timeout={"auto"}
+                    unmountOnExit
+                >
+                    {props.award.additionalInfo?.map((entry: string | ReactNode, idx: number) =>
+                        <Typography variant="body2"
+                                    key={`award-desc-list-${idx}`}
+                                    className={styles.awards_timeline_entry_description}>
+                            {entry}
+                        </Typography>)}
+                </Collapse>}
+                {!mq_xs && !mq_sm && props.award.additionalInfo && props.award.additionalInfo.length > 0 &&
+                    <Button variant={"text"} style={{color: "#d5e3e3"}} onClick={() => setExpanded(!expanded)}>
+                        {expanded ? "Hide" : "Show More"}
+                    </Button>}
             </TimelineContent>
         </FramerTimelineItem>
     );

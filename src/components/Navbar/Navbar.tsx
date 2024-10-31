@@ -101,9 +101,9 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
         <Button
             key={"awards_section_button"}
             onClick={() => {
-                if (props.educationRef?.current) {
+                if (props.awardRef?.current) {
                     console.log("Scrolling to Awards section.");
-                    props.educationRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
+                    props.awardRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
                 }
             }}
             sx={{my: 2, color: 'white', display: 'block'}}

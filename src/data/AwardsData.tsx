@@ -7,14 +7,25 @@ import * as React from "react";
 export interface AwardData {
     name: string;
     date: string;
-    description?: string;
+    description?: string | ReactNode;
+    additionalInfo?: (string | ReactNode)[];
     icon?: ReactNode;
 }
 
 const DistinguishedAcademicAchievement2020: AwardData = {
     name: "Distinguished Academic Achievement",
     date: "May 2020",
-    description: "For excellent academic performance (i.e., maintaining a 4.0 GPA)."
+    description: "For excellent academic performance (i.e., maintaining a 4.0 GPA).",
+    additionalInfo: [
+        <b>Courses Taken During Award Period:</b>,
+        "» CS571 - Operation Systems (Graduate Level)",
+        "» CS550 - Database Systems (Graduate Level)",
+        "» CS498 - Independent Study in CS (Wukong)",
+        "» CS475 - Concurrent & Distributed Systems",
+        "» CS465 - Computer Systems Architecture",
+        "» CS321 - Software Engineering",
+        "» CS306 - Synthesis of Ethics & Law",
+    ]
 }
 
 const DistinguishedUndergradResearch: AwardData = {
@@ -29,7 +40,20 @@ const DistinguishedUndergradResearch: AwardData = {
 const DistinguishedAcademicAchievement2021: AwardData = {
     name: "Distinguished Academic Achievement",
     date: "May 2021",
-    description: "For excellent academic performance (i.e., maintaining a 4.0 GPA)."
+    description: "For excellent academic performance (i.e., maintaining a 4.0 GPA).",
+    additionalInfo: [
+        <b>Courses Taken During Award Period (All Graduate Level):</b>,
+        "» CS799 - Master's Thesis",
+        "» CS747 - Deep Learning",
+        "» CS700 - Research in CS",
+        "» CS697 - Independent Reading & Research",
+        "» CS687 - Advanced Artificial Intelligence",
+        "» CS684 - Graph Algorithms",
+        "» CS600 - Theory of Computation",
+        "» CS583 - Analysis of Algorithms",
+        "» CS580 - Intro Artificial Intelligence",
+        "» CS555 - Computer Communication & Networking",
+    ]
 }
 
 const GMUPresidentialScholar: AwardData = {
