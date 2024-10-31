@@ -12,6 +12,7 @@ import {Button, Collapse, Typography, useMediaQuery} from "@mui/material";
 import {Employment} from "@data/EmploymentHistoryData";
 import theme from "@src/app/theme";
 import FramerTimelineItem from "@src/components/FramerBox/FramerTimelineContent";
+import {ReactNode} from "react";
 
 interface EmploymentDisplayProps {
     employment: Employment;
@@ -87,7 +88,7 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
                     unmountOnExit
                 >
                     <ul style={{color: "white"}}>
-                        {props.employment.descriptionList?.map((entry: string, idx: number) =>
+                        {props.employment.descriptionList?.map((entry: string | ReactNode, idx: number) =>
                             <li>
                                 <Typography variant="body2" key={`employment-desc-list-${idx}`}
                                             className={styles.employment_timeline_entry_description}>
