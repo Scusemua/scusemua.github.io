@@ -1,13 +1,11 @@
-import {ReactElement} from "react";
+import {ReactElement, ReactNode} from "react";
 import {Avatar} from "@mui/material";
 import MicrosoftIcon from '@mui/icons-material/Microsoft';
 import * as React from "react";
 import DeveloperIcon from "@icons/developer";
-import SchoolIcon from '@mui/icons-material/School';
 import DeveloperMonitorIcon from "@icons/developer_monitor";
 import DeveloperDeskIcon from "@icons/developer_desk";
 import TeacherIcon from "@icons/teacher";
-import OldResearcherIcon from "@icons/old_researcher";
 
 export interface Employment {
     start_month: string;
@@ -17,7 +15,7 @@ export interface Employment {
     title: string;
     employer: string;
     description: string;
-    descriptionList?: string[];
+    descriptionList?: (string | ReactNode)[];
     icon?: ReactElement;
 }
 
@@ -88,6 +86,20 @@ const UndergraduateResearchAssistant: Employment = {
     title: "Undergraduate Research Assistant",
     employer: "George Mason University",
     description: "Conducted research under the direction of Dr. Yue Cheng (University of Virginia).",
+    descriptionList: [
+        "Developed and implemented baseline version of Wukong.",
+        <span>
+            Authored, published, and presented first Wukong paper
+            <a href={"https://arxiv.org/abs/1910.05896"} style={{color: "white"}}>
+                <i>In Search of a Fast and Efficient Serverless DAG Engine</i>
+            </a> [PDSW'19].
+        </span>,
+        <span>
+            Developed <a href={"https://github.com/Scusemua/InfiniCacheMapReduceTest"} style={{color: "white"}}>
+            microservice-based MapReduce benchmarking software</a> that would later be used in the evaluation
+            of InfiniCache [FAST'20] and InfiniStore [VLDB'23].
+        </span>
+    ],
     icon: (<Avatar style={{width: 45, height: 45}}>
         <DeveloperMonitorIcon fill={"#fff"} transform="scale(1.1, 1.1)"/>
     </Avatar>)
