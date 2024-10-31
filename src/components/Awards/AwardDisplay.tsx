@@ -89,9 +89,9 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
                         }
                         <ul style={{color: "white"}}>
                             {props.award.additionalInfo?.map((entry: string | ReactNode, idx: number) =>
-                                <li>
+                                <li key={`award-desc-list-${idx}`}>
                                     <Typography variant="body2"
-                                                key={`award-desc-list-${idx}`}
+                                                key={`award-desc-list-${idx}-typography`}
                                                 className={styles.awards_timeline_entry_description}>
                                         {entry}
                                     </Typography>

@@ -145,7 +145,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         layout="responsive"
                         style={{marginTop: "3rem", objectFit: "cover"}}
                         className={styles.headshot_container_image}
-                        priority
+                        priority={true}
                     />
                     <div className={styles.social_links_container}>
                         {socialLinks}
@@ -192,6 +192,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                                 alt={"Ben's Headshot"}
                                 className={styles.headshot_container_image}
                                 style={{width: "16rem", height: "auto"}}
+                                priority={true}
                             />
                             <div className={styles.social_links_container}>
                                 {socialLinks}
@@ -239,6 +240,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                                 alt={"Ben's Headshot"}
                                 className={styles.headshot_container_image}
                                 style={{width: "16rem", height: "auto"}}
+                                priority={true}
                             />
                             <div className={styles.social_links_container}>
                                 {socialLinks}
@@ -274,6 +276,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                             alt={"Ben's Headshot"}
                             className={styles.headshot_container_image}
                             style={{width: "376px", height: "auto"}}
+                            priority={true}
                         />
                         <div className={styles.social_links_container}>
                             {socialLinks}

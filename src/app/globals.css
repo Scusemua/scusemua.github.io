@@ -23,7 +23,7 @@ body {
 }
 
 .gradient_background {
-    position:fixed;
+    position: fixed;
     overflow: visible;
     max-width: 100%;
     z-index: -1;

@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 
-import headshot from '@images/headshot.jpg'
+import headshot from '@images/headshot_solid.webp'
 import Image from "next/image";
 import styles from "@src/styles/components/Headshot.module.scss";
 import {Stack, useMediaQuery} from "@mui/material";
@@ -37,9 +37,10 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
             <Image
                 className={styles.headshot_container_image}
                 src={headshot}
-                alt={"Ben's Headshot"}
+                alt={"Ben's Headshot Avatar"}
                 width={50}
                 height={50}
+                priority={true}
             />
         </Avatar>
     </IconButton>);

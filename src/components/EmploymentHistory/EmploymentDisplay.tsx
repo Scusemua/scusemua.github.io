@@ -89,8 +89,8 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
                 >
                     <ul style={{color: "white"}}>
                         {props.employment.descriptionList?.map((entry: string | ReactNode, idx: number) =>
-                            <li>
-                                <Typography variant="body2" key={`employment-desc-list-${idx}`}
+                            <li key={`employment-desc-list-${idx}`}>
+                                <Typography variant="body2" key={`employment-desc-list-${idx}-typography`}
                                             className={styles.employment_timeline_entry_description}>
                                     {entry}
                                 </Typography>

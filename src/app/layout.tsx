@@ -12,9 +12,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter';
 import {Roboto} from 'next/font/google';
 
-import * as React from 'react';
 import {ThemeProvider} from "@mui/material";
 import theme from "@src/app/theme";
+import React from "react";
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
@@ -36,9 +36,11 @@ export default function RootLayout({
         </head>
         <body className={"solid_background " + roboto.variable}>
         <AppRouterCacheProvider>
-            <CssBaseline />
+            <CssBaseline/>
             <ThemeProvider theme={theme}>
                 <main>
+                    <div className="gradient_background">
+                    </div>
                     {children}
                 </main>
             </ThemeProvider>
