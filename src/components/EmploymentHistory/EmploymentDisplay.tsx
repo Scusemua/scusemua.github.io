@@ -86,10 +86,11 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
                     timeout={"auto"}
                     unmountOnExit
                 >
-                    {props.employment.descriptionList?.map((entry: string, idx: number) => <Typography variant="body2" key={`employment-desc-list-${idx}`}
-                                                                                          className={styles.employment_timeline_entry_description}>
-                        {entry}
-                    </Typography>)}
+                    {props.employment.descriptionList?.map((entry: string, idx: number) =>
+                        <Typography variant="body2" key={`employment-desc-list-${idx}`}
+                                    className={styles.employment_timeline_entry_description}>
+                            {entry}
+                        </Typography>)}
                 </Collapse>}
                 {!mq_xs && !mq_sm && props.employment.descriptionList && props.employment.descriptionList.length > 0 &&
                     <Button variant={"text"} style={{color: "#d5e3e3"}} onClick={() => setExpanded(!expanded)}>

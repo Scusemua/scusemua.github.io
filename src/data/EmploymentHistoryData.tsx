@@ -74,7 +74,7 @@ const MicrosoftResearchIntern: Employment = {
     end_year: 2022,
     title: "Research Intern",
     employer: "Microsoft Research Lab - Redmond",
-    description: "Under the mentorship of Dr. Rodrigo Fonseca, assisted in the design, development, testing, and evaluation of new microsecond-latency serverless stack.",
+    description: "Under the mentorship of Dr. Rodrigo Fonseca, assisted in the design, development, testing, and evaluation of new a microsecond-latency serverless stack.",
     icon: (<Avatar style={{width: 45, height: 45}}>
         <MicrosoftIcon transform="scale(-1.5, 1.5)"/>
     </Avatar>)
@@ -106,5 +106,6 @@ const GraduateResearchAssistant: Employment = {
 }
 
 export const EmploymentHistoryData: Employment[] = [
-    SummerInternship, JuniorDeveloper, UndergraduateTeachingAssitant, MicrosoftResearchIntern, UndergraduateResearchAssistant, GraduateResearchAssistant
+    // SummerInternship, JuniorDeveloper, UndergraduateTeachingAssitant, MicrosoftResearchIntern, UndergraduateResearchAssistant, GraduateResearchAssistant
+    GraduateResearchAssistant, UndergraduateResearchAssistant, MicrosoftResearchIntern, UndergraduateTeachingAssitant, JuniorDeveloper, SummerInternship
 ];
