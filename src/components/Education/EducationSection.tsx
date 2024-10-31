@@ -44,7 +44,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
     const coreContent = (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                                 className={styles.education_degree_container}>
         {AllDegreeInfo.map((degree: DegreeInfo) => (
-            <Grid2 key={`degree-card-${degree.degree}`} style={{display: 'flex', justifyContent: 'center'}}
+            <Grid2 key={`degree-card-${degree.degree}`} style={{display: 'flex', justifyContent: 'center', margin: "0 auto"}}
                    size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 12, 'xl': 4}}
                    component={motion.div} variants={degreeVariant}
                    whileHover={{

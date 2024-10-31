@@ -17,7 +17,7 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
     const mq_sm = useMediaQuery(theme.breakpoints.down('sm'));
 
     const getMaxWidth = () => {
-        return (mq_sm) ? "100%" : "85%";
+        return (mq_sm) ? "100%" : "90%";
     }
 
     const getEmploymentDisplay = (employment: Employment, idx: number) => {
