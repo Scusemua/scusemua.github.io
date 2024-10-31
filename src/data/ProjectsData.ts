@@ -12,6 +12,7 @@ export interface Project {
     repo_url: string;
     project_website_url: string;
     presentation_url?: string;
+    presentation_venue?: string;
     image: string;
     keywords: string[];
     arxiv_links: string[];
@@ -30,6 +31,7 @@ export const WukongProject: Project = {
     builtWith: ["AWS", "AWS Lambda", "Python", "Dask"],
     arxiv_links: ["https://arxiv.org/abs/1910.05896", "https://arxiv.org/abs/2010.07268"],
     presentation_url: "https://youtu.be/W0tENnx_58I",
+    presentation_venue: "SoCC'20",
     status: 'inactive',
 }
 

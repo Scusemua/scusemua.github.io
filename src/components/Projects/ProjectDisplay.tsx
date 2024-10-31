@@ -165,7 +165,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 </IconButton>
             </Tooltip>}
             {props.project.presentation_url && props.project.presentation_url !== "" &&
-                <Tooltip title={"Paper Presentation"} arrow>
+                <Tooltip title={`Paper Presentation (${props.project.presentation_venue})`} arrow>
                     <IconButton size="large"
                                 onClick={() => openInNewTab(props.project.presentation_url)}>
                         <PresentationIcon fill={"#757575"} fontSize="inherit"/>
