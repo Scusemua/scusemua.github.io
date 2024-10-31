@@ -44,6 +44,14 @@ const badgeColors: string[] = ["#F05D5E", "#3D3E78"]
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
     const [expanded, setExpanded] = React.useState<boolean>(false);
 
+    const [cardWidth, setCardWidth] = React.useState<number>(-1);
+
+    const cardRefCallback = React.useCallback((node: any) => {
+        if (node !== null) {
+            setCardWidth(node.getBoundingClientRect().width);
+        }
+    }, []);
+
     const getPaperLinks = () => {
         return <Stack
             direction="row"
@@ -125,14 +133,14 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 </Stack>}
             subheader={
                 <div style={{width: "100%", margin: "0 auto"}}>
-                    <Typography variant="body1"
-                                sx={{color: 'text.secondary', fontSize: "1.125rem"}}>
-                        {!expanded && props.project.description.substring(0, 95) + "..."}
-                        <Collapse in={expanded} timeout={"auto"} unmountOnExit>
-                            {expanded && props.project.description}
-                            {keywords}
-                        </Collapse>
-                    </Typography>
+                    <div style={{width: expanded ? "100%" : cardWidth * .90, margin: "0 auto"}}>
+                        <Typography variant="body1" noWrap={!expanded}>
+                            {props.project.description}
+                        </Typography>
+                    </div>
+                    <Collapse in={expanded} timeout={"auto"} unmountOnExit>
+                        {keywords}
+                    </Collapse>
                 </div>
             }
             sx={{
@@ -180,9 +188,9 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     )
 
     return (
-        <Card
-            style={{height: (expanded ? "auto" : "100%")}}
-            className={styles.project_section_card}>
+        <Card ref={cardRefCallback}
+              style={{height: (expanded ? "auto" : "100%")}}
+              className={styles.project_section_card}>
             <CardActionArea onClick={() => onClickCard()}>
                 <div style={{width: '100%', background: "#1C192E"}}>
                     <CardMedia>
