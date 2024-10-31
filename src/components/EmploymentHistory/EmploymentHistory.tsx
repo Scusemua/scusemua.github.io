@@ -15,6 +15,8 @@ import {forwardRef} from "react";
 import {Employment, EmploymentHistoryData} from "@data/EmploymentHistoryData";
 import theme from "@src/app/theme";
 import {Variants, motion} from "framer-motion";
+import FramerBox from "@src/components/FramerBox/FramerBox";
+import FramerTimelineItem from "@src/components/FramerBox/FramerTimelineContent";
 
 interface EmploymentHistoryProps {
 }
@@ -36,11 +38,19 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
 
     const getTimelineContent = (employment: Employment) => {
         return (
-            <TimelineItem position={'alternate'} className={styles.employment_timeline_entry}>
+            <FramerTimelineItem
+                className={styles.employment_timeline_entry}
+                key={`motion-div-wrapper-employment-${employment.title}`}
+                variants={contentVariant}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{once: true, amount: 1.0, margin: (mq_xs ? "-5px" : "-15px")}}
+                onViewportEnter={() => console.log("Education Section has entered viewport")}
+            >
                 <TimelineOppositeContent
                     sx={{
                         typography: {xs: 'body1', sm: 'h6', md: "h6", lg: "h6", xl: "h6"},
-                        margin: "auto 0"
+                        margin: "auto 0",
                     }}
                     align="right"
                     color="secondary"
@@ -54,7 +64,7 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
                     </TimelineDot>
                     <TimelineConnector/>
                 </TimelineSeparator>
-                <TimelineContent sx={{py: '1rem', px: 2}}>
+                <TimelineContent>
                     <Typography sx={{typography: {xs: 'body1', sm: 'h5', md: "h5", lg: "h4", xl: "h4"}}}
                                 className={styles.employment_timeline_entry_title}>
                         {employment.title}
@@ -69,31 +79,26 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
                             {employment.description}
                         </Typography>}
                 </TimelineContent>
-            </TimelineItem>
+            </FramerTimelineItem>
         );
     }
 
+    const getMaxWidth = () => {
+        return (mq_xs || mq_sm) ? "100%" : "85%";
+    }
+
     return (
-        <div className={`${styles.employment}`} id="skills" ref={ref}>
+        <div className={`${styles.employment}`} id="skills" ref={ref} style={{maxWidth: getMaxWidth()}}>
             <Typography variant={"h2"} className={styles.employment_header_text}>
                 Employment History
             </Typography>
             <Timeline position="alternate" className={styles.employment_timeline}>
-                {mq_xs && <div style={{paddingTop: "2rem"}}/>}
-                {EmploymentHistoryData.map((employment: Employment) => {
-                    return (
-                        <motion.div
-                            key={`motion-div-wrapper-employment-${employment.title}`}
-                            variants={contentVariant}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{once: true, amount: 1.0, margin: (mq_xs ? "-10px" : "-100px")}}
-                            onViewportEnter={() => console.log("Education Section has entered viewport")}
-                        >
-                            {getTimelineContent(employment)}
-                        </motion.div>
-                    );
-                })}
+                <div className={styles.employment_timeline_background}>
+                    {mq_xs && <div style={{paddingTop: "2rem"}}/>}
+                    {EmploymentHistoryData.map((employment: Employment) => {
+                        return getTimelineContent(employment);
+                    })}
+                </div>
                 {mq_xs && <div style={{paddingBottom: "2rem"}}/>}
             </Timeline>
         </div>

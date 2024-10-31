@@ -1,6 +1,5 @@
 .employment {
   text-align: center;
-  max-width: 100%;
   margin: 0 auto;
 
   &_header_text {
@@ -12,9 +11,19 @@
   }
 
   &_timeline {
-    border-radius: 6rem;
     margin: 0 auto;
-    width: 90%;
+    width: 100%;
+
+    &_background {
+      background: rgba(16, 16, 16, 0.25);
+      border-radius: 6rem;
+      padding: 2rem 0;
+      margin: 0 auto;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+      align-self: center;
+    }
 
     &_entry {
       &_title {

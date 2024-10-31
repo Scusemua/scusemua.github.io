@@ -145,9 +145,8 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     <Image
                         src={PersonalData.image}
                         alt={"Ben's Headshot"}
-                        objectFit="cover"
                         layout="responsive"
-                        style={{marginTop: "3rem"}}
+                        style={{marginTop: "3rem", objectFit: "cover"}}
                         className={styles.headshot_container_image}
                     />
                     <div className={styles.social_links_container}>
