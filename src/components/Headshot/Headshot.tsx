@@ -81,24 +81,20 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     };
 
     const headerBioText = (
-        <div style={{
-            marginTop: '1rem',
-        }}>
-            <div className={styles.headshot_header_text_bio_container}>
-                <div className={styles.headshot_header_text_bio_text}>
-                    <Typography variant={"h6"}>
-                        I'm a 3rd year PhD candidate in CS at George Mason University. My advisors are
-                        <Box component="span" fontWeight='fontWeightBold' color={"#ffffff"} fontSize="1.35rem"> Dr. Yue
-                            Cheng</Box> (University of Virginia) and
-                        <Box component="span" color={"#ffffff"} fontWeight='fontWeightBold' fontSize="1.35rem"> Dr.
-                            Songqing
-                            Chen </Box>
-                        (GMU).
-                        My research interests are centered around cloud computing with a focus on serverless
-                        computing. Specifically, I'm interested in applications of serverless computing to data
-                        analytics/data science, machine learning, file systems, and other areas.
-                    </Typography>
-                </div>
+        <div style={{margin: '0 auto'}} className={styles.headshot_header_text_bio_container}>
+            <div className={styles.headshot_header_text_bio_text}>
+                <Typography variant={"h6"}>
+                    I'm a 3rd year PhD candidate in CS at George Mason University. My advisors are
+                    <Box component="span" fontWeight='fontWeightBold' color={"#ffffff"} fontSize="1.35rem"> Dr. Yue
+                        Cheng</Box> (University of Virginia) and
+                    <Box component="span" color={"#ffffff"} fontWeight='fontWeightBold' fontSize="1.35rem"> Dr.
+                        Songqing
+                        Chen </Box>
+                    (GMU).
+                    My research interests are centered around cloud computing with a focus on serverless
+                    computing. Specifically, I'm interested in applications of serverless computing to data
+                    analytics/data science, machine learning, file systems, and other areas.
+                </Typography>
             </div>
         </div>
     );
@@ -131,41 +127,46 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
 
     const getLayoutXs = () => {
         return (
-            <div key={"xs_layout_headshot"}>
-                <Stack
-                    className={styles.headshot_container}
-                    direction={'column'}
-                    justifyContent={'center'}
-                    spacing={3}
-                    alignItems={'center'}
-                >
-                    <Image
-                        src={PersonalData.image}
-                        alt={"Ben's Headshot"}
-                        layout="responsive"
-                        style={{marginTop: "3rem", objectFit: "cover"}}
-                        className={styles.headshot_container_image}
-                        priority={true}
-                    />
-                    <div className={styles.social_links_container}>
-                        {socialLinks}
-                    </div>
-                    <div className={styles.headshot_header_text_greeting}>
-                        <Typography variant={"h2"}>{PersonalData.name}</Typography>
-                    </div>
-                    <div className={styles.headshot_header_text_greeting_xs}>
-                        <Typography variant={"h5"}>Computer Science<br/>PhD Candidate<br/>at George Mason
-                            University</Typography>
-                    </div>
-                </Stack>
-                {headerBioText}
-            </div>
+            <Stack
+                className={styles.headshot_container}
+                direction={'column'}
+                justifyContent={'center'}
+                spacing={3}
+                alignItems={'center'}
+                key={"xs_layout_headshot"}
+                style={{width: "75%"}}
+            >
+                <Image
+                    src={PersonalData.image}
+                    alt={"Ben's Headshot"}
+                    className={styles.headshot_container_image}
+                    style={{marginTop: "2rem", width: "376px", height: "auto"}}
+                    priority={true}
+                />
+                <div className={styles.social_links_container}>
+                    {socialLinks}
+                </div>
+                <div className={styles.headshot_header_text_greeting}>
+                    <Typography variant={"h2"}>{PersonalData.name}</Typography>
+                </div>
+                <div className={styles.headshot_header_text_greeting_xs}>
+                    <Typography variant={"h5"}>
+                        Computer Science
+                        <br/>PhD Candidate
+                        <br/>at George Mason
+                        University
+                    </Typography>
+                </div>
+                <div style={{margin: "1rem auto 0 auto", width: "50%"}}>
+                    {headerBioText}
+                </div>
+            </Stack>
         );
     }
 
     const getLayoutSm = () => {
         return (
-            <div key={"lg_layout_headshot"}>
+            <div key={"lg_layout_headshot"} style={{width: "80%", margin: "0 auto"}}>
                 <Stack
                     className={styles.headshot_container}
                     direction={'row'}
@@ -174,39 +175,31 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     style={{marginTop: '4rem'}}
                     alignItems={'flex-end'}>
                     <Stack
-                        direction={'row'}
-                        spacing={8}
-                        sx={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: "100%",
-                        }}
+                        direction={"column"}
+                        spacing={2}
+                        sx={{justifyContent: 'center', alignItems: 'center'}}
                     >
-                        <Stack
-                            direction={"column"}
-                            spacing={2}
-                            sx={{justifyContent: 'center', alignItems: 'center', width: "90%"}}
-                        >
-                            <Image
-                                src={PersonalData.image}
-                                alt={"Ben's Headshot"}
-                                className={styles.headshot_container_image}
-                                style={{width: "16rem", height: "auto"}}
-                                priority={true}
-                            />
-                            <div className={styles.social_links_container}>
-                                {socialLinks}
-                            </div>
-                        </Stack>
-                        <div className={styles.headshot_header_text_greeting}>
-                            <Typography variant={"h5"}>Hello! I am</Typography>
-                            <Typography variant={"h2"}>{PersonalData.name}</Typography>
-                            <Typography variant={"h6"}>Computer Science<br/>PhD Candidate<br/>at George Mason
-                                University</Typography>
+                        <Image
+                            src={PersonalData.image}
+                            alt={"Ben's Headshot"}
+                            className={styles.headshot_container_image}
+                            style={{width: "16rem", height: "auto"}}
+                            priority={true}
+                        />
+                        <div className={styles.social_links_container}>
+                            {socialLinks}
                         </div>
                     </Stack>
+                    <div className={styles.headshot_header_text_greeting}>
+                        <Typography variant={"h4"}>Hello! I am</Typography>
+                        <Typography variant={"h3"}>{PersonalData.name}</Typography>
+                        <Typography variant={"h6"}>Computer Science<br/>PhD Candidate<br/>at George Mason
+                            University</Typography>
+                    </div>
                 </Stack>
-                {headerBioText}
+                <div style={{margin: "1rem auto 0 auto", width: "65%"}}>
+                    {headerBioText}
+                </div>
             </div>
         );
     }
@@ -253,7 +246,9 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         </div>
                     </Stack>
                 </Stack>
-                {headerBioText}
+                <div style={{margin: "1rem auto 0 auto", width: "80%"}}>
+                    {headerBioText}
+                </div>
             </div>
         );
     }
@@ -291,7 +286,9 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         }}
                     >
                         {getHeaderGreetingText(false)}
-                        {headerBioText}
+                        <div style={{marginTop: "1rem"}}>
+                            {headerBioText}
+                        </div>
                         {headerButtons}
                     </Stack>
                 </Stack>
