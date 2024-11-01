@@ -147,7 +147,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                 adjustItems: "center",
             }}
         >
-            <Container maxWidth="xl">
+            <Container maxWidth="xs">
                 <Toolbar disableGutters
                          sx={{alignItems: "center", justifyContent: "center", margin: "0 auto", overflow: "hidden"}}>
                     <Stack direction={'row'} spacing={{'xs': 0, 'sm': 2, 'md': 6, 'lg': 8, 'xl': 10}}

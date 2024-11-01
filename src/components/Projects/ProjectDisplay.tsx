@@ -5,7 +5,7 @@ import React, {ReactElement, ReactNode} from "react";
 import {
     Badge,
     Card, CardActionArea,
-    CardActions,
+    CardActions, CardContent,
     CardHeader,
     CardMedia,
     Chip, Collapse,
@@ -134,44 +134,39 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     const cardHeader = (
         <CardHeader
             title={
-                <Stack direction={{xs: "column", sm: "row"}} spacing={1} sx={{
-                    justifyContent: "center",
-                    alignItems: 'center',
-                    paddingBottom: "1rem",
-                    margin: "0 auto",
-                }}>
+                <Stack direction={{xs: "row", sm: "row"}}
+                       className={styles.project_section_card_header}
+                       spacing={1}
+                >
                     <Typography gutterBottom sx={{typography: {xs: 'h5', sm: 'h5', md: "h4", lg: "h4", xl: "h4"}}}
                                 component="div">{props.project.name}</Typography>
                     <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}/>
                 </Stack>}
-            subheader={
-                <div style={{
-                    width: "90%", margin: "0 auto",
-                    justifyContent: "center",
-                    alignItems: 'center',
-                    paddingBottom: "1rem"
-                }}>
-                    <div style={{
-                        width: expanded ? "100%" : cardWidth * .90,
-                        margin: "0 auto",
-                        justifyContent: "center",
-                        alignItems: 'center',
-                    }}>
-                        <Typography variant="body1" noWrap={!expanded} style={{
-                            width: expanded ? "100%" : cardWidth * .90,
-                            margin: "0 auto"
-                        }}>
-                            {props.project.description}
-                        </Typography>
-                    </div>
-                    <Collapse in={expanded} timeout={"auto"} unmountOnExit>
-                        {keywords}
-                    </Collapse>
-                </div>
-            }
-            sx={{
-                marginBottom: 'auto',
-            }}
+            // subheader={
+            //     <div style={{
+            //         width: "90%", margin: "0 auto",
+            //         justifyContent: "center",
+            //         alignItems: 'center',
+            //         paddingBottom: "1rem"
+            //     }}>
+            //         <div style={{
+            //             width: expanded ? "100%" : cardWidth * .90,
+            //             margin: "0 auto",
+            //             justifyContent: "center",
+            //             alignItems: 'center',
+            //         }}>
+            //             <Typography variant="body1" noWrap={!expanded} style={{
+            //                 width: expanded ? "100%" : cardWidth * .90,
+            //                 margin: "0 auto"
+            //             }}>
+            //                 {props.project.description}
+            //             </Typography>
+            //         </div>
+            //         <Collapse in={expanded} timeout={"auto"} unmountOnExit>
+            //             {keywords}
+            //         </Collapse>
+            //     </div>
+            // }
         >
         </CardHeader>
     );
@@ -181,10 +176,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     }
 
     const cardActions = (
-        <CardActions disableSpacing sx={{
-            marginTop: 'auto',
-            marginBottom: '0',
-        }}>
+        <CardActions disableSpacing>
             {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
                 <IconButton aria-label={"GitHub Repo"} size="large"
                             onClick={() => openInNewTab(props.project.repo_url)}
@@ -216,7 +208,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     return (
         <Card ref={cardRefCallback}
               style={{height: (expanded ? "auto" : "100%")}}
-              className={styles.project_section_card}>
+              className={styles.project_section_card}
+        >
             <CardActionArea onClick={() => onClickCard()}>
                 <div style={{width: '100%', background: "#1C192E"}}>
                     <CardMedia>
@@ -237,8 +230,16 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     </CardMedia>
                 </div>
                 {cardHeader}
+                <CardContent>
+                    <Typography variant="body1">
+                        {props.project.description}
+                    </Typography>
+                    <Collapse in={expanded} timeout={"auto"} unmountOnExit>
+                        {keywords}
+                    </Collapse>
+                </CardContent>
+                {cardActions}
             </CardActionArea>
-            {cardActions}
         </Card>
     );
 };

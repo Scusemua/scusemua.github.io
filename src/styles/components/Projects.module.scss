@@ -7,8 +7,14 @@
 
   &_card {
     transition: height 0.5s ease; /* Smooth height transition */
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
+    display: flex;
+
+    &_header {
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   &_header_text {

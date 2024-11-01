@@ -23,6 +23,10 @@ body {
     margin: 0 auto;
 }
 
+body {
+    overflow: hidden;
+}
+
 .gradient_background {
     position: fixed;
     overflow: visible;

@@ -126,8 +126,9 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
         }
     }
 
-    return (<div className={styles.project_section} ref={ref}>
+    return (
         <Stack
+            className={styles.project_section} ref={ref}
             direction={"column"}
             justifyContent={"center"}
             alignItems={"center"}
@@ -151,7 +152,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
 
             {getProjects(CurrentProjects)}
         </Stack>
-    </div>)
+    )
 });
 
 export default Projects;

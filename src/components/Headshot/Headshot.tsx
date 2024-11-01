@@ -139,7 +139,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     src={PersonalData.image}
                     alt={"Ben's Headshot"}
                     className={styles.headshot_container_image}
-                    style={{marginTop: "2rem", width: "376px", height: "auto"}}
+                    style={{marginTop: "2rem", width: "100%", height: "auto"}}
                     priority={true}
                 />
                 <div className={styles.social_links_container}>
