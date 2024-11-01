@@ -92,7 +92,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
                         }
                         <ul style={{color: "white"}}>
                             {props.award.additionalInfo?.map((entry: string | ReactNode, idx: number) =>
-                                <li>
+                                <li key={`employment_${props.award.name}_desc_list_${idx}`}>
                                     <Typography variant="body2"
                                                 key={`award-desc-list-${idx}`}
                                                 className={styles.awards_timeline_entry_description}>

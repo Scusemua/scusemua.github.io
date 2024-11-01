@@ -1,6 +1,5 @@
 .project_section {
   text-align: center;
-  max-width: 95%;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
@@ -8,7 +7,8 @@
 
   &_card {
     transition: height 0.5s ease; /* Smooth height transition */
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
   }
 
   &_header_text {

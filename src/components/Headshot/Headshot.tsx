@@ -81,7 +81,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     };
 
     const headerBioText = (
-        <div style={{margin: '0 auto'}} className={styles.headshot_header_text_bio_container}>
+        <div style={{margin: '1rem auto 0 auto'}} className={styles.headshot_header_text_bio_container}>
             <div className={styles.headshot_header_text_bio_text}>
                 <Typography variant={"h6"}>
                     I'm a 3rd year PhD candidate in CS at George Mason University. My advisors are
@@ -134,7 +134,6 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                 spacing={3}
                 alignItems={'center'}
                 key={"xs_layout_headshot"}
-                style={{width: "75%"}}
             >
                 <Image
                     src={PersonalData.image}
@@ -157,9 +156,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         University
                     </Typography>
                 </div>
-                <div style={{margin: "1rem auto 0 auto", width: "50%"}}>
-                    {headerBioText}
-                </div>
+                {headerBioText}
             </Stack>
         );
     }

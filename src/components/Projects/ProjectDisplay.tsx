@@ -46,9 +46,21 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
 
     const [cardWidth, setCardWidth] = React.useState<number>(-1);
 
+    const nodeRef = React.useRef<any>(null);
+
+    React.useEffect(() => {
+        window.addEventListener("resize", () => {
+            if (nodeRef.current !== null) {
+                setCardWidth(nodeRef.current.getBoundingClientRect().width);
+            }
+        });
+    }, []);
+
     const cardRefCallback = React.useCallback((node: any) => {
         if (node !== null) {
             setCardWidth(node.getBoundingClientRect().width);
+
+            nodeRef.current = node;
         }
     }, []);
 
@@ -126,15 +138,29 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     justifyContent: "center",
                     alignItems: 'center',
                     paddingBottom: "1rem",
+                    margin: "0 auto",
                 }}>
                     <Typography gutterBottom sx={{typography: {xs: 'h5', sm: 'h5', md: "h4", lg: "h4", xl: "h4"}}}
                                 component="div">{props.project.name}</Typography>
                     <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}/>
                 </Stack>}
             subheader={
-                <div style={{width: "100%", margin: "0 auto"}}>
-                    <div style={{width: expanded ? "100%" : cardWidth * .90, margin: "0 auto"}}>
-                        <Typography variant="body1" noWrap={!expanded}>
+                <div style={{
+                    width: "90%", margin: "0 auto",
+                    justifyContent: "center",
+                    alignItems: 'center',
+                    paddingBottom: "1rem"
+                }}>
+                    <div style={{
+                        width: expanded ? "100%" : cardWidth * .90,
+                        margin: "0 auto",
+                        justifyContent: "center",
+                        alignItems: 'center',
+                    }}>
+                        <Typography variant="body1" noWrap={!expanded} style={{
+                            width: expanded ? "100%" : cardWidth * .90,
+                            margin: "0 auto"
+                        }}>
                             {props.project.description}
                         </Typography>
                     </div>

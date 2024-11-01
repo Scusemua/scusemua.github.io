@@ -18,39 +18,6 @@ module.exports = {
      */
     basePath: "",
 
-    webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-
-        if( !dev ) {
-            // remove existing instance of CssMinimizerPlugin
-            config.optimization.minimizer = config.optimization.minimizer.filter( minimizer => {
-                return minimizer.constructor.name !== 'CssMinimizerPlugin';
-            });
-
-
-            // create new instance of CssMinimizerPlugin
-            // minimizerOptions === cssnano config
-            const minifyCssPlugin = new CssMinimizerPlugin({
-                minimizerOptions: {
-                    // your cssnano configuration
-                    preset: [
-                        'default',
-                        {
-                            mergeLonghand: false,
-                            mergeRules: false,
-                        },
-                    ],
-                },
-            });
-
-            config.optimization.minimizer.push( minifyCssPlugin );
-
-            const terserJsPlugin = new TerserJSPlugin({});
-            config.optimization.minimizer.push( terserJsPlugin );
-        }
-
-        return config;
-    },
-
     /**
      * Disable server-based image optimization. Next.js does not support
      * dynamic features with static exports.

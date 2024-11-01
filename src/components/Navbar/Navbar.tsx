@@ -91,7 +91,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
             sx={{my: 2, color: 'white', display: 'block'}}
         >
             <Typography
-                        sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
+                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
             >
                 <b>{text}</b>
             </Typography>
@@ -136,9 +136,20 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
         </Button>);
 
     return (
-        <AppBar position="fixed" sx={{bgcolor: "rgba(0,0,0,0.31)", width: "100%", overflow: "hidden"}}>
+        <AppBar
+            position="fixed"
+            sx={{
+                bgcolor: "rgba(0,0,0,0.31)",
+                width: "100%",
+                overflow: "hidden",
+                margin: "0 auto",
+                justifyContent: "center",
+                adjustItems: "center",
+            }}
+        >
             <Container maxWidth="xl">
-                <Toolbar disableGutters sx={{alignItems: "center", justifyContent: "center", overflow: "hidden"}}>
+                <Toolbar disableGutters
+                         sx={{alignItems: "center", justifyContent: "center", margin: "0 auto", overflow: "hidden"}}>
                     <Stack direction={'row'} spacing={{'xs': 0, 'sm': 2, 'md': 6, 'lg': 8, 'xl': 10}}
                            sx={{alignItems: "center", justifyContent: "center", overflow: "hidden"}}>
                         {headshotButton}

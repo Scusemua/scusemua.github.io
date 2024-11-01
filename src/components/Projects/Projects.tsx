@@ -88,7 +88,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                             initial="hidden"
                             whileInView="visible"
                             style={{
-                                width: "100%",
+                                width: "90%",
                                 margin: "0 auto",
                             }}
                             viewport={{once: true, amount: 0.125, margin: getAnimMargin()}}

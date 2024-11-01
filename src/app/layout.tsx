@@ -39,7 +39,7 @@ export default function RootLayout({
             <CssBaseline/>
             <ThemeProvider theme={theme}>
                 <main>
-                    <div className="gradient_background">
+                    <div className="gradient_background" style={{width: "100%", height: "0px", zIndex: -1}}>
                     </div>
                     {children}
                 </main>
