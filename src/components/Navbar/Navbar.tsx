@@ -24,6 +24,8 @@ interface NavbarProps {
 
 const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    
+    // const [fontSize, setFontSize] = React.useState<string>("4rem");
 
     const headshotButton = (<IconButton
         key={"header_section"}
@@ -56,6 +58,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
         sx={{my: 2, color: 'white', display: 'block'}}
     >
         <Typography
+            // style={{fontSize: fontSize}}
             sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
         >
             <b>Research</b>
@@ -73,6 +76,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
         sx={{my: 2, color: 'white', display: 'block'}}
     >
         <Typography
+            // style={{fontSize: fontSize}}
             sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
         >
             <b>{text}</b>
@@ -91,6 +95,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
             sx={{my: 2, color: 'white', display: 'block'}}
         >
             <Typography
+                // style={{fontSize: fontSize}}
                 sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
             >
                 <b>{text}</b>
@@ -110,6 +115,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
             sx={{my: 2, color: 'white', display: 'block'}}
         >
             <Typography
+                // style={{fontSize: fontSize}}
                 sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
             >
                 <b>Awards</b>
@@ -129,6 +135,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
             sx={{my: 2, color: 'white', display: 'block'}}
         >
             <Typography
+                // style={{fontSize: fontSize}}
                 sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
             >
                 <b>Skills</b>
@@ -140,18 +147,13 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
             position="fixed"
             sx={{
                 bgcolor: "rgba(0,0,0,0.31)",
-                width: "100%",
-                overflow: "hidden",
-                margin: "0 auto",
-                justifyContent: "center",
-                adjustItems: "center",
             }}
         >
-            <Container maxWidth="xs">
-                <Toolbar disableGutters
-                         sx={{alignItems: "center", justifyContent: "center", margin: "0 auto", overflow: "hidden"}}>
+            <Container>
+                <Toolbar disableGutters>
                     <Stack direction={'row'} spacing={{'xs': 0, 'sm': 2, 'md': 6, 'lg': 8, 'xl': 10}}
-                           sx={{alignItems: "center", justifyContent: "center", overflow: "hidden"}}>
+                           alignItems={'center'} justifyContent={'center'}
+                           sx={{margin: "0 auto", overflow: "hidden"}}>
                         {headshotButton}
                         {projectsButton}
                         {awardsButton}
