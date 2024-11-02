@@ -89,8 +89,7 @@ const UndergraduateResearchAssistant: Employment = {
     descriptionList: [
         "Developed and implemented baseline version of Wukong.",
         <span>
-            Authored, published, and presented first Wukong paper
-            <a href={"https://arxiv.org/abs/1910.05896"} style={{color: "white"}}>
+            Authored, published, and presented first Wukong paper <a href={"https://arxiv.org/abs/1910.05896"} style={{color: "white"}}>
                 <i>In Search of a Fast and Efficient Serverless DAG Engine</i>
             </a> [PDSW'19].
         </span>,
