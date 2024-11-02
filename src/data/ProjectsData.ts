@@ -17,6 +17,8 @@ export interface Project {
     keywords: string[];
     arxiv_links: string[];
     builtWith?: string[];
+    learnMoreEnabled?: boolean;
+    learnMoreUrl?: string;
     status: 'ongoing' | 'inactive';
 }
 
@@ -32,6 +34,8 @@ export const WukongProject: Project = {
     arxiv_links: ["https://arxiv.org/abs/1910.05896", "https://arxiv.org/abs/2010.07268"],
     presentation_url: "https://youtu.be/W0tENnx_58I",
     presentation_venue: "SoCC'20",
+    learnMoreEnabled: true,
+    learnMoreUrl: "projects/wukong",
     status: 'inactive',
 }
 

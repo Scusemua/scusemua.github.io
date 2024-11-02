@@ -10,7 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import {Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import Navbar from "@src/components/Navbar/Navbar";
+import Navbar from "@src/components/HomepageNavbar/HomepageNavbar";
 import EmploymentHistory from "@src/components/EmploymentHistory/EmploymentHistory";
 import AwardsSection from "@src/components/Awards/AwardsSection";
 

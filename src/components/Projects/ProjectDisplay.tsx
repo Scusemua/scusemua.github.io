@@ -3,7 +3,7 @@ import styles from "@src/styles/components/Projects.module.scss";
 import React, {ReactElement, ReactNode} from "react";
 
 import {
-    Badge,
+    Badge, Button,
     Card, CardActionArea,
     CardActions, CardContent,
     CardHeader,
@@ -25,6 +25,7 @@ import TerminalIcon from '@mui/icons-material/Terminal';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image from "next/image";
 import PresentationIcon from "@icons/presentation";
+import Link from "next/link";
 
 interface ProjectProps {
     project: Project;
@@ -47,6 +48,17 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     const [cardWidth, setCardWidth] = React.useState<number>(-1);
 
     const nodeRef = React.useRef<any>(null);
+
+    const getLearnMore = () => {
+        if (props.project.learnMoreEnabled) {
+            return (<Button variant={"text"} style={{margin: "0.5rem auto auto auto"}} color={"info"}
+                            onClick={(evt) => {
+                                evt.stopPropagation();
+                            }} component={Link} href={props.project.learnMoreUrl!}>
+                Learn More
+            </Button>)
+        }
+    }
 
     React.useEffect(() => {
         window.addEventListener("resize", () => {
@@ -142,31 +154,6 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                                 component="div">{props.project.name}</Typography>
                     <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}/>
                 </Stack>}
-            // subheader={
-            //     <div style={{
-            //         width: "90%", margin: "0 auto",
-            //         justifyContent: "center",
-            //         alignItems: 'center',
-            //         paddingBottom: "1rem"
-            //     }}>
-            //         <div style={{
-            //             width: expanded ? "100%" : cardWidth * .90,
-            //             margin: "0 auto",
-            //             justifyContent: "center",
-            //             alignItems: 'center',
-            //         }}>
-            //             <Typography variant="body1" noWrap={!expanded} style={{
-            //                 width: expanded ? "100%" : cardWidth * .90,
-            //                 margin: "0 auto"
-            //             }}>
-            //                 {props.project.description}
-            //             </Typography>
-            //         </div>
-            //         <Collapse in={expanded} timeout={"auto"} unmountOnExit>
-            //             {keywords}
-            //         </Collapse>
-            //     </div>
-            // }
         >
         </CardHeader>
     );
@@ -234,6 +221,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     <Typography variant="body1">
                         {props.project.description}
                     </Typography>
+                    {getLearnMore()}
                     <Collapse in={expanded} timeout={"auto"} unmountOnExit>
                         {keywords}
                     </Collapse>

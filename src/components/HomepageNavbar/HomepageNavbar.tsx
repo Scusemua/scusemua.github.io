@@ -22,7 +22,7 @@ interface NavbarProps {
     awardRef: React.RefObject<HTMLInputElement> | undefined;
 }
 
-const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
+const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     
     // const [fontSize, setFontSize] = React.useState<string>("4rem");
@@ -166,4 +166,4 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
         </AppBar>
     );
 }
-export default Navbar;
+export default HomepageNavbar;
