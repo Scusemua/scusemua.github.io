@@ -30,8 +30,10 @@ export default function WukongPage() {
                 <ArrowBack/>
             </Fab>
             <iframe
+                id={"wukong_website_iframe"}
                 title={"Wukong Website"}
                 src="https://ds2-lab.github.io/Wukong/"
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                 style={{
                     width: "100%",
                     height: "100%"
