@@ -1,6 +1,7 @@
 "use client";
 import styles from "@src/styles/components/EmploymentHistory.module.scss";
 import * as React from 'react';
+import {ReactNode} from 'react';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
@@ -12,7 +13,6 @@ import {Button, Collapse, Typography, useMediaQuery} from "@mui/material";
 import {Employment} from "@data/EmploymentHistoryData";
 import theme from "@src/app/theme";
 import FramerTimelineItem from "@src/components/FramerBox/FramerTimelineContent";
-import {ReactNode} from "react";
 
 interface EmploymentDisplaySmallProps {
     employment: Employment;

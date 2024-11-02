@@ -2,12 +2,12 @@ import styles from "@src/styles/components/Projects.module.scss";
 
 import React, {forwardRef} from "react";
 
-import {Button, Card, Grid2, Stack, Tooltip, useMediaQuery} from "@mui/material";
+import {Grid2, Stack, useMediaQuery} from "@mui/material";
 
 import Typography from '@mui/material/Typography';
-import {Project, PastProjects, CurrentProjects} from "@data/ProjectsData";
+import {CurrentProjects, PastProjects, Project} from "@data/ProjectsData";
 import ProjectDisplay from "@src/components/Projects/ProjectDisplay";
-import {Variant, motion, Variants, useInView} from "framer-motion";
+import {motion} from "framer-motion";
 import theme from "@src/app/theme";
 
 const cardContainerVariant = {

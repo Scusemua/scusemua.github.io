@@ -1,10 +1,9 @@
 "use client";
 import styles from "@src/styles/components/Awards.module.scss";
 import * as React from 'react';
+import {forwardRef} from 'react';
 import Timeline from '@mui/lab/Timeline';
 import {Typography, useMediaQuery} from "@mui/material";
-
-import {forwardRef} from "react";
 import {AwardData, AwardsData} from "@data/AwardsData";
 import theme from "@src/app/theme";
 import AwardDisplay from "@src/components/Awards/AwardDisplay";

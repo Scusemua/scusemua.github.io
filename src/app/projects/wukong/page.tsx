@@ -1,20 +1,11 @@
 'use client';
 
-import React, {LegacyRef} from "react";
-import Headshot from "@src/components/Headshot/Headshot";
-import Projects from "@src/components/Projects/Projects";
-import SkillsSection from "@src/components/Skills/SkillsSection";
-import EducationSection from "@src/components/Education/EducationSection";
-import CopyrightNotice from "@src/components/Copyright/Copyright";
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-import {Stack} from "@mui/material";
-import Typography from "@mui/material/Typography";
-import Navbar from "@src/components/HomepageNavbar/HomepageNavbar";
-import EmploymentHistory from "@src/components/EmploymentHistory/EmploymentHistory";
-import AwardsSection from "@src/components/Awards/AwardsSection";
+import React from "react";
+import {Fab} from "@mui/material";
+import {ArrowBack} from "@mui/icons-material";
+import Link from "next/link";
 
-export default function Home() {
+export default function WukongPage() {
     const [mounted, setMounted] = React.useState(false);
     React.useEffect(() => {
         setMounted(true);
@@ -25,8 +16,27 @@ export default function Home() {
     );
 
     return (
-        <div id="wukong-content">
-            <iframe width="100%" height="100%" src="https://ds2-lab.github.io/Wukong/"></iframe>
+        <div id="wukong-content" style={{
+            overflow: "hidden",
+        }}>
+            <Fab color="info" aria-label="go back" style={{
+                margin: 0,
+                top: 'auto',
+                right: "10%",
+                bottom: "5%",
+                left: 'auto',
+                position: 'fixed',
+            }} component={Link} href={"/"}>
+                <ArrowBack/>
+            </Fab>
+            <iframe
+                title={"Wukong Website"}
+                src="https://ds2-lab.github.io/Wukong/"
+                style={{
+                    width: "100%",
+                    height: "100%"
+                }}
+            />
         </div>
     );
 }

@@ -1,10 +1,9 @@
 "use client";
 import styles from "@src/styles/components/EmploymentHistory.module.scss";
 import * as React from 'react';
+import {forwardRef} from 'react';
 import Timeline from '@mui/lab/Timeline';
 import {Typography, useMediaQuery} from "@mui/material";
-
-import {forwardRef} from "react";
 import {Employment, EmploymentHistoryData} from "@data/EmploymentHistoryData";
 import theme from "@src/app/theme";
 import EmploymentDisplay from "@src/components/EmploymentHistory/EmploymentDisplay";

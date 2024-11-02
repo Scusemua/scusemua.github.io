@@ -1,6 +1,7 @@
 "use client";
 import styles from "@src/styles/components/Awards.module.scss";
 import * as React from 'react';
+import {ReactNode} from 'react';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
@@ -12,7 +13,6 @@ import theme from "@src/app/theme";
 import FramerTimelineItem from "@src/components/FramerBox/FramerTimelineContent";
 import {AwardData} from "@data/AwardsData";
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
-import {ReactNode} from "react";
 
 interface AwardDisplayProps {
     award: AwardData;

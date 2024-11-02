@@ -4,21 +4,9 @@ import GMU_Logo from "@images/GMU_Logo.svg";
 import React from "react";
 import Typography from "@mui/material/Typography";
 import {DegreeInfo} from "@data/EducationData";
-import {
-    Avatar,
-    Badge, Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardHeader,
-    CardMedia,
-    Chip,
-    Stack,
-    Tooltip
-} from "@mui/material";
+import {Button, Card, CardContent, CardHeader, CardMedia, Stack, Tooltip} from "@mui/material";
 
 import Image from "next/image";
-import IconButton from "@mui/material/IconButton";
 import ArticleIcon from "@mui/icons-material/Article";
 
 interface DegreeDisplayProps {

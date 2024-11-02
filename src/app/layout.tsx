@@ -23,8 +23,6 @@ const roboto = Roboto({
     variable: '--font-roboto',
 });
 
-import Link from 'next/link'
-
 export default function RootLayout({
                                        children,
                                    }: Readonly<{

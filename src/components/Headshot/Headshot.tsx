@@ -5,7 +5,7 @@ import React, {forwardRef} from "react";
 import Image from "next/image";
 
 import {PersonalData} from '@data/PersonalData';
-import {Box, Button, Card, Stack, Tooltip, useMediaQuery} from "@mui/material";
+import {Box, Button, Stack, Tooltip, useMediaQuery} from "@mui/material";
 
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';

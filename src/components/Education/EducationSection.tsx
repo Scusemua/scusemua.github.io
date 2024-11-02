@@ -4,9 +4,8 @@ import styles from "@src/styles/components/Education.module.scss";
 import Typography from "@mui/material/Typography";
 import {AllDegreeInfo, DegreeInfo} from "@data/EducationData";
 import DegreeDisplay from "@src/components/Education/DegreeDisplay";
-import {Card, Grid2, Stack, useMediaQuery} from "@mui/material";
-import {motion, Variants} from "framer-motion";
-import SchoolIcon from "@mui/icons-material/School";
+import {Grid2, useMediaQuery} from "@mui/material";
+import {motion} from "framer-motion";
 import theme from "@src/app/theme";
 
 const degreeContainerVariant = {

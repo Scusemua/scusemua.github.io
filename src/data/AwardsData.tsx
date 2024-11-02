@@ -1,12 +1,8 @@
-import {ReactNode} from "react";
-
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import {Avatar} from "@mui/material";
 import * as React from "react";
+import {ReactNode} from "react";
+import {Avatar} from "@mui/material";
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import TrophyIcon from "@icons/trophy_icon";
-import ScholarshipIcon from "@icons/scholarship";
 import FellowshipIcon from "@icons/fellowship";
 import AwardCertificateIcon from "@icons/award_certificate";
 

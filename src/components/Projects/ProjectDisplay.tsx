@@ -3,12 +3,16 @@ import styles from "@src/styles/components/Projects.module.scss";
 import React, {ReactElement, ReactNode} from "react";
 
 import {
-    Badge, Button,
-    Card, CardActionArea,
-    CardActions, CardContent,
+    Badge,
+    Button,
+    Card,
+    CardActionArea,
+    CardActions,
+    CardContent,
     CardHeader,
     CardMedia,
-    Chip, Collapse,
+    Chip,
+    Collapse,
     IconButtonProps,
     Stack,
     Tooltip
