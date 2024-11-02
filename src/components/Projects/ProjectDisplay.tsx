@@ -54,14 +54,16 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     const nodeRef = React.useRef<any>(null);
 
     const getLearnMore = () => {
-        if (props.project.learnMoreEnabled) {
-            return (<Button variant={"text"} style={{margin: "0.5rem auto auto auto"}} color={"info"}
-                            onClick={(evt) => {
-                                evt.stopPropagation();
-                            }} component={Link} href={props.project.learnMoreUrl!}>
-                Learn More
-            </Button>)
-        }
+        return (<Button variant={"text"} style={{
+            margin: "0.5rem auto auto auto",
+            color: (props.project.learnMoreEnabled ? "" : "white")
+        }} color={"info"}
+                        onClick={(evt) => {
+                            evt.stopPropagation();
+                        }} component={Link} href={props.project.learnMoreUrl || ""}
+                        disabled={!props.project.learnMoreEnabled}>
+            {props.project.learnMoreEnabled ? "Learn More" : "Learn More (Coming Soon)"}
+        </Button>)
     }
 
     React.useEffect(() => {
