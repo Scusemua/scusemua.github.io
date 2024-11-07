@@ -6,16 +6,41 @@
     opacity: 0.75;
 }
 
-#root {
+#body {
+    overflow-y: scroll;
     overflow-x: hidden;
+}
+
+#root {
     font-family: 'Roboto', sans-serif;
     line-height: 1.7;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endColorstr="#fc466b",GradientType=1);
     min-height: 100vh; /* Ensure gradient covers the entire viewport height */
     display: flex; /* Optional: For centering content */
     flex-direction: column; /* Optional: For vertical layout */
     align-items: center; /* Optional: For centering content horizontally */
     justify-content: center; /* Optional: For centering content vertically */
     margin: 0 auto;
+}
+
+.solid_background {
+    /*background: rgb(63,94,251);*/
+    /*background: -moz-linear-gradient(0deg, rgba(63,94,251,1) 0%, rgba(95,90,227,1) 16%, rgba(126,86,203,1) 32%, rgba(158,82,179,1) 48%, rgba(189,78,155,1) 64%, rgba(221,74,131,1) 80%, rgba(252,70,107,1) 100%);*/
+    /*background: -webkit-linear-gradient(0deg, rgba(63,94,251,1) 0%, rgba(95,90,227,1) 16%, rgba(126,86,203,1) 32%, rgba(158,82,179,1) 48%, rgba(189,78,155,1) 64%, rgba(221,74,131,1) 80%, rgba(252,70,107,1) 100%);*/
+    /*background: linear-gradient(0deg, rgba(63,94,251,1) 0%, rgba(95,90,227,1) 16%, rgba(126,86,203,1) 32%, rgba(158,82,179,1) 48%, rgba(189,78,155,1) 64%, rgba(221,74,131,1) 80%, rgba(252,70,107,1) 100%);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endColorstr="#fc466b",GradientType=1);*/
+    min-height: 100vh; /* Ensure gradient covers the entire viewport height */
+    display: flex; /* Optional: For centering content */
+    flex-direction: column; /* Optional: For vertical layout */
+    align-items: center; /* Optional: For centering content horizontally */
+    justify-content: center; /* Optional: For centering content vertically */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin: 0 auto;
+}
+
+body {
+    overflow: hidden;
 }
 
 #wukong-content {

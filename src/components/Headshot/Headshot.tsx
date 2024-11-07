@@ -91,8 +91,8 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         Songqing
                         Chen </Box>
                     (GMU).
-                    My research interests are centered around <b>cloud computing</b> with a focus on <b>serverless
-                    computing</b>. Specifically, I'm interested in applications of serverless computing to data
+                    My research interests are centered around cloud computing with a focus on serverless
+                    computing. Specifically, I'm interested in applications of serverless computing to data
                     analytics/data science, machine learning, file systems, and other areas.
                 </Typography>
             </div>

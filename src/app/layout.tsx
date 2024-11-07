@@ -47,9 +47,7 @@ export default function RootLayout({
             <meta name="description" content="Portfolio Website"/>
             <title>Ben Carver</title>
         </head>
-        <body id={"body"} className={roboto.variable} style={{
-            overflowY: "scroll"
-        }}>
+        <body id={"body"} className={roboto.variable}>
         <AppRouterCacheProvider>
             <CssBaseline/>
             <ThemeProvider theme={theme}>
