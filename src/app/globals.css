@@ -13,7 +13,11 @@ body {
 }
 
 .solid_background {
-    background: linear-gradient(90deg, #343434, #2F3061); /* Adjust colors as needed */
+    background: rgb(63,94,251);
+    background: -moz-linear-gradient(90deg, rgba(63,94,251,1) 0%, rgba(95,90,227,1) 16%, rgba(126,86,203,1) 32%, rgba(158,82,179,1) 48%, rgba(189,78,155,1) 64%, rgba(221,74,131,1) 80%, rgba(252,70,107,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(63,94,251,1) 0%, rgba(95,90,227,1) 16%, rgba(126,86,203,1) 32%, rgba(158,82,179,1) 48%, rgba(189,78,155,1) 64%, rgba(221,74,131,1) 80%, rgba(252,70,107,1) 100%);
+    background: linear-gradient(90deg, rgba(63,94,251,1) 0%, rgba(95,90,227,1) 16%, rgba(126,86,203,1) 32%, rgba(158,82,179,1) 48%, rgba(189,78,155,1) 64%, rgba(221,74,131,1) 80%, rgba(252,70,107,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endColorstr="#fc466b",GradientType=1);
     min-height: 100vh; /* Ensure gradient covers the entire viewport height */
     display: flex; /* Optional: For centering content */
     flex-direction: column; /* Optional: For vertical layout */
@@ -47,20 +51,20 @@ body {
     /**/
     --secondary-glow: conic-gradient(
             from 10deg at 50% 50%,
-            #de4e71 0deg,
-            #ae77b2 55deg,
-            #9491E2 120deg,
-            #B025CD 160deg,
+            #7e56cb 0deg,
+            #FDCA40 55deg,
+            #dd4a83 120deg,
+            #bd4e9b 160deg,
             transparent 360deg
     );
 
     --third-glow: conic-gradient(
-            from 90deg at 50% 50%,
-            #de4e71 0deg,
-            #9DB1DF 170deg,
-            #B025CD 150deg,
-            #A2C2DD 120deg,
-            #AFF2D8 55deg,
+            from 45deg at 50% 50%,
+            #7e56cb 0deg,
+            #FDCA40 170deg,
+            #dd4a83 150deg,
+            #7e56cb 120deg,
+            #3F5EFB 55deg,
             transparent 360deg
     );
 }
