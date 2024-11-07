@@ -49,6 +49,7 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
 
     const projectsButton = (<Button
         key={"projects_section"}
+        aria-label={"Go to Projects Section Button"}
         onClick={() => {
             if (props.projectRef?.current) {
                 console.log("Scrolling to Projects section.");
@@ -67,6 +68,7 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
 
     const getEmploymentButton = (text: string) => (<Button
         key={"employment_history_section"}
+        aria-label={"Go to Employment History Section Button"}
         onClick={() => {
             if (props.employmentHistoryRef?.current) {
                 console.log("Scrolling to Employment History section.");
@@ -85,6 +87,7 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
 
     const getEducationButton = (text: string) => (
         <Button
+            aria-label={"Go to Education Section Button"}
             key={"education_section"}
             onClick={() => {
                 if (props.educationRef?.current) {
@@ -105,6 +108,7 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
 
     const awardsButton = (
         <Button
+            aria-label={"Go to Awards Section Button"}
             key={"awards_section_button"}
             onClick={() => {
                 if (props.awardRef?.current) {
@@ -125,6 +129,7 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
 
     const skillsButton = (
         <Button
+            aria-label={"Go to Skills Section Button"}
             key={"skills_section"}
             onClick={() => {
                 if (props.skillsRef?.current) {

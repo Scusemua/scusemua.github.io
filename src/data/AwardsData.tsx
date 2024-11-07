@@ -76,7 +76,7 @@ const GMUPresidentialScholar: AwardData = {
 
 const VLDB2023NSFTravelGrant: AwardData = {
     name: "VLDB 2023 NSF Travel Grant",
-    date: "August 2023",
+    date: "Aug 2023",
     description: "Funding to attend VLDB 2023 and present a paper.",
     icon: (<Avatar style={{width: 50, height: 50}}>
         <AirplanemodeActiveIcon fill={"#fff"} stroke={"#fff"} transform="scale(2, 2)"/>

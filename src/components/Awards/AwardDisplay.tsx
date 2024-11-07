@@ -106,6 +106,7 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
                             color: "#d5e3e3",
                             paddingLeft: 0,
                         }}
+                        aria-label={"Show More/Less Button"}
                         onClick={() => setExpanded(!expanded)}>
                         {expanded ? "Show Less" : "Show More"}
                     </Button>}

@@ -41,7 +41,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
             variants={contentVariant}
             initial="hidden"
             whileInView="visible"
-            viewport={{once: true, amount: 1.0, margin: (props.extraSmall ? "-5px" : "-25px")}}
+            viewport={{once: true, amount: (props.extraSmall ? 0.5 : 1.0), margin: (props.extraSmall ? "-5px" : "-25px")}}
             onViewportEnter={() => console.log("Education Section has entered viewport")}
         >
             <TimelineOppositeContent
@@ -107,6 +107,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
                         color: "#d5e3e3",
                         paddingLeft: 0,
                     }}
+                    aria-label={"Show More/Less Button"}
                     onClick={() => setExpanded(!expanded)}>
                     {expanded ? "Show Less" : "Show More"}
                 </Button>

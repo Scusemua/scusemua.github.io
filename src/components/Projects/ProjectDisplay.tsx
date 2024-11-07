@@ -35,26 +35,18 @@ interface ProjectProps {
     project: Project;
 }
 
-interface ExpandMoreProps extends IconButtonProps {
-    expand: boolean;
-}
-
 const openInNewTab = (url: string | URL | undefined) => {
     const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
     if (newWindow) newWindow.opener = null
 }
 
-const badgeColors: string[] = ["#F05D5E", "#3D3E78"]
+const badgeColors: string[] = ["#E22753", "#3f5efb"]
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
     const [expanded, setExpanded] = React.useState<boolean>(false);
 
-    const [cardWidth, setCardWidth] = React.useState<number>(-1);
-
-    const nodeRef = React.useRef<any>(null);
-
     const getLearnMore = () => {
-        return (<Button variant={"text"} style={{
+        return (<Button variant={"text"} aria-label={"Learn More about Wukong Button"} style={{
             margin: "0.5rem auto auto auto",
             color: (props.project.learnMoreEnabled ? "" : "white")
         }} color={"info"}
@@ -65,22 +57,6 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             {props.project.learnMoreEnabled ? "Learn More" : "Learn More (Coming Soon)"}
         </Button>)
     }
-
-    React.useEffect(() => {
-        window.addEventListener("resize", () => {
-            if (nodeRef.current !== null) {
-                setCardWidth(nodeRef.current.getBoundingClientRect().width);
-            }
-        });
-    }, []);
-
-    const cardRefCallback = React.useCallback((node: any) => {
-        if (node !== null) {
-            setCardWidth(node.getBoundingClientRect().width);
-
-            nodeRef.current = node;
-        }
-    }, []);
 
     const getPaperLinks = () => {
         return <Stack
@@ -178,29 +154,31 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 </IconButton>
             </Tooltip>}
             {props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
-                <IconButton size="large"
+                <IconButton size="large" aria-label={"Project Website Button"}
                             onClick={() => openInNewTab(props.project.project_website_url)}>
                     <WebIcon fontSize="inherit"/>
                 </IconButton>
             </Tooltip>}
             {props.project.presentation_url && props.project.presentation_url !== "" &&
                 <Tooltip title={`Paper Presentation (${props.project.presentation_venue})`} arrow>
-                    <IconButton size="large"
+                    <IconButton size="large" aria-label={"Paper Presentation Button"}
                                 onClick={() => openInNewTab(props.project.presentation_url)}>
                         <PresentationIcon fill={"#757575"} fontSize="inherit"/>
                     </IconButton>
                 </Tooltip>}
             {getPaperLinks()}
             <IconButton size="large" style={{marginLeft: "auto"}}
-                        onClick={() => onClickCard()}>
+                        onClick={() => onClickCard()} aria-label={"Expand Project Card Button"}>
                 <ExpandMoreIcon fontSize="inherit" style={{transform: (expanded ? "rotate(180deg)" : "")}}/>
             </IconButton>
         </CardActions>
     )
 
     return (
-        <Card ref={cardRefCallback}
-              style={{height: (expanded ? "auto" : "100%")}}
+        <Card
+              style={{
+                  height: (expanded ? "auto" : "100%"),
+              }}
               className={styles.project_section_card}
         >
             <CardActionArea onClick={() => onClickCard()}>

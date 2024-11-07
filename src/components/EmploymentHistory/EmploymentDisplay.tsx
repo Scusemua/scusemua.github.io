@@ -99,7 +99,8 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
                     </ul>
                 </Collapse>}
                 {!mq_xs && !mq_sm && props.employment.descriptionList && props.employment.descriptionList.length > 0 &&
-                    <Button variant={"text"} style={{color: "#d5e3e3", paddingLeft: 0}} onClick={() => setExpanded(!expanded)}>
+                    <Button variant={"text"} style={{color: "#d5e3e3", paddingLeft: 0}} onClick={() => setExpanded(!expanded)}
+                            aria-label={"Show More/Less Button"}>
                         {expanded ? "Show Less" : "Show More"}
                     </Button>}
             </TimelineContent>

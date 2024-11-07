@@ -107,12 +107,12 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                    alignItems: "center",
                }}>
             <Button variant={"contained"} color={'primary'} onClick={downloadResume}
-                    startIcon={<DownloadIcon/>} style={{height: 45}}>
+                    startIcon={<DownloadIcon/>} style={{height: 45}} aria-label={"Download my Resume Button"}>
                 Download my Resume
             </Button>
             <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
                 <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
-                        rel="noopener noreferrer" startIcon={<MailIcon/>} style={{height: 45}}>
+                        rel="noopener noreferrer" startIcon={<MailIcon/>} style={{height: 45}} aria-label={"Contact Me Button"}>
                     Contact Me
                 </Button>
             </Tooltip>

@@ -29,7 +29,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
             </div>
             {props.degree.thesisUrl && <Tooltip title={`Download Thesis: "${props.degree.thesisTitle}"`}>
                 <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} color={'info'}
-                        onClick={() => downloadThesis(props.degree.thesisFile!)}>
+                        onClick={() => downloadThesis(props.degree.thesisFile!)} aria-label={"Download Thesis Button"}>
                     Download Thesis
                 </Button>
             </Tooltip>}
