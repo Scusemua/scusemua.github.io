@@ -41,26 +41,27 @@ body {
     overflow: visible;
     max-width: 100%;
     z-index: -1;
+    opacity: 1;
 
     /**/
     /*other default setting ...*/
     /**/
     --secondary-glow: conic-gradient(
             from 10deg at 50% 50%,
-            #de4e71 0deg,
-            #ae77b2 55deg,
-            #9491E2 120deg,
-            #B025CD 160deg,
+            #7e56cb 0deg,
+            #FDCA40 55deg,
+            #dd4a83 120deg,
+            #bd4e9b 160deg,
             transparent 360deg
     );
 
     --third-glow: conic-gradient(
-            from 90deg at 50% 50%,
-            #de4e71 0deg,
-            #9DB1DF 170deg,
-            #B025CD 150deg,
-            #A2C2DD 120deg,
-            #AFF2D8 55deg,
+            from 45deg at 50% 50%,
+            #7e56cb 0deg,
+            #FDCA40 170deg,
+            #dd4a83 150deg,
+            #7e56cb 120deg,
+            #3F5EFB 55deg,
             transparent 360deg
     );
 }

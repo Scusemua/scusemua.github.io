@@ -33,7 +33,6 @@ export default function Home() {
 
     return (
         <div>
-            <div style={{width: "100%", height: "0px", zIndex: -1}} className="gradient_background"/>
             <Navbar headshotRef={headshotRef} educationRef={educationRef} projectRef={projectRef}
                     skillsRef={skillsRef} employmentHistoryRef={employmentRef} awardRef={awardRef} key={"navbar"}/>
             <Headshot ref={headshotRef} key={"headshot_section"}/>
