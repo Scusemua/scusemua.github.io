@@ -29,15 +29,24 @@ export default function Home() {
     );
 
     return (
-        <div>
+        <div style={{position: 'relative'}}>
             <Navbar headshotRef={headshotRef} educationRef={educationRef} projectRef={projectRef}
                     skillsRef={skillsRef} employmentHistoryRef={employmentRef} awardRef={awardRef} key={"navbar"}/>
             <Headshot ref={headshotRef} key={"headshot_section"}/>
             <Projects ref={projectRef} key={"projects_section"}/>
             <AwardsSection ref={awardRef} key={"awardsSection"}/>
             <EducationSection ref={educationRef} key={"education_section"}/>
+            {/*<CloudIcon fill={"white"} opacity={0.5} style={{*/}
+            {/*    position: "absolute",*/}
+            {/*    bottom: "20%",*/}
+            {/*    right: "10%",*/}
+            {/*    width: '24rem',*/}
+            {/*    zIndex: -1*/}
+            {/*}}/>*/}
             <EmploymentHistory ref={employmentRef} key={"employment_section"}/>
-            <SkillsSection ref={skillsRef} key={"skills_section"}/>
+            <div style={{
+                position: "relative",
+            }}><SkillsSection ref={skillsRef} key={"skills_section"}/></div>
             <CopyrightNotice key={"copyright_section"}/>
         </div>
     );
