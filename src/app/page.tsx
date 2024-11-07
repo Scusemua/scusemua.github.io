@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Navbar from "@src/components/HomepageNavbar/HomepageNavbar";
 import EmploymentHistory from "@src/components/EmploymentHistory/EmploymentHistory";
 import AwardsSection from "@src/components/Awards/AwardsSection";
+import Image from "next/image";
+import Cloud from "@images/logos/cloud";
 
 export default function Home() {
     const headshotRef = React.useRef<HTMLInputElement>(null) as React.MutableRefObject<HTMLInputElement>;

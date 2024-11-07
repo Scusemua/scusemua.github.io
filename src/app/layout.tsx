@@ -56,6 +56,7 @@ export default function RootLayout({
                 <main>
                     {/*<div className="gradient_background" style={{width: "100%", height: "0px", zIndex: -1}}/>*/}
                     <div id={"root"} style={{
+                        zIndex: -1,
                         background: `linear-gradient(${gradientDegrees}, rgba(63,94,251,1) 0%, rgba(95,90,227,1) 16%, rgba(126,86,203,1) 32%, rgba(158,82,179,1) 48%, rgba(189,78,155,1) 64%, rgba(221,74,131,1) 80%, rgba(252,70,107,1) 100%)`,
                         filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=\"#3f5efb\",endColorstr=\"#fc466b\",GradientType=1)",
                     }}>
