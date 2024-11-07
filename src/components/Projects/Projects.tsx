@@ -2,9 +2,7 @@ import styles from "@src/styles/components/Projects.module.scss";
 
 import React, {forwardRef} from "react";
 
-import Grid2 from "@mui/material/Grid2";
-import Stack from "@mui/material/Stack";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import {Grid2, Stack, useMediaQuery} from "@mui/material";
 
 import Typography from '@mui/material/Typography';
 import {CurrentProjects, PastProjects, Project} from "@data/ProjectsData";

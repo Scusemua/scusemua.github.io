@@ -27,8 +27,4 @@ module.exports = {
     images: {
         unoptimized: true,
     },
-
-    experimental: {
-        optimizePackageImports: ['package-name'],
-    },
 };
