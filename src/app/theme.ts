@@ -6,14 +6,23 @@ const theme = createTheme({
     cssVariables: true,
     palette: {
         primary: {
-            main: '#F05D5E',
+            main: '#fc466b',
         },
         secondary: {
             main: '#EFF6EE',
         },
+        info: {
+            main: '#3f5efb',
+        },
         error: {
             main: red.A400,
         },
+    },
+    colorSchemes: {
+
+    },
+    typography: {
+        fontFamily: 'var(--font-roboto)',
     },
     components: {
         MuiCssBaseline: {
