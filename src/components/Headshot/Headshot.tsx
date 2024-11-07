@@ -262,12 +262,17 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     <Stack
                         direction={"column"}
                         spacing={4}
-                        sx={{justifyContent: 'center', alignItems: 'center', width: "40%"}}>
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        width={'100%'}
+                        paddingTop={'5rem'}
+                    >
                         <Image
                             src={PersonalData.image}
                             alt={"Ben's Headshot"}
                             className={styles.headshot_container_image}
-                            style={{width: "376px", height: "auto"}}
+                            width={376}
+                            style={{height: "auto"}}
                             priority={true}
                         />
                         <div className={styles.social_links_container}>
