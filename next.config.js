@@ -1,3 +1,7 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+
 /** @type {import('next').NextConfig} */
 module.exports = {
     /**
@@ -22,5 +26,9 @@ module.exports = {
      */
     images: {
         unoptimized: true,
+    },
+
+    experimental: {
+        optimizePackageImports: ['package-name'],
     },
 };

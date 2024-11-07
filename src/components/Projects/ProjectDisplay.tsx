@@ -204,7 +204,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
               className={styles.project_section_card}
         >
             <CardActionArea onClick={() => onClickCard()}>
-                <div style={{width: '100%', background: "#1C192E", zIndex: 5}}>
+                <div style={{width: '100%', background: "#1C192E"}}>
                     <CardMedia>
                         <div style={{
                             position: 'relative',
@@ -223,7 +223,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     </CardMedia>
                 </div>
                 {cardHeader}
-                <CardContent style={{zIndex: 1}}>
+                <CardContent>
                     <Typography variant="body1">
                         {props.project.description}
                     </Typography>
