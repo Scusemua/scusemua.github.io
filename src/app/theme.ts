@@ -6,13 +6,15 @@ const theme = createTheme({
     cssVariables: true,
     palette: {
         primary: {
-            main: '#E22753',
+            main: '#C1292E' // To match Shroom Haze
+            // main: '#E22753', // Not original, but whatever I was using in the interum, with the red-blue
         },
         secondary: {
             main: '#EFF6EE',
         },
         info: {
-            main: '#3f5efb',
+            // main: '#3f5efb', // Not original, but whatever I was using in the interum, with the red-blue
+            main: '#EEB868' // To match Shroom Haze
         },
         error: {
             main: red.A400,

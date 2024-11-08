@@ -40,7 +40,9 @@ const openInNewTab = (url: string | URL | undefined) => {
     if (newWindow) newWindow.opener = null
 }
 
-const badgeColors: string[] = ["#E22753", "#3f5efb"]
+// To match the red/blue and sort of the original
+// const badgeColors: string[] = ["#E22753", "#3f5efb"]
+const badgeColors: string[] = ["#da353a", "#3f5efb"]
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
     const [expanded, setExpanded] = React.useState<boolean>(false);
