@@ -13,7 +13,10 @@ body {
 }
 
 .solid_background {
-    background: linear-gradient(90deg, #343434, #2F3061); /* Adjust colors as needed */
+    background: #0f0c29;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     min-height: 100vh; /* Ensure gradient covers the entire viewport height */
     display: flex; /* Optional: For centering content */
     flex-direction: column; /* Optional: For vertical layout */
@@ -46,22 +49,40 @@ body {
     /**/
     /*other default setting ...*/
     /**/
+    /*--secondary-glow: conic-gradient(*/
+    /*        from 10deg at 50% 50%,*/
+    /*        #4389A2 0deg,*/
+    /*        #FDCA40 55deg,*/
+    /*        #dd4a83 120deg,*/
+    /*        #5C258D 160deg,*/
+    /*        transparent 360deg*/
+    /*);*/
+
+    /*--third-glow: conic-gradient(*/
+    /*        from 45deg at 50% 50%,*/
+    /*        #4389A2 0deg,*/
+    /*        #FDCA40 170deg,*/
+    /*        #dd4a83 150deg,*/
+    /*        #7e56cb 120deg,*/
+    /*        #3F5EFB 55deg,*/
+    /*        transparent 360deg*/
+    /*);*/
     --secondary-glow: conic-gradient(
             from 10deg at 50% 50%,
-            #7e56cb 0deg,
-            #FDCA40 55deg,
-            #dd4a83 120deg,
-            #bd4e9b 160deg,
+            #de4e71 0deg,
+            #ae77b2 55deg,
+            #9491E2 120deg,
+            #B025CD 160deg,
             transparent 360deg
     );
 
     --third-glow: conic-gradient(
-            from 45deg at 50% 50%,
-            #7e56cb 0deg,
-            #FDCA40 170deg,
-            #dd4a83 150deg,
-            #7e56cb 120deg,
-            #3F5EFB 55deg,
+            from 90deg at 50% 50%,
+            #de4e71 0deg,
+            #9DB1DF 170deg,
+            #B025CD 150deg,
+            #A2C2DD 120deg,
+            #AFF2D8 55deg,
             transparent 360deg
     );
 }

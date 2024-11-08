@@ -40,13 +40,15 @@ export default function RootLayout({
         </head>
         <body className={"solid_background " + roboto.variable}
         style={{
-            background: `linear-gradient(${gradientDegrees}, rgba(63,94,251,1) 0%, rgba(95,90,227,1) 16%, rgba(126,86,203,1) 32%, rgba(158,82,179,1) 48%, rgba(189,78,155,1) 64%, rgba(221,74,131,1) 80%, rgba(252,70,107,1) 100%)`
+            // background: `linear-gradient(${gradientDegrees}, rgba(63,94,251,1) 0%, rgba(95,90,227,1) 16%, rgba(126,86,203,1) 32%, rgba(158,82,179,1) 48%, rgba(189,78,155,1) 64%, rgba(221,74,131,1) 80%, rgba(252,70,107,1) 100%)` // Blue to Red
+            // background: "linear-gradient(90deg, #343434, #2F3061)" // Original
+            // background: "linear-gradient(90deg, rgba(45,37,47,1) 0%, rgba(96,67,113,1) 35%, rgba(224,137,208,1) 69%, rgba(107,49,93,1) 100%)" // More purple
         }}>
         <AppRouterCacheProvider>
             <CssBaseline/>
             <ThemeProvider theme={theme}>
                 <main>
-                    {/*<div className="gradient_background" style={{width: "100%", height: "0px", zIndex: -1}}/>*/}
+                    <div className="gradient_background" style={{width: "100%", height: "0px", zIndex: -1}}/>
                     {children}
                 </main>
             </ThemeProvider>
