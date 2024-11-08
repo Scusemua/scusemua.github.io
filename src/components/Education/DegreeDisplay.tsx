@@ -28,7 +28,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                 <Typography sx={{color: 'text.secondary'}} variant={"h6"}><i>{props.degree.thesisTitle}</i></Typography>
             </div>
             {props.degree.thesisUrl && <Tooltip title={`Download Thesis: "${props.degree.thesisTitle}"`}>
-                <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} color={'info'}
+                <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} color={'primary'}
                         onClick={() => downloadThesis(props.degree.thesisFile!)} aria-label={"Download Thesis Button"}>
                     Download Thesis
                 </Button>

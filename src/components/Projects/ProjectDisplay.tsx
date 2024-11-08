@@ -50,7 +50,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     const getLearnMore = () => {
         return (<Button variant={"text"} aria-label={"Learn More about Wukong Button"} style={{
             margin: "0.5rem auto auto auto",
-            color: (props.project.learnMoreEnabled ? "" : "white")
+            color: (props.project.learnMoreEnabled ? "#292cc1" : "white")
         }} color={"info"}
                         onClick={(evt) => {
                             evt.stopPropagation();
