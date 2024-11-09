@@ -1,0 +1,82 @@
+// n is number of stars required
+@function multiple-box-shadow-mobile ($n) {
+  $value: '#{random(100)}vw #{random(10000)}px #FFF';
+  @for $i from 2 through $n {
+    $value: '#{$value} , #{random(100)}vw #{random(10000)}px #FFF';
+  }
+
+  @return unquote($value);
+}
+
+$mobile-shadows-small: multiple-box-shadow-mobile(300);
+$mobile-shadows-medium: multiple-box-shadow-mobile(150);
+$mobile-shadows-big: multiple-box-shadow-mobile(50);
+
+#mobile_stars {
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow: $mobile-shadows-small;
+  animation: animStarMobile 25s linear infinite;
+
+  &:after {
+    overflow: hidden;
+    content: " ";
+    position: absolute;
+    top: 20000px;
+    width: 1px;
+    height: 1px;
+    background: transparent;
+    box-shadow: $mobile-shadows-small;
+  }
+}
+
+#mobile_stars2 {
+  overflow: hidden;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  box-shadow: $mobile-shadows-medium;
+  animation: animStarMobile 45s linear infinite;
+
+  &:after {
+    overflow: hidden;
+    content: " ";
+    position: absolute;
+    top: 20000px;
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    box-shadow: $mobile-shadows-medium;
+  }
+}
+
+#mobile_stars3 {
+  overflow: hidden;
+  width: 3px;
+  height: 3px;
+  background: transparent;
+  box-shadow: $mobile-shadows-big;
+  animation: animStarMobile 60s linear infinite;
+
+  &:after {
+    overflow: hidden;
+    content: " ";
+    position: absolute;
+    top: 20000px;
+    width: 3px;
+    height: 3px;
+    background: transparent;
+    box-shadow: $mobile-shadows-big;
+  }
+}
+
+@keyframes animStarMobile {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-1000px);
+  }
+};
