@@ -49,10 +49,11 @@ export default function RootLayout({
             <CssBaseline/>
             <ThemeProvider theme={theme}>
                 <main>
-                    <div className="gradient_background" style={{width: "100%", height: "0px", zIndex: 0}}/>
-                    <div id={"stars"} style={{zIndex: 1}}/>
-                    <div id={"stars2"} style={{zIndex: 1}}/>
-                    <div id={"stars3"} style={{zIndex: 1}}/>
+                    <div className="gradient_background" style={{width: "100%", zIndex: -1}}>
+                    </div>
+                    <div id={"stars"} style={{zIndex: 2}}/>
+                    <div id={"stars2"} style={{zIndex: 2}}/>
+                    <div id={"stars3"} style={{zIndex: 2}}/>
                     {children}
                 </main>
             </ThemeProvider>
