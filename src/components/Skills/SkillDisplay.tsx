@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 
 interface SkillProps {
     skillName: string;
+    isXs: boolean;
 }
 
 const SkillAnimationVariant: Variants = {
@@ -29,14 +30,15 @@ const SkillDisplay: React.FunctionComponent<SkillProps> = (props: SkillProps) =>
         <motion.div
             variants={SkillAnimationVariant}
             whileHover={{
-                scale: 1.08,
+                scale: 1.05,
             }}
             className={`${styles.skills_category_container_skill}`}
             style={{
                 margin: "0 auto",
+                padding: props.isXs ? "0.75rem 0.75rem" : "1rem 2rem"
             }}
         >
-            <Typography sx={{typography: {xs: 'body2', sm: 'h6', md: "h6", lg: "h5", xl: "h5"}}}>
+            <Typography sx={{typography: {xs: 'body1', sm: 'h6', md: "h6", lg: "h5", xl: "h5"}}}>
                 {props.skillName}
             </Typography>
         </motion.div>

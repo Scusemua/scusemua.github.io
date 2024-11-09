@@ -21,14 +21,14 @@ interface SkillsSectionProps {
     is_xs: boolean;
 }
 
-const GetSkill = (skill: string, i: number) => {
+const GetSkill = (skill: string, i: number, isXs: boolean) => {
     if (skill === "{{break}}") {
         return <div key={`skill-line-break-${i}`} style={{flexBasis: "100%", height: 0}}/>;
     }
 
     return (
         <div style={{marginTop: "2rem"}} key={`skill-${skill}-idx-${i}_wrapper`}>
-            <SkillDisplay key={`skill-${skill}-idx-${i}`} skillName={skill}/>
+            <SkillDisplay key={`skill-${skill}-idx-${i}`} skillName={skill} isXs={isXs}/>
         </div>
     );
 }
@@ -53,11 +53,11 @@ const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((props: S
                     key={`skills_category_header_${skills.category}_wrapper`}
                     className={`${styles.skills_category_container}`}
                     style={{
-                        maxWidth: props.is_xs ? "90%" : "70%",
+                        maxWidth: props.is_xs ? "90%" : "75%",
                     }}
                 >
                     {skills.skills.map((skill, i) => {
-                        return GetSkill(skill, i);
+                        return GetSkill(skill, i, props.is_xs);
                     })}
                 </div>
             </motion.div>

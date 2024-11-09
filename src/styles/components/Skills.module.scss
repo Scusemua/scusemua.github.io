@@ -26,13 +26,12 @@
     // Set to 0; we explicitly set marginTop on each skill so we can add line-breaks to the rows of skills
     // without adding a blank line in between the rows (by adding a div with flex-basis: 100% to add the new row).
     row-gap: 0;
-    column-gap: 2rem;
+    column-gap: 1rem;
     margin: 1.5rem auto 0 auto;
 
     &_skill {
       color: #ffffff;
       background: rgba(0, 0, 0, 0.5);
-      padding: 1rem 1rem;
       border-radius: 0.5rem;
       display: inline-block;
     }

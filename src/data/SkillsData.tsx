@@ -20,7 +20,7 @@ export interface Skills {
 export const CloudPlatformSkills: Skills = {
     category: SkillCategory.Platforms,
     icon: <CloudIcon fontSize={"inherit"} style={{fontSize: "24pt"}}/>,
-    skills: ['Google Cloud Platform', 'Amazon Web Services', 'Azure Cloud', 'IBM Cloud', '{{break}}', 'EC2', 'ECS', 'EKS', 'GKE']
+    skills: ['Google Cloud Platform', 'Azure Cloud', 'Amazon Web Services', 'IBM Cloud', '{{break}}', 'EC2', 'ECS', 'EKS', 'GKE']
 }
 
 export const ToolSkills: Skills = {
