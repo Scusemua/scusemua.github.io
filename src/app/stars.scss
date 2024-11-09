@@ -7,9 +7,9 @@
 
   @return unquote($value);
 }
-$shadows-small: multiple-box-shadow(1000);
-$shadows-medium: multiple-box-shadow(400);
-$shadows-big: multiple-box-shadow(250);
+$shadows-small: multiple-box-shadow(1150);
+$shadows-medium: multiple-box-shadow(500);
+$shadows-big: multiple-box-shadow(325);
 
 #stars {
   overflow: hidden;
