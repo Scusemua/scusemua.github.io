@@ -6,6 +6,8 @@ import styles from "@src/styles/components/Skills.module.scss";
 import SkillDisplay from "./SkillDisplay";
 import Typography from "@mui/material/Typography";
 import Projects from "@src/components/Projects/Projects";
+import {useMediaQuery} from "@mui/material";
+import theme from "@src/app/theme";
 
 const skillWrapperVariant: Variants = {
     animate: {
@@ -16,6 +18,7 @@ const skillWrapperVariant: Variants = {
 };
 
 interface SkillsSectionProps {
+    is_xs: boolean;
 }
 
 const GetSkill = (skill: string, i: number) => {
@@ -30,7 +33,7 @@ const GetSkill = (skill: string, i: number) => {
     );
 }
 
-const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((_props: SkillsSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => (
+const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((props: SkillsSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => (
     <div className={`${styles.skills}`} id="skills" ref={ref}>
         <Typography key="skills_section_header" variant={"h2"} className={styles.skills_header_text}>Skills</Typography>
         {SkillsData.map((skills: Skills, index: number) => (
@@ -46,7 +49,13 @@ const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((_props: 
                     {skills.icon} {skills.category.toString()}
                 </Typography>
 
-                <div key={`skills_category_header_${skills.category}_wrapper`} className={`${styles.skills_category_container}`}>
+                <div
+                    key={`skills_category_header_${skills.category}_wrapper`}
+                    className={`${styles.skills_category_container}`}
+                    style={{
+                        maxWidth: props.is_xs ? "90%" : "70%",
+                    }}
+                >
                     {skills.skills.map((skill, i) => {
                         return GetSkill(skill, i);
                     })}

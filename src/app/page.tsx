@@ -10,6 +10,8 @@ import Navbar from "@src/components/HomepageNavbar/HomepageNavbar";
 import EmploymentHistory from "@src/components/EmploymentHistory/EmploymentHistory";
 import AwardsSection from "@src/components/Awards/AwardsSection";
 import CloudIcon from "@icons/cloud";
+import {useMediaQuery} from "@mui/material";
+import theme from "@src/app/theme";
 
 export default function Home() {
     const headshotRef = React.useRef<HTMLInputElement>(null) as React.MutableRefObject<HTMLInputElement>;
@@ -18,6 +20,8 @@ export default function Home() {
     const educationRef = React.useRef<HTMLInputElement>(null);
     const skillsRef = React.useRef<HTMLInputElement>(null);
     const awardRef = React.useRef<HTMLInputElement>(null);
+
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
 
     const [mounted, setMounted] = React.useState(false);
     React.useEffect(() => {
@@ -46,7 +50,7 @@ export default function Home() {
             <EmploymentHistory ref={employmentRef} key={"employment_section"}/>
             <div style={{
                 position: "relative",
-            }}><SkillsSection ref={skillsRef} key={"skills_section"}/></div>
+            }}><SkillsSection ref={skillsRef} key={"skills_section"} is_xs={mq_xs}/></div>
             <CopyrightNotice key={"copyright_section"}/>
         </div>
     );
