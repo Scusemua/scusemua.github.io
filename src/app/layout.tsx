@@ -6,6 +6,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import "./globals.css";
+import "./stars.scss";
 
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -48,7 +49,10 @@ export default function RootLayout({
             <CssBaseline/>
             <ThemeProvider theme={theme}>
                 <main>
-                    {/*<div className="gradient_background" style={{width: "100%", height: "0px", zIndex: -1}}/>*/}
+                    <div className="gradient_background" style={{width: "100%", height: "0px", zIndex: 0}}/>
+                    <div id={"stars"} style={{zIndex: 1}}/>
+                    <div id={"stars2"} style={{zIndex: 1}}/>
+                    <div id={"stars3"} style={{zIndex: 1}}/>
                     {children}
                 </main>
             </ThemeProvider>

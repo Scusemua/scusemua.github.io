@@ -17,7 +17,7 @@ const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>(
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
 
     const getMaxWidth = () => {
-        return (mq_xs || mq_sm) ? "100%" : "90%";
+        return (mq_xs || mq_sm) ? "100%" : "95%";
     }
 
     const getAwardDisplay = (award: AwardData) => {
