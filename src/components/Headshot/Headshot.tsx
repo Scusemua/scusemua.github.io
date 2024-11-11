@@ -85,15 +85,10 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             <div className={styles.headshot_header_text_bio_text}>
                 <Typography variant={"h6"}>
                     I'm a 3rd year PhD candidate in CS at George Mason University. My advisors are
-                    <Box component="span" fontWeight='fontWeightBold' color={"#ffffff"} fontSize="1.35rem"> Dr. Yue
-                        Cheng</Box> (University of Virginia) and
-                    <Box component="span" color={"#ffffff"} fontWeight='fontWeightBold' fontSize="1.35rem"> Dr.
-                        Songqing
-                        Chen </Box>
-                    (GMU).
+                    Dr. Yue Cheng (University of Virginia) & Dr. Songqing Chen (GMU).
                     My research interests are centered around cloud computing with a focus on serverless
                     computing. Specifically, I'm interested in applications of serverless computing to data
-                    analytics/data science, machine learning, file systems, and other areas.
+                    analytics, machine learning, file systems, and other areas.
                 </Typography>
             </div>
         </div>
@@ -112,7 +107,8 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             </Button>
             <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
                 <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
-                        rel="noopener noreferrer" startIcon={<MailIcon/>} style={{height: 45}} aria-label={"Contact Me Button"}>
+                        rel="noopener noreferrer" startIcon={<MailIcon/>} style={{height: 45}}
+                        aria-label={"Contact Me Button"}>
                     Contact Me
                 </Button>
             </Tooltip>
@@ -194,7 +190,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                             University</Typography>
                     </div>
                 </Stack>
-                <div style={{margin: "1rem auto 0 auto", width: "65%"}}>
+                <div style={{margin: "1rem auto 0 auto", width: "100%"}}>
                     {headerBioText}
                 </div>
             </div>
@@ -288,9 +284,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         }}
                     >
                         {getHeaderGreetingText(false)}
-                        <div style={{marginTop: "1rem"}}>
-                            {headerBioText}
-                        </div>
+                        {headerBioText}
                         {headerButtons}
                     </Stack>
                 </Stack>
