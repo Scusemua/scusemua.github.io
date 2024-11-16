@@ -76,7 +76,12 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     )
 
     const headerBioText = (
-        <div style={{margin: '1rem auto 0 auto'}} className={styles.headshot_header_text_bio_container}>
+        <div
+            style={{
+                margin: '1rem auto 0 auto',
+        }}
+            className={styles.headshot_header_text_bio_container}
+        >
             <div className={styles.headshot_header_text_bio_text}>
                 <Typography variant={"h6"} style={{fontSize: "1.5rem"}}>
                     I'm a 3rd year PhD candidate in CS at George Mason University. My advisors are

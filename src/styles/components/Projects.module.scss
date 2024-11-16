@@ -5,6 +5,7 @@
   align-items: center;
   transition: height 0.5s ease;
   width: 100%;
+  max-width: 2560px;
 
   &_card {
     @extend .project_section;
