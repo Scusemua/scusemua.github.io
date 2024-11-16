@@ -23,6 +23,12 @@ interface HeadshotProps {
 
 // const Headshot: React.FunctionComponent = () => {
 const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
+
     const openInNewTab = (url: string | URL | undefined) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
@@ -69,21 +75,10 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         </Stack>
     )
 
-    const getHeaderGreetingText = (addBreak: boolean, nameTextVariant: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" = "h1") => {
-        return (<div className={styles.headshot_header_text_greeting}>
-            <Typography variant={"h5"}>Hello! I am</Typography>
-            <Typography variant={nameTextVariant}>{PersonalData.name}</Typography>
-            {addBreak &&
-                <Typography variant={"h5"}>Computer Science PhD Candidate<br/>at George Mason University</Typography>}
-            {!addBreak &&
-                <Typography variant={"h5"}>Computer Science PhD Candidate at George Mason University</Typography>}
-        </div>);
-    };
-
     const headerBioText = (
         <div style={{margin: '1rem auto 0 auto'}} className={styles.headshot_header_text_bio_container}>
             <div className={styles.headshot_header_text_bio_text}>
-                <Typography variant={"h6"}>
+                <Typography variant={"h6"} style={{fontSize: "1.5rem"}}>
                     I'm a 3rd year PhD candidate in CS at George Mason University. My advisors are
                     Dr. Yue Cheng (University of Virginia) & Dr. Songqing Chen (GMU).
                     My research interests are centered around cloud computing with a focus on serverless
@@ -115,12 +110,6 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         </Stack>
     );
 
-    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
-    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
-    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
-    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
-
     const getLayoutXs = () => {
         return (
             <Stack
@@ -130,6 +119,9 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                 spacing={3}
                 alignItems={'center'}
                 key={"xs_layout_headshot"}
+                style={{
+                    width: "90%"
+                }}
             >
                 <Image
                     src={PersonalData.image}
@@ -159,18 +151,22 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
 
     const getLayoutSm = () => {
         return (
-            <div key={"lg_layout_headshot"} style={{width: "80%", margin: "0 auto"}}>
+            <div key={"lg_layout_headshot"} style={{margin: "0 auto"}}>
                 <Stack
                     className={styles.headshot_container}
                     direction={'row'}
                     justifyContent={'center'}
                     spacing={4}
-                    style={{marginTop: '4rem'}}
-                    alignItems={'flex-end'}>
+                    style={{
+                        marginTop: '4rem',
+                        width: "90%",
+                    }}
+                    alignItems={'center'}>
                     <Stack
                         direction={"column"}
                         spacing={2}
-                        sx={{justifyContent: 'center', alignItems: 'center'}}
+                        justifyContent={"center"}
+                        alignItems={"center"}
                     >
                         <Image
                             src={PersonalData.image}
@@ -184,13 +180,13 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         </div>
                     </Stack>
                     <div className={styles.headshot_header_text_greeting}>
-                        <Typography variant={"h4"}>Hello! I am</Typography>
-                        <Typography variant={"h3"}>{PersonalData.name}</Typography>
-                        <Typography variant={"h6"}>Computer Science<br/>PhD Candidate<br/>at George Mason
+                        <Typography variant={"h5"}>Hello! I am</Typography>
+                        <Typography variant={"h2"}>{PersonalData.name}</Typography>
+                        <Typography variant={"h5"}>Computer Science<br/>PhD Candidate<br/>at George Mason
                             University</Typography>
                     </div>
                 </Stack>
-                <div style={{margin: "1rem auto 0 auto", width: "100%"}}>
+                <div style={{margin: "1rem auto 0 auto", width: "95%"}}>
                     {headerBioText}
                 </div>
             </div>
@@ -213,13 +209,12 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         sx={{
                             justifyContent: 'center',
                             alignItems: 'center',
-                            width: "100%",
                         }}
                     >
                         <Stack
                             direction={"column"}
                             spacing={2}
-                            sx={{justifyContent: 'center', alignItems: 'center', width: "50%"}}
+                            sx={{justifyContent: 'center', alignItems: 'center'}}
                         >
                             <Image
                                 src={PersonalData.image}
@@ -234,12 +229,12 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         </Stack>
                         <div className={styles.headshot_header_text_greeting}>
                             <Typography variant={"h5"}>Hello! I am</Typography>
-                            <Typography variant={"h2"}>{PersonalData.name}</Typography>
-                            <Typography variant={"h5"}>Computer Science<br/>PhD Candidate at<br/>George Mason University</Typography>
+                            <Typography variant={"h1"}>{PersonalData.name}</Typography>
+                            <Typography variant={"h4"}>Computer Science<br/>PhD Candidate at<br/>George Mason University</Typography>
                         </div>
                     </Stack>
                 </Stack>
-                <div style={{margin: "1rem auto 0 auto", width: "80%"}}>
+                <div style={{margin: "1rem auto 0 auto", width: "88%"}}>
                     {headerBioText}
                 </div>
             </div>
@@ -253,39 +248,55 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     className={styles.headshot_container}
                     direction={'row'}
                     justifyContent={'center'}
+                    alignContent={"center"}
+                    alignItems={'center'}
+                    style={{
+                        margin: '0 auto'
+                    }}
                     spacing={1}
-                    alignItems={'flex-end'}>
+                >
                     <Stack
                         direction={"column"}
                         spacing={4}
                         justifyContent={'center'}
                         alignItems={'center'}
-                        width={'100%'}
                         paddingTop={'5rem'}
                     >
-                        <Image
-                            src={PersonalData.image}
-                            alt={"Ben's Headshot"}
-                            className={styles.headshot_container_image}
-                            width={376}
-                            style={{height: "auto"}}
-                            priority={true}
-                        />
+                        <div>
+                            <Image
+                                src={PersonalData.image}
+                                alt={"Ben's Headshot"}
+                                className={styles.headshot_container_image}
+                                width={376}
+                                priority={true}
+                            />
+                        </div>
                         <div className={styles.social_links_container}>
                             {socialLinks}
                         </div>
                     </Stack>
                     <Stack
                         direction={"column"}
-                        spacing={2}
+                        spacing={0}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        alignContent={"center"}
                         style={{
                             zIndex: 2,
                             paddingTop: "5rem",
+                            width: "50%"
                         }}
                     >
-                        {getHeaderGreetingText(false)}
-                        {headerBioText}
-                        {headerButtons}
+                        <div className={styles.headshot_header_text_greeting}>
+                            <Typography variant={"h4"}>Hello! I am</Typography>
+                            <Typography variant={"h1"}>{PersonalData.name}</Typography>
+                            <Typography variant={"h5"} style={{fontSize: "1.7rem"}}>Computer Science PhD Candidate at George Mason
+                                University</Typography>
+                        </div>
+                        <div style={{width: "85%", margin: "0 auto"}}>
+                            {headerBioText}
+                        </div>
+                        <div>{headerButtons}</div>
                     </Stack>
                 </Stack>
             </div>
