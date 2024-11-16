@@ -16,7 +16,7 @@ export interface Employment {
     employer: string;
     description: string;
     descriptionList?: (string | ReactNode)[];
-    getIcon: (width: number, height: number) => ReactElement;
+    getIcon: (width: number, height: number, scale: number) => ReactElement;
 }
 
 const SummerInternship: Employment = {
@@ -28,8 +28,8 @@ const SummerInternship: Employment = {
     title: "Summer Intern",
     employer: "BRTRC Federal Solutions",
     description: "Worked as a development team member to extend a .NET desktop application.",
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <DeveloperIcon fill={"#fff"} transform="scale(1.1, 1.1)"/>
+    getIcon: (width: number, height: number, scale: number = 1.1) => (<Avatar style={{width: width, height: height}}>
+        <DeveloperIcon fill={"#fff"} transform={`scale(${scale}, ${scale})`}/>
     </Avatar>)
 }
 
@@ -47,8 +47,8 @@ const JuniorDeveloper: Employment = {
         "Decreased application load time by a factor of five & memory footprint by 70%.",
         "Implemented a system for manipulating, serializing, and viewing 3D models.",
     ],
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <DeveloperDeskIcon fill={"#fff"} transform="scale(-1.25, 1.25)"/>
+    getIcon: (width: number, height: number, scale: number = 1.25) => (<Avatar style={{width: width, height: height}}>
+        <DeveloperDeskIcon fill={"#fff"} transform={`scale(-${scale * -1}, ${scale})`}/>
     </Avatar>)
 }
 
@@ -60,8 +60,8 @@ const UndergraduateTeachingAssistant: Employment = {
     title: "Undergraduate Teaching Assistant",
     employer: "George Mason University",
     description: "Assisted students with assignments and projects. Held review sessions for exams.",
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <TeacherIcon fill={"#fff"} transform="scale(1.125, 1.125)"/>
+    getIcon: (width: number, height: number, scale: number = 1.125) => (<Avatar style={{width: width, height: height}}>
+        <TeacherIcon fill={"#fff"} transform={`scale(${scale}, ${scale})`}/>
     </Avatar>)
 }
 
@@ -73,8 +73,8 @@ const MicrosoftResearchIntern: Employment = {
     title: "Research Intern",
     employer: "Microsoft Research Lab - Redmond",
     description: "Under the mentorship of Dr. Rodrigo Fonseca, assisted in the design, development, testing, and evaluation of new a microsecond-latency serverless stack.",
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <MicrosoftIcon transform="scale(-1.65, 1.65)" style={{margin: "0 auto"}}/>
+    getIcon: (width: number, height: number, scale: number = 1.65) => (<Avatar style={{width: width, height: height}}>
+        <MicrosoftIcon transform={`scale(${scale * -1}, ${scale})`} style={{margin: "0 auto"}}/>
     </Avatar>)
 }
 

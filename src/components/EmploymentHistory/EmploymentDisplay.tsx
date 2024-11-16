@@ -62,7 +62,7 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
                     key={`motion-div-wrapper-props.employment-${props.employment.title}-connector1`}/>
                 <TimelineDot
                     key={`motion-div-wrapper-props.employment-${props.employment.title}-dot`}>
-                    {props.employment.getIcon(45, 45)}
+                    {props.employment.getIcon(45, 45, 1.25)}
                 </TimelineDot>
                 <TimelineConnector
                     key={`motion-div-wrapper-props.employment-${props.employment.title}-connector2`}/>

@@ -13,7 +13,7 @@ export interface AwardData {
     description?: string | ReactNode;
     additionalInfo?: (string | ReactNode)[];
     additionalInfoHeader?: string | ReactNode;
-    getIcon: (width: number, height: number) => ReactElement;
+    getIcon: (width: number, height: number, scale?: number) => ReactElement;
 }
 
 const DistinguishedAcademicAchievement2020: AwardData = {
@@ -22,8 +22,8 @@ const DistinguishedAcademicAchievement2020: AwardData = {
     year: 2020,
     description: "For excellent academic performance.",
     additionalInfoHeader: <b>Courses Taken During Award Period:</b>,
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <TrophyIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.25, 1.25)"/>
+    getIcon: (width: number, height: number, scale?: number) => (<Avatar style={{width: width, height: height}}>
+        <TrophyIcon fill={"#fff"} stroke={"#fff"} transform={`scale(${scale || 1.25}, ${scale || 1.25})`}/>
     </Avatar>),
     additionalInfo: [
         "CS 571 - Operating Systems (Graduate Level)",
@@ -41,8 +41,8 @@ const DistinguishedUndergradResearch: AwardData = {
     month: "May",
     year: 2020,
     description: "For outstanding research contributions as an undergraduate student.",
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <AwardCertificateIcon fill={"#fff"} transform="scale(1.35, 1.35)"/>
+    getIcon: (width: number, height: number, scale?: number) => (<Avatar style={{width: width, height: height}}>
+        <AwardCertificateIcon fill={"#fff"} transform={`scale(${scale || 1.35}, ${scale || 1.35})`}/>
     </Avatar>)
 }
 
@@ -52,8 +52,8 @@ const DistinguishedAcademicAchievement2021: AwardData = {
     year: 2021,
     description: "For excellent academic performance.",
     additionalInfoHeader: <b>Courses Taken During Award Period (All Graduate Level):</b>,
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <TrophyIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.25, 1.25)"/>
+    getIcon: (width: number, height: number, scale?: number) => (<Avatar style={{width: width, height: height}}>
+        <TrophyIcon fill={"#fff"} stroke={"#fff"} transform={`scale(${scale || 1.25}, ${scale || 1.25})`}/>
     </Avatar>),
     additionalInfo: [
         "CS 799 - Master's Thesis",
@@ -74,8 +74,8 @@ const GMUPresidentialScholar: AwardData = {
     month: "May",
     year: 2021,
     description: "Prestigious, merit-based scholarship awarded to at-most 2 students per academic year (within a PhD program). Requires a strong faculty nomination.",
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <FellowshipIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.5, 1.5)"/>
+    getIcon: (width: number, height: number, scale?: number) => (<Avatar style={{width: width, height: height}}>
+        <FellowshipIcon fill={"#fff"} stroke={"#fff"} transform={`scale(${scale || 1.5}, ${scale || 1.5})`}/>
     </Avatar>)
 }
 
@@ -84,8 +84,8 @@ const VLDB2023NSFTravelGrant: AwardData = {
     month: "Aug",
     year: 2023,
     description: "Funding to attend VLDB 2023 and present a paper.",
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <AirplanemodeActiveIcon fill={"#fff"} stroke={"#fff"} transform="scale(2, 2)"/>
+    getIcon: (width: number, height: number, scale?: number) => (<Avatar style={{width: width, height: height}}>
+        <AirplanemodeActiveIcon fill={"#fff"} stroke={"#fff"} transform={`scale(${scale || 2}, ${scale || 2})`}/>
     </Avatar>)
 }
 

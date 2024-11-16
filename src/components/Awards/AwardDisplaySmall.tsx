@@ -58,7 +58,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
             <TimelineSeparator>
                 <TimelineConnector/>
                 <TimelineDot>
-                    {props.award.getIcon(35, 35) || (<Avatar style={{width: 35, height: 35}}>
+                    {props.award.getIcon(35, 35, 1) || (<Avatar style={{width: 35, height: 35}}>
                         <MilitaryTechIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.1, 1.1)"/>
                     </Avatar>)}
                 </TimelineDot>

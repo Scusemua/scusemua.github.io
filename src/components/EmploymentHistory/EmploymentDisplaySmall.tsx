@@ -60,7 +60,7 @@ const EmploymentDisplaySmall: React.FunctionComponent<EmploymentDisplaySmallProp
                     key={`motion-div-wrapper-props.employment-${props.employment.title}-connector1`}/>
                 <TimelineDot
                     key={`motion-div-wrapper-props.employment-${props.employment.title}-dot`}>
-                    {props.employment.getIcon(35, 35)}
+                    {props.employment.getIcon(35, 35, 1.1)}
                 </TimelineDot>
                 <TimelineConnector
                     key={`motion-div-wrapper-props.employment-${props.employment.title}-connector2`}/>
