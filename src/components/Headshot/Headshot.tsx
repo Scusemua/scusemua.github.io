@@ -293,7 +293,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                             <Typography variant={"h5"} style={{fontSize: "1.7rem"}}>Computer Science PhD Candidate at George Mason
                                 University</Typography>
                         </div>
-                        <div style={{width: "85%", margin: "0 auto"}}>
+                        <div style={{width: "86%", margin: "0 auto"}}>
                             {headerBioText}
                         </div>
                         <div>{headerButtons}</div>
