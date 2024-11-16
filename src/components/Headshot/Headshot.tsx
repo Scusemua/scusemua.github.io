@@ -17,6 +17,8 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
 import theme from "@src/app/theme";
+import {BubbleContext} from "@src/app/layout";
+import {BubbleChart} from "@mui/icons-material";
 
 interface HeadshotProps {
 }
@@ -28,6 +30,8 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
+
+    const { bubblesEnabled, setBubblesEnabled} = React.useContext(BubbleContext);
 
     const openInNewTab = (url: string | URL | undefined) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
@@ -114,6 +118,15 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         aria-label={"Contact Me Button"}>
                     <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
                         Contact Me
+                    </Typography>
+                </Button>
+            </Tooltip>
+            <Tooltip title={"Toggle Bubbles"} arrow>
+                <Button variant={"contained"} color={'secondary'} onClick={() => setBubblesEnabled(!bubblesEnabled)}
+                        startIcon={<BubbleChart/>} style={{height: 45, width: "12rem"}}
+                        aria-label={"Contact Me Button"}>
+                    <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
+                        Toggle Bubbles
                     </Typography>
                 </Button>
             </Tooltip>
