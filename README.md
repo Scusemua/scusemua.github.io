@@ -8,6 +8,8 @@ You can view the live website [here](https://scusemua.github.io/).
 
 This website serves as an interactive portfolio where I display my research, skills, and personal projects. It aims to provide a seamless user experience through a modern UI and smooth navigation.
 
+I created this website without using a template, as the creation of this website provided me with a good opportunity to begin learning React. (I've always been interested in learning React.) 
+
 ## ⚙️ Technologies Used
 
 - **Frontend**: [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
