@@ -79,11 +79,11 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         <div
             style={{
                 margin: '1rem auto 0 auto',
-        }}
+            }}
             className={styles.headshot_header_text_bio_container}
         >
             <div className={styles.headshot_header_text_bio_text}>
-                <Typography variant={"h6"} style={{fontSize: "1.5rem"}}>
+                <Typography variant={"h6"} style={{fontSize: mq_xs ? "1.3rem" : "1.5rem"}}>
                     I'm a 3rd year PhD candidate in CS at George Mason University. My advisors are
                     Dr. Yue Cheng (University of Virginia) & Dr. Songqing Chen (GMU).
                     My research interests are centered around cloud computing with a focus on serverless
@@ -102,14 +102,19 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                    alignItems: "center",
                }}>
             <Button variant={"contained"} color={'primary'} onClick={downloadResume}
-                    startIcon={<DownloadIcon/>} style={{height: 45}} aria-label={"Download my Resume Button"}>
-                Download my Resume
+                    startIcon={<DownloadIcon/>} style={{height: 45, width: "16rem"}}
+                    aria-label={"Download my Resume Button"}>
+                <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
+                    Download my Resume
+                </Typography>
             </Button>
             <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
                 <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
-                        rel="noopener noreferrer" startIcon={<MailIcon/>} style={{height: 45}}
+                        rel="noopener noreferrer" startIcon={<MailIcon/>} style={{height: 45, width: "12rem"}}
                         aria-label={"Contact Me Button"}>
-                    Contact Me
+                    <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
+                        Contact Me
+                    </Typography>
                 </Button>
             </Tooltip>
         </Stack>
@@ -254,7 +259,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     direction={'row'}
                     justifyContent={'center'}
                     alignContent={"center"}
-                    alignItems={'center'}
+                    alignItems={'flex-end'}
                     style={{
                         margin: '0 auto'
                     }}
@@ -289,13 +294,14 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                         style={{
                             zIndex: 2,
                             paddingTop: "5rem",
-                            width: "50%"
+                            width: "60%"
                         }}
                     >
                         <div className={styles.headshot_header_text_greeting}>
                             <Typography variant={"h4"}>Hello! I am</Typography>
                             <Typography variant={"h1"}>{PersonalData.name}</Typography>
-                            <Typography variant={"h5"} style={{fontSize: "1.7rem"}}>Computer Science PhD Candidate at George Mason
+                            <Typography variant={"h5"} style={{fontSize: "1.7rem"}}>Computer Science PhD Candidate at
+                                George Mason
                                 University</Typography>
                         </div>
                         <div style={{width: "86%", margin: "0 auto"}}>
