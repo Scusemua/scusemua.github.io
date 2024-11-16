@@ -27,12 +27,10 @@ const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>(
 
     return (
         <div className={`${styles.awards}`} id="skills" ref={ref}
-
-             style={{
-                 width: mq_xs ? "87%" : "100%",
-             }}
              key={"awards_section_wrapper"}
-
+             style={{
+                 width: mq_xs ? "100%" : "90%"
+             }}
         >
             <Typography variant={"h2"} className={styles.awards_header_text} key={"awards_section_header"}>
                 Awards

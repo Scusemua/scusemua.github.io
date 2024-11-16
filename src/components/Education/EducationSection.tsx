@@ -46,9 +46,9 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
             <Grid2 key={`degree-card-${degree.degree}`} style={{display: 'flex', justifyContent: 'center', margin: "0 auto"}}
                    size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 12, 'xl': 4}}
                    component={motion.div} variants={degreeVariant}
-                   whileHover={{
+                   whileHover={!mq_xs ? {
                        scale: 1.05,
-                   }}
+                   } : undefined}
             >
                 <DegreeDisplay degree={degree}/>
             </Grid2>
@@ -62,6 +62,10 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
             return (<motion.div variants={degreeContainerVariant}
                                 initial="hidden"
                                 whileInView="visible"
+                                style={{
+                                    width: "90%",
+                                    margin: "0 auto",
+                                }}
                                 viewport={{once: true, amount: 0.25, margin: "475px"}}
                                 onViewportEnter={() => console.log("Education Section has entered viewport")}
             >

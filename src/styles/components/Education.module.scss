@@ -14,7 +14,7 @@
   }
 
   &_degree_container {
-    margin: 1rem;
+    @extend .education;
     padding: 1rem;
 
     &_card {
@@ -22,7 +22,6 @@
       display: flex;
       justify-content: space-between;
       flex-direction: column;
-      width: 90%;
     }
   }
 }

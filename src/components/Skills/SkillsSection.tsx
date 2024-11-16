@@ -53,7 +53,7 @@ const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((props: S
                     key={`skills_category_header_${skills.category}_wrapper`}
                     className={`${styles.skills_category_container}`}
                     style={{
-                        maxWidth: props.is_xs ? "90%" : "75%",
+                        maxWidth: props.is_xs ? "90%" : "80%",
                     }}
                 >
                     {skills.skills.map((skill, i) => {

@@ -110,9 +110,9 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                                        sx={{
                                            margin: "0 auto",
                                        }}
-                                       whileHover={{
+                                       whileHover={!mq_xs ? {
                                            scale: 1.05,
-                                       }}
+                                       } : undefined}
                                        key={`project-${project.name}-display`}>
                                     <div style={{overflow: "hidden"}}>
                                         <ProjectDisplay project={project} is_xs={mq_xs}/>

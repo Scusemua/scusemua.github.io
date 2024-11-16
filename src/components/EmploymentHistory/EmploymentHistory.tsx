@@ -17,7 +17,7 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
     const mq_sm = useMediaQuery(theme.breakpoints.down('sm'));
 
     const getMaxWidth = () => {
-        return (mq_sm) ? "100%" : "90%";
+        return (mq_xs) ? "100%" : "90%";
     }
 
     const getEmploymentDisplay = (employment: Employment, idx: number) => {
@@ -44,9 +44,6 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
                 position="right"
                 className={styles.employment_timeline}
                 key={"employment_history_section_timeline"}
-                style={{
-                    width: mq_xs ? "87%" : "100%",
-                }}
             >
                 <div className={styles.employment_timeline_background} key={"employment_history_section_timeline_background"}>
                     {mq_sm && <div style={{paddingTop: "2rem"}}/>}
