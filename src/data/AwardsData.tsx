@@ -1,5 +1,5 @@
 import * as React from "react";
-import {ReactNode} from "react";
+import {ReactElement, ReactNode} from "react";
 import {Avatar} from "@mui/material";
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 import TrophyIcon from "@icons/trophy_icon";
@@ -8,19 +8,21 @@ import AwardCertificateIcon from "@icons/award_certificate";
 
 export interface AwardData {
     name: string;
-    date: string;
+    month: string;
+    year: number;
     description?: string | ReactNode;
     additionalInfo?: (string | ReactNode)[];
     additionalInfoHeader?: string | ReactNode;
-    icon?: ReactNode;
+    getIcon: (width: number, height: number) => ReactElement;
 }
 
 const DistinguishedAcademicAchievement2020: AwardData = {
     name: "Distinguished Academic Achievement",
-    date: "May 2020",
+    month: "May",
+    year: 2020,
     description: "For excellent academic performance.",
     additionalInfoHeader: <b>Courses Taken During Award Period:</b>,
-    icon: (<Avatar style={{width: 50, height: 50}}>
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
         <TrophyIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.25, 1.25)"/>
     </Avatar>),
     additionalInfo: [
@@ -36,19 +38,21 @@ const DistinguishedAcademicAchievement2020: AwardData = {
 
 const DistinguishedUndergradResearch: AwardData = {
     name: "Distinguished Undergraduate Research",
-    date: "May 2020",
+    month: "May",
+    year: 2020,
     description: "For outstanding research contributions as an undergraduate student.",
-    icon: (<Avatar style={{width: 50, height: 50}}>
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
         <AwardCertificateIcon fill={"#fff"} transform="scale(1.35, 1.35)"/>
     </Avatar>)
 }
 
 const DistinguishedAcademicAchievement2021: AwardData = {
     name: "Distinguished Academic Achievement",
-    date: "May 2021",
+    month: "May",
+    year: 2021,
     description: "For excellent academic performance.",
     additionalInfoHeader: <b>Courses Taken During Award Period (All Graduate Level):</b>,
-    icon: (<Avatar style={{width: 50, height: 50}}>
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
         <TrophyIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.25, 1.25)"/>
     </Avatar>),
     additionalInfo: [
@@ -67,18 +71,20 @@ const DistinguishedAcademicAchievement2021: AwardData = {
 
 const GMUPresidentialScholar: AwardData = {
     name: "GMU CS Presidential Scholarship",
-    date: "May 2021",
+    month: "May",
+    year: 2021,
     description: "Prestigious, merit-based scholarship awarded to at-most 2 students per academic year (within a PhD program). Requires a strong faculty nomination.",
-    icon: (<Avatar style={{width: 50, height: 50}}>
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
         <FellowshipIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.5, 1.5)"/>
     </Avatar>)
 }
 
 const VLDB2023NSFTravelGrant: AwardData = {
     name: "VLDB 2023 NSF Travel Grant",
-    date: "Aug 2023",
+    month: "Aug",
+    year: 2023,
     description: "Funding to attend VLDB 2023 and present a paper.",
-    icon: (<Avatar style={{width: 50, height: 50}}>
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
         <AirplanemodeActiveIcon fill={"#fff"} stroke={"#fff"} transform="scale(2, 2)"/>
     </Avatar>)
 }

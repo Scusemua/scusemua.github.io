@@ -38,7 +38,7 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
     return (
         <FramerTimelineItem
             className={styles.awards_timeline_entry}
-            key={`motion-div-wrapper-props.award-${props.award.name}_${props.award.date}`}
+            key={`motion-div-wrapper-props.award-${props.award.name}_${props.award.month}`}
             variants={contentVariant}
             initial="hidden"
             whileInView="visible"
@@ -53,12 +53,12 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
                 align="right"
                 color="secondary"
             >
-                {props.award.date}
+                {props.award.month} {props.award.year}
             </TimelineOppositeContent>
             <TimelineSeparator>
                 <TimelineConnector/>
                 <TimelineDot>
-                    {props.award.icon || (<Avatar style={{width: 45, height: 45}}>
+                    {props.award.getIcon(50, 50) || (<Avatar style={{width: 50, height: 50}}>
                         <MilitaryTechIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.1, 1.1)"/>
                     </Avatar>)}
                 </TimelineDot>

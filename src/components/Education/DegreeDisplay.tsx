@@ -45,11 +45,11 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                 <Stack direction={'column'}>
                     <Typography gutterBottom variant="h5" component="div"
                                 sx={{color: 'text.secondary'}}>{props.degree.subject}</Typography>
-                    <Typography className={styles.project_description} variant="h6"
+                    <Typography variant="h6"
                                 sx={{color: 'text.secondary'}}>
                         {props.degree.institution}
                     </Typography>
-                    <Typography className={styles.project_description} variant="h6"
+                    <Typography variant="h6"
                                 sx={{color: 'text.secondary'}}>
                         May, {props.degree.endDate}, <b>GPA:</b> {props.degree.gpa}.0
                     </Typography>
@@ -63,7 +63,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
     );
 
     return (
-        <Card className={styles.education_card}>
+        <Card className={styles.education_degree_container_card}>
             <CardMedia sx={{position: 'relative'}}>
                 <div style={{position: 'relative', width: '150px', height: '100px', margin: '0.5rem auto 0 auto'}}>
                     <Image

@@ -24,8 +24,6 @@ interface NavbarProps {
 
 const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    
-    // const [fontSize, setFontSize] = React.useState<string>("4rem");
 
     const headshotButton = (<IconButton
         key={"header_section"}
@@ -161,7 +159,7 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
                            sx={{margin: "0 auto", overflow: "hidden"}}>
                         {headshotButton}
                         {projectsButton}
-                        {awardsButton}
+                        {!mq_xs && awardsButton}
                         {getEducationButton(mq_xs ? "School" : "Education")}
                         {getEmploymentButton(mq_xs ? "Work" : "Employment")}
                         {!mq_xs && skillsButton}

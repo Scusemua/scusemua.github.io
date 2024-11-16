@@ -68,9 +68,9 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
         if (mq_xs || mq_sm) {
             return (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                            className={styles.project_container}>
-                {projects.map((project: Project, index: number) => (
+                {projects.map((project: Project) => (
                     <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12}}
-                           component={motion.div} variants={cardVariant} sx={{justifyContent: 'center'}}
+                           component={motion.div} variants={cardVariant} justifyContent={'center'} alignItems="stretch"
                            whileHover={{
                                scale: 1.05,
                            }}
@@ -78,7 +78,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                            whileInView="visible"
                            viewport={{once: true, amount: 0.125}}
                            key={`project-${project.name}-display`}>
-                        <ProjectDisplay project={project}/>
+                        <ProjectDisplay project={project} is_xs={mq_xs}/>
                     </Grid2>
                 ))}
             </Grid2>)
@@ -115,7 +115,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                                        }}
                                        key={`project-${project.name}-display`}>
                                     <div style={{overflow: "hidden"}}>
-                                        <ProjectDisplay project={project}/>
+                                        <ProjectDisplay project={project} is_xs={mq_xs}/>
                                     </div>
                                 </Grid2>
                             );
@@ -138,16 +138,16 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                 Research
             </Typography>
 
-            <Typography variant={"h3"}
+            <Typography variant={mq_xs ? "h3" : "h2"}
                         className={styles.project_section_subheader_text}>
                 Past Research Projects
             </Typography>
 
             {getProjects(PastProjects)}
 
-            <Typography variant={"h3"}
+            <Typography variant={mq_xs ? "h3" : "h2"}
                         className={styles.project_section_subheader_text}>
-                Ongoing Research Projects
+                Active Research Projects
             </Typography>
 
             {getProjects(CurrentProjects)}

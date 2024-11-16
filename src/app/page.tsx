@@ -40,13 +40,6 @@ export default function Home() {
             <Projects ref={projectRef} key={"projects_section"}/>
             <AwardsSection ref={awardRef} key={"awardsSection"}/>
             <EducationSection ref={educationRef} key={"education_section"}/>
-            {/*<CloudIcon fill={"white"} opacity={0.5} style={{*/}
-            {/*    position: "absolute",*/}
-            {/*    bottom: "20%",*/}
-            {/*    right: "10%",*/}
-            {/*    width: '24rem',*/}
-            {/*    zIndex: -1*/}
-            {/*}}/>*/}
             <EmploymentHistory ref={employmentRef} key={"employment_section"}/>
             <div style={{
                 position: "relative",

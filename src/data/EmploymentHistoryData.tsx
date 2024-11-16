@@ -16,7 +16,7 @@ export interface Employment {
     employer: string;
     description: string;
     descriptionList?: (string | ReactNode)[];
-    icon?: ReactElement;
+    getIcon: (width: number, height: number) => ReactElement;
 }
 
 const SummerInternship: Employment = {
@@ -28,7 +28,7 @@ const SummerInternship: Employment = {
     title: "Summer Intern",
     employer: "BRTRC Federal Solutions",
     description: "Worked as a development team member to extend a .NET desktop application.",
-    icon: (<Avatar style={{width: 45, height: 45}}>
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
         <DeveloperIcon fill={"#fff"} transform="scale(1.1, 1.1)"/>
     </Avatar>)
 }
@@ -47,7 +47,7 @@ const JuniorDeveloper: Employment = {
         "Decreased application load time by a factor of five & memory footprint by 70%.",
         "Implemented a system for manipulating, serializing, and viewing 3D models.",
     ],
-    icon: (<Avatar style={{width: 45, height: 45}}>
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
         <DeveloperDeskIcon fill={"#fff"} transform="scale(-1.25, 1.25)"/>
     </Avatar>)
 }
@@ -60,7 +60,7 @@ const UndergraduateTeachingAssistant: Employment = {
     title: "Undergraduate Teaching Assistant",
     employer: "George Mason University",
     description: "Assisted students with assignments and projects. Held review sessions for exams.",
-    icon: (<Avatar style={{width: 45, height: 45}}>
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
         <TeacherIcon fill={"#fff"} transform="scale(1.125, 1.125)"/>
     </Avatar>)
 }
@@ -73,7 +73,7 @@ const MicrosoftResearchIntern: Employment = {
     title: "Research Intern",
     employer: "Microsoft Research Lab - Redmond",
     description: "Under the mentorship of Dr. Rodrigo Fonseca, assisted in the design, development, testing, and evaluation of new a microsecond-latency serverless stack.",
-    icon: (<Avatar style={{width: 45, height: 45}}>
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
         <MicrosoftIcon transform="scale(-1.65, 1.65)" style={{margin: "0 auto"}}/>
     </Avatar>)
 }
@@ -99,7 +99,7 @@ const UndergraduateResearchAssistant: Employment = {
             of InfiniCache [FAST'20] and InfiniStore [VLDB'23].
         </span>
     ],
-    icon: (<Avatar style={{width: 45, height: 45}}>
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
         <DeveloperMonitorIcon fill={"#fff"} transform="scale(1.1, 1.1)"/>
     </Avatar>)
 }
@@ -111,7 +111,7 @@ const GraduateResearchAssistant: Employment = {
     title: "Graduate Research Assistant",
     employer: "George Mason University",
     description: "Conducting research under the direction of Dr. Yue Cheng (University of Virginia) and Dr. Songqing Chen (George Mason University).",
-    icon: (<Avatar style={{width: 45, height: 45}}>
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
         <DeveloperMonitorIcon fill={"#fff"} transform="scale(-1.1, 1.1)"/>
     </Avatar>)
 }

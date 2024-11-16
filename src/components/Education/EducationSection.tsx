@@ -70,7 +70,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
         }
     }
 
-    return (<div className={`${styles.education}`} id="skills" ref={ref}>
+    return (<div className={`${styles.education}`} id="education" ref={ref}>
         <Typography variant={"h2"} className={styles.education_header_text}>Education</Typography>
         {getContent()}
     </div>);

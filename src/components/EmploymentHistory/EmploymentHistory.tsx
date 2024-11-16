@@ -13,6 +13,7 @@ interface EmploymentHistoryProps {
 }
 
 const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((_props: EmploymentHistoryProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.down('sm'));
 
     const getMaxWidth = () => {
@@ -29,10 +30,24 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
 
     return (
         <div className={`${styles.employment}`} id="skills" ref={ref} key={"employment_history_section"} style={{maxWidth: getMaxWidth()}}>
-            <Typography variant={"h2"} className={styles.employment_header_text} key={"employment_history_header"}>
+            <Typography
+                variant={"h2"}
+                className={styles.employment_header_text}
+                key={"employment_history_header"}
+                style={{
+                    fontSize: mq_xs ? "3.5rem" : "",
+                }}
+            >
                 Employment History
             </Typography>
-            <Timeline position="right" className={styles.employment_timeline} key={"employment_history_section_timeline"}>
+            <Timeline
+                position="right"
+                className={styles.employment_timeline}
+                key={"employment_history_section_timeline"}
+                style={{
+                    width: mq_xs ? "87%" : "100%",
+                }}
+            >
                 <div className={styles.employment_timeline_background} key={"employment_history_section_timeline_background"}>
                     {mq_sm && <div style={{paddingTop: "2rem"}}/>}
                     {EmploymentHistoryData.map((employment: Employment, idx: number) => getEmploymentDisplay(employment, idx))}

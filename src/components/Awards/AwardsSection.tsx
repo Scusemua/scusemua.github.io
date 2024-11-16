@@ -16,29 +16,34 @@ const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>(
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
 
-    const getMaxWidth = () => {
-        return (mq_xs || mq_sm) ? "100%" : "95%";
-    }
-
     const getAwardDisplay = (award: AwardData) => {
         if (mq_xs || mq_sm) {
-            return (<AwardDisplaySmall extraSmall={mq_xs} key={`award_${award.name}_${award.date}_component`}
+            return (<AwardDisplaySmall extraSmall={mq_xs} key={`award_${award.name}_${award.month}_component`}
                                        award={award}/>);
         } else {
-            return (<AwardDisplay key={`award_${award.name}_${award.date}_component`} award={award}/>);
+            return (<AwardDisplay key={`award_${award.name}_${award.month}_component`} award={award}/>);
         }
     }
 
     return (
-        <div className={`${styles.awards}`} id="skills" ref={ref} style={{maxWidth: getMaxWidth()}}
-             key={"awards_section_wrapper"}>
+        <div className={`${styles.awards}`} id="skills" ref={ref}
+
+             style={{
+                 width: mq_xs ? "87%" : "100%",
+             }}
+             key={"awards_section_wrapper"}
+
+        >
             <Typography variant={"h2"} className={styles.awards_header_text} key={"awards_section_header"}>
                 Awards
             </Typography>
-            <div className={styles.awards_timeline_background} key={"awards_section_timeline_content_wrapper"}>
-                {mq_xs && <div style={{paddingTop: "2rem"}}/>}
-                {mq_xs && <div style={{paddingBottom: "2rem"}}/>}
-                <Timeline position="right" className={styles.awards_timeline} key={"awards_section_timeline"}>
+            <div className={styles.awards_timeline_background}
+                 key={"awards_section_timeline_content_wrapper"}
+            >
+                <Timeline position="right"
+                          className={styles.awards_timeline}
+                          key={"awards_section_timeline"}
+                >
                     {AwardsData.map((award: AwardData) => getAwardDisplay(award))}
                 </Timeline>
             </div>

@@ -1,8 +1,10 @@
 .awards {
   text-align: center;
   margin: 0 auto;
+  width: 100%;
 
   &_header_text {
+    text-align: center;
     padding-top: 4rem;
     height: 100%;
     position: relative;
@@ -11,10 +13,11 @@
   }
 
   &_timeline {
+    text-align: center;
     margin: 0 auto;
-    width: 100%;
 
     &_background {
+      text-align: center;
       background: rgba(16, 16, 16, 0.25);
       border-radius: 6rem;
       padding: 2rem 0;
@@ -28,6 +31,7 @@
     &_entry {
 
       &_title {
+        text-align: left;
         color: #ffffff;
       }
 

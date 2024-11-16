@@ -37,7 +37,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
     return (
         <FramerTimelineItem
             className={styles.awards_timeline_entry}
-            key={`motion-div-wrapper-props.award-${props.award.name}_${props.award.date}`}
+            key={`motion-div-wrapper-props.award-${props.award.name}_${props.award.month}`}
             variants={contentVariant}
             initial="hidden"
             whileInView="visible"
@@ -52,19 +52,20 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
                 align="right"
                 color="secondary"
             >
-                {props.award.date}
+                {props.award.month}<br/>
+                {props.award.year}
             </TimelineOppositeContent>
             <TimelineSeparator>
                 <TimelineConnector/>
                 <TimelineDot>
-                    {props.award.icon || (<Avatar style={{width: 45, height: 45}}>
+                    {props.award.getIcon(35, 35) || (<Avatar style={{width: 35, height: 35}}>
                         <MilitaryTechIcon fill={"#fff"} stroke={"#fff"} transform="scale(1.1, 1.1)"/>
                     </Avatar>)}
                 </TimelineDot>
                 <TimelineConnector/>
             </TimelineSeparator>
             <TimelineContent>
-                <Typography sx={{typography: {xs: 'body1', sm: 'h5', md: "h5", lg: "h4", xl: "h4"}}}
+                <Typography sx={{typography: {xs: 'body2', sm: 'h5', md: "h5", lg: "h4", xl: "h4"}}}
                             className={styles.awards_timeline_entry_title}>
                     {props.award.name}
                 </Typography>
@@ -79,7 +80,11 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
                 >
                     <div>
                         <Typography variant="body1"
-                                    className={styles.awards_timeline_entry_description}>
+                                    className={styles.awards_timeline_entry_description}
+                                    style={{
+                                        fontSize: props.extraSmall ? "0.9rem" : ""
+                                    }}
+                        >
                             {props.award.description}
                         </Typography>
                         {props.award.additionalInfoHeader &&
@@ -106,6 +111,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
                     style={{
                         color: "#d5e3e3",
                         paddingLeft: 0,
+                        fontSize: props.extraSmall ? "0.75rem" : ""
                     }}
                     aria-label={"Show More/Less Button"}
                     onClick={() => setExpanded(!expanded)}>
