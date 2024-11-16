@@ -18,10 +18,10 @@ const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>(
 
     const getAwardDisplay = (award: AwardData) => {
         if (mq_xs || mq_sm) {
-            return (<AwardDisplaySmall extraSmall={mq_xs} key={`award_${award.name}_${award.month}_component`}
+            return (<AwardDisplaySmall extraSmall={mq_xs} key={`award_${award.name}_${award.month}_${award.year}_component_small`}
                                        award={award}/>);
         } else {
-            return (<AwardDisplay key={`award_${award.name}_${award.month}_component`} award={award}/>);
+            return (<AwardDisplay key={`award_${award.name}_${award.month}_${award.year}_component`} award={award}/>);
         }
     }
 

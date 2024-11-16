@@ -17,8 +17,8 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
 import theme from "@src/app/theme";
-import {BubbleContext} from "@src/app/layout";
 import {BubbleChart} from "@mui/icons-material";
+import {BubbleContext} from "@src/providers/BubbleContext";
 
 interface HeadshotProps {
 }

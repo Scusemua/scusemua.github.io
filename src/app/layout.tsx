@@ -16,7 +16,8 @@ import {Roboto} from 'next/font/google';
 
 import {ThemeProvider, useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
-import React from "react";
+import React, {Context} from "react";
+import {BubbleContext, BubbleProvider, BubbleState} from "@src/providers/BubbleContext";
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
@@ -25,26 +26,11 @@ const roboto = Roboto({
     variable: '--font-roboto',
 });
 
-export interface BubbleState {
-    bubblesEnabled: boolean;
-    setBubblesEnabled: (enabled: boolean) => void;
-}
-
-const initialState: BubbleState = {
-    bubblesEnabled: true,
-    setBubblesEnabled: (enabled: boolean) => {
-    }
-}
-
-const BubbleContext = React.createContext(initialState);
-
 export default function RootLayout({
                                        children,
                                    }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const [bubblesEnabled, setBubblesEnabled] = React.useState<boolean>(true);
-
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
 
     const gradientDegrees: string = (mq_xs ? "-89deg" : "90deg");
@@ -60,23 +46,27 @@ export default function RootLayout({
         <AppRouterCacheProvider>
             <CssBaseline/>
             <ThemeProvider theme={theme}>
-                <BubbleContext.Provider value={{
-                    bubblesEnabled: bubblesEnabled,
-                    setBubblesEnabled: (enabled: boolean) => setBubblesEnabled(enabled)
-                }}>
-                    <main>
-                        <div className="gradient_background" style={{width: "100%", zIndex: -1}}/>
-                        {bubblesEnabled && <div id={mq_xs ? "mobile_stars" : "stars"} style={{zIndex: 2}}/>}
-                        {bubblesEnabled && <div id={mq_xs ? "mobile_stars2" : "stars2"} style={{zIndex: 2}}/>}
-                        {bubblesEnabled && <div id={mq_xs ? "mobile_stars3" : "stars3"} style={{zIndex: 2}}/>}
-                        {children}
-                    </main>
-                </BubbleContext.Provider>
+                <BubbleProvider>
+                    <BubbleContext.Consumer>
+                        {(bubbleState: BubbleState) => {
+                            console.log(`bubbleState: ${bubbleState.bubblesEnabled}`);
+                            return (<main>
+                                <div className="gradient_background" style={{width: "100%", zIndex: -1}}/>
+                                {bubbleState.bubblesEnabled &&
+                                    <div id={mq_xs ? "mobile_stars" : "stars"} style={{zIndex: 2}}/>}
+                                {bubbleState.bubblesEnabled &&
+                                    <div id={mq_xs ? "mobile_stars2" : "stars2"} style={{zIndex: 2}}/>}
+                                {bubbleState.bubblesEnabled &&
+                                    <div id={mq_xs ? "mobile_stars3" : "stars3"} style={{zIndex: 2}}/>}
+                                {children}
+                            </main>);
+                        }
+                        }
+                    </BubbleContext.Consumer>
+                </BubbleProvider>
             </ThemeProvider>
         </AppRouterCacheProvider>
         </body>
         </html>
     );
 }
-
-export {BubbleContext};
