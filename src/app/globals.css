@@ -25,9 +25,13 @@ body {
     /*background: linear-gradient(90deg, #343434, #2F3061); !* Chrome 10-25, Safari 5.1-6 *!*/
     /*background: linear-gradient(to right, #343434, #2F3061); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
 
-    background: #5C258D;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #4389A2, #5C258D);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #4389A2, #5C258D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /*background: #5C258D;  !* fallback for old browsers *!*/
+    /*background: -webkit-linear-gradient(to right, #4389A2, #5C258D);  !* Chrome 10-25, Safari 5.1-6 *!*/
+    /*background: linear-gradient(to right, #4389A2, #5C258D); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
+
+    background-color: #5a143f;
+    background-image: linear-gradient(119deg, #5a143f 0%, #3e1668 8%, #00135a 43%);
+
 
     min-height: 100vh; /* Ensure gradient covers the entire viewport height */
     display: flex; /* Optional: For centering content */
@@ -76,20 +80,20 @@ body {
     /*);*/
     --secondary-glow: conic-gradient(
             from 10deg at 50% 50%,
-            #de4e71 0deg,
-            #ae77b2 55deg,
-            #9491E2 120deg,
-            #b23ecb 160deg,
+            #a24b60 0deg,
+            #764e7a 55deg,
+            #666394 120deg,
+            #663970 160deg,
             transparent 360deg
     );
 
     --third-glow: conic-gradient(
             from 90deg at 50% 50%,
-            #77b0fa 0deg,
-            #d39ddf 170deg,
-            #4d83e7 150deg,
-            #dba2dd 120deg,
-            #AFF2D8 55deg,
+            #0068d5 0deg,
+            #652a7c 170deg,
+            #ffd400 150deg,
+            #9a5f9b 120deg,
+            #0090d9 55deg,
             transparent 360deg
     );
 }
@@ -103,7 +107,7 @@ body {
     filter: blur(90px);
     top: calc(50vh - 50vw / 2);
     left: calc(50vw);
-    animation: animateBefore 8s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
+    animation: animateBefore 20s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
     opacity: 0.25;
 }
 
@@ -116,7 +120,7 @@ body {
     filter: blur(90px);
     top: calc(50vh - 50vw / 2);
     left: calc(50vw - 50vw / 2);
-    animation: animateAfter 8s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
+    animation: animateAfter 20s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
 }
 
 @keyframes animateBefore {

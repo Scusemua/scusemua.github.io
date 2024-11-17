@@ -87,7 +87,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             className={styles.headshot_header_text_bio_container}
         >
             <div className={styles.headshot_header_text_bio_text}>
-                <Typography variant={"h6"} style={{fontSize: mq_xs ? "1.3rem" : "1.5rem"}}>
+                <Typography variant={"h6"} style={{fontSize: mq_xs ? "1.2rem" : "1.5rem"}}>
                     I'm a 3rd year PhD candidate in CS at George Mason University. My advisors are
                     Dr. Yue Cheng (University of Virginia) & Dr. Songqing Chen (GMU).
                     My research interests are centered around cloud computing with a focus on serverless
@@ -150,7 +150,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     src={PersonalData.image}
                     alt={"Ben's Headshot"}
                     className={styles.headshot_container_image}
-                    style={{marginTop: "2rem", width: "100%", height: "auto"}}
+                    style={{marginTop: "2rem", width: "60%", height: "auto"}}
                     priority={true}
                 />
                 <div className={styles.social_links_container}>
