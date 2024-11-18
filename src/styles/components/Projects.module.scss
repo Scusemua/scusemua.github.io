@@ -62,4 +62,23 @@
   &_built_with {
     padding-top: 1.5rem;
   }
+
+  &_media_background {
+    background: #1C192E;
+    //background: linear-gradient(-45deg, #1C192E, #29244b);
+    //background-size: 400% 400%;
+    //animation: gradient-cycle 2s ease infinite;
+  }
+}
+
+@keyframes gradient-cycle {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

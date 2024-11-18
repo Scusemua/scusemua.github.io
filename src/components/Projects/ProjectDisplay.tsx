@@ -197,7 +197,10 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             className={styles.project_section_card}
         >
             <CardActionArea onClick={() => onClickCard()}>
-                <div style={{background: "#1C192E"}}>
+                <div
+                    className={styles.project_media_background}
+                    // style={{background: "#1C192E"}}
+                >
                     <CardMedia>
                         <div style={{
                             position: 'relative',

@@ -29,9 +29,10 @@ body {
     /*background: -webkit-linear-gradient(to right, #4389A2, #5C258D);  !* Chrome 10-25, Safari 5.1-6 *!*/
     /*background: linear-gradient(to right, #4389A2, #5C258D); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
 
-    background-color: #5a143f;
-    background-image: linear-gradient(119deg, #5a143f 0%, #3e1668 8%, #00135a 43%);
+    /*background-color: #5a143f;*/
+    background: linear-gradient(119deg, #5a143f 0%, #3e1668 8%, #00135a 43%);
 
+    /*background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);*/
 
     min-height: 100vh; /* Ensure gradient covers the entire viewport height */
     display: flex; /* Optional: For centering content */
@@ -42,6 +43,7 @@ body {
     overflow-x: hidden;
     margin: 0 auto;
 }
+
 
 #wukong-content {
     position: absolute;
