@@ -121,15 +121,15 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     </Typography>
                 </Button>
             </Tooltip>
-            <Tooltip title={"Toggle the \"bubbles\" in the background on/off. This button is just for development/testing and will not stick around long-term!"} arrow>
-                <Button variant={"contained"} color={'secondary'} onClick={() => setBubblesEnabled(!bubblesEnabled)}
-                        startIcon={<BubbleChart/>} style={{height: 45, width: "12rem"}}
-                        aria-label={"Contact Me Button"}>
-                    <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
-                        Toggle Bubbles
-                    </Typography>
-                </Button>
-            </Tooltip>
+            {/*<Tooltip title={"Toggle the \"bubbles\" in the background on/off. This button is just for development/testing and will not stick around long-term!"} arrow>*/}
+            {/*    <Button variant={"contained"} color={'secondary'} onClick={() => setBubblesEnabled(!bubblesEnabled)}*/}
+            {/*            startIcon={<BubbleChart/>} style={{height: 45, width: "12rem"}}*/}
+            {/*            aria-label={"Contact Me Button"}>*/}
+            {/*        <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>*/}
+            {/*            Toggle Bubbles*/}
+            {/*        </Typography>*/}
+            {/*    </Button>*/}
+            {/*</Tooltip>*/}
         </Stack>
     );
 

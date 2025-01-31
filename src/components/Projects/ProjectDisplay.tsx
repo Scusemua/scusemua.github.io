@@ -227,6 +227,15 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     >
                         {props.project.description}
                     </Typography>
+                    {expanded && props.project.extendedDescription !== undefined && <Typography
+                        variant="body1"
+                        style={{
+                            marginTop: "2rem",
+                            fontSize: props.is_xs ? "0.9rem" : ""
+                        }}
+                    >
+                        {props.project.extendedDescription}
+                    </Typography>}
                     {getLearnMore()}
                     <Collapse in={expanded} timeout={"auto"} unmountOnExit>
                         {keywords}

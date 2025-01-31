@@ -8,6 +8,7 @@ import faas_platform_logo from "@images/logos/faas_platforms_logo.webp";
 export interface Project {
     name: string;
     description: string;
+    extendedDescription?: string;
     venue: string | string[];
     repo_url: string;
     project_website_url: string;
@@ -79,7 +80,8 @@ export const JupyterNotebookProject: Project = {
 
 export const ObliviousInfiniStoreProject: Project = {
     name: "Oblivious InfiniStore",
-    description: "An extension of InfiniStore with a focus on data security (obliviousness) that offers good performance as well as security guarantees.",
+    description: "This project is focused on the design and creation of an extension of InfiniStore that provides enhanced security while still delivering strong performance and scalability.",
+    extendedDescription: "Specifically, we are designing an enhanced version of InfiniStore using techniques from cryptography, computer and network security, and oblivious storage and database systems. This new version will offer strong privacy and security guarantees while leveraging the unique benefits of FaaS to offset the overheads introduced by these new guarantees.",
     venue: "",
     repo_url: "",
     arxiv_links: [],

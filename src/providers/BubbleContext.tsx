@@ -15,7 +15,7 @@ const BubbleContext: Context<BubbleState> = React.createContext(initialState);
 
 // @ts-ignore
 function BubbleProvider({children}) {
-    const [bubblesEnabled, setBubblesEnabled] = React.useState<boolean>(true);
+    const [bubblesEnabled, setBubblesEnabled] = React.useState<boolean>(false);
 
     return (
         <BubbleContext.Provider value={{
