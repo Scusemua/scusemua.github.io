@@ -25,7 +25,8 @@ export interface Project {
 
 export const WukongProject: Project = {
     name: "Wukong",
-    description: "Wukong is a high-performance and highly scalable locality-aware, serverless DAG engine. Wukong uses FaaS to accelerate the execution of linear algebra, machine learning, and data analytics workloads.",
+    description: "Wukong is a scalable, high-performance, and locality-aware serverless DAG engine. Wukong uses FaaS to accelerate the execution of linear algebra, ML, and data analytics workloads.",
+    extendedDescription: "The results of Wukong's evaluation showed that it executes large-scale parallel computing jobs up to 68.17× faster while reducing tenant-side cost by 92.96% compared to state-of-the-art industry and academic baselines.",
     venue: ["PDSW'19", "SoCC'20"],
     repo_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
     project_website_url: "https://ds2-lab.github.io/Wukong/",
@@ -42,7 +43,8 @@ export const WukongProject: Project = {
 
 export const InfiniStoreProject: Project = {
     name: "InfiniStore",
-    description: "InfiniStore is an elastic, cost-effective, and high-performance object storage built atop ephemeral cloud funtions. InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.",
+    description: "InfiniStore is an elastic, cost-effective, and high-performance object store built atop ephemeral cloud funtions. InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.",
+    extendedDescription: "Our extensive evaluation of InfiniStore showed that the system provides competitive performance with state-of-the-art data storage services AWS ElastiCache and Anna while reducing user-side cost by 97.24% (compared to AWS ElastiCache).",
     venue: "VLDB'23",
     repo_url: "https://github.com/ds2-lab/infinistore",
     image: infinistore_logo,
@@ -55,7 +57,8 @@ export const InfiniStoreProject: Project = {
 
 export const LambdaFSProject: Project = {
     name: "λFS",
-    description: "λFS is an elastic, scalable, and high-performance metadata service for large-scale distributed file systems (DFSes) that uses a FaaS-based metadata cache to maximize performance & cost efficiency.",
+    description: "λFS is a first-of-its-kind elastic, scalable, and high-performance metadata service for large-scale distributed file systems (DFSes) that uses a FaaS-based metadata cache to maximize performance & cost efficiency.",
+    extendedDescription: "λFS leverages the benefits of serverless computing to provide up to 4.13x higher throughput, 90.40% lower latency, and 85.99% lower user cost compared to state-of-the-art baselines for a real-world industrial workload.",
     venue: "ASPLOS'23",
     repo_url: "https://github.com/ds2-lab/LambdaFS",
     project_website_url: "",

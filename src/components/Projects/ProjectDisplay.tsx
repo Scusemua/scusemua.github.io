@@ -57,7 +57,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                             evt.stopPropagation();
                         }} component={Link} href={props.project.learnMoreUrl || ""}
                         disabled={!props.project.learnMoreEnabled}>
-            {props.project.learnMoreEnabled ? "Learn More" : "Learn More (Coming Soon)"}
+            {props.project.learnMoreEnabled ? "Learn More" : ""}
         </Button>)
     }
 
@@ -230,14 +230,17 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     {expanded && props.project.extendedDescription !== undefined && <Typography
                         variant="body1"
                         style={{
-                            marginTop: "2rem",
+                            marginTop: "1rem",
+                            marginBottom: props.project.learnMoreEnabled ? "0rem" : "-1.5rem",
                             fontSize: props.is_xs ? "0.9rem" : ""
                         }}
                     >
                         {props.project.extendedDescription}
                     </Typography>}
                     {getLearnMore()}
-                    <Collapse in={expanded} timeout={"auto"} unmountOnExit>
+                    <Collapse in={expanded} timeout={"auto"} unmountOnExit style={{
+
+                    }}>
                         {keywords}
                     </Collapse>
                 </CardContent>
