@@ -88,7 +88,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         >
             <div className={styles.headshot_header_text_bio_text}>
                 <Typography variant={"h6"} style={{fontSize: mq_xs ? "1.2rem" : "1.5rem"}}>
-                    I'm a 3rd year PhD candidate in CS at George Mason University. My advisors are
+                    I'm a 4th year PhD candidate in CS at George Mason University. My advisors are
                     Dr. Yue Cheng (University of Virginia) & Dr. Songqing Chen (GMU).
                     My research interests are centered around cloud computing with a focus on serverless
                     computing. Specifically, I'm interested in applications of serverless computing to data
