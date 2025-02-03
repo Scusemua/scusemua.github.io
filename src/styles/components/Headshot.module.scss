@@ -46,7 +46,7 @@
 
     &_bio_container {
       // background: rgba(0, 0, 0, 0.25);
-      background: rgba(0, 0, 0, 0.20);
+      background: rgba(23, 21, 21, 0.2);
       border-radius: 2rem;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       padding: 1.5rem;
@@ -59,9 +59,9 @@
   margin: 2rem auto 2rem auto;
   justify-content: center;
   display: flex;
-  background: rgba(50, 50, 50, 0.1);
+  background: rgba(63, 63, 63, 0.125);
   border-radius: 16rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.20);
   z-index: 2;
   max-width: 350px;
 }
