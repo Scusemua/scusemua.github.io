@@ -222,25 +222,23 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     <Typography
                         variant="body1"
                         style={{
-                            fontSize: props.is_xs ? "0.9rem" : ""
+                            fontSize: props.is_xs ? "0.9rem" : "",
+                            marginBottom: props.project.learnMoreEnabled ? "0rem" : "-1.5rem",
                         }}
                     >
                         {props.project.description}
                     </Typography>
-                    {expanded && props.project.extendedDescription !== undefined && <Typography
-                        variant="body1"
-                        style={{
-                            marginTop: "1rem",
-                            marginBottom: props.project.learnMoreEnabled ? "0rem" : "-1.5rem",
-                            fontSize: props.is_xs ? "0.9rem" : ""
-                        }}
-                    >
-                        {props.project.extendedDescription}
-                    </Typography>}
                     {getLearnMore()}
-                    <Collapse in={expanded} timeout={"auto"} unmountOnExit style={{
-
-                    }}>
+                    <Collapse in={expanded} timeout={"auto"} unmountOnExit>
+                        {props.project.extendedDescription !== undefined && <Typography
+                            variant="body1"
+                            style={{
+                                marginTop: "1rem",
+                                fontSize: props.is_xs ? "0.9rem" : ""
+                            }}
+                        >
+                            {props.project.extendedDescription}
+                        </Typography>}
                         {keywords}
                     </Collapse>
                 </CardContent>

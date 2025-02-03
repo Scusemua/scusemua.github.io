@@ -52,12 +52,12 @@ export default function RootLayout({
                             console.log(`bubbleState: ${bubbleState.bubblesEnabled}`);
                             return (<main>
                                 <div className="gradient_background" style={{width: "100%", zIndex: -1}}/>
-                                {bubbleState.bubblesEnabled &&
-                                    <div id={mq_xs ? "mobile_stars" : "stars"} style={{zIndex: 2}}/>}
-                                {bubbleState.bubblesEnabled &&
-                                    <div id={mq_xs ? "mobile_stars2" : "stars2"} style={{zIndex: 2}}/>}
-                                {bubbleState.bubblesEnabled &&
-                                    <div id={mq_xs ? "mobile_stars3" : "stars3"} style={{zIndex: 2}}/>}
+                                {/*{bubbleState.bubblesEnabled &&*/}
+                                {/*    <div id={mq_xs ? "mobile_stars" : "stars"} style={{zIndex: 2}}/>}*/}
+                                {/*{bubbleState.bubblesEnabled &&*/}
+                                {/*    <div id={mq_xs ? "mobile_stars2" : "stars2"} style={{zIndex: 2}}/>}*/}
+                                {/*{bubbleState.bubblesEnabled &&*/}
+                                {/*    <div id={mq_xs ? "mobile_stars3" : "stars3"} style={{zIndex: 2}}/>}*/}
                                 {children}
                             </main>);
                         }
