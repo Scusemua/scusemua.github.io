@@ -51,7 +51,8 @@ export default function RootLayout({
                         {(bubbleState: BubbleState) => {
                             console.log(`bubbleState: ${bubbleState.bubblesEnabled}`);
                             return (<main>
-                                <div className="gradient_background" style={{width: "100%", zIndex: -1}}/>
+                                <div className={"background"}/>
+                                {/*<div className="gradient_background" style={{width: "100%", zIndex: -1}}/>*/}
                                 {/*{bubbleState.bubblesEnabled &&*/}
                                 {/*    <div id={mq_xs ? "mobile_stars" : "stars"} style={{zIndex: 2}}/>}*/}
                                 {/*{bubbleState.bubblesEnabled &&*/}
