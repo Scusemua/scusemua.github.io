@@ -73,7 +73,7 @@ export const JupyterNotebookProject: Project = {
     name: "Jupyter NaaS",
     description: "I'm working on a Jupyter Notebooks-as-a-Service (NaaS) platform that is optimized for providing maximum interactivity for users.",
     venue: "",
-    repo_url: "",
+    repo_url: "https://github.com/Scusemua/Jupyter-NaaS-Dashboard",
     project_website_url: "",
     image: jupyter_naas,
     keywords: ["serverless", "deep learning", "jupyter notebooks", "gpu scheduling", "platforms"],
