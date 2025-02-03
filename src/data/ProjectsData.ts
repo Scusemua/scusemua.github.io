@@ -71,7 +71,8 @@ export const LambdaFSProject: Project = {
 
 export const JupyterNotebookProject: Project = {
     name: "Jupyter NaaS",
-    description: "I'm working on a Jupyter Notebooks-as-a-Service (NaaS) platform that is optimized for providing maximum interactivity for users.",
+    description: "I'm working on a Jupyter Notebooks-as-a-Service (NaaS) platform that is optimized for providing maximum interactivity for users. The platform uses a novel designed that we developed to enable support for new classes of AI/ML applications and workloads.",
+    extendedDescription: "The platform supports detailed, real-time metric and log collection, visualization, aggregation, and monitoring by integrating with industry-standard frameworks and technologies, including Prometheus, Promtail, Loki, and Grafana.",
     venue: "",
     repo_url: "https://github.com/Scusemua/Jupyter-NaaS-Dashboard",
     project_website_url: "",
@@ -97,6 +98,7 @@ export const ObliviousInfiniStoreProject: Project = {
 export const FaasPlatformProject: Project = {
     name: "FaaS Platforms",
     description: "I'm using my prior experiences developing stateful applications for serverless computing to design and create a highly-optimized and scalable Functions-as-a-Service (FaaS) platform.",
+    extendedDescription: "Specifically, we're incorporating techniques and strategies from cryptography, network security, and database systems to provide strong security guarantees while leveraging FaaS to provide good performance",
     venue: "",
     repo_url: "",
     arxiv_links: [],
