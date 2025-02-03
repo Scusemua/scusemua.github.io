@@ -78,6 +78,7 @@ export const JupyterNotebookProject: Project = {
     project_website_url: "",
     image: jupyter_naas,
     keywords: ["serverless", "deep learning", "jupyter notebooks", "gpu scheduling", "platforms"],
+    builtWith: ["Kubernetes", "Docker", "Golang", "Python"],
     arxiv_links: [],
     status: 'ongoing',
 }
@@ -92,6 +93,7 @@ export const ObliviousInfiniStoreProject: Project = {
     image: obliv_inf_store_logo,
     project_website_url: "",
     keywords: ["serverless", "storage", "obliviousness", "persistence", "security", "privacy"],
+    builtWith: ["Golang", "C", "C++"],
     status: 'ongoing',
 }
 
@@ -105,6 +107,7 @@ export const FaasPlatformProject: Project = {
     image: faas_platform_logo,
     project_website_url: "",
     keywords: ["serverless", "cloud provider", "functions as a service", "platform", "scalability"],
+    builtWith: ["Python", "CPython", "C++"],
     status: 'ongoing',
 }
 
