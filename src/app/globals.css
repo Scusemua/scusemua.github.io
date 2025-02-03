@@ -15,7 +15,22 @@ body {
     line-height: 1.7;
 }
 
-.solid_background {
+.solid_background_mobile {
+    background: linear-gradient(160deg, #260c4d 0%, #2e0a4f 15%, #07133f 25%, #09133a 43%, #111547 80%, #4034e3 97%, #4e42f5 99%);
+
+    /*background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);*/
+
+    min-height: 100vh; /* Ensure gradient covers the entire viewport height */
+    display: flex; /* Optional: For centering content */
+    flex-direction: column; /* Optional: For vertical layout */
+    align-items: center; /* Optional: For centering content horizontally */
+    justify-content: center; /* Optional: For centering content vertically */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin: 0 auto;
+}
+
+.solid_background_desktop {
     /*background: #0f0c29;  !* fallback for old browsers *!*/
     /*background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  !* Chrome 10-25, Safari 5.1-6 *!*/
     /*background: linear-gradient(to right, #24243e, #302b63, #0f0c29); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/

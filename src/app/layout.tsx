@@ -32,6 +32,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const gradientDegrees: string = (mq_xs ? "-89deg" : "90deg");
 
@@ -41,7 +45,7 @@ export default function RootLayout({
             <meta name="description" content="Portfolio Website"/>
             <title>Ben Carver</title>
         </head>
-        <body className={"solid_background " + roboto.variable}
+        <body className={mq_xs ? "solid_background_mobile " + roboto.variable : "solid_background_desktop " + roboto.variable}
         >
         <AppRouterCacheProvider>
             <CssBaseline/>
