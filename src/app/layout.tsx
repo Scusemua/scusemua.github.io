@@ -18,6 +18,9 @@ import {ThemeProvider, useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
 import React, {Context} from "react";
 import {BubbleContext, BubbleProvider, BubbleState} from "@src/providers/BubbleContext";
+import Headshot from "@src/components/Headshot/Headshot";
+import Projects from "@src/components/Projects/Projects";
+import {ParallaxProviders} from "@src/providers/ParallaxProvider";
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
@@ -45,29 +48,30 @@ export default function RootLayout({
             <meta name="description" content="Portfolio Website"/>
             <title>Ben Carver</title>
         </head>
-        <body className={mq_xs ? "solid_background_mobile " + roboto.variable : "solid_background_desktop " + roboto.variable}
-        >
+        <body
+            className={mq_xs ? "solid_background_mobile " + roboto.variable : "solid_background_desktop " + roboto.variable}>
         <AppRouterCacheProvider>
             <CssBaseline/>
             <ThemeProvider theme={theme}>
                 <BubbleProvider>
-                    <BubbleContext.Consumer>
-                        {(bubbleState: BubbleState) => {
-                            console.log(`bubbleState: ${bubbleState.bubblesEnabled}`);
-                            return (<main>
-                                <div className={"background"}/>
-                                {/*<div className="gradient_background" style={{width: "100%", zIndex: -1}}/>*/}
-                                {/*{bubbleState.bubblesEnabled &&*/}
-                                {/*    <div id={mq_xs ? "mobile_stars" : "stars"} style={{zIndex: 2}}/>}*/}
-                                {/*{bubbleState.bubblesEnabled &&*/}
-                                {/*    <div id={mq_xs ? "mobile_stars2" : "stars2"} style={{zIndex: 2}}/>}*/}
-                                {/*{bubbleState.bubblesEnabled &&*/}
-                                {/*    <div id={mq_xs ? "mobile_stars3" : "stars3"} style={{zIndex: 2}}/>}*/}
-                                {children}
-                            </main>);
-                        }
-                        }
-                    </BubbleContext.Consumer>
+                    <ParallaxProviders>
+                        <BubbleContext.Consumer>
+                            {(bubbleState: BubbleState) => {
+                                console.log(`bubbleState: ${bubbleState.bubblesEnabled}`);
+                                return (<main>
+                                    {/*<div className="gradient_background" style={{width: "100%", zIndex: -1}}/>*/}
+                                    {/*{bubbleState.bubblesEnabled &&*/}
+                                    {/*    <div id={mq_xs ? "mobile_stars" : "stars"} style={{zIndex: 2}}/>}*/}
+                                    {/*{bubbleState.bubblesEnabled &&*/}
+                                    {/*    <div id={mq_xs ? "mobile_stars2" : "stars2"} style={{zIndex: 2}}/>}*/}
+                                    {/*{bubbleState.bubblesEnabled &&*/}
+                                    {/*    <div id={mq_xs ? "mobile_stars3" : "stars3"} style={{zIndex: 2}}/>}*/}
+                                    {children}
+                                </main>);
+                            }
+                            }
+                        </BubbleContext.Consumer>
+                    </ParallaxProviders>
                 </BubbleProvider>
             </ThemeProvider>
         </AppRouterCacheProvider>

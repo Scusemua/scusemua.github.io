@@ -20,13 +20,13 @@ export interface Skills {
 export const CloudPlatformSkills: Skills = {
     category: SkillCategory.Platforms,
     icon: <CloudIcon fontSize={"inherit"} style={{fontSize: "24pt"}}/>,
-    skills: ['Google Cloud Platform', 'Azure Cloud', 'Amazon Web Services', 'IBM Cloud', '{{break}}', 'EC2', 'ECS', 'EKS', 'GKE']
+    skills: ['Google Cloud Platform', 'Azure Cloud', 'Amazon Web Services', 'IBM Cloud', '{{break}}', 'EC2', 'ECS', 'EKS', 'GKE', 'Lambda', 'S3', 'VPC', 'IAM', 'Fargate']
 }
 
 export const ToolSkills: Skills = {
     category: SkillCategory.Tools,
     icon: <BuildIcon fontSize={"inherit"} style={{fontSize: "24pt"}}/>,
-    skills: ['RedGate Profilers', 'YourKit Profiler', 'Docker Compose', 'Loki/Promtail', 'Visual Studio', 'Docker Swarm', 'Kubernetes', 'Prometheus', 'IntelliJ', 'WebStorm', 'Grafana', 'Traefik', 'Docker', 'Goland', 'Kafka', 'Linux']
+    skills: ['Docker', 'Kubernetes', 'Docker Compose', 'Docker Swarm', 'Loki/Promtail', 'Visual Studio', 'Ansible', 'Prometheus', 'IntelliJ', 'WebStorm', 'Grafana', 'Traefik', 'Goland', 'Linux', 'HDFS']
     // skills: ["Docker", "Docker Compose", "Docker Swarm", "Kubernetes", "Grafana", "Loki/Promtail", "Prometheus", "Kafka", "Traefik", "Visual Studio", "IntelliJ", "YourKit Profiler", "RedGate Profilers", "Goland", "WebStorm", "Linux"]
 }
 

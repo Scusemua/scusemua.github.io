@@ -6,58 +6,63 @@
     opacity: 0.75;
 }
 
-/** {*/
-/*    outline: 1px solid #f00 !important;*/
-/*}*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
+    overflow-x: hidden;
+    position: relative;
     font-family: 'Roboto', sans-serif;
     line-height: 1.7;
+    background-size: 100%;
+    background: linear-gradient(to bottom, #811351, #120c4d, #1c1860, #961a60, #784BA0) no-repeat;
+
 }
 
-.solid_background_mobile {
-    background: linear-gradient(160deg, #260c4d 0%, #2e0a4f 15%, #07133f 25%, #09133a 43%, #111547 80%, #4034e3 97%, #4e42f5 99%);
-
-    /*background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);*/
-
-    min-height: 100vh; /* Ensure gradient covers the entire viewport height */
-    display: flex; /* Optional: For centering content */
-    flex-direction: column; /* Optional: For vertical layout */
-    align-items: center; /* Optional: For centering content horizontally */
-    justify-content: center; /* Optional: For centering content vertically */
-    overflow-y: scroll;
-    overflow-x: hidden;
-    margin: 0 auto;
+body:before{
+    content:'';
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: -1;
+    background: linear-gradient(to right bottom, rgba(255,255,255,0.2), #1c1860 95%);
 }
 
-.solid_background_desktop {
-    /*background: #0f0c29;  !* fallback for old browsers *!*/
-    /*background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  !* Chrome 10-25, Safari 5.1-6 *!*/
-    /*background: linear-gradient(to right, #24243e, #302b63, #0f0c29); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
-
-    /* Original */
-    /*background: #343434; !* fallback for old browsers *!*/
-    /*background: linear-gradient(90deg, #343434, #2F3061); !* Chrome 10-25, Safari 5.1-6 *!*/
-    /*background: linear-gradient(to right, #343434, #2F3061); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
-
-    /*background: #5C258D;  !* fallback for old browsers *!*/
-    /*background: -webkit-linear-gradient(to right, #4389A2, #5C258D);  !* Chrome 10-25, Safari 5.1-6 *!*/
-    /*background: linear-gradient(to right, #4389A2, #5C258D); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
-
-    /*background-color: #5a143f;*/
-    background: linear-gradient(160deg, #4d0c33 0%, #38145a 15%, #07133f 25%, #09133a 43%, #111547 80%, #4034e3 97%, #4e42f5 99%);
-
-    /*background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);*/
-
-    min-height: 100vh; /* Ensure gradient covers the entire viewport height */
-    display: flex; /* Optional: For centering content */
-    flex-direction: column; /* Optional: For vertical layout */
-    align-items: center; /* Optional: For centering content horizontally */
-    justify-content: center; /* Optional: For centering content vertically */
-    overflow-y: scroll;
-    overflow-x: hidden;
-    margin: 0 auto;
+/* Content styles */
+.content {
+    z-index: 1;
+    position: relative;
+    padding: 50px;
+    text-align: center;
 }
+
+/*.solid_background_mobile {*/
+/*    !*background: linear-gradient(160deg, #120c4d 0%, #2e0a4f 15%, #07133f 25%, #09133a 43%, #111547 80%, #4034e3 97%, #4e42f5 99%);*!*/
+/*    min-height: 100vh; !* Ensure gradient covers the entire viewport height *!*/
+/*    display: flex; !* Optional: For centering content *!*/
+/*    flex-direction: column; !* Optional: For vertical layout *!*/
+/*    align-items: center; !* Optional: For centering content horizontally *!*/
+/*    justify-content: center; !* Optional: For centering content vertically *!*/
+/*    overflow-y: scroll;*/
+/*    overflow-x: hidden;*/
+/*    margin: 0 auto;*/
+/*}*/
+
+/*.solid_background_desktop {*/
+/*    !*background: linear-gradient(160deg, #150746 0%, #38145a 15%, #07133f 25%, #09133a 43%, #111547 80%, #4034e3 97%, #4e42f5 99%);*!*/
+/*    min-height: 100vh; !* Ensure gradient covers the entire viewport height *!*/
+/*    display: flex; !* Optional: For centering content *!*/
+/*    flex-direction: column; !* Optional: For vertical layout *!*/
+/*    align-items: center; !* Optional: For centering content horizontally *!*/
+/*    justify-content: center; !* Optional: For centering content vertically *!*/
+/*    overflow-y: scroll;*/
+/*    overflow-x: hidden;*/
+/*    margin: 0 auto;*/
+/*}*/
 
 
 #wukong-content {
@@ -74,27 +79,6 @@ body {
     max-width: 100%;
     z-index: -1;
 
-    /**/
-    /*other default setting ...*/
-    /**/
-    /*--secondary-glow: conic-gradient(*/
-    /*        from 10deg at 50% 50%,*/
-    /*        #4389A2 0deg,*/
-    /*        #FDCA40 55deg,*/
-    /*        #dd4a83 120deg,*/
-    /*        #5C258D 160deg,*/
-    /*        transparent 360deg*/
-    /*);*/
-
-    /*--third-glow: conic-gradient(*/
-    /*        from 45deg at 50% 50%,*/
-    /*        #4389A2 0deg,*/
-    /*        #FDCA40 170deg,*/
-    /*        #dd4a83 150deg,*/
-    /*        #7e56cb 120deg,*/
-    /*        #3F5EFB 55deg,*/
-    /*        transparent 360deg*/
-    /*);*/
     --secondary-glow: conic-gradient(
             from 10deg at 50% 50%,
             #a24b60 0deg,
