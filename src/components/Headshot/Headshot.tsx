@@ -88,11 +88,11 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         >
             <div className={styles.headshot_header_text_bio_text}>
                 <Typography variant={"h6"} style={{fontSize: mq_xs ? "1.2rem" : "1.5rem"}}>
-                    I'm a 4th year PhD candidate in CS at George Mason University. My advisors are
-                    Dr. Yue Cheng (University of Virginia) & Dr. Songqing Chen (GMU).
-                    My research interests are centered around cloud computing with a focus on serverless
-                    computing. Specifically, I'm interested in applications of serverless computing to data
-                    analytics, machine learning, file systems, and other areas.
+                    I'm a 4th year computer science PhD student at George Mason University and a member of
+                    the <a href={"https://ds2-lab.github.io/"}>DS<sup>2</sup> lab</a> at the University of Virginia (UVA).
+                    My advisors are Dr. Yue Cheng (UVA) & Dr. Songqing Chen (GMU). My research is
+                    focused on developing unique and innovative applications of cloud and serverless computing to a
+                    wide variety of domains, including data analytics, machine learning, file systems, and more.
                 </Typography>
             </div>
         </div>

@@ -22,6 +22,10 @@ body {
 
 }
 
+a {
+    color: inherit; /* blue colors for links too */
+}
+
 body:before{
     content:'';
     position: fixed;

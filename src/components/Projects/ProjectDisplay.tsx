@@ -194,6 +194,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             style={{
                 height: (expanded ? "auto" : "100%"),
             }}
+            raised={false}
             className={styles.project_section_card}
         >
             <CardActionArea onClick={() => onClickCard()}>
