@@ -36,7 +36,7 @@ export const WukongProject: Project = {
     arxiv_links: ["https://arxiv.org/abs/1910.05896", "https://arxiv.org/abs/2010.07268"],
     presentation_url: "https://youtu.be/W0tENnx_58I",
     presentation_venue: "SoCC'20",
-    learnMoreEnabled: true,
+    learnMoreEnabled: false,
     learnMoreUrl: "projects/wukong",
     status: 'inactive',
 }
