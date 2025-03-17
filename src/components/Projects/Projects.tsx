@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "@src/styles/components/Projects.module.scss";
 
 import React, {forwardRef} from "react";
@@ -9,6 +11,10 @@ import {CurrentProjects, PastProjects, Project} from "@data/ProjectsData";
 import ProjectDisplay from "@src/components/Projects/ProjectDisplay";
 import {motion} from "framer-motion";
 import theme from "@src/app/theme";
+
+import EmblaCarousel from "@src/components/Carousel/EmblaCarousel";
+
+import "@styles/embla.css"
 
 const cardContainerVariant = {
     hidden: {
@@ -92,7 +98,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                                 margin: "0 auto",
                             }}
                             viewport={{once: true, amount: 0.125, margin: getAnimMargin()}}
-                            // onViewportEnter={() => console.log("Project Section has entered viewport")}
+                    // onViewportEnter={() => console.log("Project Section has entered viewport")}
                 >
                     <Grid2
                         container
@@ -127,6 +133,23 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
         }
     }
 
+    const getSlides = (projects: Project[]): React.JSX.Element[] => {
+        return projects.map((project: Project, idx: number) => {
+            return (
+                <ProjectDisplay project={project} is_xs={mq_xs}/>
+            );
+        });
+    }
+
+    const getProjectsAsCarousel = (projects: Project[]) => {
+        return (
+            <EmblaCarousel className={styles.project_container}
+                           is_xs={mq_xs}
+                           slides={getSlides(projects)}
+                           options={{loop: true}}/>
+        );
+    }
+
     return (
         <Stack
             className={styles.project_section} ref={ref}
@@ -151,7 +174,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                 Active Research Projects
             </Typography>
 
-            {getProjects(CurrentProjects)}
+            {getProjectsAsCarousel(CurrentProjects)}
         </Stack>
     )
 });

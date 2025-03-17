@@ -3,6 +3,7 @@ import infinistore_logo from "@images/logos/infinistore_logo.webp";
 import obliv_inf_store_logo from "@images/logos/oblivious_infinistore_logo.webp";
 import lfs_logo from "@images/logos/lambda_fs_logo.webp";
 import jupyter_naas from "@images/logos/jupyter_naas_logo.webp";
+import optimal_gpu_platform_logo from "@images/logos/optimal_gpu_platform_logo.png";
 import distributed_dl_training from "@images/logos/distributed_dl_training_logo.png";
 import faas_platform_logo from "@images/logos/faas_platforms_logo.webp";
 import LambdaFSArchitecture from "@data/architecture_diagrams/lambda_fs_arch";
@@ -88,14 +89,31 @@ export const LambdaFSProject: Project = {
 export const JupyterNotebookProject: Project = {
     // name: "Jupyter NaaS",
     name: "Distributed Deep Learning Training",
-    description: "I'm working on a platform optimized for multi-tenant distributed deep learning training workloads. The platform uses a novel design to enhance resource utilization and reduce JCT.",
+    description: "I'm developing a platform optimized for multi-tenant distributed deep learning training workloads. By leveraging a novel design, the platform enhances resource utilization and reduces JCT while integrating industry-standard tools like Prometheus, Loki, and Grafana for real-time monitoring, metric collection, and visualization.",
     // description: "I'm working on a Jupyter Notebooks-as-a-Service (NaaS) platform that is optimized for providing maximum interactivity for users. The platform uses a novel designed that we developed to enable support for new classes of AI/ML applications and workloads.",
-    extendedDescription: "The platform supports detailed, real-time metric and log collection, visualization, aggregation, and monitoring by integrating with industry-standard frameworks and technologies, including Prometheus, Promtail, Loki, and Grafana.",
+    extendedDescription: "",
     venue: "",
     // repo_url: "https://github.com/Scusemua/Jupyter-NaaS-Dashboard",
     repo_url: "",
     project_website_url: "",
     image: distributed_dl_training, // jupyter_naas,
+    keywords: ["serverless", "deep learning", "gpu scheduling", "platforms"], // "jupyter notebooks"
+    builtWith: ["Kubernetes", "Docker", "Golang", "Python"],
+    arxiv_links: [],
+    status: 'ongoing',
+}
+
+export const GpuPricingProject: Project = {
+    // name: "Jupyter NaaS",
+    name: "Optimal GPU Training Platform",
+    description: "Building on our multi-tenant deep learning platform, we are developing an optimized cost-aware scheduling and pricing model for shared GPU environments.",
+    // description: "I'm working on a Jupyter Notebooks-as-a-Service (NaaS) platform that is optimized for providing maximum interactivity for users. The platform uses a novel designed that we developed to enable support for new classes of AI/ML applications and workloads.",
+    extendedDescription: "This extension focuses on dynamic resource allocation, fair cost distribution, and maximizing GPU efficiency to ensure an optimal balance between performance and user cost.",
+    venue: "",
+    // repo_url: "https://github.com/Scusemua/Jupyter-NaaS-Dashboard",
+    repo_url: "",
+    project_website_url: "",
+    image: optimal_gpu_platform_logo, // jupyter_naas,
     keywords: ["serverless", "deep learning", "gpu scheduling", "platforms"], // "jupyter notebooks"
     builtWith: ["Kubernetes", "Docker", "Golang", "Python"],
     arxiv_links: [],
@@ -135,5 +153,5 @@ export const PastProjects: Project[] = [
 ]
 
 export const CurrentProjects: Project[] = [
-    JupyterNotebookProject, ObliviousInfiniStoreProject, FaasPlatformProject
+    JupyterNotebookProject, GpuPricingProject, ObliviousInfiniStoreProject, FaasPlatformProject,
 ]
