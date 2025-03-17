@@ -191,7 +191,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 }}>
                     <Stack spacing={props.is_xs ? 0.25 : 4} direction={'column'}>
                         {props.project.architectureDiagramIsInteractive && <Typography variant="caption" gutterBottom>
-                            {"This diagram shown below is interactive! Click on each component to learn more about it."}
+                            {"The diagram shown below is interactive! Click on each component to learn more about it."}
                         </Typography>}
                         {props.project.architectureDiagram}
                     </Stack>
