@@ -26,6 +26,7 @@ export interface Project {
     architectureDiagramPath?: string;
     architectureDiagram?: React.JSX.Element;
     architectureDiagramHeight?: number;
+    architectureDiagramIsInteractive?: boolean;
     learnMoreUrl?: string;
     status: 'ongoing' | 'inactive';
 }
@@ -77,6 +78,7 @@ export const LambdaFSProject: Project = {
     keywords: ["serverless", "distributed file systems", "file storage", "metadata"],
     builtWith: ["AWS", "Google Cloud", "IBM Cloud", "Nuclio", "OpenWhisk", "Java", "C++", "MySQL Cluster NDB", "HopsFS", "HDFS"],
     arxiv_links: ["https://arxiv.org/abs/2306.11877"],
+    architectureDiagramIsInteractive: true,
     status: 'inactive',
     architectureDiagram: <LambdaFSArchitecture/>,
     architectureDiagramHeight: 280,

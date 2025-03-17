@@ -44,12 +44,15 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
 
         const id = popoverOpen ? 'virtual-element-popover' : undefined;
 
+        const getBoundingClientRectFromEvent = (event: MouseEvent) => {
+            return new DOMRect(event.clientX-5, event.clientY-10, 20, 20);
+        };
 
         const onClickClients = (event: MouseEvent) => {
             event.stopPropagation();
 
             const getBoundingClientRect = () => {
-                return new DOMRect(event.clientX, event.clientY, 20, 20);
+                return getBoundingClientRectFromEvent(event);
             };
 
             setPopoverOpen(true);
@@ -62,7 +65,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
             event.stopPropagation();
 
             const getBoundingClientRect = () => {
-                return new DOMRect(event.clientX, event.clientY, 20, 20);
+                return getBoundingClientRectFromEvent(event);
             };
 
             setPopoverOpen(true);
@@ -78,7 +81,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
             event.stopPropagation();
 
             const getBoundingClientRect = () => {
-                return new DOMRect(event.clientX, event.clientY, 20, 20);
+                return getBoundingClientRectFromEvent(event);
             };
 
             setPopoverOpen(true);
@@ -91,7 +94,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
             event.stopPropagation();
 
             const getBoundingClientRect = () => {
-                return new DOMRect(event.clientX, event.clientY, 20, 20);
+                return getBoundingClientRectFromEvent(event);
             };
 
             setPopoverOpen(true);
@@ -104,7 +107,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
             event.stopPropagation();
 
             const getBoundingClientRect = () => {
-                return new DOMRect(event.clientX, event.clientY, 20, 20);
+                return getBoundingClientRectFromEvent(event);
             };
 
             setPopoverOpen(true);
@@ -118,10 +121,10 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
          * Top-level onClick handler for the SVG. Closes the popover if it is open.
          */
         const onSvgClicked = (event: MouseEvent) => {
-            if (popoverOpen) {
-                event.stopPropagation();
-                event.preventDefault();
+            event.stopPropagation();
+            event.preventDefault();
 
+            if (popoverOpen) {
                 setPopoverOpen(false);
             }
         }
@@ -1664,7 +1667,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                 pointerEvents="all"
             />
             <path fill="none" d="M853.75 351V201h40v150z" pointerEvents="all"/>
-            <switch transform="rotate(-90 873.25 276)">
+            <switch transform="rotate(-90 873.25 276)" onClick={onClickNameNodes}>
                 <foreignObject
                     width="100%"
                     height="100%"
@@ -1676,7 +1679,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                     }}
                 >
                     <div
-
+                        onClick={onClickNameNodes}
                         style={{
                             display: "flex",
                             alignItems: "unsafe center",
@@ -1688,6 +1691,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                         }}
                     >
                         <div
+                            onClick={onClickNameNodes}
                             data-drawio-colors="color: rgb(0, 0, 0);"
                             style={{
                                 boxSizing: "border-box",
@@ -1696,6 +1700,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                             }}
                         >
                             <div
+                                onClick={onClickNameNodes}
                                 style={{
                                     display: "inline-block",
                                     fontSize: 24,
