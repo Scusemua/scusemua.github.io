@@ -45,6 +45,11 @@ const openInNewTab = (url: string | URL | undefined) => {
 // const badgeColors: string[] = ["#E22753", "#3f5efb"]
 const badgeColors: string[] = ["#A4243B", "#1c40c4"]
 
+function svgElementClicked(theElement) {
+    console.log("A <" + theElement.nodeName + "> element with id '" + theElement.id + "' was clicked inside the <" +
+        theElement.ownerDocument.defaultView.frameElement.nodeName.toLowerCase() + "> element.");
+}
+
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
     const [expanded, setExpanded] = React.useState<boolean>(false);
 

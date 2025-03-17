@@ -2357,6 +2357,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-svg-pan-zoom-loader@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/@types/react-svg-pan-zoom-loader/-/react-svg-pan-zoom-loader-1.5.0.tgz"
+  integrity sha512-XdojrcISZtj05vHZjOihbrS+l6bXB6pgTKtRISEt+7I1Q+b6gs+EaHuufZzgv4SPK6+TzpKGuLRgBaaIej/8jA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-transition-group@^4.4.11":
   version "4.4.11"
   resolved "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-4.4.11.tgz"
@@ -8471,6 +8478,14 @@ react-scroll-parallax@^3.4.5:
   dependencies:
     parallax-controller "^1.7.1"
 
+react-svg-pan-zoom@^3.13.1:
+  version "3.13.1"
+  resolved "https://registry.npmjs.org/react-svg-pan-zoom/-/react-svg-pan-zoom-3.13.1.tgz"
+  integrity sha512-mUGoXfo255c+T/FAdZ5Fr0paw9OpAz4owGku5bRjUOzSKUmqUJpuYbscuuzOIJWbmrJ0N/9mOWPE8JdjSYITbQ==
+  dependencies:
+    prop-types "^15.8.1"
+    transformation-matrix "^2.16.1"
+
 react-transition-group@^4.4.5:
   version "4.4.5"
   resolved "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.5.tgz"
@@ -9763,6 +9778,11 @@ tr46@^2.1.0:
   integrity sha512-15Ih7phfcdP5YxqiB+iDtLoaTz4Nd35+IiAv0kQ5FNKHzXgdWqPoTIqEDDJmXceQt4JZk6lVPT8lnDlPpGDppw==
   dependencies:
     punycode "^2.1.1"
+
+transformation-matrix@^2.16.1:
+  version "2.16.1"
+  resolved "https://registry.npmjs.org/transformation-matrix/-/transformation-matrix-2.16.1.tgz"
+  integrity sha512-tdtC3wxVEuzU7X/ydL131Q3JU5cPMEn37oqVLITjRDSDsnSHVFzW2JiCLfZLIQEgWzZHdSy3J6bZzvKEN24jGA==
 
 trim-repeated@^1.0.0:
   version "1.0.0"

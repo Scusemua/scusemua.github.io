@@ -43,7 +43,7 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
             initial="hidden"
             whileInView="visible"
             viewport={{once: true, amount: 1.0, margin: (mq_xs ? "-5px" : "-25px")}}
-            onViewportEnter={() => console.log("Education Section has entered viewport")}
+            // onViewportEnter={() => console.log("Education Section has entered viewport")}
         >
             <TimelineOppositeContent
                 sx={{

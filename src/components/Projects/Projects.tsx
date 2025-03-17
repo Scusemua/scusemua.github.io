@@ -92,7 +92,8 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                                 margin: "0 auto",
                             }}
                             viewport={{once: true, amount: 0.125, margin: getAnimMargin()}}
-                            onViewportEnter={() => console.log("Project Section has entered viewport")}>
+                            // onViewportEnter={() => console.log("Project Section has entered viewport")}
+                >
                     <Grid2
                         container
                         rowSpacing={4}

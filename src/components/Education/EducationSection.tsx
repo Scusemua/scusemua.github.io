@@ -67,7 +67,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
                                     margin: "0 auto",
                                 }}
                                 viewport={{once: true, amount: 0.25, margin: "475px"}}
-                                onViewportEnter={() => console.log("Education Section has entered viewport")}
+                                // onViewportEnter={() => console.log("Education Section has entered viewport")}
             >
                 {coreContent}
             </motion.div>);
