@@ -7,6 +7,9 @@ import DegreeDisplay from "@src/components/Education/DegreeDisplay";
 import {Grid2, useMediaQuery} from "@mui/material";
 import {motion} from "framer-motion";
 import theme from "@src/app/theme";
+import {Project} from "@data/ProjectsData";
+import EmblaCarousel from "@src/components/Carousel/EmblaCarousel";
+import ProjectDisplay from "@src/components/Projects/ProjectDisplay";
 
 const degreeContainerVariant = {
     hidden: {opacity: 1, scale: 0},
@@ -38,14 +41,17 @@ interface EducationSectionProps {
 // const EducationSection: React.FunctionComponent<EducationSectionProps> = (props: EducationSectionProps) => {
 const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_props: EducationSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    // const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_md_or_less = useMediaQuery(theme.breakpoints.down('md'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
 
     const coreContent = (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                                 className={styles.education_degree_container}>
         {AllDegreeInfo.map((degree: DegreeInfo) => (
             <Grid2 key={`degree-card-${degree.degree}`} style={{display: 'flex', justifyContent: 'center', margin: "0 auto"}}
                    size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 12, 'xl': 4}}
-                   component={motion.div} variants={degreeVariant}
+                   component={motion.div}
+                   variants={degreeVariant}
                    whileHover={!mq_xs ? {
                        scale: 1.05,
                    } : undefined}
@@ -55,9 +61,27 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
         ))}
     </Grid2>);
 
+    const getSlides = (degrees: DegreeInfo[]): React.JSX.Element[] => {
+        return degrees.map((degree: DegreeInfo, idx: number) => {
+            return (
+                <DegreeDisplay key={`degree-${idx}-${degree.degree}`} degree={degree}/>
+            );
+        });
+    }
+
+    const getCoreContentAsCarousel = (degrees: DegreeInfo[]) => {
+        return (
+            <EmblaCarousel className={styles.education_degree_container}
+                           is_md_or_less={mq_md_or_less}
+                           is_lg={mq_lg}
+                           slides={getSlides(degrees)}
+                           options={{loop: true}}/>
+        );
+    }
+
     const getContent = () => {
-        if (mq_xs || mq_sm) {
-            return coreContent;
+        if (mq_md_or_less || mq_lg) {
+            return getCoreContentAsCarousel(AllDegreeInfo);
         } else {
             return (<motion.div variants={degreeContainerVariant}
                                 initial="hidden"

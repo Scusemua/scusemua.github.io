@@ -12,7 +12,8 @@ type PropType = {
     slides: React.JSX.Element[]
     options?: EmblaOptionsType
     className?: string
-    is_xs?: boolean;
+    is_md_or_less?: boolean;
+    is_lg?: boolean;
 }
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
@@ -29,15 +30,27 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         onNextButtonClick
     } = usePrevNextButtons(emblaApi)
 
+    const getFlexPercent = () => {
+        if (props.is_lg) {
+            return "75";
+        }
+
+        if (props.is_md_or_less) {
+            return "100";
+        }
+
+        return "34";
+    }
+
     return (
         <section className={className ? `${className} embla` : "embla"} style={{
-            maxWidth: props.is_xs ? "100%" : "90%",
+            maxWidth: props.is_md_or_less ? "100%" : "90%",
         }}>
             <div className="embla__viewport" ref={emblaRef}>
                 <div className="embla__container">
                     {slides.map((element: React.JSX.Element, index: number) => (
                         <div className="embla__slide" key={index} style={{
-                            flex: `0 0 ${props.is_xs ? "100" : "34"}%`
+                            flex: `0 0 ${getFlexPercent()}%`
                         }}>
                             <div className="embla__slide__number">{element}</div>
                         </div>

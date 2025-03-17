@@ -136,7 +136,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
     const getSlides = (projects: Project[]): React.JSX.Element[] => {
         return projects.map((project: Project, idx: number) => {
             return (
-                <ProjectDisplay project={project} is_xs={mq_xs}/>
+                <ProjectDisplay key={`project-${idx}-${project.name}`} project={project} is_xs={mq_xs || mq_sm || mq_md}/>
             );
         });
     }
@@ -144,10 +144,19 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
     const getProjectsAsCarousel = (projects: Project[]) => {
         return (
             <EmblaCarousel className={styles.project_container}
-                           is_xs={mq_xs}
+                           is_md_or_less={mq_xs || mq_sm || mq_md}
+                           is_lg={mq_lg}
                            slides={getSlides(projects)}
                            options={{loop: true}}/>
         );
+    }
+
+    const getPastProjects = () => {
+        if (mq_xs || mq_sm || mq_md || mq_lg) {
+            return getProjectsAsCarousel(PastProjects);
+        }
+
+        return getProjects(PastProjects);
     }
 
     return (
@@ -162,14 +171,16 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                 Research
             </Typography>
 
-            <Typography variant={mq_xs ? "h3" : "h2"}
+            <Typography variant={(mq_xs || mq_sm) ? "h3" : "h2"}
                         className={styles.project_section_subheader_text}>
                 Past Research Projects
             </Typography>
 
-            {getProjects(PastProjects)}
+            {/*{getProjects(PastProjects)}*/}
+            {/*{getProjectsAsCarousel(PastProjects)}*/}
+            {getPastProjects()}
 
-            <Typography variant={mq_xs ? "h3" : "h2"}
+            <Typography variant={(mq_xs || mq_sm) ? "h3" : "h2"}
                         className={styles.project_section_subheader_text}>
                 Active Research Projects
             </Typography>
