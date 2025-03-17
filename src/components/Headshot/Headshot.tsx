@@ -17,7 +17,6 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
 import theme from "@src/app/theme";
-import {BubbleChart} from "@mui/icons-material";
 import {BubbleContext} from "@src/providers/BubbleContext";
 
 interface HeadshotProps {
@@ -31,7 +30,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
-    const { bubblesEnabled, setBubblesEnabled} = React.useContext(BubbleContext);
+    const {bubblesEnabled, setBubblesEnabled} = React.useContext(BubbleContext);
 
     const openInNewTab = (url: string | URL | undefined) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
@@ -89,7 +88,8 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             <div className={styles.headshot_header_text_bio_text}>
                 <Typography variant={"h6"} style={{fontSize: mq_xs ? "1.2rem" : "1.5rem"}}>
                     I'm a 4th year computer science PhD student at George Mason University and a member of
-                    the <a href={"https://ds2-lab.github.io/"}>DS<sup>2</sup> lab</a> at the University of Virginia (UVA).
+                    the <a href={"https://ds2-lab.github.io/"}>DS<sup>2</sup> lab</a> at the University of Virginia
+                    (UVA).
                     My advisors are Dr. Yue Cheng (UVA) & Dr. Songqing Chen (GMU). My research is
                     focused on developing unique and innovative applications of cloud and serverless computing to a
                     wide variety of domains, including data analytics, machine learning, file systems, and more.
@@ -346,6 +346,19 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             {mq_sm && getLayoutSm()}
             {mq_xs && getLayoutXs()}
             {!mq_xl && headerButtons}
+
+            {/*<Image*/}
+            {/*    src={Clouds}*/}
+            {/*    alt={"Clouds"}*/}
+            {/*    width={0}*/}
+            {/*    height={0}*/}
+            {/*    sizes="100vw"*/}
+            {/*    style={{*/}
+            {/*        zIndex: 0,*/}
+            {/*        width: '100%',*/}
+            {/*        height: 'auto' }} // optional*/}
+            {/*    priority={true}*/}
+            {/*/>*/}
         </div>
     );
 });

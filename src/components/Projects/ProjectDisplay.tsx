@@ -157,6 +157,28 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         </CardHeader>
     );
 
+    const getArchitectureDiagram = () => {
+        if (!props.project.architectureDiagram) {
+            return <div/>
+        }
+
+        return (
+            <div style={{
+                display: "flex",
+                justifyContent: "center",
+                height: `${props.project.architectureDiagramHeight || "512"}px`,
+                width: "100%",
+                position: "relative",
+            }}>
+                <Image
+                    src={props.project.architectureDiagram}
+                    alt={`${props.project.name} Architecture}`}
+                    fill={true}
+                />
+            </div>
+        )
+    };
+
     const onClickCard = () => {
         setExpanded(!expanded);
     }
@@ -219,7 +241,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     </CardMedia>
                 </div>
                 {cardHeader}
-                <CardContent>
+                <CardContent style={{overflow: "auto", margin: "5px"}}>
                     <Typography
                         variant="body1"
                         style={{
@@ -230,17 +252,17 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                         {props.project.description}
                     </Typography>
                     <Collapse in={expanded} timeout={"auto"} unmountOnExit>
-                        {props.project.extendedDescription !== undefined && <Typography
+                        {props.project.extendedDescription && <Typography
                             variant="body1"
                             style={{
                                 // marginTop: "1rem",
                                 fontSize: props.is_xs ? "0.9rem" : "",
-                                marginBottom: props.project.learnMoreEnabled ? "0rem" : "-1.5rem",
+                                marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
                             }}
                         >
                             {props.project.extendedDescription}
                         </Typography>}
-                        {getLearnMore()}
+                        {getArchitectureDiagram()}
                         {keywords}
                     </Collapse>
                 </CardContent>
