@@ -48,7 +48,7 @@ const JuniorDeveloper: Employment = {
         "Implemented a system for manipulating, serializing, and viewing 3D models.",
     ],
     getIcon: (width: number, height: number, scale: number = 1.25) => (<Avatar style={{width: width, height: height}}>
-        <DeveloperDeskIcon fill={"#fff"} transform={`scale(-${scale * -1}, ${scale})`}/>
+        <DeveloperDeskIcon fill={"#fff"} transform={`scale(${scale * -1}, ${scale})`}/>
     </Avatar>)
 }
 

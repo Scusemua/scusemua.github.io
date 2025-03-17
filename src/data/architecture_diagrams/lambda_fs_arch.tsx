@@ -1,5 +1,22 @@
-import * as React from "react"
-import {MouseEvent, SVGProps} from "react"
+import * as React from 'react';
+import Popover, {PopoverProps} from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import {MouseEvent} from "react"
+import {Button} from "@mui/material";
+import Stack from '@mui/material/Stack';
+import {styled} from '@mui/material/styles';
+
+const Item = styled(Paper)(({theme}) => ({
+    backgroundColor: '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    ...theme.applyStyles('dark', {
+        backgroundColor: '#1A2027',
+    }),
+}));
 
 interface LambdaFSArchitectureProps {
     width?: number;
@@ -8,16 +25,50 @@ interface LambdaFSArchitectureProps {
 }
 
 const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
+        const [popoverAnchorEl, setPopoverAnchorEl] = React.useState<PopoverProps['anchorEl']>(null);
+
+        const [popoverOpen, setPopoverOpen] = React.useState<boolean>(false);
+
+        const [popoverContent, setPopoverContent] = React.useState<string>('');
+
+        const [popoverHeader, setPopoverHeader] = React.useState<string>('');
+
+        const handleClose = () => {
+            setPopoverOpen(false);
+        };
+
+        const onDismissClicked = (event: MouseEvent) => {
+            event.stopPropagation();
+            setPopoverOpen(false);
+        }
+
+        const id = popoverOpen ? 'virtual-element-popover' : undefined;
+
+
         const onClickClients = (event: MouseEvent) => {
             event.stopPropagation();
 
-            alert("𝜆FS interact with 𝜆FS NameNodes for metadata operations via HTTP and TCP RPCs.");
+            const getBoundingClientRect = () => {
+                return new DOMRect(event.clientX, event.clientY, 20, 20);
+            };
+
+            setPopoverOpen(true);
+            setPopoverHeader("𝜆FS Clients");
+            setPopoverContent("𝜆FS interact with 𝜆FS NameNodes for metadata operations via HTTP and TCP RPCs.");
+            setPopoverAnchorEl({getBoundingClientRect, nodeType: 1});
         }
 
         const onClickNameNodes = (event: MouseEvent) => {
             event.stopPropagation();
 
-            alert("Each 𝜆FS NameNode is a Java serverless function executing within a container managed by the " +
+            const getBoundingClientRect = () => {
+                return new DOMRect(event.clientX, event.clientY, 20, 20);
+            };
+
+            setPopoverOpen(true);
+            setPopoverAnchorEl({getBoundingClientRect, nodeType: 1});
+            setPopoverHeader("𝜆FS NameNodes");
+            setPopoverContent("Each 𝜆FS NameNode is a Java serverless function executing within a container managed by the " +
                 "underlying serverless platform (e.g., OpenWhisk or Nuclio). Unlike traditional metadata services, " +
                 "NameNodes in 𝜆FS are (a) not stateless and (b) elastic. This allows the dynamic cluster of serverless " +
                 "NameNodes to collectively form an elastic metadata caching layer.");
@@ -26,23 +77,57 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
         const onClickDataNodes = (event: MouseEvent) => {
             event.stopPropagation();
 
-            alert("The 𝜆FS DataNodes store file blocks.");
+            const getBoundingClientRect = () => {
+                return new DOMRect(event.clientX, event.clientY, 20, 20);
+            };
+
+            setPopoverOpen(true);
+            setPopoverHeader("𝜆FS DataNodes");
+            setPopoverAnchorEl({getBoundingClientRect, nodeType: 1});
+            setPopoverContent("The 𝜆FS DataNodes store file blocks.");
         }
 
         const onClickPersistentMetadataStore = (event: MouseEvent) => {
             event.stopPropagation();
 
-            alert("The Persistent Metadata Store provides persistent storage for all file system metadata.");
+            const getBoundingClientRect = () => {
+                return new DOMRect(event.clientX, event.clientY, 20, 20);
+            };
+
+            setPopoverOpen(true);
+            setPopoverHeader("𝜆FS' Persistent Metadata Store");
+            setPopoverAnchorEl({getBoundingClientRect, nodeType: 1});
+            setPopoverContent("The Persistent Metadata Store provides persistent storage for all file system metadata.");
         }
 
         const onClickCoordinationService = (event: MouseEvent) => {
             event.stopPropagation();
 
-            alert("𝜆FS uses a pluggable “Coordinator” service for tracking NameNode liveness and coordinating " +
+            const getBoundingClientRect = () => {
+                return new DOMRect(event.clientX, event.clientY, 20, 20);
+            };
+
+            setPopoverOpen(true);
+            setPopoverHeader("𝜆FS' Coordination Service");
+            setPopoverAnchorEl({getBoundingClientRect, nodeType: 1});
+            setPopoverContent("𝜆FS uses a pluggable “Coordinator” service for tracking NameNode liveness and coordinating " +
                 "NameNodes during write operations. 𝜆FS currently supports both ZooKeeper and MySQL Cluster NDB.");
         }
 
+        /**
+         * Top-level onClick handler for the SVG. Closes the popover if it is open.
+         */
+        const onSvgClicked = (event: MouseEvent) => {
+            if (popoverOpen) {
+                event.stopPropagation();
+                event.preventDefault();
+
+                setPopoverOpen(false);
+            }
+        }
+
         return (<svg
+            onClick={onSvgClicked}
             preserveAspectRatio="xMidYMid meet"
             display={"block"}
             style={{
@@ -931,28 +1016,28 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                     y={66}
                 />
             </switch>
-            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all">
+            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all" onClick={onClickPersistentMetadataStore}>
                 <path
                     fill="#6ab0a4"
                     d="M610 66c0-8.28 13.43-15 30-15 7.96 0 15.59 1.58 21.21 4.39C666.84 58.21 670 62.02 670 66v40c0 8.28-13.43 15-30 15s-30-6.72-30-15Z"
                 />
                 <path fill="none" d="M670 66c0 8.28-13.43 15-30 15s-30-6.72-30-15"/>
             </g>
-            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all">
+            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all" onClick={onClickPersistentMetadataStore}>
                 <path
                     fill="#6ab0a4"
                     d="M680 66c0-8.28 13.43-15 30-15 7.96 0 15.59 1.58 21.21 4.39C736.84 58.21 740 62.02 740 66v40c0 8.28-13.43 15-30 15s-30-6.72-30-15Z"
                 />
                 <path fill="none" d="M740 66c0 8.28-13.43 15-30 15s-30-6.72-30-15"/>
             </g>
-            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all">
+            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all" onClick={onClickPersistentMetadataStore}>
                 <path
                     fill="#6ab0a4"
                     d="M750 66c0-8.28 13.43-15 30-15 7.96 0 15.59 1.58 21.21 4.39C806.84 58.21 810 62.02 810 66v40c0 8.28-13.43 15-30 15s-30-6.72-30-15Z"
                 />
                 <path fill="none" d="M810 66c0 8.28-13.43 15-30 15s-30-6.72-30-15"/>
             </g>
-            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all">
+            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all" onClick={onClickPersistentMetadataStore}>
                 <path
                     fill="#6ab0a4"
                     d="M850 66c0-8.28 13.43-15 30-15 7.96 0 15.59 1.58 21.21 4.39C906.84 58.21 910 62.02 910 66v40c0 8.28-13.43 15-30 15s-30-6.72-30-15Z"
@@ -1214,28 +1299,28 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                     y={217.5}
                 />
             </switch>
-            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all">
+            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all" onClick={onClickDataNodes}>
                 <path
                     fill="#7ea6e0"
                     d="M89 296c0-8.28 13.43-15 30-15 7.96 0 15.59 1.58 21.21 4.39 5.63 2.82 8.79 6.63 8.79 10.61v50c0 8.28-13.43 15-30 15s-30-6.72-30-15Z"
                 />
                 <path fill="none" d="M149 296c0 8.28-13.43 15-30 15s-30-6.72-30-15"/>
             </g>
-            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all">
+            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all" onClick={onClickDataNodes}>
                 <path
                     fill="#7ea6e0"
                     d="M169 296c0-8.28 13.43-15 30-15 7.96 0 15.59 1.58 21.21 4.39 5.63 2.82 8.79 6.63 8.79 10.61v50c0 8.28-13.43 15-30 15s-30-6.72-30-15Z"
                 />
                 <path fill="none" d="M229 296c0 8.28-13.43 15-30 15s-30-6.72-30-15"/>
             </g>
-            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all">
+            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all" onClick={onClickDataNodes}>
                 <path
                     fill="#7ea6e0"
                     d="M249 296c0-8.28 13.43-15 30-15 7.96 0 15.59 1.58 21.21 4.39 5.63 2.82 8.79 6.63 8.79 10.61v50c0 8.28-13.43 15-30 15s-30-6.72-30-15Z"
                 />
                 <path fill="none" d="M309 296c0 8.28-13.43 15-30 15s-30-6.72-30-15"/>
             </g>
-            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all">
+            <g stroke="#000" strokeMiterlimit={10} strokeWidth={3} pointerEvents="all" onClick={onClickDataNodes}>
                 <path
                     fill="#7ea6e0"
                     d="M369 296c0-8.28 13.43-15 30-15 7.96 0 15.59 1.58 21.21 4.39 5.63 2.82 8.79 6.63 8.79 10.61v50c0 8.28-13.43 15-30 15s-30-6.72-30-15Z"
@@ -1315,7 +1400,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                     y={18.5}
                 />
             </switch>
-            <g pointerEvents="all">
+            <g pointerEvents="all" onClick={onClickCoordinationService}>
                 <path
                     fill="#9e6489"
                     d="M321.02 124.68c-2.01 0-3.02-2.15-3.02-3.86V54.86c0-2.08 1.18-3.86 2.81-3.86h34.34c1.15 0 2.85 1.24 2.85 3.97v65.69c0 2.31-1.3 4.02-2.9 4.02Z"
@@ -1329,7 +1414,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                     d="M351.7 65.67h-27.51v-4.32h27.51Zm0 7.55h-27.51v-4.34h27.51Zm0 7.53h-27.51v-4.32h27.51Z"
                 />
             </g>
-            <g pointerEvents="all">
+            <g pointerEvents="all" onClick={onClickCoordinationService}>
                 <path
                     fill="#9e6489"
                     d="M377.02 124.68c-2.01 0-3.02-2.15-3.02-3.86V54.86c0-2.08 1.18-3.86 2.81-3.86h34.34c1.15 0 2.85 1.24 2.85 3.97v65.69c0 2.31-1.3 4.02-2.9 4.02Z"
@@ -1343,7 +1428,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                     d="M407.7 65.67h-27.51v-4.32h27.51Zm0 7.55h-27.51v-4.34h27.51Zm0 7.53h-27.51v-4.32h27.51Z"
                 />
             </g>
-            <g pointerEvents="all">
+            <g pointerEvents="all" onClick={onClickCoordinationService}>
                 <path
                     fill="#9e6489"
                     d="M430.29 124.68c-2.01 0-3.02-2.15-3.02-3.86V54.86c0-2.08 1.18-3.86 2.81-3.86h34.34c1.15 0 2.85 1.24 2.85 3.97v65.69c0 2.31-1.3 4.02-2.9 4.02Z"
@@ -1358,7 +1443,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                 />
             </g>
             <path fill="none" d="M467.27 61h40v40h-40z" pointerEvents="all"/>
-            <switch transform="translate(-.5 -.5)">
+            <switch transform="translate(-.5 -.5)" onClick={onClickCoordinationService}>
                 <foreignObject
                     width="100%"
                     height="100%"
@@ -1413,7 +1498,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                     y={66}
                 />
             </switch>
-            <g pointerEvents="all">
+            <g pointerEvents="all" onClick={onClickCoordinationService}>
                 <path
                     fill="#9e6489"
                     d="M510.29 124.68c-2.01 0-3.02-2.15-3.02-3.86V54.86c0-2.08 1.18-3.86 2.81-3.86h34.34c1.15 0 2.85 1.24 2.85 3.97v65.69c0 2.31-1.3 4.02-2.9 4.02Z"
@@ -1634,6 +1719,27 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                     y={262}
                 />
             </switch>
+
+            <Popover
+                id={id}
+                open={popoverOpen}
+                anchorEl={popoverAnchorEl}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                onClose={handleClose}
+                disableAutoFocus
+            >
+                <Paper style={{maxWidth: "400px"}}>
+                    <Stack>
+                        <Typography align={'center'} sx={{p: 1, fontSize: "24px"}}>{popoverHeader}</Typography>
+                        <Item>
+                            <Typography sx={{p: 1}}>{popoverContent}</Typography>
+                        </Item>
+                        <Item>
+                            <Button size="small" onClick={onDismissClicked}>Dismiss</Button>
+                        </Item>
+                    </Stack>
+                </Paper>
+            </Popover>
         </svg>);
     }
 ;
