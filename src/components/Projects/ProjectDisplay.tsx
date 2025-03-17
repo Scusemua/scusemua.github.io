@@ -186,10 +186,10 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     textAlign: "center",
                     position: "relative",
                     height: `${props.project.architectureDiagramHeight || "525"}px`,
-                    marginBottom: props.is_xs ? "0rem" : "2rem",
+                    marginBottom: props.is_xs ? "1rem" : "2rem",
                     width: "100%",
                 }}>
-                    <Stack spacing={props.is_xs ? 0.25 : 4} direction={'column'}>
+                    <Stack spacing={props.is_xs ? 3 : 4} direction={'column'}>
                         {props.project.architectureDiagramIsInteractive && <Typography variant="caption" gutterBottom>
                             {"The diagram shown below is interactive! Click on each component to learn more about it."}
                         </Typography>}
