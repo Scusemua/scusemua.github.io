@@ -4,9 +4,10 @@ import obliv_inf_store_logo from "@images/logos/oblivious_infinistore_logo.webp"
 import lfs_logo from "@images/logos/lambda_fs_logo.webp";
 import jupyter_naas from "@images/logos/jupyter_naas_logo.webp";
 import faas_platform_logo from "@images/logos/faas_platforms_logo.webp";
-import lambdafs_arch from "@images/architecture_diagrams/lambdafs_arch.svg";
-import wukong_arch from "@images/architecture_diagrams/wukong_arch.svg";
-import infinistore_arch from "@images/architecture_diagrams/infinistore_arch.svg";
+import LambdaFSArchitecture from "@data/architecture_diagrams/lambda_fs_arch";
+import WukongArchitecture from "@data/architecture_diagrams/wukong_arch";
+import React from "react";
+import InfiniStoreArchitecture from "@data/architecture_diagrams/infinistore_arch";
 
 export interface Project {
     name: string;
@@ -22,7 +23,8 @@ export interface Project {
     arxiv_links: string[];
     builtWith?: string[];
     learnMoreEnabled?: boolean;
-    architectureDiagram?: string;
+    architectureDiagramPath?: string;
+    architectureDiagram?: React.JSX.Element;
     architectureDiagramHeight?: number;
     learnMoreUrl?: string;
     status: 'ongoing' | 'inactive';
@@ -43,7 +45,7 @@ export const WukongProject: Project = {
     presentation_venue: "SoCC'20",
     learnMoreEnabled: false,
     learnMoreUrl: "projects/wukong",
-    architectureDiagram: wukong_arch,
+    architectureDiagram: <WukongArchitecture/>,
     architectureDiagramHeight: 512,
     status: 'inactive',
 }
@@ -58,8 +60,8 @@ export const InfiniStoreProject: Project = {
     project_website_url: "",
     keywords: ["serverless", "object storage", "caching", "persistence", "fault tolerance", "erasure coding"],
     builtWith: ["AWS", "AWS Lambda", "AWS S3", "Golang"],
-    architectureDiagram: infinistore_arch,
-    architectureDiagramHeight: 384,
+    architectureDiagram: <InfiniStoreArchitecture/>,
+    architectureDiagramHeight: 512,
     arxiv_links: ["https://arxiv.org/abs/2209.01496"],
     status: 'inactive',
 }
@@ -76,8 +78,8 @@ export const LambdaFSProject: Project = {
     builtWith: ["AWS", "Google Cloud", "IBM Cloud", "Nuclio", "OpenWhisk", "Java", "C++", "MySQL Cluster NDB", "HopsFS", "HDFS"],
     arxiv_links: ["https://arxiv.org/abs/2306.11877"],
     status: 'inactive',
-    architectureDiagram: lambdafs_arch,
-    architectureDiagramHeight: 256,
+    architectureDiagram: <LambdaFSArchitecture/>,
+    architectureDiagramHeight: 280,
 }
 
 export const JupyterNotebookProject: Project = {

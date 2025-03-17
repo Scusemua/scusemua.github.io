@@ -13,7 +13,6 @@ import {
     CardMedia,
     Chip,
     Collapse,
-    IconButtonProps,
     Stack,
     Tooltip
 } from "@mui/material";
@@ -158,25 +157,43 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     );
 
     const getArchitectureDiagram = () => {
-        if (!props.project.architectureDiagram) {
-            return <div/>
+        if (props.project.architectureDiagramPath) {
+            return (
+                <div style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    textAlign: "center",
+                    height: `${props.project.architectureDiagramHeight || "512"}px`,
+                    width: "100%",
+                    position: "relative",
+                }}>
+                    <Image
+                        src={props.project.architectureDiagramPath}
+                        alt={`${props.project.name} Architecture}`}
+                        fill={true}
+                    />
+                </div>
+            )
         }
 
-        return (
-            <div style={{
-                display: "flex",
-                justifyContent: "center",
-                height: `${props.project.architectureDiagramHeight || "512"}px`,
-                width: "100%",
-                position: "relative",
-            }}>
-                <Image
-                    src={props.project.architectureDiagram}
-                    alt={`${props.project.name} Architecture}`}
-                    fill={true}
-                />
-            </div>
-        )
+        if (props.project.architectureDiagram) {
+            return (
+                <div style={{
+                    // border: "1px solid red",
+                    // backgroundColor: "#ccc",
+                    display: "flex",
+                    justifyContent: "center",
+                    textAlign: "center",
+                    position: "relative",
+                    height: `${props.project.architectureDiagramHeight || "525"}px`,
+                    width: "100%",
+                }}>
+                    {props.project.architectureDiagram}
+                </div>
+            )
+        }
+
+        return <div/>
     };
 
     const onClickCard = () => {
