@@ -14,7 +14,7 @@ import InfiniStoreArchitecture from "@data/architecture_diagrams/infinistore_arc
 export interface Project {
     name: string;
     description: string;
-    extendedDescription?: string;
+    extendedDescription?: string | string[];
     venue: string | string[];
     repo_url: string;
     project_website_url: string;
@@ -36,7 +36,7 @@ export interface Project {
 export const WukongProject: Project = {
     name: "Wukong",
     description: "Wukong is a scalable, high-performance, and locality-aware serverless DAG engine. Wukong uses FaaS to accelerate the execution of linear algebra, ML, and data analytics workloads.",
-    extendedDescription: "The results of Wukong's evaluation showed that it executes large-scale parallel computing jobs up to 68.17× faster while reducing tenant-side cost by 92.96% compared to state-of-the-art industry and academic baselines.",
+    extendedDescription: ["The key insight of Wukong is that partitioning the work of a centralized scheduler (i.e., tracking task completions, identifying and dispatching ready tasks, etc.) across a large number of Lambda executors, can greatly improve performance by permitting tasks to be scheduled in parallel, reducing resource contention during scheduling, and making task scheduling data locality-aware, with automatic resource elasticity and improved cost effectiveness.", "The results of Wukong's evaluation showed that it executes large-scale parallel computing jobs up to 68.17× faster while reducing tenant-side cost by 92.96% compared to state-of-the-art industry and academic baselines."],
     venue: ["PDSW'19", "SoCC'20"],
     repo_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
     project_website_url: "https://ds2-lab.github.io/Wukong/",

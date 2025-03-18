@@ -166,6 +166,38 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
         setPopoverAnchorEl({getBoundingClientRect, nodeType: 1});
     }
 
+    const onClickStorageManager = (event: MouseEvent) => {
+        event.stopPropagation();
+
+        const getBoundingClientRect = () => {
+            return getBoundingClientRectFromEvent(event);
+        };
+
+        setPopoverMaxWidth(getDefaultPopoverWidth(mq_xl, mq_lg, mq_md, mq_sm));
+        setPopoverOpen(true);
+        setPopoverHeader("Storage in Wukong");
+
+        const content = (
+            <Stack direction={'column'}>
+                <Typography sx={{p: 1}}>
+                    {"The Storage Manager encapsulates everything storage-related in Wukong. This includes the " +
+                        "Intermediate KV Store (KVS) and the Metadata Store (MDS)."}
+                </Typography>
+                <Typography sx={{p: 1}}>
+                    {"The KVS is an elastic in-memory key-value storage cluster hosted using AWS Fargate. It is " +
+                        "described in \xA7 3.4 of the paper. The KVS primarily stores intermediate task results."}
+                </Typography>
+                <Typography sx={{p: 1}}>
+                    {"The MDS is another in-memory key-value store that is solely responsible for storing job-related " +
+                        "metadata, such as dependency counters.."}
+                </Typography>
+            </Stack>
+        );
+
+        setPopoverContent(content);
+        setPopoverAnchorEl({getBoundingClientRect, nodeType: 1});
+    }
+
     const onClickInitialInvokers = (event: MouseEvent) => {
         event.stopPropagation();
 
@@ -267,8 +299,9 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                     <path d="M0 0h811v828H0Z"/>
                 </clipPath>
             </defs>
-            <path fill="#ededed" d="M43 514h254.516v273.609H43Z"/>
+            <path onClick={onClickStorageManager} fill="#ededed" d="M43 514h254.516v273.609H43Z"/>
             <path
+                onClick={onClickStorageManager}
                 fill="none"
                 stroke="#000"
                 strokeLinecap="round"
@@ -1120,8 +1153,9 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 strokeWidth={2.25}
                 d="m587.809 525.922 3.562-9.5h-7.125Zm0 0"
             />
-            <path fill="#affaac" d="M94.875 551.824h145.793v68H94.875Z"/>
+            <path onClick={onClickStorageManager} fill="#affaac" d="M94.875 551.824h145.793v68H94.875Z"/>
             <path
+                onClick={onClickStorageManager}
                 fill="none"
                 stroke="#000"
                 strokeLinecap="round"
@@ -1129,23 +1163,26 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 strokeWidth={3}
                 d="M94.875 551.824h145.793v68H94.875Z"
             />
-            <path fill="#fff" d="M143.902 565.996h50.941v38.629h-50.941Z"/>
+            <path onClick={onClickStorageManager} fill="#fff" d="M143.902 565.996h50.941v38.629h-50.941Z"/>
             <path
+                onClick={onClickStorageManager}
                 fill="none"
                 stroke="#000"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 d="M143.902 565.996h50.941v38.629h-50.941Z"
             />
-            <g clipPath="url(#f)">
-                <g clipPath="url(#g)">
-                    <path fill="#4c4e52" d="M151.062 578.473h36.445v5.523h-36.445Z"/>
+            <g clipPath="url(#f)" onClick={onClickStorageManager}>
+                <g clipPath="url(#g)" onClick={onClickStorageManager}>
+                    <path onClick={onClickStorageManager} fill="#4c4e52" d="M151.062 578.473h36.445v5.523h-36.445Z"/>
                     <path
+                        onClick={onClickStorageManager}
                         fill="#4c4e52"
                         fillRule="evenodd"
                         d="M198.402 565.895c0-1.938-1.574-3.629-3.636-3.629h-50.774a3.65 3.65 0 0 0-3.648 3.629v39.777c0 2.047 1.586 3.617 3.648 3.617h50.774c2.062 0 3.636-1.57 3.636-3.617Zm-28.168 0h14.09v1.816h-14.09Zm24.532 39.777h-50.774V571.34h50.774Zm0-37.961h-6.801v-1.816h6.801v1.816"
                     />
                     <path
+                        onClick={onClickStorageManager}
                         fill="none"
                         stroke="#000"
                         strokeMiterlimit={10}
@@ -1154,6 +1191,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                         transform="scale(1 .99706)"
                     />
                     <path
+                        onClick={onClickStorageManager}
                         fill="#4c4e52"
                         fillRule="evenodd"
                         d="M151.062 589.52h36.445v5.344h-36.445Z"
@@ -1161,12 +1199,14 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 </g>
             </g>
             <text
+                onClick={onClickStorageManager}
                 xmlSpace="preserve"
                 fontFamily="DejaVuSans"
                 fontSize={26}
                 fontWeight="bold"
             >
                 <tspan
+                    onClick={onClickStorageManager}
                     x="91.0926 110.3326 122.370609 130.0666 142.5466 155.5206 168.0006 175.6966 188.17659 194.4166 205.9606 213.6566 226.1366 234.79459"
                     y={547.171}
                 >
@@ -1175,9 +1215,11 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
             </text>
             <path
                 fill="#fbe5d6"
+                onClick={onClickStorageManager}
                 d="M94.516 768.148v-68.882c0-4.754 32.656-8.61 72.898-8.61 40.238 0 72.895 3.856 72.895 8.61v68.882c0 4.754-32.657 8.61-72.895 8.61-40.242 0-72.898-3.856-72.898-8.61"
             />
             <path
+                onClick={onClickStorageManager}
                 fill="none"
                 stroke="#000"
                 strokeLinecap="round"
@@ -1186,18 +1228,21 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 d="M94.516 768.148v-68.882c0-4.754 32.656-8.61 72.898-8.61 40.238 0 72.895 3.856 72.895 8.61v68.882c0 4.754-32.657 8.61-72.895 8.61-40.242 0-72.898-3.856-72.898-8.61m0-68.882c0 4.754 32.656 8.609 72.898 8.609 40.238 0 72.895-3.855 72.895-8.609"
             />
             <text
+                onClick={onClickStorageManager}
                 xmlSpace="preserve"
                 fontFamily="DejaVuSans"
                 fontSize={26}
                 fontWeight="bold"
             >
                 <tspan
+                    onClick={onClickStorageManager}
                     x="58.4184 65.1264 78.1004 85.7964 97.834407 106.4924 126.17439 138.1864 151.1864 157.4004 169.8804 177.5764 189.61441 195.85442 209.79042 223.25843 229.49843 241.01644 248.71244 261.19245 269.85044"
                     y={682.497}
                 >
                     {"Intermediate KV store"}
                 </tspan>
                 <tspan
+                    onClick={onClickStorageManager}
                     x="45.704298 59.198297 66.894298 79.3743 88.0323 100.51231 113.48631 125.52432 131.76433 151.44632 163.92632 176.90033 189.38033 202.35433 214.39234 223.05033 229.29033 236.98633 249.49233 255.73232 268.1863 274.4003 286.8543"
                     y={814.497}
                 >

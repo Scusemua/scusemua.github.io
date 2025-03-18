@@ -44,6 +44,10 @@ const openInNewTab = (url: string | URL | undefined) => {
 // const badgeColors: string[] = ["#E22753", "#3f5efb"]
 const badgeColors: string[] = ["#A4243B", "#1c40c4"]
 
+function isString(value: any): boolean {
+    return typeof value === "string" || value instanceof String;
+}
+
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
     const [expanded, setExpanded] = React.useState<boolean>(false);
 
@@ -244,6 +248,43 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         </IconButton>
     </CardActions>);
 
+    const getExtendedDescription = (extendedDescription: string | string[]): React.JSX.Element => {
+        if (!props.project.extendedDescription) {
+            return <div/>
+        }
+
+        if (isString(props.project.extendedDescription)) {
+            return (<Typography
+                variant="body1"
+                style={{
+                    // marginTop: "1rem",
+                    fontSize: props.is_xs ? "0.9rem" : "",
+                    marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
+                }}
+            >
+                {props.project.extendedDescription}
+            </Typography>);
+        }
+
+        const descriptions: string[] = props.project.extendedDescription as string[];
+
+        return (<Stack direction={"column"}>
+            {descriptions.map((desc: string, index: number) => {
+                return (<Typography
+                    key={`project-${props.project.name}-extended-desc-${index}`}
+                    variant="body1"
+                    style={{
+                        // marginTop: "1rem",
+                        fontSize: props.is_xs ? "0.9rem" : "",
+                        marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
+                    }}
+                >
+                    {desc}
+                </Typography>);
+            })}
+        </Stack>);
+    }
+
     return (
         <Card
             style={{
@@ -287,16 +328,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                         {props.project.description}
                     </Typography>
                     <Collapse in={expanded} timeout={"auto"} unmountOnExit>
-                        {props.project.extendedDescription && <Typography
-                            variant="body1"
-                            style={{
-                                // marginTop: "1rem",
-                                fontSize: props.is_xs ? "0.9rem" : "",
-                                marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
-                            }}
-                        >
-                            {props.project.extendedDescription}
-                        </Typography>}
+                        {props.project.extendedDescription && getExtendedDescription(props.project.extendedDescription)}
                         {getArchitectureDiagram()}
                         {keywords}
                     </Collapse>
