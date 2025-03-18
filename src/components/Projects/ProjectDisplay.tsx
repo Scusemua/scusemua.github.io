@@ -129,7 +129,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     }
 
     const keywords = (
-        <div className={styles.project_keywords}>
+        <div className={styles.project_keywords} onClick={() => onClickCard()}>
             {props.project.keywords.map((keyword: string) => (
                 <Chip key={`project-${props.project.name}-keyword-${keyword}`} className={styles.project_keyword}
                       label={keyword} size={'small'}/>
@@ -143,6 +143,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
 
     const cardHeader = (
         <CardHeader
+            onClick={() => onClickCard()}
             title={
                 <Stack direction={{xs: "row", sm: "row"}}
                        className={styles.project_section_card_header}
@@ -202,6 +203,15 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         return <div/>
     };
 
+    /**
+     * Always expand the card if it isn't already expanded.
+     */
+    const onClickCardActionArea = () => {
+        if (!expanded) {
+            setExpanded(true);
+        }
+    }
+
     const onClickCard = () => {
         setExpanded(!expanded);
     }
@@ -242,8 +252,9 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             raised={false}
             className={styles.project_section_card}
         >
-            <CardActionArea onClick={() => onClickCard()}>
+            <CardActionArea onClick={() => onClickCardActionArea()}>
                 <div
+                    onClick={() => onClickCard()}
                     className={styles.project_media_background}
                     // style={{background: "#1C192E"}}
                 >
@@ -266,6 +277,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 {cardHeader}
                 <CardContent style={{overflow: "auto", margin: "5px"}}>
                     <Typography
+                        onClick={() => onClickCard()}
                         variant="body1"
                         style={{
                             fontSize: props.is_xs ? "0.9rem" : "",

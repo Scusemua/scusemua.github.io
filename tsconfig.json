@@ -46,6 +46,7 @@
   },
   "include": [
     "src",
+    "public",
     ".next/types/**/*.ts"
   ],
   "exclude": [
