@@ -75,6 +75,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
                            is_md_or_less={mq_md_or_less}
                            is_lg={mq_lg}
                            slides={getSlides(degrees)}
+                           autoplayEnabled={false}
                            options={{loop: true}}/>
         );
     }

@@ -255,6 +255,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
 
         if (isString(props.project.extendedDescription)) {
             return (<Typography
+                onClick={() => onClickCard()}
                 variant="body1"
                 style={{
                     // marginTop: "1rem",
@@ -268,9 +269,10 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
 
         const descriptions: string[] = props.project.extendedDescription as string[];
 
-        return (<Stack direction={"column"}>
+        return (<Stack direction={"column"} onClick={() => onClickCard()}>
             {descriptions.map((desc: string, index: number) => {
                 return (<Typography
+                    onClick={() => onClickCard()}
                     key={`project-${props.project.name}-extended-desc-${index}`}
                     variant="body1"
                     style={{

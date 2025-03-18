@@ -136,7 +136,8 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
     const getSlides = (projects: Project[]): React.JSX.Element[] => {
         return projects.map((project: Project, idx: number) => {
             return (
-                <ProjectDisplay key={`project-${idx}-${project.name}`} project={project} is_xs={mq_xs || mq_sm || mq_md}/>
+                <ProjectDisplay key={`project-${idx}-${project.name}`} project={project}
+                                is_xs={mq_xs || mq_sm || mq_md}/>
             );
         });
     }
@@ -147,7 +148,11 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                            is_md_or_less={mq_xs || mq_sm || mq_md}
                            is_lg={mq_lg}
                            slides={getSlides(projects)}
-                           options={{loop: true}}/>
+                           autoplayEnabled={true}
+                           options={{
+                               loop: true,
+                           }}
+            />
         );
     }
 
