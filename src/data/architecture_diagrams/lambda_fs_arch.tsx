@@ -57,7 +57,7 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
 
             setPopoverOpen(true);
             setPopoverHeader("𝜆FS Clients");
-            setPopoverContent("𝜆FS interact with 𝜆FS NameNodes for metadata operations via HTTP and TCP RPCs.");
+            setPopoverContent("𝜆FS clients interact with 𝜆FS NameNodes for metadata operations via HTTP and TCP RPCs.");
             setPopoverAnchorEl({getBoundingClientRect, nodeType: 1});
         }
 

@@ -1,6 +1,23 @@
 import * as React from "react"
-import { SVGProps } from "react"
+import {MouseEvent, SVGProps} from "react"
 import LambdaFSArchitecture from "@data/architecture_diagrams/lambda_fs_arch";
+import Popover, {PopoverProps} from "@mui/material/Popover";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import {Button} from "@mui/material";
+import {styled} from "@mui/material/styles";
+
+const Item = styled(Paper)(({theme}) => ({
+    backgroundColor: '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    ...theme.applyStyles('dark', {
+        backgroundColor: '#1A2027',
+    }),
+}));
 
 interface WukongArchitectureProps {
     width?: number;
@@ -8,12 +25,55 @@ interface WukongArchitectureProps {
     scale?: number;
 }
 
-const WukongArchitecture = (props: WukongArchitectureProps) => (
-    <svg
+const WukongArchitecture = (props: WukongArchitectureProps) => {
+    const [popoverAnchorEl, setPopoverAnchorEl] = React.useState<PopoverProps['anchorEl']>(null);
+
+    const [popoverOpen, setPopoverOpen] = React.useState<boolean>(false);
+
+    const [popoverContent, setPopoverContent] = React.useState<string>('');
+
+    const [popoverHeader, setPopoverHeader] = React.useState<string>('');
+
+    const handleClose = () => {
+        setPopoverOpen(false);
+    };
+
+    const onDismissClicked = (event: MouseEvent) => {
+        event.stopPropagation();
+        setPopoverOpen(false);
+    }
+
+    const id = popoverOpen ? 'virtual-element-popover' : undefined;
+
+    const getBoundingClientRectFromEvent = (event: MouseEvent) => {
+        return new DOMRect(event.clientX - 5, event.clientY - 10, 20, 20);
+    };
+
+    const onClickClients = (event: MouseEvent) => {
+        event.stopPropagation();
+
+        const getBoundingClientRect = () => {
+            return getBoundingClientRectFromEvent(event);
+        };
+
+        setPopoverOpen(true);
+        setPopoverHeader("Wukong Clients");
+        setPopoverContent("𝜆FS interact with 𝜆FS NameNodes for metadata operations via HTTP and TCP RPCs.");
+        setPopoverAnchorEl({getBoundingClientRect, nodeType: 1});
+    }
+
+    return (<svg
         preserveAspectRatio="xMidYMid meet"
         viewBox="0 5 795 820"
         display={"block"}
-        style={{position: "absolute", left: "0", top: "0", width: "100%", height: "100%", display: "block"}} // , left: "0", top: "0", width: "100%", height: "100%"
+        style={{
+            position: "absolute",
+            left: "0",
+            top: "0",
+            width: "100%",
+            height: "100%",
+            display: "block"
+        }} // , left: "0", top: "0", width: "100%", height: "100%"
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
         transform={`scale(${props.scale || 1}, ${props.scale || 1})`}
@@ -22,28 +82,28 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
     >
         <defs>
             <clipPath id="a">
-                <path d="M527 709h31v32h-31Z" />
+                <path d="M527 709h31v32h-31Z"/>
             </clipPath>
             <clipPath id="b">
-                <path d="M613 709h31v32h-31Z" />
+                <path d="M613 709h31v32h-31Z"/>
             </clipPath>
             <clipPath id="c">
-                <path d="M498 619h31v31h-31Z" />
+                <path d="M498 619h31v31h-31Z"/>
             </clipPath>
             <clipPath id="d">
-                <path d="M642 619h31v31h-31Z" />
+                <path d="M642 619h31v31h-31Z"/>
             </clipPath>
             <clipPath id="e">
-                <path d="M570 548h31v32h-31Z" />
+                <path d="M570 548h31v32h-31Z"/>
             </clipPath>
             <clipPath id="f">
-                <path d="M140.254 562.176h58.238v47.203h-58.238Z" />
+                <path d="M140.254 562.176h58.238v47.203h-58.238Z"/>
             </clipPath>
             <clipPath id="g">
-                <path d="M0 0h811v828H0Z" />
+                <path d="M0 0h811v828H0Z"/>
             </clipPath>
         </defs>
-        <path fill="#ededed" d="M43 514h254.516v273.609H43Z" />
+        <path fill="#ededed" d="M43 514h254.516v273.609H43Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -88,7 +148,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
                 {"User"}
             </tspan>
         </text>
-        <path fill="#ededed" d="M210 42h567v336H210Z" />
+        <path fill="#ededed" d="M210 42h567v336H210Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -97,7 +157,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2}
             d="M210 42h567v336H210Z"
         />
-        <path fill="#fff" d="M230 63.25h136v68H230Z" />
+        <path fill="#fff" d="M230 63.25h136v68H230Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -125,7 +185,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
                 {"interface"}
             </tspan>
         </text>
-        <path fill="#fff" d="M417 63.25h136v68H417Z" />
+        <path fill="#fff" d="M417 63.25h136v68H417Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -150,7 +210,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
                 {"generator"}
             </tspan>
         </text>
-        <path fill="#fff" d="M618 63.25h136v148.5H618Z" />
+        <path fill="#fff" d="M618 63.25h136v148.5H618Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -242,7 +302,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
                 {"\u2026 "}
             </tspan>
         </text>
-        <path fill="#fff" d="M417 252h337v112H417Z" />
+        <path fill="#fff" d="M417 252h337v112H417Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -282,7 +342,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
                 {"\u2026 "}
             </tspan>
         </text>
-        <path fill="#fff" d="M230 296h136v68H230Z" />
+        <path fill="#fff" d="M230 296h136v68H230Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -318,7 +378,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="m119 97 96.852.137"
         />
-        <path d="m225.352 97.148-9.497-3.574-.011 7.125Zm0 0" />
+        <path d="m225.352 97.148-9.497-3.574-.011 7.125Zm0 0"/>
         <path
             fill="none"
             stroke="#000"
@@ -345,7 +405,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="M367 97.25h35.852"
         />
-        <path d="m412.352 97.25-9.5-3.562v7.124Zm0 0" />
+        <path d="m412.352 97.25-9.5-3.562v7.124Zm0 0"/>
         <path
             fill="none"
             stroke="#000"
@@ -361,7 +421,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="m554 97.637 51.852.289"
         />
-        <path d="m615.352 97.98-9.481-3.617-.043 7.125Zm0 0" />
+        <path d="m615.352 97.98-9.481-3.617-.043 7.125Zm0 0"/>
         <path
             fill="none"
             stroke="#000"
@@ -377,7 +437,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="M485 221v17.852"
         />
-        <path d="m485 248.352 3.562-9.5h-7.124Zm0 0" />
+        <path d="m485 248.352 3.562-9.5h-7.124Zm0 0"/>
         <path
             fill="none"
             stroke="#000"
@@ -393,7 +453,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="M298 295V186h104.852"
         />
-        <path d="m412.352 186-9.5-3.562v7.124Zm0 0" />
+        <path d="m412.352 186-9.5-3.562v7.124Zm0 0"/>
         <path
             fill="none"
             stroke="#000"
@@ -401,7 +461,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="m412.352 186-9.5-3.562v7.124Zm0 0"
         />
-        <path fill="#fff" d="M417 152h136v68H417Z" />
+        <path fill="#fff" d="M417 152h136v68H417Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -437,7 +497,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="m618 187-50.852-.383"
         />
-        <path d="m557.648 186.547 9.473 3.633.055-7.125Zm0 0" />
+        <path d="m557.648 186.547 9.473 3.633.055-7.125Zm0 0"/>
         <path
             fill="none"
             stroke="#000"
@@ -589,7 +649,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="m490.121 530.102 3.563-9.5h-7.125Zm0 0"
         />
-        <path fill="#fff" d="M562.359 540.648h46.281v46.277h-46.281Z" />
+        <path fill="#fff" d="M562.359 540.648h46.281v46.277h-46.281Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -598,7 +658,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={3}
             d="M562.359 540.648h46.281v46.277h-46.281Z"
         />
-        <path fill="#fff" d="M490.121 611.395h46.277v46.281h-46.277Z" />
+        <path fill="#fff" d="M490.121 611.395h46.277v46.281h-46.277Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -607,7 +667,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={3}
             d="M490.121 611.395h46.277v46.281h-46.277Z"
         />
-        <path fill="#fff" d="M634.602 611.395h46.277v46.281h-46.277Z" />
+        <path fill="#fff" d="M634.602 611.395h46.277v46.281h-46.277Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -616,7 +676,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={3}
             d="M634.602 611.395h46.277v46.281h-46.277Z"
         />
-        <path fill="#fff" d="M519 701.648h46.277v46.277H519Z" />
+        <path fill="#fff" d="M519 701.648h46.277v46.277H519Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -625,7 +685,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={3}
             d="M519 701.648h46.277v46.277H519Z"
         />
-        <path fill="#fff" d="M605 701.648h46.277v46.277H605Z" />
+        <path fill="#fff" d="M605 701.648h46.277v46.277H605Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -873,7 +933,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="m587.809 525.922 3.562-9.5h-7.125Zm0 0"
         />
-        <path fill="#affaac" d="M94.875 551.824h145.793v68H94.875Z" />
+        <path fill="#affaac" d="M94.875 551.824h145.793v68H94.875Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -882,7 +942,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={3}
             d="M94.875 551.824h145.793v68H94.875Z"
         />
-        <path fill="#fff" d="M143.902 565.996h50.941v38.629h-50.941Z" />
+        <path fill="#fff" d="M143.902 565.996h50.941v38.629h-50.941Z"/>
         <path
             fill="none"
             stroke="#000"
@@ -892,7 +952,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
         />
         <g clipPath="url(#f)">
             <g clipPath="url(#g)">
-                <path fill="#4c4e52" d="M151.062 578.473h36.445v5.523h-36.445Z" />
+                <path fill="#4c4e52" d="M151.062 578.473h36.445v5.523h-36.445Z"/>
                 <path
                     fill="#4c4e52"
                     fillRule="evenodd"
@@ -965,7 +1025,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="m387.414 733.039-132.453.402"
         />
-        <path d="m245.461 733.469 9.512 3.535-.024-7.125Zm0 0" />
+        <path d="m245.461 733.469 9.512 3.535-.024-7.125Zm0 0"/>
         <path
             fill="none"
             stroke="#000"
@@ -973,7 +1033,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="m245.461 733.469 9.512 3.535-.024-7.125Zm0 0"
         />
-        <path d="m396.914 733.012-9.508-3.535.02 7.125Zm0 0" />
+        <path d="m396.914 733.012-9.508-3.535.02 7.125Zm0 0"/>
         <path
             fill="none"
             stroke="#000"
@@ -1006,7 +1066,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="m378.852 586.828-123.532-.894"
         />
-        <path d="m245.82 585.863 9.473 3.633.051-7.125Zm0 0" />
+        <path d="m245.82 585.863 9.473 3.633.051-7.125Zm0 0"/>
         <path
             fill="none"
             stroke="#000"
@@ -1014,7 +1074,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="m245.82 585.863 9.473 3.633.051-7.125Zm0 0"
         />
-        <path d="m388.352 586.898-9.477-3.632-.051 7.125Zm0 0" />
+        <path d="m388.352 586.898-9.477-3.632-.051 7.125Zm0 0"/>
         <path
             fill="none"
             stroke="#000"
@@ -1158,7 +1218,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
             strokeWidth={2.25}
             d="m130.5 427.676 28.016.09"
         />
-        <path fill="#656565" d="m168.516 427.801-9.989-3.785-.023 7.5Zm0 0" />
+        <path fill="#656565" d="m168.516 427.801-9.989-3.785-.023 7.5Zm0 0"/>
         <path
             fill="none"
             stroke="#656565"
@@ -1176,7 +1236,28 @@ const WukongArchitecture = (props: WukongArchitectureProps) => (
                 {"DAG"}
             </tspan>
         </text>
-    </svg>
-)
+
+        <Popover
+            id={id}
+            open={popoverOpen}
+            anchorEl={popoverAnchorEl}
+            anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+            onClose={handleClose}
+            disableAutoFocus
+        >
+            <Paper style={{maxWidth: "400px"}}>
+                <Stack>
+                    <Typography align={'center'} sx={{p: 1, fontSize: "24px"}}>{popoverHeader}</Typography>
+                    <Item>
+                        <Typography sx={{p: 1}}>{popoverContent}</Typography>
+                    </Item>
+                    <Item>
+                        <Button size="small" onClick={onDismissClicked}>Dismiss</Button>
+                    </Item>
+                </Stack>
+            </Paper>
+        </Popover>
+    </svg>);
+}
 
 export default WukongArchitecture;
