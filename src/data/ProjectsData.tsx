@@ -55,7 +55,7 @@ export const WukongProject: Project = {
 
 export const InfiniStoreProject: Project = {
     name: "InfiniStore",
-    description: "InfiniStore is an elastic, cost-effective, and high-performance object store built atop ephemeral cloud funtions. InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.",
+    description: "InfiniStore is an elastic, cost-effective, and high-performance object store built atop ephemeral cloud functions. InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.",
     extendedDescription: "Our extensive evaluation of InfiniStore showed that the system provides competitive performance with state-of-the-art data storage services AWS ElastiCache and Anna while reducing user-side cost by 97.24% (compared to AWS ElastiCache).",
     venue: "VLDB'23",
     repo_url: "https://github.com/ds2-lab/infinistore",
