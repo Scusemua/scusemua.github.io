@@ -73,8 +73,8 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
             setPopoverHeader("𝜆FS NameNodes");
             setPopoverContent("Each 𝜆FS NameNode is a Java serverless function executing within a container managed by the " +
                 "underlying serverless platform (e.g., OpenWhisk or Nuclio). Unlike traditional metadata services, " +
-                "NameNodes in 𝜆FS are (a) not stateless and (b) elastic. This allows the dynamic cluster of serverless " +
-                "NameNodes to collectively form an elastic metadata caching layer.");
+                "NameNodes in 𝜆FS are (a) not stateless and (b) are elastic. This allows the dynamic cluster of serverless " +
+                "NameNodes to collectively form an elastic metadata caching layer, supercharging performance.");
         }
 
         const onClickDataNodes = (event: MouseEvent) => {
