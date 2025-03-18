@@ -91,7 +91,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
         return "150px";
     }
 
-    const getProjects = (projects: Project[]) => {
+    const getPastProjectsAsGrid = (projects: Project[]) => {
         if (mq_xs || mq_sm) {
             return (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                            className={styles.project_container}>
@@ -107,7 +107,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                            key={`project-${project.name}-display`}>
                         <ProjectDisplay
                             toggleExpansion={toggleExpansionOfPastProject}
-                            expanded={expandedCurrentProjects.get(project.name) || false}
+                            expanded={expandedPastProjects.get(project.name) || false}
                             project={project}
                             is_xs={mq_xs}
                         />
@@ -149,7 +149,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                                     <div style={{overflow: "hidden"}}>
                                         <ProjectDisplay
                                             toggleExpansion={toggleExpansionOfPastProject}
-                                            expanded={expandedCurrentProjects.get(project.name) || false}
+                                            expanded={expandedPastProjects.get(project.name) || false}
                                             project={project}
                                             is_xs={mq_xs}
                                         />
@@ -242,7 +242,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
             />);
         }
 
-        return getProjects(PastProjects);
+        return getPastProjectsAsGrid(PastProjects);
     }
 
     return (
