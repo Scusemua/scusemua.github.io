@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 
 type PropType = {
     slides: React.JSX.Element[]
+    onSelectedIndexChanged?: (selectedIndex: number) => void;
     options?: EmblaOptionsType
     autoplayEnabled?: boolean;
     className?: string
@@ -42,6 +43,12 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 
     const {selectedIndex, scrollSnaps, onDotButtonClick} =
         useDotButton(emblaApi)
+
+    React.useEffect(() => {
+        if (props.onSelectedIndexChanged) {
+            props.onSelectedIndexChanged(selectedIndex);
+        }
+    }, [selectedIndex])
 
     const {
         onPrevButtonClick,
@@ -83,7 +90,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                         })
                     }
 
-                    const tweenValue: number  = 1 - Math.abs(diffToTarget * tweenFactor.current)
+                    const tweenValue: number = 1 - Math.abs(diffToTarget * tweenFactor.current)
                     emblaApi.slideNodes()[slideIndex].style.opacity = numberWithinRange(tweenValue, 0, 1).toString()
                 })
             })
@@ -114,8 +121,6 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 
         return "33.35";
     }
-
-    console.log(`selectedIndex: ${selectedIndex}`)
 
     const getSlideClassname = (index: number) => {
         if (index === selectedIndex) {

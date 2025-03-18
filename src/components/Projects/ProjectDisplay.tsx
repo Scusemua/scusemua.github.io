@@ -32,6 +32,8 @@ import Link from "next/link";
 
 interface ProjectProps {
     project: Project;
+    expanded: boolean;
+    toggleExpansion: (name: string, expanded: boolean) => void;
     is_xs: boolean;
 }
 
@@ -49,20 +51,20 @@ function isString(value: any): boolean {
 }
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
-    const [expanded, setExpanded] = React.useState<boolean>(false);
+    // const [expanded, setExpanded] = React.useState<boolean>(false);
 
-    const getLearnMore = () => {
-        return (<Button variant={"text"} aria-label={"Learn More about Wukong Button"} style={{
-            margin: "0.5rem auto auto auto",
-            color: (props.project.learnMoreEnabled ? "#292cc1" : "white")
-        }} color={"info"}
-                        onClick={(evt) => {
-                            evt.stopPropagation();
-                        }} component={Link} href={props.project.learnMoreUrl || ""}
-                        disabled={!props.project.learnMoreEnabled}>
-            {props.project.learnMoreEnabled ? "Learn More" : ""}
-        </Button>)
-    }
+    // const getLearnMore = () => {
+    //     return (<Button variant={"text"} aria-label={"Learn More about Wukong Button"} style={{
+    //         margin: "0.5rem auto auto auto",
+    //         color: (props.project.learnMoreEnabled ? "#292cc1" : "white")
+    //     }} color={"info"}
+    //                     onClick={(evt) => {
+    //                         evt.stopPropagation();
+    //                     }} component={Link} href={props.project.learnMoreUrl || ""}
+    //                     disabled={!props.project.learnMoreEnabled}>
+    //         {props.project.learnMoreEnabled ? "Learn More" : ""}
+    //     </Button>)
+    // }
 
     const getIconSize = (): "medium" | "large" => {
         if (props.is_xs) {
@@ -211,13 +213,13 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
      * Always expand the card if it isn't already expanded.
      */
     const onClickCardActionArea = () => {
-        if (!expanded) {
-            setExpanded(true);
+        if (!props.expanded) {
+            props.toggleExpansion(props.project.name, true);
         }
     }
 
     const onClickCard = () => {
-        setExpanded(!expanded);
+        props.toggleExpansion(props.project.name, !props.expanded);
     }
 
     const cardActions = (<CardActions>
@@ -244,7 +246,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         {getPaperLinks()}
         <IconButton size={getIconSize()} style={{marginLeft: "auto"}}
                     onClick={() => onClickCard()} aria-label={"Expand Project Card Button"}>
-            <ExpandMoreIcon fontSize="inherit" style={{transform: (expanded ? "rotate(180deg)" : "")}}/>
+            <ExpandMoreIcon fontSize="inherit" style={{transform: (props.expanded ? "rotate(180deg)" : "")}}/>
         </IconButton>
     </CardActions>);
 
@@ -290,7 +292,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     return (
         <Card
             style={{
-                height: (expanded ? "auto" : "100%"),
+                height: (props.expanded ? "auto" : "100%"),
             }}
             raised={false}
             className={styles.project_section_card}
@@ -329,7 +331,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     >
                         {props.project.description}
                     </Typography>
-                    <Collapse in={expanded} timeout={"auto"} unmountOnExit>
+                    <Collapse in={props.expanded} timeout={"auto"} unmountOnExit>
                         {props.project.extendedDescription && getExtendedDescription(props.project.extendedDescription)}
                         {getArchitectureDiagram()}
                         {keywords}
