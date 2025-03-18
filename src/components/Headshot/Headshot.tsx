@@ -121,6 +121,13 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     </Typography>
                 </Button>
             </Tooltip>
+            <Button startIcon={<GitHubIcon/>} variant={"contained"}
+                    onClick={() => openInNewTab("https://github.com/Scusemua/scusemua.github.io")}
+                    style={{height: 45, width: "12rem"}} color={'secondary'}>
+                <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
+                    Source Code
+                </Typography>
+            </Button>
             {/*<Tooltip title={"Toggle the \"bubbles\" in the background on/off. This button is just for development/testing and will not stick around long-term!"} arrow>*/}
             {/*    <Button variant={"contained"} color={'secondary'} onClick={() => setBubblesEnabled(!bubblesEnabled)}*/}
             {/*            startIcon={<BubbleChart/>} style={{height: 45, width: "12rem"}}*/}
