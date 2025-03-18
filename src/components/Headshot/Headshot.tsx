@@ -105,13 +105,15 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                    justifyContent: "center",
                    alignItems: "center",
                }}>
-            <Button variant={"contained"} color={'primary'} onClick={downloadResume}
-                    startIcon={<DownloadIcon/>} style={{height: 45, width: "16rem"}}
-                    aria-label={"Download my Resume Button"}>
-                <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
-                    Download my Resume
-                </Typography>
-            </Button>
+            <Tooltip title={"Download a PDF copy of my resume"} arrow>
+                <Button variant={"contained"} color={'primary'} onClick={downloadResume}
+                        startIcon={<DownloadIcon/>} style={{height: 45, width: "16rem"}}
+                        aria-label={"Download my Resume Button"}>
+                    <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
+                        Download my Resume
+                    </Typography>
+                </Button>
+            </Tooltip>
             <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
                 <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
                         rel="noopener noreferrer" startIcon={<MailIcon/>} style={{height: 45, width: "12rem"}}
@@ -121,13 +123,15 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     </Typography>
                 </Button>
             </Tooltip>
-            <Button startIcon={<GitHubIcon/>} variant={"contained"}
-                    onClick={() => openInNewTab("https://github.com/Scusemua/scusemua.github.io")}
-                    style={{height: 45, width: "12rem"}} color={'secondary'}>
-                <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
-                    Source Code
-                </Typography>
-            </Button>
+            <Tooltip title={"View the website's source code on GitHub"} arrow>
+                <Button startIcon={<GitHubIcon/>} variant={"contained"}
+                        onClick={() => openInNewTab("https://github.com/Scusemua/scusemua.github.io")}
+                        style={{height: 45, width: "12rem"}} color={'secondary'}>
+                    <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
+                        Source Code
+                    </Typography>
+                </Button>
+            </Tooltip>
             {/*<Tooltip title={"Toggle the \"bubbles\" in the background on/off. This button is just for development/testing and will not stick around long-term!"} arrow>*/}
             {/*    <Button variant={"contained"} color={'secondary'} onClick={() => setBubblesEnabled(!bubblesEnabled)}*/}
             {/*            startIcon={<BubbleChart/>} style={{height: 45, width: "12rem"}}*/}
