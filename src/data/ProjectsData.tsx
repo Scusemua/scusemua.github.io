@@ -49,6 +49,7 @@ export const WukongProject: Project = {
     learnMoreEnabled: false,
     learnMoreUrl: "projects/wukong",
     architectureDiagram: <WukongArchitecture/>,
+    architectureDiagramIsInteractive: true,
     architectureDiagramHeight: 512,
     status: 'inactive',
 }

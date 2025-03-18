@@ -14,7 +14,7 @@ const WukongScheduling = (props: SVGProps<SVGSVGElement>) => {
                     top: "0",
                     width: "100%",
                     height: "100%",
-                    outline: "1px red solid"
+                    // outline: "1px red solid"
                 }} // , left: "0", top: "0", width: "100%", height: "100%"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"

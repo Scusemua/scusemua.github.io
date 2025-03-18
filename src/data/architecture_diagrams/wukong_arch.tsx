@@ -8,6 +8,7 @@ import {Button, Popper, useMediaQuery} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import WukongScheduling from "@data/figures/wukong/scheduling";
 import theme from "@src/app/theme";
+import TreeReductionDAG from "@data/figures/wukong/tr_dag";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: '#fff',
@@ -118,6 +119,17 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                         "indicate data dependencies between these tasks (i.e., an edge from Node A to Node B " +
                         "indicates that Node B accepts as input the output of Node A)."}
                 </Typography>
+                {/*<div style={{*/}
+                {/*    // outline: "1px red solid",*/}
+                {/*    display: "flex",*/}
+                {/*    justifyContent: "center",*/}
+                {/*    textAlign: "center",*/}
+                {/*    position: "relative",*/}
+                {/*    height: mq_sm ? "300px" : "350px", // Seems to yield a good result, weirdly*/}
+                {/*    width: "100%",*/}
+                {/*}}>*/}
+                {/*    <TreeReductionDAG/>*/}
+                {/*</div>*/}
             </Stack>
         );
 
@@ -159,6 +171,39 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 }}>
                     <WukongScheduling/>
                 </div>
+            </Stack>
+        );
+
+        setPopoverContent(content);
+        setPopoverAnchorEl({getBoundingClientRect, nodeType: 1});
+    }
+
+    const onClickExecutors = (event: MouseEvent) => {
+        event.stopPropagation();
+
+        const getBoundingClientRect = () => {
+            return getBoundingClientRectFromEvent(event);
+        };
+
+        setPopoverMaxWidth(getDefaultPopoverWidth(mq_xl, mq_lg, mq_md, mq_sm));
+        setPopoverOpen(true);
+        setPopoverHeader("Wukong Executors");
+
+        const content = (
+            <Stack direction={'column'}>
+                <Typography sx={{p: 1}}>
+                    {"Each Executor within Wukong is an individual AWS Lambda serverless function."}
+                </Typography>
+                <Typography sx={{p: 1}}>
+                    {"Scheduling is decentralized by partitioning a DAG into multiple, possibly overlapping, subgraphs " +
+                        "that are then assigned to a task Executor. Executors are responsible for scheduling and " +
+                        "executing tasks in their assigned subgraph."}
+                </Typography>
+                <Typography sx={{p: 1}}>
+                    {"Executors perform a series of key optimizations to improve the overall performance of DAG " +
+                        "execution. These optimizations -- as well as the overall process of executing a DAG -- are " +
+                        "described in \xA7 3.3 of the Wukong paper."}
+                </Typography>
             </Stack>
         );
 
@@ -311,6 +356,7 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
             />
             <path
                 fill="#d9f0ff"
+                onClick={onClickExecutors}
                 d="M422.973 660.434c-71.868-15.879-43.211-149.539 71.433-126.731 10.641-44.457 143.957-37.242 143.082 0 83.594-47.633 190.422 47.344 118.77 94.977 85.98 23.09-1.086 147.515-71.653 126.73-5.644 34.641-131.793 46.766-142.867 0-71.429 49.942-220.379-26.848-118.765-94.976Zm0 0"
             />
             <path
@@ -869,8 +915,9 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 strokeWidth={2.25}
                 d="m490.121 530.102 3.563-9.5h-7.125Zm0 0"
             />
-            <path fill="#fff" d="M562.359 540.648h46.281v46.277h-46.281Z"/>
+            <path onClick={onClickExecutors} fill="#fff" d="M562.359 540.648h46.281v46.277h-46.281Z"/>
             <path
+                onClick={onClickExecutors}
                 fill="none"
                 stroke="#000"
                 strokeLinecap="round"
@@ -878,8 +925,9 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 strokeWidth={3}
                 d="M562.359 540.648h46.281v46.277h-46.281Z"
             />
-            <path fill="#fff" d="M490.121 611.395h46.277v46.281h-46.277Z"/>
+            <path onClick={onClickExecutors} fill="#fff" d="M490.121 611.395h46.277v46.281h-46.277Z"/>
             <path
+                onClick={onClickExecutors}
                 fill="none"
                 stroke="#000"
                 strokeLinecap="round"
@@ -887,8 +935,9 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 strokeWidth={3}
                 d="M490.121 611.395h46.277v46.281h-46.277Z"
             />
-            <path fill="#fff" d="M634.602 611.395h46.277v46.281h-46.277Z"/>
+            <path onClick={onClickExecutors} fill="#fff" d="M634.602 611.395h46.277v46.281h-46.277Z"/>
             <path
+                onClick={onClickExecutors}
                 fill="none"
                 stroke="#000"
                 strokeLinecap="round"
@@ -896,8 +945,9 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 strokeWidth={3}
                 d="M634.602 611.395h46.277v46.281h-46.277Z"
             />
-            <path fill="#fff" d="M519 701.648h46.277v46.277H519Z"/>
+            <path onClick={onClickExecutors} fill="#fff" d="M519 701.648h46.277v46.277H519Z"/>
             <path
+                onClick={onClickExecutors}
                 fill="none"
                 stroke="#000"
                 strokeLinecap="round"
@@ -905,8 +955,9 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 strokeWidth={3}
                 d="M519 701.648h46.277v46.277H519Z"
             />
-            <path fill="#fff" d="M605 701.648h46.277v46.277H605Z"/>
+            <path onClick={onClickExecutors} fill="#fff" d="M605 701.648h46.277v46.277H605Z"/>
             <path
+                onClick={onClickExecutors}
                 fill="none"
                 stroke="#000"
                 strokeLinecap="round"
@@ -1063,14 +1114,16 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                     {"\u2026 "}
                 </tspan>
             </text>
-            <text xmlSpace="preserve" fontFamily="DejaVuSans" fontSize={20}>
+            <text xmlSpace="preserve" fontFamily="DejaVuSans" fontSize={20} onClick={onClickExecutors}>
                 <tspan
+                    onClick={onClickExecutors}
                     x="468.293 482.013 492.733 503.453 514.91299 531.97299"
                     y={591.867}
                 >
                     {"Become"}
                 </tspan>
                 <tspan
+                    onClick={onClickExecutors}
                     x="453.875 459.035 470.135 480.11503 491.59504 501.975 664.93508 678.655 689.375 700.095 711.55496 728.6149"
                     y={696.367}
                 >
@@ -1088,14 +1141,17 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 fontFamily="DejaVuSans"
                 fontSize={26}
                 fontWeight="bold"
+                onClick={onClickExecutors}
             >
                 <tspan
+                    onClick={onClickExecutors}
                     x="430.111 443.60499 455.64299 464.74299 476.287 488.29899 496.95698 503.17097 515.2089 526.75289 538.2968 544.5368 552.2328 564.71279 576.2567 589.2567 595.4707 607.50869 619.5207 631.55868 643.5707 656.5447 664.24069 670.4547 682.9347 695.9087 702.1487 714.65469 727.62869 740.60269"
                     y={782.633}
                 >
                     {"Serverless task execution and "}
                 </tspan>
                 <tspan
+                    onClick={onClickExecutors}
                     x="445.893 459.127 470.64503 483.61903 496.125 515.807 522.02108 534.0331 540.2731 551.817 563.82907 576.80307 588.841 601.815 614.789 621.00308 627.2431 640.2171 653.1911 659.4311 667.12716 679.6331 685.8471 698.3271 704.5411 716.99508"
                     y={814.361}
                 >
@@ -1107,8 +1163,10 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 fontFamily="DejaVuSans"
                 fontSize={22}
                 fontWeight="bold"
+                onClick={onClickExecutors}
             >
                 <tspan
+                    onClick={onClickExecutors}
                     x="619.389 629.57498 640.13497 656.78897 667.7669 678.7449 689.3269 694.5849 704.77096 714.93496 725.121 735.285 746.263 752.77499 763.33499"
                     y={559.964}
                 >
