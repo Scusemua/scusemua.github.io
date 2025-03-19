@@ -21,7 +21,7 @@ import {motion, useSpring} from "framer-motion";
 
 import Image from "next/image";
 import ArticleIcon from "@mui/icons-material/Article";
-import {BookOnline, LibraryBooks} from "@mui/icons-material";
+import {LibraryBooks} from "@mui/icons-material";
 import theme from "@src/app/theme";
 
 interface DegreeDisplayProps {
@@ -115,7 +115,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
                 return (<ListItem key={`course-${course.name}-term-${course.term}-${index}`}>
                     <ListItemAvatar>
                         <Avatar>
-                            <LibraryBooks/>
+                            {course.icon ? course.icon : <LibraryBooks/>}
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={course.name} secondary={`Grade: ${course.grade}, Term: ${course.term}`}/>
