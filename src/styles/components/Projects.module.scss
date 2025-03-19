@@ -10,7 +10,6 @@
   &_card {
     @extend .project_section;
     transition: height 0.5s ease /* Smooth height transition */, box-shadow 0.3s ease-in-out;
-    margin: 1rem;
     display: flex;
 
     &_header {

@@ -68,7 +68,7 @@ export const BachelorsDegree: DegreeInfo = {
     endDate: 2020,
     hasThesis: false,
     coursework: [
-        {"name": "CS 571: Operating Systems", "grade": "A", "term": "Spring 2019", "icon": <TerminalIcon/>},
+        {"name": "CS 571: Operating Systems", "grade": "A+", "term": "Spring 2019", "icon": <TerminalIcon/>},
         {"name": "CS 550: Database Systems", "grade": "A", "term": "Fall 2019", "icon": <Storage/>},
         {
             "name": "CS 498: Granular Microservice Frameworks",
@@ -77,8 +77,8 @@ export const BachelorsDegree: DegreeInfo = {
             "icon": <LeakAdd fontSize="medium"/>
         },
         {"name": "CS 484: Data Mining", "grade": "A", "term": "Spring 2019", "icon": <Analytics/>},
-        {"name": "CS 477: Mobile Application Development", "grade": "A", "term": "Fall 2018", "icon": <Android/>},
-        {"name": "CS 475: Concurrent & Distributed Systems", "grade": "A", "term": "Fall 2019", "icon": <AltRoute/>},
+        {"name": "CS 477: Mobile Application Development", "grade": "A+", "term": "Fall 2018", "icon": <Android/>},
+        {"name": "CS 475: Concurrent & Distributed Systems", "grade": "A+", "term": "Fall 2019", "icon": <AltRoute/>},
         {
             "name": "CS 465: Computer Systems Architecture",
             "grade": "A",
@@ -91,7 +91,7 @@ export const BachelorsDegree: DegreeInfo = {
             "term": "Spring 2019",
             "icon": <Language fontSize="medium"/>,
         },
-        {"name": "CS 321: Software Engineering", "grade": "A", "term": "Fall 2019", "icon": <Engineering/>},
+        {"name": "CS 321: Software Engineering", "grade": "A+", "term": "Fall 2019", "icon": <Engineering/>},
     ]
 }
 
@@ -111,11 +111,11 @@ export const MastersDegree: DegreeInfo = {
     coursework: [
         {
             "name": "CS 687: Advanced Artificial Intelligence",
-            "grade": "A",
+            "grade": "A+",
             "term": "Spring 2021",
             "icon": <Psychology fontSize={"large"}/>
         },
-        {"name": "CS 684: Graph Algorithms", "grade": "A", "term": "Spring 2021", "icon": <Polyline/>},
+        {"name": "CS 684: Graph Algorithms", "grade": "A+", "term": "Spring 2021", "icon": <Polyline/>},
         {"name": "CS 555: Computer Communication & Networking", "grade": "A", "term": "Fall 2020", "icon": <CellWifi/>},
         {
             "name": "CS 580: Intro to Artificial Intelligence", "grade": "A", "term": "Fall 2020",

@@ -19,24 +19,23 @@
     text-align: center;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
 
     &_card {
       @extend .education;
       transform-style: preserve-3d;
       overflow: visible;
       display: flex;
-      margin: 1rem;
+      margin: 1.5rem;
 
       &_front {
         position: absolute;
         backface-visibility: hidden;
-        margin: 1rem;
       }
 
       &_back {
         position: absolute;
         backface-visibility: hidden;
-        margin: 1rem;
       }
 
       &:hover {

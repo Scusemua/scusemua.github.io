@@ -96,22 +96,12 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
             return (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                            className={styles.project_container}>
                 {projects.map((project: Project) => (
-                    <Grid2 style={{display: 'flex'}} size={{'xs': 12, 'sm': 12}}
-                           component={motion.div} variants={cardVariant} justifyContent={'center'} alignItems="stretch"
-                           whileHover={{
-                               scale: 1.05,
-                           }}
-                           initial="hidden"
-                           whileInView="visible"
-                           viewport={{once: true, amount: 0.125}}
-                           key={`project-${project.name}-display`}>
-                        <ProjectDisplay
-                            toggleExpansion={toggleExpansionOfPastProject}
-                            expanded={expandedPastProjects.get(project.name) || false}
-                            project={project}
-                            is_xs={mq_xs}
-                        />
-                    </Grid2>
+                    <ProjectDisplay
+                        toggleExpansion={toggleExpansionOfPastProject}
+                        expanded={expandedPastProjects.get(project.name) || false}
+                        project={project}
+                        is_xs={mq_xs}
+                    />
                 ))}
             </Grid2>)
         } else {
