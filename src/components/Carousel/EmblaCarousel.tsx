@@ -143,9 +143,11 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     }
 
     return (
-        <section className={className ? `${className} embla` : "embla"} style={{
-            maxWidth: props.is_md_or_less ? "100%" : "90%",
-        }}>
+        <section className={className ? `${className} embla` : "embla"}
+                 style={{
+                     maxWidth: props.is_md_or_less ? "100%" : "90%",
+                 }}
+        >
             <div className="embla__viewport" ref={emblaRef}>
                 <div className="embla__container">
                     {slides.map((element: React.JSX.Element, index: number) => (

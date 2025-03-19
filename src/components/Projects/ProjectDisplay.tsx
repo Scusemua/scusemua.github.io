@@ -1,5 +1,6 @@
 import styles from "@src/styles/components/Projects.module.scss";
 
+import { shadows } from '@mui/system';
 import React, {ReactElement, ReactNode} from "react";
 
 import {

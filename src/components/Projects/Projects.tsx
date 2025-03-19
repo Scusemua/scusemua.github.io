@@ -167,12 +167,25 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
         if (pastProjects) {
             return PastProjects.map((project: Project, idx: number) => {
                 return (
-                    <ProjectDisplay key={`project-${idx}-${project.name}`}
-                                    project={project}
-                                    is_xs={mq_xs || mq_sm || mq_md}
-                                    toggleExpansion={toggleExpansionOfPastProject}
-                                    expanded={expandedPastProjects.get(project.name) || false}
-                    />
+                    <Grid2 size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 4, 'xl': 4}}
+                           component={motion.div}
+                           variants={cardVariant}
+                           sx={{
+                               margin: "0 auto",
+                           }}
+                           whileHover={!mq_xs ? {
+                               scale: 1.05,
+                           } : undefined}
+                           key={`project-${project.name}-display`}>
+                        <div style={{overflow: "hidden"}}>
+                            <ProjectDisplay key={`project-${idx}-${project.name}`}
+                                            project={project}
+                                            is_xs={mq_xs || mq_sm || mq_md}
+                                            toggleExpansion={toggleExpansionOfPastProject}
+                                            expanded={expandedPastProjects.get(project.name) || false}
+                            />
+                        </div>
+                    </Grid2>
                 );
             });
         }
