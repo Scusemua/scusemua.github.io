@@ -84,7 +84,7 @@ const EmploymentDisplaySmall: React.FunctionComponent<EmploymentDisplaySmallProp
                                 className={styles.employment_timeline_entry_description_small}>
                         {props.employment.description}
                     </Typography>
-                    {props.employment.descriptionList && <ul style={{color: "white"}}>
+                    {props.employment.descriptionList && <ul style={{color: "white", marginLeft: "1rem" }}>
                         {props.employment.descriptionList.map((entry: string | ReactNode, idx: number) =>
                             <li key={`employment_${props.employment.title}_desc_list_${idx}`}>
                                 <Typography variant="body2" key={`employment-desc-list-${idx}`}

@@ -87,7 +87,7 @@ const EmploymentDisplay: React.FunctionComponent<EmploymentDisplayProps> = (prop
                     timeout={"auto"}
                     unmountOnExit
                 >
-                    <ul style={{color: "white"}}>
+                    <ul style={{color: "white", marginLeft: "1rem" }}>
                         {props.employment.descriptionList?.map((entry: string | ReactNode, idx: number) =>
                             <li key={`employment-desc-list-${idx}`}>
                                 <Typography variant="body2" key={`employment-desc-list-${idx}-typography`}

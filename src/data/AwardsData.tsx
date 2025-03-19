@@ -1,10 +1,12 @@
 import * as React from "react";
 import {ReactElement, ReactNode} from "react";
-import {Avatar} from "@mui/material";
+import {Avatar, Stack} from "@mui/material";
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 import TrophyIcon from "@icons/trophy_icon";
 import FellowshipIcon from "@icons/fellowship";
 import AwardCertificateIcon from "@icons/award_certificate";
+import Typography from "@mui/material/Typography";
+import styles from "@styles/components/Awards.module.scss";
 
 export interface AwardData {
     name: string;
@@ -73,7 +75,23 @@ const GMUPresidentialScholar: AwardData = {
     name: "GMU CS Presidential Scholarship",
     month: "May",
     year: 2021,
-    description: "Prestigious, merit-based scholarship awarded to at-most 2 students per academic year (within a PhD program). Requires a strong faculty nomination.",
+    description: <Stack direction={"column"}>
+        <Typography>
+            Prestigious, merit-based scholarship awarded to at-most 2 students per academic year (within a PhD program).
+        </Typography>
+        <ul style={{ marginLeft: "1rem" }}>
+            <li key={`presidential-scholarship-award-desc-list-1`}>
+                <Typography>
+                    Requires a strong faculty nomination.
+                </Typography>
+            </li>
+            <li key={`presidential-scholarship-award-desc-list-2`}>
+                <Typography>
+                    <b>Renewed annually for 4 years.</b>
+                </Typography>
+            </li>
+        </ul>
+    </Stack>,
     getIcon: (width: number, height: number, scale?: number) => (<Avatar style={{width: width, height: height}}>
         <FellowshipIcon fill={"#fff"} stroke={"#fff"} transform={`scale(${scale || 1.5}, ${scale || 1.5})`}/>
     </Avatar>)
