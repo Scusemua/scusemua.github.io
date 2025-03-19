@@ -295,6 +295,9 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             style={{
                 height: (props.expanded ? "auto" : "100%"),
             }}
+            sx = {{
+                boxShadow: 2,
+            }}
             raised={false}
             className={styles.project_section_card}
         >
