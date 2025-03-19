@@ -1,6 +1,6 @@
 import styles from "@src/styles/components/Projects.module.scss";
 
-import { shadows } from '@mui/system';
+import {shadows} from '@mui/system';
 import React, {ReactElement, ReactNode} from "react";
 
 import {
@@ -52,21 +52,6 @@ function isString(value: any): boolean {
 }
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
-    // const [expanded, setExpanded] = React.useState<boolean>(false);
-
-    // const getLearnMore = () => {
-    //     return (<Button variant={"text"} aria-label={"Learn More about Wukong Button"} style={{
-    //         margin: "0.5rem auto auto auto",
-    //         color: (props.project.learnMoreEnabled ? "#292cc1" : "white")
-    //     }} color={"info"}
-    //                     onClick={(evt) => {
-    //                         evt.stopPropagation();
-    //                     }} component={Link} href={props.project.learnMoreUrl || ""}
-    //                     disabled={!props.project.learnMoreEnabled}>
-    //         {props.project.learnMoreEnabled ? "Learn More" : ""}
-    //     </Button>)
-    // }
-
     const getIconSize = (): "medium" | "large" => {
         if (props.is_xs) {
             return "medium";
@@ -295,19 +280,21 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             style={{
                 height: (props.expanded ? "auto" : "100%"),
             }}
-            sx = {{
-                boxShadow: 2,
+            sx={{
+                boxShadow: 3,
             }}
-            raised={false}
+            raised={true}
             className={styles.project_section_card}
         >
             <CardActionArea onClick={() => onClickCardActionArea()}>
                 <div
                     onClick={() => onClickCard()}
                     className={styles.project_media_background}
-                    // style={{background: "#1C192E"}}
                 >
-                    <CardMedia>
+                    <CardMedia sx={{
+                        background: "#1C192E",
+                        backgroundColor: "#1C192E",
+                    }}>
                         <div style={{
                             position: 'relative',
                             margin: "0 auto",

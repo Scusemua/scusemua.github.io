@@ -119,7 +119,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
             return "100";
         }
 
-        return "33.35";
+        return "33.5";
     }
 
     const getSlideClassname = (index: number) => {
@@ -154,7 +154,11 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                         <div className={getSlideClassname(index)} key={index} style={{
                             flex: `0 0 ${getFlexPercent()}%`
                         }}>
-                            <div className="embla__slide__number">{element}</div>
+                            <div className="embla__slide__number" onClick={(event) => {
+                                if (index !== selectedIndex) {
+                                    onDotButtonClick(index);
+                                }
+                            }}>{element}</div>
                         </div>
                     ))}
                 </div>

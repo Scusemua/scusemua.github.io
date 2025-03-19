@@ -146,7 +146,8 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                                            scale: 1.05,
                                        } : undefined}
                                        key={`project-${project.name}-display-${index}`}>
-                                    <div style={{overflow: "hidden"}}>
+                                    <div style={{overflow: "hidden"}}
+                                         className={styles.project_section_card}>
                                         <ProjectDisplay
                                             toggleExpansion={toggleExpansionOfPastProject}
                                             expanded={expandedPastProjects.get(project.name) || false}
