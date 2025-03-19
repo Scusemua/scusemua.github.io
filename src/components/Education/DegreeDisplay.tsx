@@ -40,6 +40,7 @@ interface DegreeDisplaySideProps {
     degree: DegreeInfo;
     height?: number;
     variant: 'front' | 'back';
+    is_xs?: boolean;
 }
 
 //Spring animation parameters
@@ -48,6 +49,8 @@ const spring = {
     stiffness: 500,
     damping: 90,
 }
+
+const DoctorOfPhilosophy: string = "Doctor of Philosophy";
 
 const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (props: DegreeDisplaySideProps) => {
     const getThesis = () => {
@@ -91,10 +94,24 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
         </Stack>);
     }
 
+    const getDegreeText = (): string => {
+        if (props.is_xs) {
+            return props.degree.degree;
+        }
+
+        if (props.degree.degree === DoctorOfPhilosophy) {
+            return DoctorOfPhilosophy + " (PhD)";
+        }
+
+        return props.degree.degree;
+    }
+
     const cardHeader = (
         <CardHeader
             title={
-                <Typography gutterBottom variant="h4" component="div">{props.degree.degree}</Typography>
+                <Typography gutterBottom variant="h4" component="div">
+                    {getDegreeText()}
+                </Typography>
             }
             subheader={getSubHeader()}
             sx={{
@@ -109,7 +126,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
             overflow: "auto",
             width: "100%",
             bgcolor: 'background.paper',
-            height: '225px',
+            maxHeight: '200px',
         }}>
             {props.degree.coursework?.map((course: CourseInfo, index: number) => {
                 return (<ListItem key={`course-${course.name}-term-${course.term}-${index}`}>
@@ -280,7 +297,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                         }}
                         className={styles.education_degree_container_card}
                     >
-                        <DegreeDisplaySide variant={'front'} degree={props.degree} height={props.height}/>
+                        <DegreeDisplaySide variant={'front'} degree={props.degree} height={props.height} is_xs={mq_xs}/>
                     </motion.div>
                     <motion.div
                         initial={{rotateY: 180}}
@@ -296,7 +313,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                         }}
                         className={styles.education_degree_container_card}
                     >
-                        <DegreeDisplaySide variant={'back'} degree={props.degree} height={props.height}/>
+                        <DegreeDisplaySide variant={'back'} degree={props.degree} height={props.height} is_xs={mq_xs}/>
                     </motion.div>
                 </div>
             </motion.div>

@@ -129,7 +129,7 @@ export const MastersDegree: DegreeInfo = {
 }
 
 export const DoctoralDegree: DegreeInfo = {
-    degree: "Doctor of Philosophy (PhD)",
+    degree: "Doctor of Philosophy",
     institution: "George Mason University",
     subject: "Computer Science",
     researchAdvisors: [YueCheng, SongqingChen],
