@@ -15,14 +15,27 @@
   }
 
   &_degree_container {
-    @extend .education;
     padding: 1rem;
+    text-align: center;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
 
     &_card {
       @extend .education;
-      display: flex;
-      justify-content: space-between;
+      position: relative;
+      transform-style: preserve-3d;
       flex-direction: column;
+
+      &_front {
+        position: absolute;
+        backface-visibility: hidden;
+      }
+
+      &_back {
+        position: absolute;
+        backface-visibility: hidden;
+      }
     }
   }
 }

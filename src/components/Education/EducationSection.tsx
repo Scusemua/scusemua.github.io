@@ -40,9 +40,9 @@ interface EducationSectionProps {
 
 // const EducationSection: React.FunctionComponent<EducationSectionProps> = (props: EducationSectionProps) => {
 const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_props: EducationSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
-    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    // const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     // const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
-    const mq_md_or_less = useMediaQuery(theme.breakpoints.down('md'));
+    const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
 
     const coreContent = (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
@@ -52,11 +52,8 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
                    size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 12, 'xl': 4}}
                    component={motion.div}
                    variants={degreeVariant}
-                   whileHover={!mq_xs ? {
-                       scale: 1.05,
-                   } : undefined}
             >
-                <DegreeDisplay degree={degree}/>
+                <DegreeDisplay degree={degree} height={525}/>
             </Grid2>
         ))}
     </Grid2>);
@@ -64,7 +61,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
     const getSlides = (degrees: DegreeInfo[]): React.JSX.Element[] => {
         return degrees.map((degree: DegreeInfo, idx: number) => {
             return (
-                <DegreeDisplay key={`degree-${idx}-${degree.degree}`} degree={degree}/>
+                <DegreeDisplay key={`degree-${idx}-${degree.degree}`} degree={degree} height={525}/>
             );
         });
     }
