@@ -94,7 +94,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
                                 {props.award.additionalInfoHeader}
                             </Typography>
                         }
-                        <ul style={{color: "white", marginLeft: "1rem" }}>
+                        <ul style={{color: "white", marginLeft: "1.125rem" }}>
                             {props.award.additionalInfo?.map((entry: string | ReactNode, idx: number) =>
                                 <li key={`employment_${props.award.name}_desc_list_${idx}`}>
                                     <Typography variant="body2"

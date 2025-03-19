@@ -79,7 +79,7 @@ const GMUPresidentialScholar: AwardData = {
         <Typography>
             Prestigious, merit-based scholarship awarded to at-most 2 students per academic year (within a PhD program).
         </Typography>
-        <ul style={{ marginLeft: "1rem" }}>
+        <ul style={{ marginLeft: "1.125rem" }}>
             <li key={`presidential-scholarship-award-desc-list-1`}>
                 <Typography>
                     Requires a strong faculty nomination.

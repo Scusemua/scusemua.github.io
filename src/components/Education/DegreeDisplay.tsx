@@ -114,9 +114,6 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
                 </Typography>
             }
             subheader={getSubHeader()}
-            sx={{
-                marginBottom: 'auto',
-            }}
         >
         </CardHeader>
     );
