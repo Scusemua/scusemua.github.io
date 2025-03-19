@@ -6,8 +6,8 @@
 
 .embla__viewport {
     overflow: hidden;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 50px;
+    padding-top: 50px;
     /*-webkit-mask-image: -webkit-radial-gradient(circle, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));*/
 }
 
