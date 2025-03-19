@@ -159,7 +159,15 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
     const getCardBody = () => {
         if (props.degree.coursework) {
             return (<CardActionArea sx={{height: "100%", position: "relative"}}>
-                {cardInnerBody}
+                <Tooltip
+                    title={"Click to view selected coursework"}
+                    enterNextDelay={500}
+                    enterDelay={400}
+                    arrow={true}
+                    placement={"bottom"}
+                >
+                    {cardInnerBody}
+                </Tooltip>
             </CardActionArea>);
         }
 
