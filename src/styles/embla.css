@@ -5,7 +5,7 @@
 }
 
 .embla__viewport {
-    overflow: visible;
+    overflow: hidden;
     margin-bottom: 15px;
     padding-bottom: 15px;
     /*-webkit-mask-image: -webkit-radial-gradient(circle, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));*/
@@ -49,7 +49,7 @@
     grid-template-columns: auto 1fr;
     justify-content: space-between;
     gap: 1.2rem;
-    margin-top: 1.8rem;
+    margin-left: 0.5rem;
 }
 
 .embla__buttons {
@@ -95,7 +95,7 @@
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
-    margin-right: calc((2.6rem - 1.4rem) / 2 * -1);
+    margin-right: 1rem;
 }
 
 .embla__dot {

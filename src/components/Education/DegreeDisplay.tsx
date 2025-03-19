@@ -174,9 +174,13 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
         return cardInnerBody;
     }
 
-    return (<Card className={styles.education_degree_container_card} sx={{height: `${props.height || 550}px`,}}>
-        {getCardBody()}
-    </Card>);
+    return (
+        <Card
+            sx={{height: `${props.height || 550}px`, width: "100%"}}
+            className={styles.education_degree_container_card}
+        >
+            {getCardBody()}
+        </Card>);
 }
 
 const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: DegreeDisplayProps) => {
@@ -238,19 +242,20 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                 transformStyle: "preserve-3d",
                 width: `100%`,
                 height: `${props.height || 550}px`,
+                margin: "0 auto",
             }}
         >
             <motion.div
                 ref={ref}
-                whileHover={{scale: mq_xs ? 1.05 : 1}} //Change the scale of zooming in when hovering
+                whileHover={{scale: !mq_xs ? 1.0325 : 1}} //Change the scale of zooming in when hovering
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseEnd}
                 transition={spring}
                 style={{
-                    width: "100%",
                     height: "100%",
                     rotateX: dx,
                     rotateY: dy,
+                    margin: "0 auto",
                 }}
             >
                 <div
@@ -259,6 +264,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                         transformStyle: "preserve-3d",
                         width: "100%",
                         height: "100%",
+                        margin: "0 auto",
                     }}
                 >
                     <motion.div
@@ -270,7 +276,9 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                             backfaceVisibility: "hidden",
                             position: "absolute",
                             height: "100%",
+                            margin: "0 auto",
                         }}
+                        className={styles.education_degree_container_card}
                     >
                         <DegreeDisplaySide variant={'front'} degree={props.degree} height={props.height}/>
                     </motion.div>
@@ -284,7 +292,9 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                             backfaceVisibility: "hidden",
                             position: "absolute",
                             height: "100%",
+                            margin: "0 auto",
                         }}
+                        className={styles.education_degree_container_card}
                     >
                         <DegreeDisplaySide variant={'back'} degree={props.degree} height={props.height}/>
                     </motion.div>
