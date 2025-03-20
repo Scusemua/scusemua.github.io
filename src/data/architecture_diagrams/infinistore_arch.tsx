@@ -10,11 +10,8 @@ interface InfiniStoreArchitectureProps {
 const InfiniStoreArchitecture = (props: InfiniStoreArchitectureProps) => (
     <svg
         // style={{"width": "800", "height": "555"}}
-        width={"100%"}
         preserveAspectRatio="xMidYMid meet"
         viewBox="0 0 701 560"
-        display={"block"}
-        style={{position: "absolute", display: "block", left: "0", top: "0" }} // , left: "0", top: "0", width: "100%", height: "100%"
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
         transform={`scale(${props.scale || 1}, ${props.scale || 1})`}

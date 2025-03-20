@@ -24,7 +24,6 @@ export interface Project {
     arxiv_links: string[];
     builtWith?: string[];
     learnMoreEnabled?: boolean;
-    architectureDiagramPath?: string;
     architectureDiagram?: React.JSX.Element;
     architectureDiagramHeight?: number;
     architectureDiagramIsInteractive?: boolean;
@@ -49,7 +48,7 @@ export const WukongProject: Project = {
     learnMoreUrl: "projects/wukong",
     architectureDiagram: <WukongArchitecture/>,
     architectureDiagramIsInteractive: true,
-    architectureDiagramHeight: 550,
+    architectureDiagramHeight: 465,
     status: 'inactive',
 }
 
@@ -83,7 +82,7 @@ export const LambdaFSProject: Project = {
     architectureDiagramIsInteractive: true,
     status: 'inactive',
     architectureDiagram: <LambdaFSArchitecture/>,
-    architectureDiagramHeight: 225,
+    architectureDiagramHeight: 300,
 }
 
 export const JupyterNotebookProject: Project = {

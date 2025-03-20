@@ -13,7 +13,7 @@ import {
     CardHeader,
     CardMedia,
     Chip,
-    Collapse,
+    Collapse, Icon,
     Stack,
     Tooltip
 } from "@mui/material";
@@ -149,50 +149,28 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         </CardHeader>
     );
 
-    const getArchitectureDiagram = () => {
-        if (props.project.architectureDiagramPath) {
-            return (
-                <div style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    textAlign: "center",
-                    height: `100%`,
-                    width: "100%",
-                    position: "relative",
-                }}>
-                    <Image
-                        src={props.project.architectureDiagramPath}
-                        alt={`${props.project.name} Architecture}`}
-                        fill={true}
-                    />
-                </div>
-            )
-        }
-
-        if (props.project.architectureDiagram) {
-            return (
-                <div style={{
-                    // border: "1px solid red",
-                    // backgroundColor: "#ccc",
-                    justifyContent: "center",
-                    textAlign: "center",
-                    position: "relative",
-                    height: `${props.project.architectureDiagramHeight || "525"}px`,
-                    marginBottom: props.is_xs ? "1rem" : "0rem",
-                    width: "100%",
-                }}>
-                    <Stack spacing={props.is_xs ? 3 : 4} direction={'column'}>
-                        {props.project.architectureDiagramIsInteractive && <Typography variant="caption" gutterBottom>
-                            {"The diagram shown below is interactive! Click on each component to learn more about it."}
-                        </Typography>}
-                        {props.project.architectureDiagram}
-                    </Stack>
-                </div>
-            )
-        }
-
-        return <div/>
-    };
+    const architectureDiagram = (<div style={{
+        // border: "1px solid red",
+        // backgroundColor: "#ccc",
+        // display: "flex",
+        justifyContent: "center",
+        textAlign: "center",
+        // position: "relative",
+        marginBottom: props.is_xs ? "1rem" : "0rem",
+        width: "100%",
+    }}>
+        <Stack spacing={props.is_xs ? 2 : 1} direction={'column'}>
+            {props.project.architectureDiagramIsInteractive &&
+                <Typography align={'center'} variant="caption" gutterBottom>
+                    {"The diagram shown below is interactive! Click each component to learn more about it."}
+                </Typography>}
+            <div style={{
+                width: "100%",
+            }}>
+                {props.project.architectureDiagram}
+            </div>
+        </Stack>
+    </div>);
 
     /**
      * Always expand the card if it isn't already expanded.
@@ -323,9 +301,15 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                         {props.project.description}
                     </Typography>
                     <Collapse in={props.expanded} timeout={"auto"} unmountOnExit>
-                        {props.project.extendedDescription && getExtendedDescription(props.project.extendedDescription)}
-                        {getArchitectureDiagram()}
-                        {keywords}
+                        <Stack direction={"column"}
+                               spacing={2}
+                               justifyContent={"center"}
+                               alignItems={"center"}
+                               alignContent={"center"}>
+                            {props.project.extendedDescription && getExtendedDescription(props.project.extendedDescription)}
+                            {props.project.architectureDiagram && architectureDiagram}
+                            {keywords}
+                        </Stack>
                     </Collapse>
                 </CardContent>
                 {cardActions}

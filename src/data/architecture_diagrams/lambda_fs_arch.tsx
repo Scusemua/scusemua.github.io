@@ -132,17 +132,10 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
         return (<svg
             onClick={onSvgClicked}
             preserveAspectRatio="xMidYMid meet"
-            display={"block"}
-            style={{
-                position: "absolute",
-                left: "0",
-                top: "0",
-                width: "100%",
-            }} // , left: "0", top: "0", width: "100%", height: "100%"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             transform={`scale(${props.scale || 1}, ${props.scale || 1})`}
-            viewBox="0 0 985 425"
+            viewBox="0 0 985 430"
         >
             <path
                 fill="#FFF"
