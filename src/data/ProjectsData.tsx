@@ -144,11 +144,11 @@ export const WukongProject: Project = {
         {
             question: "What does a Wukong program look like?",
             read_more_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
-            answer: <Stack direction={"column"}>
+            answer: <Stack direction={"column"} spacing={2}>
                 <Typography component={"span"}>
-                    The code shown below is from a sample <b>matrix multiplication</b> program. It creates a new
-                    matrix of size 10,000 x 10,000. The matrix is separated into chunks of size 1,000 x 1,000.
-                    Then, the matrix is multiplied with itself, and the result is stored in a local variable.
+                    The code shown below is from a sample <b>matrix multiplication</b> program. First, a new matrix of
+                    size 10,000 x 10,000 is created before being separated into chunks of size 1,000 x 1,000.
+                    Finally, the matrix is multiplied with itself.
                 </Typography>
                 <pre className="line-numbers">
                     <code className="language-python">
@@ -159,6 +159,11 @@ export const WukongProject: Project = {
                              dangerouslySetInnerHTML={{__html: Prism.highlight(WUKONG_CODE_EXAMPLE, Prism.languages.python, 'python')}}/>
                     </code>
                 </pre>
+                <Typography component={"span"}>
+                    If you're familiar with the <span style={{color: "#d03900"}} onClick={()=>openInNewTab("https://www.dask.org/")}><b>Dask</b></span> Python
+                    library, then you may have recognized that the Wukong program looks extremely similar to a Dask
+                    program. This is because Wukong reuses much of the Dask API, as well as Dask's DAG generation substrate.
+                </Typography>
             </Stack>,
         }
     ]
