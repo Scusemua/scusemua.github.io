@@ -1,6 +1,6 @@
 # Personal Portfolio Website
 
-[![Deploy Next.js site to Pages](https://github.com/Scusemua/scusemua.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/Scusemua/scusemua.github.io/actions/workflows/deploy.yml)
+[![Build & Deploy Website to GitHub Pages](https://github.com/Scusemua/scusemua.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/Scusemua/scusemua.github.io/actions/workflows/deploy.yml)
 
 Welcome to my personal portfolio website! This project showcases my work, experience, and research as a Computer Science PhD student at George Mason University, specializing in cloud and serverless computing.
 
