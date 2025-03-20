@@ -54,7 +54,14 @@ export interface Project {
 }
 
 const WUKONG_CODE_EXAMPLE: string = `# Generate random input data.
-X = da.random.random((10000, 10000), chunks = (1000, 1000))
+import dask.array as da
+
+array_size = (10000, 10000)
+chunk_size = (1000, 1000)
+X = da.random.random(
+    array_size, 
+    chunks = chunk_size
+)
 
 # Prepare GEMM computation.
 XX = da.matmul(X, X)
@@ -121,7 +128,10 @@ export const WukongProject: Project = {
                 </Typography>
                 <pre className="line-numbers">
                     <code className="language-python">
-                        <div className={"example"} style={{overflow: "scroll"}}
+                        <div className={"example"} style={{overflow: "scroll"}} onClick={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }}
                              dangerouslySetInnerHTML={{__html: Prism.highlight(WUKONG_CODE_EXAMPLE, Prism.languages.python, 'python')}}/>
                     </code>
                 </pre>
