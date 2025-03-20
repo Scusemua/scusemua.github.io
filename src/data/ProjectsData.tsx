@@ -121,7 +121,7 @@ export const WukongProject: Project = {
                 </Typography>
                 <pre className="line-numbers">
                     <code className="language-python">
-                        <div className={"example"}
+                        <div className={"example"} style={{overflow: "scroll"}}
                              dangerouslySetInnerHTML={{__html: Prism.highlight(WUKONG_CODE_EXAMPLE, Prism.languages.python, 'python')}}/>
                     </code>
                 </pre>
