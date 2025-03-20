@@ -52,15 +52,22 @@ export interface Project {
     status: 'ongoing' | 'inactive';
 }
 
-const WUKONG_CODE_EXAMPLE: string = `# Generate random input data.
-import dask.array as da
+const WUKONG_CODE_EXAMPLE: string = `import dask.array as da
+from wukong import LocalCluster, \\ 
+                   Client
 
+# Create the Static Scheduler.
+local_cluster = LocalCluster() 
+
+# Create a Wukong Client.
+client = Client(local_cluster)
+
+# Generate random input data.
 array_size = (10000, 10000)
 chunk_size = (1000, 1000)
 X = da.random.random(
     array_size, 
-    chunks = chunk_size
-)
+    chunks = chunk_size)
 
 # Prepare GEMM computation.
 XX = da.matmul(X, X)
@@ -68,6 +75,23 @@ XX = da.matmul(X, X)
 # Begin execution.
 result = XX.compute()
 `;
+
+// const WUKONG_CODE_EXAMPLE: string = `# Generate random input data.
+// import dask.array as da
+//
+// array_size = (10000, 10000)
+// chunk_size = (1000, 1000)
+// X = da.random.random(
+//     array_size,
+//     chunks = chunk_size
+// )
+//
+// # Prepare GEMM computation.
+// XX = da.matmul(X, X)
+//
+// # Begin execution.
+// result = XX.compute()
+// `;
 
 export const WukongProject: Project = {
     name: "Wukong",

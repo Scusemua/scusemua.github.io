@@ -53,15 +53,6 @@ const openInNewTab = (url: string | URL | undefined) => {
     if (newWindow) newWindow.opener = null
 }
 
-const WUKONG_CODE_EXAMPLE: string = `# Generate random input data.
-X = da.random.random((10000, 10000), chunks = (1000, 1000))
-# Prepare GEMM computation.
-XX = da.matmul(X, X)
-
-# Begin execution.
-result = XX.compute()
-`;
-
 // To match the red/blue and sort of the original
 // const badgeColors: string[] = ["#E22753", "#3f5efb"]
 const badgeColors: string[] = ["#A4243B", "#1c40c4"]
