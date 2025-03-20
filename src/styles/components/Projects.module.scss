@@ -1,3 +1,19 @@
+$breakpoints: (
+        xs: 0px,
+        sm: 600px,
+        md: 900px,
+        lg: 1200px,
+        xl: 1536px
+);
+
+@mixin mq($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+      @content;
+    }
+  }
+}
+
 .project_section {
   text-align: center;
   margin: 0 auto;
@@ -24,17 +40,25 @@
   }
 
   &_header_text {
-    padding-top: 4rem;
     height: 100%;
     position: relative;
     color: #EFF6EE;
+    padding-top: 4rem;
   }
 
   &_subheader_text {
-    padding-top: 2rem;
     height: 100%;
     position: relative;
     color: #EFF6EE;
+    padding-top: 2rem;
+
+    @include mq(xs) {
+      padding-top: 2.5rem;
+    }
+
+    @include mq(xl) {
+      padding-bottom: 2.5rem;
+    }
   }
 }
 
@@ -57,21 +81,16 @@
   }
 
   &_keywords {
-    //padding-top: 1rem;
     margin: 0 auto;
     max-width: 80%;
   }
 
   &_built_with {
-    //padding-top: 1.5rem;
   }
 
   &_media_background {
     background: #1C192E;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    //background: linear-gradient(-45deg, #1C192E, #29244b);
-    //background-size: 400% 400%;
-    //animation: gradient-cycle 2s ease infinite;
   }
 }
 

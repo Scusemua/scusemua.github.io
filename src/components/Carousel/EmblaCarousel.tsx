@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 
 type PropType = {
     slides: React.JSX.Element[]
+    flippableSlides?: boolean;
     onSelectedIndexChanged?: (selectedIndex: number) => void;
     options?: EmblaOptionsType
     autoplayEnabled?: boolean;
@@ -148,7 +149,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                      maxWidth: props.is_md_or_less ? "100%" : "90%",
                  }}
         >
-            <div className="embla__viewport" ref={emblaRef}>
+            <div className={props.flippableSlides ? "embla__viewport__flippable" : "embla__viewport"} ref={emblaRef}>
                 <div className="embla__container">
                     {slides.map((element: React.JSX.Element, index: number) => (
                         <div className={getSlideClassname(index)} key={index} style={{

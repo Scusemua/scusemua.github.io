@@ -7,9 +7,8 @@ import DegreeDisplay from "@src/components/Education/DegreeDisplay";
 import {Grid2, useMediaQuery} from "@mui/material";
 import {motion} from "framer-motion";
 import theme from "@src/app/theme";
-import {Project} from "@data/ProjectsData";
 import EmblaCarousel from "@src/components/Carousel/EmblaCarousel";
-import ProjectDisplay from "@src/components/Projects/ProjectDisplay";
+import InputSlider from "@src/components/Misc/InputSlider";
 
 const degreeContainerVariant = {
     hidden: {opacity: 1, scale: 0},
@@ -48,7 +47,8 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
     const coreContent = (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                                 className={styles.education_degree_container}>
         {AllDegreeInfo.map((degree: DegreeInfo) => (
-            <Grid2 key={`degree-card-${degree.degree}`} style={{display: 'flex', justifyContent: 'center', margin: "0 auto"}}
+            <Grid2 key={`degree-card-${degree.degree}`}
+                   style={{display: 'flex', justifyContent: 'center', margin: "0 auto"}}
                    size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 12, 'xl': 4}}
                    component={motion.div}
                    variants={degreeVariant}
@@ -61,7 +61,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
     const getSlides = (degrees: DegreeInfo[]): React.JSX.Element[] => {
         return degrees.map((degree: DegreeInfo, idx: number) => {
             return (
-                <DegreeDisplay key={`degree-${idx}-${degree.degree}`} degree={degree} height={525}/>
+                <DegreeDisplay key={`degree-${idx}-${degree.degree}`} degree={degree} height={475}/>
             );
         });
     }
@@ -72,6 +72,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
                            is_md_or_less={mq_md_or_less}
                            is_lg={mq_lg}
                            slides={getSlides(degrees)}
+                           flippableSlides={true}
                            autoplayEnabled={false}
                            options={{loop: true}}/>
         );
@@ -89,7 +90,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
                                     margin: "0 auto",
                                 }}
                                 viewport={{once: true, amount: 0.25, margin: "475px"}}
-                                // onViewportEnter={() => console.log("Education Section has entered viewport")}
+                // onViewportEnter={() => console.log("Education Section has entered viewport")}
             >
                 {coreContent}
             </motion.div>);

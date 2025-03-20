@@ -46,8 +46,8 @@ interface DegreeDisplaySideProps {
 //Spring animation parameters
 const spring = {
     type: "spring",
-    stiffness: 500,
-    damping: 90,
+    stiffness: 75,
+    damping: 13,
 }
 
 const DoctorOfPhilosophy: string = "Doctor of Philosophy";
@@ -119,7 +119,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
             overflow: "auto",
             width: "100%",
             bgcolor: 'background.paper',
-            maxHeight: '275px',
+            maxHeight: '230px',
             marginTop: "-1rem",
         }}>
             {props.degree.coursework?.map((course: CourseInfo, index: number) => {
@@ -195,7 +195,9 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
 }
 
 const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: DegreeDisplayProps) => {
-    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'))
+    const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
 
     const [isFlipped, setIsFlipped] = React.useState<boolean>(false);
     const [rotateXaxis, setRotateXaxis] = React.useState(0)
@@ -213,6 +215,13 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
             return;
         }
 
+        let rotationFactor: number = 10;
+        if (mq_lg) {
+            rotationFactor = 6;
+        } else if (mq_md_or_less) {
+            rotationFactor = 4;
+        }
+
         const elementRect = element.getBoundingClientRect()
         const elementWidth = elementRect.width
         const elementHeight = elementRect.height
@@ -220,8 +229,8 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
         const elementCenterY = elementHeight / 2
         const mouseX = event.clientY - elementRect.y - elementCenterY
         const mouseY = event.clientX - elementRect.x - elementCenterX
-        const degreeX = (mouseX / elementWidth) * 10 //The number is the rotation factor
-        const degreeY = (mouseY / elementHeight) * 10 //The number is the rotation factor
+        const degreeX = (mouseX / elementWidth) * rotationFactor //The number is the rotation factor
+        const degreeY = (mouseY / elementHeight) * rotationFactor //The number is the rotation factor
         setRotateXaxis(degreeX)
         setRotateYaxis(degreeY)
     }
@@ -258,7 +267,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
         >
             <motion.div
                 ref={ref}
-                whileHover={{scale: !mq_xs ? 1.0325 : 1}} //Change the scale of zooming in when hovering
+                whileHover={{scale: !mq_md_or_less ? 1.0325 : 1}} //Change the scale of zooming in when hovering
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseEnd}
                 transition={spring}

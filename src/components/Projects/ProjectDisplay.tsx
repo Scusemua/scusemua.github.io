@@ -295,14 +295,14 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                         variant="body1"
                         style={{
                             fontSize: props.is_xs ? "0.9rem" : "",
-                            marginBottom: props.project.extendedDescription !== undefined ? "1rem" : "-1.5rem",
+                            marginBottom: props.project.extendedDescription !== undefined ? "0.5rem" : "-1.5rem",
                         }}
                     >
                         {props.project.description}
                     </Typography>
-                    <Collapse in={props.expanded} timeout={"auto"} unmountOnExit>
+                    <Collapse in={props.expanded} timeout={"auto"} unmountOnExit sx={{ marginBottom: "-1rem"}}>
                         <Stack direction={"column"}
-                               spacing={2}
+                               spacing={1}
                                justifyContent={"center"}
                                alignItems={"center"}
                                alignContent={"center"}>
