@@ -36,6 +36,8 @@ const degreeVariant = {
 interface EducationSectionProps {
 }
 
+const DEGREE_CARD_HEIGHT: number = 500;
+
 // const EducationSection: React.FunctionComponent<EducationSectionProps> = (props: EducationSectionProps) => {
 const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_props: EducationSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
     // const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
@@ -52,7 +54,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
                    component={motion.div}
                    variants={degreeVariant}
             >
-                <DegreeDisplay degree={degree} height={525}/>
+                <DegreeDisplay degree={degree} height={DEGREE_CARD_HEIGHT}/>
             </Grid2>
         ))}
     </Grid2>);
@@ -60,7 +62,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
     const getSlides = (degrees: DegreeInfo[]): React.JSX.Element[] => {
         return degrees.map((degree: DegreeInfo, idx: number) => {
             return (
-                <DegreeDisplay key={`degree-${idx}-${degree.degree}`} degree={degree} height={475}/>
+                <DegreeDisplay key={`degree-${idx}-${degree.degree}`} degree={degree} height={DEGREE_CARD_HEIGHT}/>
             );
         });
     }
@@ -88,7 +90,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
                                     width: "90%",
                                     margin: "0 auto",
                                 }}
-                                viewport={{once: true, amount: 0.25, margin: "475px"}}
+                                viewport={{once: true, amount: 0.25}}
                 // onViewportEnter={() => console.log("Education Section has entered viewport")}
             >
                 {coreContent}

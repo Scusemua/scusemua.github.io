@@ -119,7 +119,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
             overflow: "auto",
             width: "100%",
             bgcolor: 'background.paper',
-            maxHeight: '230px',
+            maxHeight: '250px',
             marginTop: "-1rem",
         }}>
             {props.degree.coursework?.map((course: CourseInfo, index: number) => {
