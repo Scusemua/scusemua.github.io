@@ -10,7 +10,13 @@ import WukongArchitecture from "@data/architecture_diagrams/wukong_arch";
 import React from "react";
 import InfiniStoreArchitecture from "@data/architecture_diagrams/infinistore_arch";
 import Typography from "@mui/material/Typography";
-import {Stack} from "@mui/material";
+import {Button, Stack} from "@mui/material";
+import Link from "next/link";
+
+const openInNewTab = (url: string | URL | undefined) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
+}
 
 export interface QuestionAndAnswer {
     question: string | React.JSX.Element[];
@@ -193,6 +199,28 @@ export const ObliviousInfiniStoreProject: Project = {
         "obliviousness", "persistence", "security", "privacy"],
     builtWith: ["Golang", "C", "C++"],
     status: 'ongoing',
+    questionsAndAnswers: [
+        {
+            question: "What does \"oblivious\" mean in this context?",
+            answer: <Stack direction={"column"} spacing={1}>
+                <Typography component={"span"}>
+                    An "oblivious" data structure is one that reveals no information about the sequence/pattern of
+                    operations that are applied to the data structure -- except for the final result of the operations.
+                    So, "oblivious" ultimately indicates that the storage system is privacy-preserving. The goal is
+                    to prevent the server and any adversaries/malicious users from inferring information about the
+                    data access patterns or the specific data being accessed.
+                </Typography>
+                <Typography component={"span"}>
+                    For example, <Button variant={'text'} onClick={() => openInNewTab("http://en.wikipedia.org/wiki/Oblivious_RAM")}>Oblivious RAM (ORAM)</Button> is
+                    a well-known concept related to oblivious storage. ORAMs are data structures or compilers that
+                    obfuscate the input/output pattern of a program or algorithm. For a concrete example, refer
+                    to <Button onClick={() => openInNewTab("https://eprint.iacr.org/2013/280.pdf")}>Path ORAM</Button>,
+                    a simple Oblivious RAM protocol.
+                </Typography>
+            </Stack>,
+            read_more_url: "https://en.wikipedia.org/wiki/Oblivious_data_structure"
+        }
+    ]
 }
 
 export const FaasPlatformProject: Project = {
