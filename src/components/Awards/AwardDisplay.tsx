@@ -66,11 +66,11 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
             </TimelineSeparator>
             <TimelineContent>
                 <Typography sx={{typography: {xs: 'body1', sm: 'h5', md: "h5", lg: "h4", xl: "h4"}}}
-                            className={styles.awards_timeline_entry_title}>
+                            className={styles.awards_timeline_entry_title} component={"div"}>
                     {props.award.name}
                 </Typography>
                 {!mq_xs && !mq_sm &&
-                    <Typography variant="body1"
+                    <Typography variant="body1" component={"div"}
                                 className={styles.awards_timeline_entry_description}>
                         {props.award.description}
                     </Typography>}
@@ -81,7 +81,7 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
                 >
                     <div>
                         {props.award.additionalInfoHeader &&
-                            <Typography variant="body2"
+                            <Typography variant="body2" component={"div"}
                                         key={`award-${props.award.name}-desc-additional-header`}
                                         className={styles.awards_timeline_entry_description}>
                                 {props.award.additionalInfoHeader}
@@ -90,7 +90,7 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
                         <ul style={{color: "white", marginLeft: "1.125rem" }} >
                             {props.award.additionalInfo?.map((entry: string | ReactNode, idx: number) =>
                                 <li key={`award-desc-list-${idx}`}>
-                                    <Typography variant="body2"
+                                    <Typography variant="body2" component={"div"}
                                                 key={`award-desc-list-${idx}-typography`}
                                                 className={styles.awards_timeline_entry_description}>
                                         {entry}

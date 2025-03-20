@@ -21,7 +21,9 @@
     "file-loader": "^6.2.0",
     "framer-motion": "^11.11.10",
     "next": "^14.0.0",
+    "prismjs": "^1.30.0",
     "react": "^18.3.1",
+    "react-code-blocks": "^0.1.6",
     "react-dom": "^18.3.1",
     "react-material-ui-carousel": "^3.4.2",
     "react-multi-carousel": "^2.8.5",
@@ -61,6 +63,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "latest",
+    "@types/prismjs": "^1.26.5",
     "gh-pages": "^5.0.0",
     "sass": "^1.80.6"
   }

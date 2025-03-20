@@ -11,7 +11,13 @@ import React from "react";
 import InfiniStoreArchitecture from "@data/architecture_diagrams/infinistore_arch";
 import Typography from "@mui/material/Typography";
 import {Button, Stack} from "@mui/material";
-import Link from "next/link";
+import Prism from 'prismjs';
+
+import 'prismjs';
+import 'prismjs/components/prism-python';
+import 'prismjs/themes/prism-tomorrow.css';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.js'
+import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 
 const openInNewTab = (url: string | URL | undefined) => {
     const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
@@ -21,6 +27,7 @@ const openInNewTab = (url: string | URL | undefined) => {
 export interface QuestionAndAnswer {
     question: string | React.JSX.Element[];
     answer: string | React.JSX.Element | React.JSX.Element[];
+    code?: boolean;
     read_more_url?: string;
 }
 
@@ -45,6 +52,16 @@ export interface Project {
     learnMoreUrl?: string;
     status: 'ongoing' | 'inactive';
 }
+
+const WUKONG_CODE_EXAMPLE: string = `# Generate random input data.
+X = da.random.random((10000, 10000), chunks = (1000, 1000))
+
+# Prepare GEMM computation.
+XX = da.matmul(X, X)
+
+# Begin execution.
+result = XX.compute()
+`;
 
 export const WukongProject: Project = {
     name: "Wukong",
@@ -93,6 +110,23 @@ export const WukongProject: Project = {
             </Stack>,
             read_more_url: "https://en.wikipedia.org/wiki/Directed_acyclic_graph",
         },
+        {
+            question: "What does a Wukong program look like?",
+            code: true,
+            answer: <Stack direction={"column"}>
+                <Typography component={"span"}>
+                    The code shown below is from a sample <b>matrix multiplication</b> program. It creates a new
+                    matrix of size 10,000 x 10,000. The matrix is separated into chunks of size 1,000 x 1,000.
+                    Then, the matrix is multiplied with itself, and the result is stored in a local variable.
+                </Typography>
+                <pre className="line-numbers">
+                    <code className="language-python">
+                        <div className={"example"}
+                             dangerouslySetInnerHTML={{__html: Prism.highlight(WUKONG_CODE_EXAMPLE, Prism.languages.python, 'python')}}/>
+                    </code>
+                </pre>
+            </Stack>,
+        }
     ]
 }
 
@@ -211,7 +245,9 @@ export const ObliviousInfiniStoreProject: Project = {
                     data access patterns or the specific data being accessed.
                 </Typography>
                 <Typography component={"span"}>
-                    For example, <Button variant={'text'} onClick={() => openInNewTab("http://en.wikipedia.org/wiki/Oblivious_RAM")}>Oblivious RAM (ORAM)</Button> is
+                    For example, <Button variant={'text'}
+                                         onClick={() => openInNewTab("http://en.wikipedia.org/wiki/Oblivious_RAM")}>Oblivious
+                    RAM (ORAM)</Button> is
                     a well-known concept related to oblivious storage. ORAMs are data structures or compilers that
                     obfuscate the input/output pattern of a program or algorithm. For a concrete example, refer
                     to <Button onClick={() => openInNewTab("https://eprint.iacr.org/2013/280.pdf")}>Path ORAM</Button>,

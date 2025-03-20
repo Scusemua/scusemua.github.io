@@ -66,7 +66,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
             </TimelineSeparator>
             <TimelineContent>
                 <Typography sx={{typography: {xs: 'body2', sm: 'h5', md: "h5", lg: "h4", xl: "h4"}}}
-                            className={styles.awards_timeline_entry_title}>
+                            className={styles.awards_timeline_entry_title} component={"div"}>
                     {props.award.name}
                 </Typography>
                 <Collapse
@@ -79,7 +79,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
                     unmountOnExit
                 >
                     <div>
-                        <Typography variant="body1"
+                        <Typography variant="body1" component={"div"}
                                     className={styles.awards_timeline_entry_description}
                                     style={{
                                         fontSize: props.extraSmall ? "0.9rem" : ""
@@ -88,7 +88,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
                             {props.award.description}
                         </Typography>
                         {props.award.additionalInfoHeader &&
-                            <Typography variant="body2"
+                            <Typography variant="body2" component={"div"}
                                         key={`award-${props.award.name}-desc-additional-header`}
                                         className={styles.awards_timeline_entry_description}>
                                 {props.award.additionalInfoHeader}
@@ -97,7 +97,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
                         <ul style={{color: "white", marginLeft: "1.125rem" }}>
                             {props.award.additionalInfo?.map((entry: string | ReactNode, idx: number) =>
                                 <li key={`employment_${props.award.name}_desc_list_${idx}`}>
-                                    <Typography variant="body2"
+                                    <Typography variant="body2" component={"div"}
                                                 key={`award-desc-list-${idx}`}
                                                 className={styles.awards_timeline_entry_description}>
                                         {entry}

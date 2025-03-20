@@ -1,10 +1,11 @@
 import styles from "@src/styles/components/Projects.module.scss";
-
-import {shadows} from '@mui/system';
 import React, {ReactElement, ReactNode} from "react";
 
 import {
-    Accordion, AccordionActions, AccordionDetails, AccordionSummary,
+    Accordion,
+    AccordionActions,
+    AccordionDetails,
+    AccordionSummary,
     Badge,
     Button,
     Card,
@@ -14,7 +15,7 @@ import {
     CardHeader,
     CardMedia,
     Chip,
-    Collapse, Icon,
+    Collapse,
     Stack,
     Tooltip
 } from "@mui/material";
@@ -30,8 +31,15 @@ import TerminalIcon from '@mui/icons-material/Terminal';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image from "next/image";
 import PresentationIcon from "@icons/presentation";
-import Link from "next/link";
 import {OpenInNew} from "@mui/icons-material";
+
+import Prism, {highlightAll} from 'prismjs';
+
+import 'prismjs';
+import 'prismjs/components/prism-python';
+import 'prismjs/themes/prism-tomorrow.css';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.js'
+import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 
 interface ProjectProps {
     project: Project;
@@ -45,6 +53,15 @@ const openInNewTab = (url: string | URL | undefined) => {
     if (newWindow) newWindow.opener = null
 }
 
+const WUKONG_CODE_EXAMPLE: string = `# Generate random input data.
+X = da.random.random((10000, 10000), chunks = (1000, 1000))
+# Prepare GEMM computation.
+XX = da.matmul(X, X)
+
+# Begin execution.
+result = XX.compute()
+`;
+
 // To match the red/blue and sort of the original
 // const badgeColors: string[] = ["#E22753", "#3f5efb"]
 const badgeColors: string[] = ["#A4243B", "#1c40c4"]
@@ -54,6 +71,10 @@ function isString(value: any): boolean {
 }
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
+    React.useEffect(() => {
+        highlightAll();
+    }, []);
+
     const getIconSize = (): "medium" | "large" => {
         if (props.is_xs) {
             return "medium";
@@ -215,7 +236,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         </IconButton>
     </CardActions>);
 
-    const getExtendedDescription = (extendedDescription: string | string[]): React.JSX.Element => {
+    const getExtendedDescription = (): React.JSX.Element => {
         if (!props.project.extendedDescription) {
             return <div/>
         }
@@ -268,7 +289,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 <Typography align={'left'} variant={'h5'} sx={{paddingBottom: "1rem"}}><b>Frequently Asked Questions</b></Typography>
                 <div>
                     {props.project.questionsAndAnswers?.map((questionAndAnswer: QuestionAndAnswer, index: number) => (
-                        <Accordion key={`project-${props.project.name}-faq-${index}`}>
+                        <Accordion key={`project-${props.project.name}-faq-${index}`} onChange={() => highlightAll()}>
                             <AccordionSummary expandIcon={<ExpandMoreIcon/>}
                                               aria-controls={`Project ${props.project.name} FAQ Question #${index}`}
                                               id={`project-${props.project.name}-faq-${index}`}>
@@ -345,7 +366,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                                justifyContent={"center"}
                                alignItems={"center"}
                                alignContent={"center"}>
-                            {props.project.extendedDescription && getExtendedDescription(props.project.extendedDescription)}
+                            {props.project.extendedDescription && getExtendedDescription()}
                             {props.project.architectureDiagram && architectureDiagram}
                             {props.project.questionsAndAnswers && questionsAndAnswers}
                             {keywords}

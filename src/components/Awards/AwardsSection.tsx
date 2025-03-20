@@ -18,7 +18,8 @@ const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>(
 
     const getAwardDisplay = (award: AwardData) => {
         if (mq_xs || mq_sm) {
-            return (<AwardDisplaySmall extraSmall={mq_xs} key={`award_${award.name}_${award.month}_${award.year}_component_small`}
+            return (<AwardDisplaySmall extraSmall={mq_xs}
+                                       key={`award_${award.name}_${award.month}_${award.year}_component_small`}
                                        award={award}/>);
         } else {
             return (<AwardDisplay key={`award_${award.name}_${award.month}_${award.year}_component`} award={award}/>);
@@ -32,7 +33,8 @@ const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>(
                  width: mq_xs ? "100%" : "90%"
              }}
         >
-            <Typography variant={"h2"} className={styles.awards_header_text} key={"awards_section_header"}>
+            <Typography variant={"h2"} className={styles.awards_header_text} component={"div"}
+                        key={"awards_section_header"}>
                 Awards
             </Typography>
             <div className={styles.awards_timeline_background}
