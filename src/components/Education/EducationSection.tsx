@@ -8,7 +8,6 @@ import {Grid2, useMediaQuery} from "@mui/material";
 import {motion} from "framer-motion";
 import theme from "@src/app/theme";
 import EmblaCarousel from "@src/components/Carousel/EmblaCarousel";
-import InputSlider from "@src/components/Misc/InputSlider";
 
 const degreeContainerVariant = {
     hidden: {opacity: 1, scale: 0},
