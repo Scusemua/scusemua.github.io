@@ -21,7 +21,7 @@ import {motion, useSpring} from "framer-motion";
 
 import Image from "next/image";
 import ArticleIcon from "@mui/icons-material/Article";
-import {LibraryBooks} from "@mui/icons-material";
+import {LibraryBooks, School} from "@mui/icons-material";
 import theme from "@src/app/theme";
 
 interface DegreeDisplayProps {
@@ -84,14 +84,10 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
             </Stack>);
         }
 
-        return (<Stack direction={'column'}>
-            <Typography gutterBottom variant="h5" component="div"
-                        sx={{color: 'text.secondary'}}>{props.degree.subject}</Typography>
-            <Typography variant="h6"
-                        sx={{color: 'text.secondary'}}>
-                {"Selected Coursework"}
-            </Typography>
-        </Stack>);
+        return (<Typography variant="h6"
+                            sx={{color: 'text.secondary'}}>
+            {"Selected Coursework"}
+        </Typography>);
     }
 
     const getDegreeText = (): string => {
@@ -123,7 +119,8 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
             overflow: "auto",
             width: "100%",
             bgcolor: 'background.paper',
-            maxHeight: '200px',
+            maxHeight: '275px',
+            marginTop: "-1rem",
         }}>
             {props.degree.coursework?.map((course: CourseInfo, index: number) => {
                 return (<ListItem key={`course-${course.name}-term-${course.term}-${index}`}>
@@ -163,7 +160,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
                 </div>
             </CardMedia>
             {cardHeader}
-            <CardContent sx={{height: "75%"}}>
+            <CardContent sx={{height: "100%"}}>
                 {props.variant === 'front' && props.degree.hasThesis && getThesis()}
                 {props.variant === 'back' && courseList}
             </CardContent>
