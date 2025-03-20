@@ -9,6 +9,14 @@ import LambdaFSArchitecture from "@data/architecture_diagrams/lambda_fs_arch";
 import WukongArchitecture from "@data/architecture_diagrams/wukong_arch";
 import React from "react";
 import InfiniStoreArchitecture from "@data/architecture_diagrams/infinistore_arch";
+import Typography from "@mui/material/Typography";
+import {Stack} from "@mui/material";
+
+export interface QuestionAndAnswer {
+    question: string | React.JSX.Element[];
+    answer: string | React.JSX.Element | React.JSX.Element[];
+    read_more_url?: string;
+}
 
 export interface Project {
     name: string;
@@ -27,6 +35,7 @@ export interface Project {
     architectureDiagram?: React.JSX.Element;
     architectureDiagramHeight?: number;
     architectureDiagramIsInteractive?: boolean;
+    questionsAndAnswers?: QuestionAndAnswer[];
     learnMoreUrl?: string;
     status: 'ongoing' | 'inactive';
 }
@@ -57,6 +66,28 @@ export const WukongProject: Project = {
     architectureDiagramIsInteractive: true,
     architectureDiagramHeight: 465,
     status: 'inactive',
+    questionsAndAnswers: [
+        {
+            question: "What is a Directed Acyclic Graph (DAG)?",
+            answer: <Stack direction={"column"} spacing={1}>
+                <Typography component={"span"}>
+                    A Directed Acyclic Graph (DAG) is a graph in which the nodes (i.e., vertices) are connected by
+                    <i>directed</i> edges (i.e., arrows), without any cycles or loops.
+
+                    This means that you <i>cannot</i> start at a node and begin following edges (arrows) to get back
+                    to the same starting node.
+                </Typography>
+                <Typography component={"span"}>
+                    The use of <i>directed</i> edges (or arrows) indicates a dependency between the two nodes. The
+                    arrow points from the source node to the destination node. In the context of Wukong, this
+                    dependency relationship is that of a data dependency. Since each node within the DAG represents an
+                    executable task, the direction of the arrows connecting the different tasks describe how task
+                    outputs are propagated throughout the DAG (i.e., they're used as inputs to subsequent/future tasks).
+                </Typography>
+            </Stack>,
+            read_more_url: "https://en.wikipedia.org/wiki/Directed_acyclic_graph",
+        },
+    ]
 }
 
 export const InfiniStoreProject: Project = {
@@ -94,6 +125,21 @@ export const LambdaFSProject: Project = {
     status: 'inactive',
     architectureDiagram: <LambdaFSArchitecture/>,
     architectureDiagramHeight: 300,
+    questionsAndAnswers: [
+        {
+            question: "What is a Distributed File System (DFS)?",
+            answer: "A Distributed File System (DFS) is a file system that enables users to access and manage " +
+                "files/data that is stored across multiple distinct servers as though everything were stored on a " +
+                "single device. DFSes typically offer advances such as scalability, reliability, and improved performance.",
+            read_more_url: "https://en.wikipedia.org/wiki/Clustered_file_system#Distributed_file_systems",
+        },
+        {
+            question: "What is ZooKeeper?",
+            answer: "Apache ZooKeeper is a service designed for the maintenance of configuration and naming information, " +
+                "as well as to provide distributed synchronization and group services.",
+            read_more_url: "https://zookeeper.apache.org/",
+        }
+    ]
 }
 
 export const JupyterNotebookProject: Project = {

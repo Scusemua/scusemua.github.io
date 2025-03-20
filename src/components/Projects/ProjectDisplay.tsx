@@ -4,6 +4,7 @@ import {shadows} from '@mui/system';
 import React, {ReactElement, ReactNode} from "react";
 
 import {
+    Accordion, AccordionActions, AccordionDetails, AccordionSummary,
     Badge,
     Button,
     Card,
@@ -19,7 +20,7 @@ import {
 } from "@mui/material";
 
 import Typography from '@mui/material/Typography';
-import {Project} from "@data/ProjectsData";
+import {Project, QuestionAndAnswer} from "@data/ProjectsData";
 import IconButton from "@mui/material/IconButton";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import ArticleIcon from '@mui/icons-material/Article';
@@ -30,6 +31,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image from "next/image";
 import PresentationIcon from "@icons/presentation";
 import Link from "next/link";
+import {OpenInNew} from "@mui/icons-material";
 
 interface ProjectProps {
     project: Project;
@@ -252,6 +254,43 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         </Stack>);
     }
 
+    const getAnswer = (questionAndAnswer: QuestionAndAnswer): React.JSX.Element => {
+        if (isString(questionAndAnswer.answer)) {
+            return (<Typography component="span">{questionAndAnswer.answer}</Typography>)
+        }
+
+        return questionAndAnswer.answer as React.JSX.Element;
+    }
+
+    const questionsAndAnswers = (
+        <div style={{width: "100%"}}>
+            <Stack direction={"column"}>
+                <Typography align={'left'} variant={'h5'} sx={{paddingBottom: "1rem"}}><b>Frequently Asked Questions</b></Typography>
+                <div>
+                    {props.project.questionsAndAnswers?.map((questionAndAnswer: QuestionAndAnswer, index: number) => (
+                        <Accordion key={`project-${props.project.name}-faq-${index}`}>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon/>}
+                                              aria-controls={`Project ${props.project.name} FAQ Question #${index}`}
+                                              id={`project-${props.project.name}-faq-${index}`}>
+                                <Typography align={'left'} component="span"
+                                            variant={'h6'}>{questionAndAnswer.question}</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                {getAnswer(questionAndAnswer)}
+                            </AccordionDetails>
+                            {questionAndAnswer.read_more_url && <AccordionActions>
+                                <Button style={{color: "#2424ea"}} endIcon={<OpenInNew/>}
+                                        onClick={() => openInNewTab(questionAndAnswer.read_more_url)}>
+                                    Learn More
+                                </Button>
+                            </AccordionActions>}
+                        </Accordion>
+                    ))}
+                </div>
+            </Stack>
+        </div>
+    );
+
     return (
         <Card
             style={{
@@ -300,7 +339,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     >
                         {props.project.description}
                     </Typography>
-                    <Collapse in={props.expanded} timeout={"auto"} unmountOnExit sx={{ marginBottom: "-1rem"}}>
+                    <Collapse in={props.expanded} timeout={"auto"} unmountOnExit sx={{marginBottom: "-1rem"}}>
                         <Stack direction={"column"}
                                spacing={1}
                                justifyContent={"center"}
@@ -308,6 +347,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                                alignContent={"center"}>
                             {props.project.extendedDescription && getExtendedDescription(props.project.extendedDescription)}
                             {props.project.architectureDiagram && architectureDiagram}
+                            {props.project.questionsAndAnswers && questionsAndAnswers}
                             {keywords}
                         </Stack>
                     </Collapse>
