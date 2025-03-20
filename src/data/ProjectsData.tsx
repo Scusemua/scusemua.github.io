@@ -27,7 +27,6 @@ const openInNewTab = (url: string | URL | undefined) => {
 export interface QuestionAndAnswer {
     question: string | React.JSX.Element[];
     answer: string | React.JSX.Element | React.JSX.Element[];
-    code?: boolean;
     read_more_url?: string;
 }
 
@@ -119,7 +118,7 @@ export const WukongProject: Project = {
         },
         {
             question: "What does a Wukong program look like?",
-            code: true,
+            read_more_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
             answer: <Stack direction={"column"}>
                 <Typography component={"span"}>
                     The code shown below is from a sample <b>matrix multiplication</b> program. It creates a new
