@@ -162,7 +162,6 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                 </Typography>
                 <div style={{
                     // outline: "1px red solid",
-                    display: "flex",
                     justifyContent: "center",
                     textAlign: "center",
                     position: "relative",

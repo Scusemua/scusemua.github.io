@@ -156,7 +156,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     display: "flex",
                     justifyContent: "center",
                     textAlign: "center",
-                    height: `${props.project.architectureDiagramHeight || "512"}px`,
+                    height: `100%`,
                     width: "100%",
                     position: "relative",
                 }}>
@@ -174,12 +174,11 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 <div style={{
                     // border: "1px solid red",
                     // backgroundColor: "#ccc",
-                    display: "flex",
                     justifyContent: "center",
                     textAlign: "center",
                     position: "relative",
                     height: `${props.project.architectureDiagramHeight || "525"}px`,
-                    marginBottom: props.is_xs ? "1rem" : "2rem",
+                    marginBottom: props.is_xs ? "1rem" : "0rem",
                     width: "100%",
                 }}>
                     <Stack spacing={props.is_xs ? 3 : 4} direction={'column'}>

@@ -41,7 +41,7 @@ export const WukongProject: Project = {
     project_website_url: "https://ds2-lab.github.io/Wukong/",
     image: wukong_logo,
     keywords: ["serverless", "dag", "linear algebra", "task scheduling", "distributed", "python", "data analytics"],
-    builtWith: ["AWS", "AWS Lambda", "Python", "Dask"],
+    builtWith: ["AWS", "AWS Lambda", "Python", "Dask", "AWS Fargate", "Redis"],
     arxiv_links: ["https://arxiv.org/abs/1910.05896", "https://arxiv.org/abs/2010.07268"],
     presentation_url: "https://youtu.be/W0tENnx_58I",
     presentation_venue: "SoCC'20",
@@ -49,7 +49,7 @@ export const WukongProject: Project = {
     learnMoreUrl: "projects/wukong",
     architectureDiagram: <WukongArchitecture/>,
     architectureDiagramIsInteractive: true,
-    architectureDiagramHeight: 512,
+    architectureDiagramHeight: 550,
     status: 'inactive',
 }
 
@@ -62,9 +62,9 @@ export const InfiniStoreProject: Project = {
     image: infinistore_logo,
     project_website_url: "",
     keywords: ["serverless", "object storage", "caching", "persistence", "fault tolerance", "erasure coding"],
-    builtWith: ["AWS", "AWS Lambda", "AWS S3", "Golang"],
+    builtWith: ["AWS", "AWS Lambda", "AWS S3", "AWS ElastiCache", "Redis", "Golang", "Python"],
     architectureDiagram: <InfiniStoreArchitecture/>,
-    architectureDiagramHeight: 512,
+    architectureDiagramHeight: 370,
     arxiv_links: ["https://arxiv.org/abs/2209.01496"],
     status: 'inactive',
 }
@@ -83,7 +83,7 @@ export const LambdaFSProject: Project = {
     architectureDiagramIsInteractive: true,
     status: 'inactive',
     architectureDiagram: <LambdaFSArchitecture/>,
-    architectureDiagramHeight: 280,
+    architectureDiagramHeight: 225,
 }
 
 export const JupyterNotebookProject: Project = {

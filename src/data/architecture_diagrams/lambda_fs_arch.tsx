@@ -138,16 +138,12 @@ const LambdaFSArchitecture = (props: LambdaFSArchitectureProps) => {
                 left: "0",
                 top: "0",
                 width: "100%",
-                height: "100%",
-                display: "block"
             }} // , left: "0", top: "0", width: "100%", height: "100%"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             transform={`scale(${props.scale || 1}, ${props.scale || 1})`}
-            xmlSpace="preserve"
-            viewBox="0 0 985 405"
+            viewBox="0 0 985 425"
         >
-            <rect width="100%" height="100%" fill="#fff"/>
             <path
                 fill="#FFF"
                 stroke="#000"
