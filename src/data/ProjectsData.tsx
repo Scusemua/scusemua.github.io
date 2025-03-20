@@ -72,8 +72,9 @@ X = da.random.random(
 # Prepare GEMM computation.
 XX = da.matmul(X, X)
 
-# Begin execution.
-result = XX.compute()
+# Start the computation.
+XX.compute(
+    scheduler = client.get)
 `;
 
 // const WUKONG_CODE_EXAMPLE: string = `# Generate random input data.
