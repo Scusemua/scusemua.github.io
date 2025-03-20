@@ -263,7 +263,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     }
 
     const questionsAndAnswers = (
-        <div style={{width: "100%"}}>
+        <div style={{width: "100%", marginBottom: "1rem"}}>
             <Stack direction={"column"}>
                 <Typography align={'left'} variant={'h5'} sx={{paddingBottom: "1rem"}}><b>Frequently Asked Questions</b></Typography>
                 <div>
