@@ -18,6 +18,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
 import theme from "@src/app/theme";
 import {BubbleContext} from "@src/providers/BubbleContext";
+import Link from "next/link";
 
 interface HeadshotProps {
 }
@@ -32,11 +33,6 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
 
     const {bubblesEnabled, setBubblesEnabled} = React.useContext(BubbleContext);
 
-    const openInNewTab = (url: string | URL | undefined) => {
-        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-        if (newWindow) newWindow.opener = null
-    }
-
     const downloadResume = () => {
         const link = document.createElement("a");
         link.download = 'CarverBenjamin_Resume.pdf';
@@ -47,31 +43,31 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     const socialLinks = (
         <Stack direction={"row"} spacing={1} style={{zIndex: 2, justifyContent: "center", alignItems: "center"}}>
             <Tooltip title={"GitHub"} arrow>
-                <IconButton aria-label={"GitHub"} size="large"
-                            onClick={() => openInNewTab('https://github.com/scusemua/')} color={"default"}>
+                <IconButton aria-label={"GitHub"} size="large" component={Link}
+                            href={'https://github.com/scusemua/'} color={"default"}>
                     <GitHubIcon fontSize="inherit"/>
                 </IconButton>
             </Tooltip>
             <Tooltip title={"Email Me (bcarver2@gmu.edu)"} arrow>
-                <IconButton size="large" href={'mailto:bcarver2@gmu.edu'}>
+                <IconButton size="large" href={'mailto:bcarver2@gmu.edu'} component={Link}>
                     <MailIcon fontSize="inherit"/>
                 </IconButton>
             </Tooltip>
             <Tooltip title={"LinkedIn"} arrow>
-                <IconButton size="large"
-                            onClick={() => openInNewTab('https://www.linkedin.com/in/benjamin-carver-30988a1b6/')}>
+                <IconButton size="large" component={Link}
+                            href={'https://www.linkedin.com/in/benjamin-carver-30988a1b6/'}>
                     <LinkedInIcon fontSize="inherit"/>
                 </IconButton>
             </Tooltip>
             <Tooltip title={"YouTube"} arrow>
-                <IconButton size="large"
-                            onClick={() => openInNewTab('https://www.youtube.com/@benrcarver')}>
+                <IconButton size="large" component={Link}
+                            href={'https://www.youtube.com/@benrcarver'}>
                     <YouTubeIcon fontSize="inherit"/>
                 </IconButton>
             </Tooltip>
             <Tooltip title={"Google Scholar"} arrow>
-                <IconButton size="large"
-                            onClick={() => openInNewTab('https://scholar.google.com/citations?user=sCOVuPEAAAAJ&hl=en')}>
+                <IconButton size="large" component={Link}
+                            href={'https://scholar.google.com/citations?user=sCOVuPEAAAAJ&hl=en'}>
                     <SchoolIcon fontSize="inherit"/>
                 </IconButton>
             </Tooltip>
@@ -124,8 +120,9 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                 </Button>
             </Tooltip>
             <Tooltip title={"View the website's source code on GitHub (in a new tab)"} arrow>
-                <Button startIcon={<GitHubIcon/>} variant={"contained"}
-                        onClick={() => openInNewTab("https://github.com/Scusemua/scusemua.github.io")}
+                <Button href={"https://github.com/Scusemua/scusemua.github.io"} startIcon={<GitHubIcon/>}
+                        variant={"contained"}
+                        component={Link}
                         style={{height: 45, width: "12rem"}} color={'secondary'}>
                     <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
                         Source Code

@@ -21,8 +21,9 @@ import {motion, useSpring} from "framer-motion";
 
 import Image from "next/image";
 import ArticleIcon from "@mui/icons-material/Article";
-import {LibraryBooks, School} from "@mui/icons-material";
+import {LibraryBooks} from "@mui/icons-material";
 import theme from "@src/app/theme";
+import SchoolIcon from "@mui/icons-material/School";
 
 interface DegreeDisplayProps {
     degree: DegreeInfo;
@@ -55,10 +56,12 @@ const DoctorOfPhilosophy: string = "Doctor of Philosophy";
 const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (props: DegreeDisplaySideProps) => {
     const getThesis = () => {
         return (<Stack direction={"column"} spacing={0} sx={{alignItems: "center", justifyContent: "center"}}>
-            <Typography sx={{color: 'text.secondary'}} variant={"h6"}><b>{props.degree.thesisKind}: </b></Typography>
-            <div style={{width: "75%"}}>
-                <Typography sx={{color: 'text.secondary'}} variant={"h6"}><i>{props.degree.thesisTitle}</i></Typography>
-            </div>
+            <Typography sx={{color: 'text.secondary', width: "75%", marginBottom: "5px"}}
+                        variant={"h6"}><b>{props.degree.thesisKind}: </b>
+                <i>{props.degree.thesisTitle}</i></Typography>
+            {/*<div style={{width: "75%"}}>*/}
+            {/*    <Typography sx={{color: 'text.secondary'}} variant={"h6"}><i>{props.degree.thesisTitle}</i></Typography>*/}
+            {/*</div>*/}
             {props.degree.thesisUrl && <Tooltip title={`Download Thesis: "${props.degree.thesisTitle}"`}>
                 <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} style={{color: "#292cc1"}}
                         onClick={() => downloadThesis(props.degree.thesisFile!)} aria-label={"Download Thesis Button"}>
@@ -162,6 +165,20 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
             {cardHeader}
             <CardContent sx={{height: "100%"}}>
                 {props.variant === 'front' && props.degree.hasThesis && getThesis()}
+                {props.variant === 'front' && <Tooltip
+                    title={"Click to view selected coursework from this degree."}
+                    enterNextDelay={500}
+                    enterDelay={400}
+                    arrow={true}
+                    placement={"bottom"}
+                >
+                    <Button size="large"
+                            startIcon={<SchoolIcon fontSize="inherit"/>}
+                            style={{color: "info"}}
+                            aria-label={"View Selected Coursework Button"}>
+                        View Selected Coursework
+                    </Button>
+                </Tooltip>}
                 {props.variant === 'back' && courseList}
             </CardContent>
         </div>
@@ -170,15 +187,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
     const getCardBody = () => {
         if (props.degree.coursework) {
             return (<CardActionArea sx={{height: "100%", position: "relative"}}>
-                <Tooltip
-                    title={"Click to view selected coursework"}
-                    enterNextDelay={500}
-                    enterDelay={400}
-                    arrow={true}
-                    placement={"bottom"}
-                >
-                    {cardInnerBody}
-                </Tooltip>
+                {cardInnerBody}
             </CardActionArea>);
         }
 

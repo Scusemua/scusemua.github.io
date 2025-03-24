@@ -12,6 +12,7 @@ import InfiniStoreArchitecture from "@data/architecture_diagrams/infinistore_arc
 import Typography from "@mui/material/Typography";
 import {Button, Stack} from "@mui/material";
 import Prism from 'prismjs';
+import Link from "next/link";
 
 import 'prismjs';
 import 'prismjs/components/prism-python';
@@ -97,7 +98,7 @@ XX.compute(
 export const WukongProject: Project = {
     name: "Wukong",
     description: "Wukong is a scalable, high-performance, and locality-aware serverless DAG engine. Wukong uses FaaS " +
-        "to accelerate the execution of linear algebra, ML, and data analytics workloads.",
+        "to accelerate the execution of linear algebra, ML, and data analytics workloads...",
     extendedDescription: ["The key insight of Wukong is that partitioning the work of a centralized scheduler (i.e., " +
     "tracking task completions, identifying and dispatching ready tasks, etc.) across a large number of Lambda executors, " +
     "can greatly improve performance by permitting tasks to be scheduled in parallel, reducing resource contention during " +
@@ -172,7 +173,7 @@ export const WukongProject: Project = {
 export const InfiniStoreProject: Project = {
     name: "InfiniStore",
     description: "InfiniStore is an elastic, cost-effective, and high-performance object store built atop ephemeral " +
-        "cloud functions. InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.",
+        "cloud functions. InfiniStore offers automatic elasticity, durability, strong consistency, and high performance...",
     extendedDescription: "Our extensive evaluation of InfiniStore showed that the system provides competitive performance " +
         "with state-of-the-art data storage services AWS ElastiCache and Anna while reducing user-side cost by 97.24% (compared to AWS ElastiCache).",
     venue: "VLDB'23",
@@ -190,7 +191,7 @@ export const InfiniStoreProject: Project = {
 export const LambdaFSProject: Project = {
     name: "λFS",
     description: "λFS is a first-of-its-kind elastic, scalable, and high-performance metadata service for large-scale " +
-        "distributed file systems (DFSes) that uses a FaaS-based metadata cache to maximize performance & cost efficiency.",
+        "distributed file systems (DFSes) that uses a FaaS-based metadata cache to maximize performance & cost efficiency...",
     extendedDescription: "λFS leverages the benefits of serverless computing to provide up to 4.13x higher throughput, " +
         "90.40% lower latency, and 85.99% lower user cost compared to state-of-the-art baselines for a real-world industrial workload.",
     venue: "ASPLOS'23",
@@ -223,7 +224,7 @@ export const LambdaFSProject: Project = {
 
 export const JupyterNotebookProject: Project = {
     name: "Distributed Deep Learning Training",
-    description: "I'm developing a platform optimized for multi-tenant distributed deep learning training workloads. " +
+    description: "I'm developing a platform optimized for multi-tenant distributed deep learning training workloads..." +
         "By leveraging a novel design, the platform enhances resource utilization and reduces JCT while integrating " +
         "industry-standard tools like Prometheus, Loki, and Grafana for real-time monitoring, metric collection, and visualization.",
     extendedDescription: "",
@@ -241,7 +242,7 @@ export const GpuPricingProject: Project = {
     // name: "Jupyter NaaS",
     name: "Optimal GPU Training Platform",
     description: "Building on our multi-tenant deep learning platform, we are developing an optimized cost-aware " +
-        "scheduling and pricing model for shared GPU environments.",
+        "scheduling and pricing model for shared GPU environments...",
     // description: "I'm working on a Jupyter Notebooks-as-a-Service (NaaS) platform that is optimized for providing maximum interactivity for users. The platform uses a novel designed that we developed to enable support for new classes of AI/ML applications and workloads.",
     extendedDescription: "This extension focuses on dynamic resource allocation, fair cost distribution, and " +
         "maximizing GPU efficiency to ensure an optimal balance between performance and user cost.",
@@ -258,7 +259,7 @@ export const GpuPricingProject: Project = {
 export const ObliviousInfiniStoreProject: Project = {
     name: "Oblivious InfiniStore",
     description: "This project is focused on the design and creation of an extension of InfiniStore that provides " +
-        "enhanced security while still delivering strong performance and scalability.",
+        "enhanced security while still delivering strong performance and scalability...",
     extendedDescription: "Specifically, we are designing an enhanced version of InfiniStore using techniques from " +
         "cryptography, computer and network security, and oblivious storage and database systems. This new version " +
         "will offer strong privacy and security guarantees while leveraging the unique benefits of FaaS to offset " +
@@ -284,12 +285,11 @@ export const ObliviousInfiniStoreProject: Project = {
                     data access patterns or the specific data being accessed.
                 </Typography>
                 <Typography component={"span"}>
-                    For example, <Button variant={'text'}
-                                         onClick={() => openInNewTab("http://en.wikipedia.org/wiki/Oblivious_RAM")}>Oblivious
-                    RAM (ORAM)</Button> is
+                    For example, <Button variant={'text'} href={"http://en.wikipedia.org/wiki/Oblivious_RAM"}
+                                         component={Link}>Oblivious RAM (ORAM)</Button> is
                     a well-known concept related to oblivious storage. ORAMs are data structures or compilers that
                     obfuscate the input/output pattern of a program or algorithm. For a concrete example, refer
-                    to <Button onClick={() => openInNewTab("https://eprint.iacr.org/2013/280.pdf")}>Path ORAM</Button>,
+                    to <Button component={Link} href={"https://eprint.iacr.org/2013/280.pdf"}>Path ORAM</Button>,
                     a simple Oblivious RAM protocol.
                 </Typography>
             </Stack>,
@@ -301,7 +301,7 @@ export const ObliviousInfiniStoreProject: Project = {
 export const FaasPlatformProject: Project = {
     name: "FaaS Platforms",
     description: "I'm using my prior experiences developing stateful applications for serverless computing to design " +
-        "and create a highly-optimized and scalable Functions-as-a-Service (FaaS) platform.",
+        "and create a highly-optimized and scalable Functions-as-a-Service (FaaS) platform...",
     extendedDescription: "Specifically, we're incorporating techniques and strategies from cryptography, network " +
         "security, and database systems to provide strong security guarantees while leveraging FaaS to provide good performance",
     venue: "",

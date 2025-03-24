@@ -1,5 +1,6 @@
 import styles from "@src/styles/components/Projects.module.scss";
 import React, {ReactElement, ReactNode} from "react";
+import Link from "next/link";
 
 import {
     Accordion,
@@ -46,11 +47,6 @@ interface ProjectProps {
     expanded: boolean;
     toggleExpansion: (name: string, expanded: boolean) => void;
     is_xs: boolean;
-}
-
-const openInNewTab = (url: string | URL | undefined) => {
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-    if (newWindow) newWindow.opener = null
 }
 
 // To match the red/blue and sort of the original
@@ -101,7 +97,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
 
                 return (<Tooltip title={`View Paper on arXiv`} arrow key={`paper-icon-${idx}`}>
                     <IconButton size={getIconSize()}
-                                onClick={() => openInNewTab(arxiv_url)}>
+                                component={Link}
+                                href={arxiv_url}>
                         <Badge sx={{
                             "& .MuiBadge-badge": {
                                 color: "#fff",
@@ -201,22 +198,22 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
 
     const cardActions = (<CardActions>
         {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
-            <IconButton aria-label={"GitHub Repo"} size={getIconSize()}
-                        onClick={() => openInNewTab(props.project.repo_url)}
+            <IconButton aria-label={"GitHub Repo"} size={getIconSize()} component={Link}
+                        href={props.project.repo_url}
                         color={"default"}>
                 <GitHubIcon fontSize="inherit"/>
             </IconButton>
         </Tooltip>}
         {!props.is_xs && props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
-            <IconButton size={getIconSize()} aria-label={"Project Website Button"}
-                        onClick={() => openInNewTab(props.project.project_website_url)}>
+            <IconButton size={getIconSize()} aria-label={"Project Website Button"} component={Link}
+                        href={props.project.repo_url}>
                 <WebIcon fontSize="inherit"/>
             </IconButton>
         </Tooltip>}
         {props.project.presentation_url && props.project.presentation_url !== "" &&
             <Tooltip title={`Paper Presentation (${props.project.presentation_venue})`} arrow>
-                <IconButton size={getIconSize()} aria-label={"Paper Presentation Button"}
-                            onClick={() => openInNewTab(props.project.presentation_url)}>
+                <IconButton size={getIconSize()} aria-label={"Paper Presentation Button"} component={Link}
+                            href={props.project.repo_url}>
                     <PresentationIcon fill={"#757575"} fontSize="inherit"/>
                 </IconButton>
             </Tooltip>}
@@ -274,6 +271,20 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         return questionAndAnswer.answer as React.JSX.Element;
     }
 
+    const getDescription = (): string => {
+        // If there's no extended description, then we'll just always show the regular description.
+        if (!props.project.extendedDescription) {
+            return props.project.description;
+        }
+
+        // If the card is expanded, then don't show the ellipses.
+        if (props.expanded) {
+            return props.project.description.substring(0, props.project.description.length - 2);
+        }
+
+        return props.project.description;
+    }
+
     const questionsAndAnswers = (
         <div style={{width: "100%", marginBottom: "1rem"}}>
             <Stack direction={"column"}>
@@ -292,7 +303,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                             </AccordionDetails>
                             {questionAndAnswer.read_more_url && <AccordionActions>
                                 <Button style={{color: "#2424ea"}} endIcon={<OpenInNew/>}
-                                        onClick={() => openInNewTab(questionAndAnswer.read_more_url)}>
+                                        href={questionAndAnswer.read_more_url}
+                                        component={Link}>
                                     Learn More
                                 </Button>
                             </AccordionActions>}
@@ -349,7 +361,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                             marginBottom: props.project.extendedDescription !== undefined ? "0.5rem" : "-1.5rem",
                         }}
                     >
-                        {props.project.description}
+                        {getDescription()}
                     </Typography>
                     <Collapse in={props.expanded} timeout={"auto"} unmountOnExit sx={{marginBottom: "-1rem"}}>
                         <Stack direction={"column"}
