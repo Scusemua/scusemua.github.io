@@ -126,8 +126,8 @@ export const WukongProject: Project = {
             question: "What is a Directed Acyclic Graph (DAG)?",
             answer: <Stack direction={"column"} spacing={1}>
                 <Typography component={"span"}>
-                    A Directed Acyclic Graph (DAG) is a graph in which the nodes (i.e., vertices) are connected by
-                    <i>directed</i> edges (i.e., arrows), without any cycles or loops.
+                    A Directed Acyclic Graph (DAG) is a graph in which the nodes (i.e., vertices) are connected
+                    by <i>directed</i> edges (i.e., arrows), without any cycles or loops.
 
                     This means that you <i>cannot</i> start at a node and begin following edges (arrows) to get back
                     to the same starting node.
