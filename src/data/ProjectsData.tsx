@@ -33,8 +33,7 @@ export interface QuestionAndAnswer {
 
 export interface Project {
     name: string;
-    description: string;
-    extendedDescription?: string | string[];
+    description: string | string[];
     venue: string | string[];
     repo_url: string;
     project_website_url: string;
@@ -97,14 +96,14 @@ XX.compute(
 
 export const WukongProject: Project = {
     name: "Wukong",
-    description: "Wukong is a scalable, high-performance, and locality-aware serverless DAG engine. Wukong uses FaaS " +
-        "to accelerate the execution of linear algebra, ML, and data analytics workloads...",
-    extendedDescription: ["The key insight of Wukong is that partitioning the work of a centralized scheduler (i.e., " +
-    "tracking task completions, identifying and dispatching ready tasks, etc.) across a large number of Lambda executors, " +
-    "can greatly improve performance by permitting tasks to be scheduled in parallel, reducing resource contention during " +
-    "scheduling, and making task scheduling data locality-aware, with automatic resource elasticity and improved cost " +
-    "effectiveness.", "The results of Wukong's evaluation showed that it executes large-scale parallel computing jobs up " +
-    "to 68.17× faster while reducing tenant-side cost by 92.96% compared to state-of-the-art industry and academic baselines."],
+    description: ["Wukong is a scalable, high-performance, and locality-aware serverless DAG engine. Wukong uses FaaS " +
+    "to accelerate the execution of linear algebra, ML, and data analytics workloads.",
+        "The key insight of Wukong is that partitioning the work of a centralized scheduler (i.e., " +
+        "tracking task completions, identifying and dispatching ready tasks, etc.) across a large number of Lambda executors, " +
+        "can greatly improve performance by permitting tasks to be scheduled in parallel, reducing resource contention during " +
+        "scheduling, and making task scheduling data locality-aware, with automatic resource elasticity and improved cost " +
+        "effectiveness.", "The results of Wukong's evaluation showed that it executes large-scale parallel computing jobs up " +
+        "to 68.17× faster while reducing tenant-side cost by 92.96% compared to state-of-the-art industry and academic baselines."],
     venue: ["PDSW'19", "SoCC'20"],
     repo_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
     project_website_url: "https://ds2-lab.github.io/Wukong/",
@@ -161,9 +160,11 @@ export const WukongProject: Project = {
                     </code>
                 </pre>
                 <Typography component={"span"}>
-                    If you're familiar with the <span style={{color: "#d03900"}} onClick={()=>openInNewTab("https://www.dask.org/")}><b>Dask</b></span> Python
+                    If you're familiar with the <span style={{color: "#d03900"}}
+                                                      onClick={() => openInNewTab("https://www.dask.org/")}><b>Dask</b></span> Python
                     library, then you may have recognized that the Wukong program looks extremely similar to a Dask
-                    program. This is because Wukong reuses much of the Dask API, as well as Dask's DAG generation substrate.
+                    program. This is because Wukong reuses much of the Dask API, as well as Dask's DAG generation
+                    substrate.
                 </Typography>
             </Stack>,
         }
@@ -172,10 +173,10 @@ export const WukongProject: Project = {
 
 export const InfiniStoreProject: Project = {
     name: "InfiniStore",
-    description: "InfiniStore is an elastic, cost-effective, and high-performance object store built atop ephemeral " +
-        "cloud functions. InfiniStore offers automatic elasticity, durability, strong consistency, and high performance...",
-    extendedDescription: "Our extensive evaluation of InfiniStore showed that the system provides competitive performance " +
-        "with state-of-the-art data storage services AWS ElastiCache and Anna while reducing user-side cost by 97.24% (compared to AWS ElastiCache).",
+    description: ["InfiniStore is an elastic, cost-effective, and high-performance object store built atop ephemeral " +
+        "cloud functions. InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.",
+        "Our extensive evaluation of InfiniStore showed that the system provides competitive performance " +
+        "with state-of-the-art data storage services AWS ElastiCache and Anna while reducing user-side cost by 97.24% (compared to AWS ElastiCache)."],
     venue: "VLDB'23",
     repo_url: "https://github.com/ds2-lab/infinistore",
     image: infinistore_logo,
@@ -190,10 +191,10 @@ export const InfiniStoreProject: Project = {
 
 export const LambdaFSProject: Project = {
     name: "λFS",
-    description: "λFS is a first-of-its-kind elastic, scalable, and high-performance metadata service for large-scale " +
-        "distributed file systems (DFSes) that uses a FaaS-based metadata cache to maximize performance & cost efficiency...",
-    extendedDescription: "λFS leverages the benefits of serverless computing to provide up to 4.13x higher throughput, " +
-        "90.40% lower latency, and 85.99% lower user cost compared to state-of-the-art baselines for a real-world industrial workload.",
+    description: ["λFS is a first-of-its-kind elastic, scalable, and high-performance metadata service for large-scale " +
+        "distributed file systems (DFSes) that uses a FaaS-based metadata cache to maximize performance & cost efficiency.",
+        "λFS leverages the benefits of serverless computing to provide up to 4.13x higher throughput, " +
+        "90.40% lower latency, and 85.99% lower user cost compared to state-of-the-art baselines for a real-world industrial workload."],
     venue: "ASPLOS'23",
     repo_url: "https://github.com/ds2-lab/LambdaFS",
     project_website_url: "",
@@ -224,9 +225,9 @@ export const LambdaFSProject: Project = {
 
 export const JupyterNotebookProject: Project = {
     name: "Distributed Deep Learning Training",
-    description: "I'm developing a platform optimized for multi-tenant distributed deep learning training workloads...",
-    extendedDescription: "By leveraging a novel design, the platform enhances resource utilization and reduces JCT while integrating " +
-        "industry-standard tools like Prometheus, Loki, and Grafana for real-time monitoring, metric collection, and visualization.",
+    description: ["I'm developing a platform optimized for multi-tenant distributed deep learning training workloads.",
+        "By leveraging a novel design, the platform enhances resource utilization and reduces JCT while integrating " +
+        "industry-standard tools like Prometheus, Loki, and Grafana for real-time monitoring, metric collection, and visualization."],
     venue: "",
     repo_url: "",
     project_website_url: "",
@@ -240,11 +241,12 @@ export const JupyterNotebookProject: Project = {
 export const GpuPricingProject: Project = {
     // name: "Jupyter NaaS",
     name: "Optimal GPU Training Platform",
-    description: "Building on our multi-tenant deep learning platform, we are developing an optimized cost-aware " +
-        "scheduling and pricing model for shared GPU environments...",
+    description: ["Building on our multi-tenant deep learning platform, we are developing an optimized cost-aware " +
+        "scheduling and pricing model for shared GPU environments.", "This extension focuses on dynamic resource allocation, fair cost distribution, and " +
+        "maximizing GPU efficiency to ensure an optimal balance between performance and user cost."],
     // description: "I'm working on a Jupyter Notebooks-as-a-Service (NaaS) platform that is optimized for providing maximum interactivity for users. The platform uses a novel designed that we developed to enable support for new classes of AI/ML applications and workloads.",
-    extendedDescription: "This extension focuses on dynamic resource allocation, fair cost distribution, and " +
-        "maximizing GPU efficiency to ensure an optimal balance between performance and user cost.",
+    // extendedDescription: "This extension focuses on dynamic resource allocation, fair cost distribution, and " +
+    //     "maximizing GPU efficiency to ensure an optimal balance between performance and user cost.",
     venue: "",
     repo_url: "",
     project_website_url: "",
@@ -256,13 +258,13 @@ export const GpuPricingProject: Project = {
 }
 
 export const ObliviousInfiniStoreProject: Project = {
-    name: "Oblivious InfiniStore",
-    description: "This project is focused on the design and creation of an extension of InfiniStore that provides " +
-        "enhanced security while still delivering strong performance and scalability...",
-    extendedDescription: "Specifically, we are designing an enhanced version of InfiniStore using techniques from " +
+    name: "Oblivious Serverless Storage",
+    description: ["This project is focused on the design and creation of an extension of InfiniStore that provides " +
+        "enhanced security while still delivering strong performance and scalability.",
+        "Specifically, we are designing an enhanced version of InfiniStore using techniques from " +
         "cryptography, computer and network security, and oblivious storage and database systems. This new version " +
         "will offer strong privacy and security guarantees while leveraging the unique benefits of FaaS to offset " +
-        "the overheads introduced by these new guarantees.",
+        "the overheads introduced by these new guarantees."],
     venue: "",
     repo_url: "",
     arxiv_links: [],
@@ -298,11 +300,11 @@ export const ObliviousInfiniStoreProject: Project = {
 }
 
 export const FaasPlatformProject: Project = {
-    name: "FaaS Platforms",
-    description: "I'm using my prior experiences developing stateful applications for serverless computing to design " +
-        "and create a highly-optimized and scalable Functions-as-a-Service (FaaS) platform...",
-    extendedDescription: "Specifically, we're incorporating techniques and strategies from cryptography, network " +
-        "security, and database systems to provide strong security guarantees while leveraging FaaS to provide good performance",
+    name: "Highly Optimized FaaS Platforms",
+    description: ["I'm using my prior experiences developing stateful applications for serverless computing to design " +
+    "and create a highly-optimized and scalable Functions-as-a-Service (FaaS) platform.",
+        "Specifically, we're incorporating techniques and strategies from cryptography, network " +
+        "security, and database systems to provide strong security guarantees while leveraging FaaS to provide good performance"],
     venue: "",
     repo_url: "",
     arxiv_links: [],

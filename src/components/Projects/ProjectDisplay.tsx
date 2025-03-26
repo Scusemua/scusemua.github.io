@@ -65,49 +65,40 @@ function getIconSize(is_xs: boolean): 'small' | 'medium' | 'large' {
     return "large";
 }
 
-interface ExtendedDescriptionProps {
+interface DescriptionProps {
     project: Project;
     is_xs: boolean;
+    expanded: boolean;
     onClickCard: () => void;
 }
 
-const ExtendedDescription: React.FunctionComponent<ExtendedDescriptionProps> = (props: ExtendedDescriptionProps) => {
-    if (!props.project.extendedDescription) {
-        return <div/>
+const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: DescriptionProps) => {
+    let descriptions: string[];
+
+    if (isString(props.project.description)) {
+        descriptions = [props.project.description as string];
+    } else {
+        descriptions = props.project.description as string[];
     }
 
-    if (isString(props.project.extendedDescription)) {
-        return (<Typography
-            onClick={() => props.onClickCard()}
-            variant="body1"
-            style={{
-                // marginTop: "1rem",
-                fontSize: props.is_xs ? "0.9rem" : "",
-                marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
-            }}
-        >
-            {props.project.extendedDescription}
-        </Typography>);
-    }
+    return <Typography
+        onClick={() => props.onClickCard()}
+        variant="body1"
+        className={props.expanded ? "" : styles.project_description_collapsed}
+        style={{
+            // marginTop: "1rem",
+            fontSize: props.is_xs ? "0.9rem" : "",
+            marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
+        }}
+    >
+        {descriptions.map((line: string, idx: number) => {
+            if (idx > 0) {
+                return (<div><br/>{line}</div>);
+            }
 
-    const descriptions: string[] = props.project.extendedDescription as string[];
-
-    return (<Stack direction={"column"} onClick={() => props.onClickCard()}>
-        {descriptions.map((desc: string, index: number) => {
-            return (<Typography
-                onClick={() => props.onClickCard()}
-                key={`project-${props.project.name}-extended-desc-${index}`}
-                variant="body1"
-                style={{
-                    // marginTop: "1rem",
-                    fontSize: props.is_xs ? "0.9rem" : "",
-                    marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
-                }}
-            >
-                {desc}
-            </Typography>);
+            return <div>{line}</div>;
         })}
-    </Stack>);
+    </Typography>
 }
 
 interface PaperLinksProps {
@@ -211,12 +202,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     );
 
     const architectureDiagram = (<div style={{
-        // border: "1px solid red",
-        // backgroundColor: "#ccc",
-        // display: "flex",
         justifyContent: "center",
         textAlign: "center",
-        // position: "relative",
         marginBottom: props.is_xs ? "1rem" : "0rem",
         width: "100%",
     }}>
@@ -274,45 +261,6 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         </IconButton>
     </CardActions>);
 
-    const getExtendedDescription = (): React.JSX.Element => {
-        if (!props.project.extendedDescription) {
-            return <div/>
-        }
-
-        if (isString(props.project.extendedDescription)) {
-            return (<Typography
-                onClick={() => onClickCard()}
-                variant="body1"
-                style={{
-                    // marginTop: "1rem",
-                    fontSize: props.is_xs ? "0.9rem" : "",
-                    marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
-                }}
-            >
-                {props.project.extendedDescription}
-            </Typography>);
-        }
-
-        const descriptions: string[] = props.project.extendedDescription as string[];
-
-        return (<Stack direction={"column"} onClick={() => onClickCard()}>
-            {descriptions.map((desc: string, index: number) => {
-                return (<Typography
-                    onClick={() => onClickCard()}
-                    key={`project-${props.project.name}-extended-desc-${index}`}
-                    variant="body1"
-                    style={{
-                        // marginTop: "1rem",
-                        fontSize: props.is_xs ? "0.9rem" : "",
-                        marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
-                    }}
-                >
-                    {desc}
-                </Typography>);
-            })}
-        </Stack>);
-    }
-
     const getAnswer = (questionAndAnswer: QuestionAndAnswer): React.JSX.Element => {
         if (isString(questionAndAnswer.answer)) {
             return (<Typography component="span">{questionAndAnswer.answer}</Typography>)
@@ -321,22 +269,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         return questionAndAnswer.answer as React.JSX.Element;
     }
 
-    const getDescription = (): string => {
-        // If there's no extended description, then we'll just always show the regular description.
-        if (!props.project.extendedDescription) {
-            return props.project.description;
-        }
-
-        // If the card is expanded, then don't show the ellipses.
-        if (props.expanded) {
-            return props.project.description.substring(0, props.project.description.length - 2);
-        }
-
-        return props.project.description;
-    }
-
     const questionsAndAnswers = (
-        <div style={{width: "100%", marginBottom: "1rem"}}>
+        <div className={styles.project_faq}>
             <Stack direction={"column"}>
                 <Typography align={'left'} variant={'h5'} sx={{paddingBottom: "1rem"}}><b>Frequently Asked Questions</b></Typography>
                 <div>
@@ -365,10 +299,17 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         </div>
     );
 
+    const getExpandedHeight = (): string => {
+        if (props.project.architectureDiagram || (props.project.questionsAndAnswers && props.project.questionsAndAnswers.length > 0)) {
+            return "32rem";
+        }
+
+        return "20rem";
+    }
+
     return (
         <Card
             style={{
-                height: (props.expanded ? "auto" : "100%"),
                 margin: (props.is_xs ? "1rem" : "0 auto"),
             }}
             sx={{
@@ -377,49 +318,35 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             raised={true}
             className={styles.project_section_card}
         >
-            <CardActionArea onClick={() => onClickCardActionArea()}>
-                <div
-                    onClick={() => onClickCard()}
-                    className={styles.project_media_background}
-                >
-                    <CardMedia sx={{
-                        background: "#1C192E",
-                        backgroundColor: "#1C192E",
+            <CardActionArea onClick={() => onClickCardActionArea()} sx={{
+                display: "grid",
+            }}>
+                <CardMedia className={styles.project_media_background} onClick={() => onClickCard()}>
+                    <div style={{
+                        position: 'relative',
+                        margin: "0 auto",
+                        height: '150px',
+                        zIndex: 5,
                     }}>
-                        <div style={{
-                            position: 'relative',
-                            margin: "0 auto",
-                            height: '150px',
-                            zIndex: 5,
-                        }}>
-                            <Image
-                                src={props.project.image}
-                                fill
-                                alt="Project Logo"
-                                style={{objectFit: 'contain'}}
-                            />
-                        </div>
-                    </CardMedia>
-                </div>
+                        <Image
+                            src={props.project.image}
+                            fill
+                            alt="Project Logo"
+                            style={{objectFit: 'contain'}}
+                        />
+                    </div>
+                </CardMedia>
                 {cardHeader}
                 <CardContent
                     style={{
                         overflow: "auto",
-                        margin: "5px",
-                        maxHeight: "30rem",
-                        overflowY: "auto",
+                        height: (props.expanded ? getExpandedHeight() : "8.5rem"),
+                        transition: "height 0.25s ease-in-out",
+                        scrollbarGutter: "stable"
                     }}
                 >
-                    <Typography
-                        onClick={() => onClickCard()}
-                        variant="body1"
-                        style={{
-                            fontSize: props.is_xs ? "0.9rem" : "",
-                            marginBottom: props.project.extendedDescription !== undefined ? "0.5rem" : "-1.5rem",
-                        }}
-                    >
-                        {getDescription()}
-                    </Typography>
+                    <ProjectDescription project={props.project} is_xs={props.is_xs}
+                                        onClickCard={onClickCard} expanded={props.expanded}/>
                     <Collapse
                         in={props.expanded}
                         timeout={"auto"}
@@ -433,9 +360,6 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                                justifyContent={"center"}
                                alignItems={"center"}
                                alignContent={"center"}>
-                            {props.project.extendedDescription &&
-                                <ExtendedDescription project={props.project} is_xs={props.is_xs}
-                                                     onClickCard={onClickCard}/>}
                             {props.project.architectureDiagram && architectureDiagram}
                             {props.project.questionsAndAnswers && questionsAndAnswers}
                             {keywords}
