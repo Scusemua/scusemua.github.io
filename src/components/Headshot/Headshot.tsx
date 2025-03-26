@@ -23,16 +23,139 @@ import Link from "next/link";
 interface HeadshotProps {
 }
 
-// const Headshot: React.FunctionComponent = () => {
-const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotProps, ref: React.ForwardedRef<HTMLInputElement>) => {
-    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
-    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
-    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
-    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
+const ExtraSmallHeadshotLayout: React.FunctionComponent = () => {
+    return (
+        <Stack
+            className={styles.headshot_container}
+            direction={'column'}
+            justifyContent={'center'}
+            spacing={3}
+            alignItems={'center'}
+            key={"xs_layout_headshot"}
+            style={{
+                width: "90%"
+            }}
+        >
+            <Image
+                src={PersonalData.image}
+                alt={"Ben's Headshot"}
+                className={styles.headshot_container_image}
+                style={{marginTop: "2rem", width: "60%", height: "auto"}}
+                priority={true}
+            />
+            <div className={styles.social_links_container}>
+                <SocialLinks/>
+            </div>
+            <div className={styles.headshot_header_text_greeting}>
+                <Typography variant={"h2"}>{PersonalData.name}</Typography>
+            </div>
+            <div className={styles.headshot_header_text_greeting_xs}>
+                <Typography variant={"h5"}>
+                    Computer Science
+                    <br/>PhD Candidate
+                    <br/>at George Mason
+                    University
+                </Typography>
+            </div>
+            <HeaderBioText mq_xs={true}/>
+        </Stack>
+    );
+}
 
-    const {bubblesEnabled, setBubblesEnabled} = React.useContext(BubbleContext);
+const SmallHeadshotLayout: React.FunctionComponent = () => {
+    return (
+        <div key={"lg_layout_headshot"} style={{margin: "0 auto"}}>
+            <Stack
+                className={styles.headshot_container}
+                direction={'row'}
+                justifyContent={'center'}
+                spacing={4}
+                style={{
+                    marginTop: '4rem',
+                    width: "90%",
+                }}
+                alignItems={'center'}>
+                <Stack
+                    direction={"column"}
+                    spacing={2}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                >
+                    <Image
+                        src={PersonalData.image}
+                        alt={"Ben's Headshot"}
+                        className={styles.headshot_container_image}
+                        style={{width: "16rem", height: "auto"}}
+                        priority={true}
+                    />
+                    <div className={styles.social_links_container}>
+                        <SocialLinks/>
+                    </div>
+                </Stack>
+                <div className={styles.headshot_header_text_greeting}>
+                    <Typography variant={"h5"}>Hello! I am</Typography>
+                    <Typography variant={"h2"}>{PersonalData.name}</Typography>
+                    <Typography variant={"h5"}>Computer Science<br/>PhD Candidate<br/>at George Mason
+                        University</Typography>
+                </div>
+            </Stack>
+            <div style={{margin: "1rem auto 0 auto", width: "95%"}}>
+                <HeaderBioText mq_xs={false}/>
+            </div>
+        </div>
+    );
+}
 
+const MediumOrLargeHeadshotLayout: React.FunctionComponent = () => {
+    return (
+        <div key={"lg_layout_headshot"}>
+            <Stack
+                className={styles.headshot_container}
+                direction={'row'}
+                justifyContent={'center'}
+                spacing={4}
+                style={{marginTop: '4rem'}}
+                alignItems={'flex-end'}>
+                <Stack
+                    direction={'row'}
+                    spacing={8}
+                    sx={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Stack
+                        direction={"column"}
+                        spacing={2}
+                        sx={{justifyContent: 'center', alignItems: 'center'}}
+                    >
+                        <Image
+                            src={PersonalData.image}
+                            alt={"Ben's Headshot"}
+                            className={styles.headshot_container_image}
+                            style={{width: "16rem", height: "auto"}}
+                            priority={true}
+                        />
+                        <div className={styles.social_links_container}>
+                            <SocialLinks/>
+                        </div>
+                    </Stack>
+                    <div className={styles.headshot_header_text_greeting}>
+                        <Typography variant={"h5"}>Hello! I am</Typography>
+                        <Typography variant={"h1"}>{PersonalData.name}</Typography>
+                        <Typography variant={"h4"}>Computer Science<br/>PhD Candidate at<br/>George Mason
+                            University</Typography>
+                    </div>
+                </Stack>
+            </Stack>
+            <div style={{margin: "1rem auto 0 auto", width: "88%"}}>
+                <HeaderBioText mq_xs={false}/>
+            </div>
+        </div>
+    );
+}
+
+const HeaderButtons: React.FunctionComponent = () => {
     const downloadResume = () => {
         const link = document.createElement("a");
         link.download = 'CarverBenjamin_Resume.pdf';
@@ -40,61 +163,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         link.click();
     }
 
-    const socialLinks = (
-        <Stack direction={"row"} spacing={1} style={{zIndex: 2, justifyContent: "center", alignItems: "center"}}>
-            <Tooltip title={"GitHub"} arrow>
-                <IconButton aria-label={"GitHub"} size="large" component={Link}
-                            href={'https://github.com/scusemua/'} color={"default"}>
-                    <GitHubIcon fontSize="inherit"/>
-                </IconButton>
-            </Tooltip>
-            <Tooltip title={"Email Me (bcarver2@gmu.edu)"} arrow>
-                <IconButton size="large" href={'mailto:bcarver2@gmu.edu'} component={Link}>
-                    <MailIcon fontSize="inherit"/>
-                </IconButton>
-            </Tooltip>
-            <Tooltip title={"LinkedIn"} arrow>
-                <IconButton size="large" component={Link}
-                            href={'https://www.linkedin.com/in/benjamin-carver-30988a1b6/'}>
-                    <LinkedInIcon fontSize="inherit"/>
-                </IconButton>
-            </Tooltip>
-            <Tooltip title={"YouTube"} arrow>
-                <IconButton size="large" component={Link}
-                            href={'https://www.youtube.com/@benrcarver'}>
-                    <YouTubeIcon fontSize="inherit"/>
-                </IconButton>
-            </Tooltip>
-            <Tooltip title={"Google Scholar"} arrow>
-                <IconButton size="large" component={Link}
-                            href={'https://scholar.google.com/citations?user=sCOVuPEAAAAJ&hl=en'}>
-                    <SchoolIcon fontSize="inherit"/>
-                </IconButton>
-            </Tooltip>
-        </Stack>
-    )
-
-    const headerBioText = (
-        <div
-            style={{
-                margin: '1rem auto 0 auto',
-            }}
-            className={styles.headshot_header_text_bio_container}
-        >
-            <div className={styles.headshot_header_text_bio_text}>
-                <Typography variant={"h6"} style={{fontSize: mq_xs ? "1.2rem" : "1.5rem"}}>
-                    I'm a 4th year computer science PhD student at George Mason University and a member of
-                    the <a href={"https://ds2-lab.github.io/"}>DS<sup>2</sup> lab</a> at the University of Virginia
-                    (UVA).
-                    My advisors are Dr. Yue Cheng (UVA) & Dr. Songqing Chen (GMU). My research is
-                    focused on developing unique and innovative applications of cloud and serverless computing to a
-                    wide variety of domains, including data analytics, machine learning, file systems, and more.
-                </Typography>
-            </div>
-        </div>
-    );
-
-    const headerButtons = (
+    return (
         <Stack className={styles.headshot_cv_button_stack} spacing={2} key={"headshot_header_buttons"}
                direction={{'xs': 'column', 'sm': 'row', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
                sx={{
@@ -140,200 +209,138 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             {/*</Tooltip>*/}
         </Stack>
     );
+}
 
-    const getLayoutXs = () => {
-        return (
+const ExtraLargeHeadshotLayout: React.FunctionComponent = () => {
+    return (
+        <div key={"xl_layout_headshot"}>
             <Stack
                 className={styles.headshot_container}
-                direction={'column'}
+                direction={'row'}
                 justifyContent={'center'}
-                spacing={3}
-                alignItems={'center'}
-                key={"xs_layout_headshot"}
+                alignContent={"center"}
+                alignItems={'flex-end'}
                 style={{
-                    width: "90%"
+                    margin: '0 auto'
                 }}
+                spacing={1}
             >
-                <Image
-                    src={PersonalData.image}
-                    alt={"Ben's Headshot"}
-                    className={styles.headshot_container_image}
-                    style={{marginTop: "2rem", width: "60%", height: "auto"}}
-                    priority={true}
-                />
-                <div className={styles.social_links_container}>
-                    {socialLinks}
-                </div>
-                <div className={styles.headshot_header_text_greeting}>
-                    <Typography variant={"h2"}>{PersonalData.name}</Typography>
-                </div>
-                <div className={styles.headshot_header_text_greeting_xs}>
-                    <Typography variant={"h5"}>
-                        Computer Science
-                        <br/>PhD Candidate
-                        <br/>at George Mason
-                        University
-                    </Typography>
-                </div>
-                {headerBioText}
-            </Stack>
-        );
-    }
-
-    const getLayoutSm = () => {
-        return (
-            <div key={"lg_layout_headshot"} style={{margin: "0 auto"}}>
                 <Stack
-                    className={styles.headshot_container}
-                    direction={'row'}
-                    justifyContent={'center'}
+                    direction={"column"}
                     spacing={4}
-                    style={{
-                        marginTop: '4rem',
-                        width: "90%",
-                    }}
-                    alignItems={'center'}>
-                    <Stack
-                        direction={"column"}
-                        spacing={2}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                    >
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    paddingTop={'5rem'}
+                >
+                    <div>
                         <Image
                             src={PersonalData.image}
                             alt={"Ben's Headshot"}
                             className={styles.headshot_container_image}
-                            style={{width: "16rem", height: "auto"}}
+                            width={376}
                             priority={true}
                         />
-                        <div className={styles.social_links_container}>
-                            {socialLinks}
-                        </div>
-                    </Stack>
-                    <div className={styles.headshot_header_text_greeting}>
-                        <Typography variant={"h5"}>Hello! I am</Typography>
-                        <Typography variant={"h2"}>{PersonalData.name}</Typography>
-                        <Typography variant={"h5"}>Computer Science<br/>PhD Candidate<br/>at George Mason
-                            University</Typography>
+                    </div>
+                    <div className={styles.social_links_container}>
+                        <SocialLinks/>
                     </div>
                 </Stack>
-                <div style={{margin: "1rem auto 0 auto", width: "95%"}}>
-                    {headerBioText}
-                </div>
-            </div>
-        );
-    }
-
-    const getLayoutMdToLg = () => {
-        return (
-            <div key={"lg_layout_headshot"}>
                 <Stack
-                    className={styles.headshot_container}
-                    direction={'row'}
-                    justifyContent={'center'}
-                    spacing={4}
-                    style={{marginTop: '4rem'}}
-                    alignItems={'flex-end'}>
-                    <Stack
-                        direction={'row'}
-                        spacing={8}
-                        sx={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Stack
-                            direction={"column"}
-                            spacing={2}
-                            sx={{justifyContent: 'center', alignItems: 'center'}}
-                        >
-                            <Image
-                                src={PersonalData.image}
-                                alt={"Ben's Headshot"}
-                                className={styles.headshot_container_image}
-                                style={{width: "16rem", height: "auto"}}
-                                priority={true}
-                            />
-                            <div className={styles.social_links_container}>
-                                {socialLinks}
-                            </div>
-                        </Stack>
-                        <div className={styles.headshot_header_text_greeting}>
-                            <Typography variant={"h5"}>Hello! I am</Typography>
-                            <Typography variant={"h1"}>{PersonalData.name}</Typography>
-                            <Typography variant={"h4"}>Computer Science<br/>PhD Candidate at<br/>George Mason University</Typography>
-                        </div>
-                    </Stack>
-                </Stack>
-                <div style={{margin: "1rem auto 0 auto", width: "88%"}}>
-                    {headerBioText}
-                </div>
-            </div>
-        );
-    }
-
-    const getLayoutXL = () => {
-        return (
-            <div key={"xl_layout_headshot"}>
-                <Stack
-                    className={styles.headshot_container}
-                    direction={'row'}
-                    justifyContent={'center'}
+                    direction={"column"}
+                    spacing={0}
+                    justifyContent={"center"}
+                    alignItems={"center"}
                     alignContent={"center"}
-                    alignItems={'flex-end'}
                     style={{
-                        margin: '0 auto'
+                        zIndex: 2,
+                        paddingTop: "5rem",
+                        width: "60%"
                     }}
-                    spacing={1}
                 >
-                    <Stack
-                        direction={"column"}
-                        spacing={4}
-                        justifyContent={'center'}
-                        alignItems={'center'}
-                        paddingTop={'5rem'}
-                    >
-                        <div>
-                            <Image
-                                src={PersonalData.image}
-                                alt={"Ben's Headshot"}
-                                className={styles.headshot_container_image}
-                                width={376}
-                                priority={true}
-                            />
-                        </div>
-                        <div className={styles.social_links_container}>
-                            {socialLinks}
-                        </div>
-                    </Stack>
-                    <Stack
-                        direction={"column"}
-                        spacing={0}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        alignContent={"center"}
-                        style={{
-                            zIndex: 2,
-                            paddingTop: "5rem",
-                            width: "60%"
-                        }}
-                    >
-                        <div className={styles.headshot_header_text_greeting}>
-                            <Typography variant={"h4"}>Hello! I am</Typography>
-                            <Typography variant={"h1"}>{PersonalData.name}</Typography>
-                            <Typography variant={"h5"} style={{fontSize: "1.7rem"}}>Computer Science PhD Candidate at
-                                George Mason
-                                University</Typography>
-                        </div>
-                        <div style={{width: "86%", margin: "0 auto"}}>
-                            {headerBioText}
-                        </div>
-                        <div>{headerButtons}</div>
-                    </Stack>
+                    <div className={styles.headshot_header_text_greeting}>
+                        <Typography variant={"h4"}>Hello! I am</Typography>
+                        <Typography variant={"h1"}>{PersonalData.name}</Typography>
+                        <Typography variant={"h5"} style={{fontSize: "1.7rem"}}>Computer Science PhD Candidate at
+                            George Mason
+                            University</Typography>
+                    </div>
+                    <div style={{width: "86%", margin: "0 auto"}}>
+                        <HeaderBioText mq_xs={false}/>
+                    </div>
+                    <div><HeaderButtons/></div>
                 </Stack>
-            </div>
-        );
-    }
+            </Stack>
+        </div>
+    );
+}
+
+interface HeaderBioTextProps {
+    mq_xs: boolean;
+}
+
+const HeaderBioText: React.FunctionComponent<HeaderBioTextProps> = (props: HeaderBioTextProps) => {
+    return (<div
+        style={{
+            margin: '1rem auto 0 auto',
+        }}
+        className={styles.headshot_header_text_bio_container}
+    >
+        <div className={styles.headshot_header_text_bio_text}>
+            <Typography variant={"h6"} style={{fontSize: props.mq_xs ? "1.2rem" : "1.5rem"}}>
+                I'm a 4th year computer science PhD student at George Mason University and a member of
+                the <a href={"https://ds2-lab.github.io/"}>DS<sup>2</sup> lab</a> at the University of Virginia
+                (UVA).
+                My advisors are Dr. Yue Cheng (UVA) & Dr. Songqing Chen (GMU). My research is
+                focused on developing unique and innovative applications of cloud and serverless computing to a
+                wide variety of domains, including data analytics, machine learning, file systems, and more.
+            </Typography>
+        </div>
+    </div>);
+}
+
+const SocialLinks: React.FunctionComponent = () => {
+    return (<Stack direction={"row"} spacing={1} style={{zIndex: 2, justifyContent: "center", alignItems: "center"}}>
+        <Tooltip title={"GitHub"} arrow>
+            <IconButton aria-label={"GitHub"} size="large" component={Link}
+                        href={'https://github.com/scusemua/'} color={"default"}>
+                <GitHubIcon fontSize="inherit"/>
+            </IconButton>
+        </Tooltip>
+        <Tooltip title={"Email Me (bcarver2@gmu.edu)"} arrow>
+            <IconButton size="large" href={'mailto:bcarver2@gmu.edu'} component={Link}>
+                <MailIcon fontSize="inherit"/>
+            </IconButton>
+        </Tooltip>
+        <Tooltip title={"LinkedIn"} arrow>
+            <IconButton size="large" component={Link}
+                        href={'https://www.linkedin.com/in/benjamin-carver-30988a1b6/'}>
+                <LinkedInIcon fontSize="inherit"/>
+            </IconButton>
+        </Tooltip>
+        <Tooltip title={"YouTube"} arrow>
+            <IconButton size="large" component={Link}
+                        href={'https://www.youtube.com/@benrcarver'}>
+                <YouTubeIcon fontSize="inherit"/>
+            </IconButton>
+        </Tooltip>
+        <Tooltip title={"Google Scholar"} arrow>
+            <IconButton size="large" component={Link}
+                        href={'https://scholar.google.com/citations?user=sCOVuPEAAAAJ&hl=en'}>
+                <SchoolIcon fontSize="inherit"/>
+            </IconButton>
+        </Tooltip>
+    </Stack>);
+}
+
+// const Headshot: React.FunctionComponent = () => {
+const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
+
+    const {bubblesEnabled, setBubblesEnabled} = React.useContext(BubbleContext);
 
     const getTopMargin = () => {
         if (mq_xl) {
@@ -349,11 +356,11 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         <div className={styles.headshot} ref={ref} key={"headshot_layout_wrapper"}
              style={{marginTop: getTopMargin(), marginLeft: 'auto', marginRight: 'auto'}}>
             {/*{(!mq_xs && !mq_sm && !mq_md && !mq_lg && !mq_xl) && getLayoutXL()}*/}
-            {mq_xl && getLayoutXL()}
-            {(mq_md || mq_lg) && getLayoutMdToLg()}
-            {mq_sm && getLayoutSm()}
-            {mq_xs && getLayoutXs()}
-            {!mq_xl && headerButtons}
+            {mq_xl && <ExtraLargeHeadshotLayout/>}
+            {(mq_md || mq_lg) && <MediumOrLargeHeadshotLayout/>}
+            {mq_sm && <SmallHeadshotLayout/>}
+            {mq_xs && <ExtraSmallHeadshotLayout/>}
+            {!mq_xl && <HeaderButtons/>}
 
             {/*<Image*/}
             {/*    src={Clouds}*/}
