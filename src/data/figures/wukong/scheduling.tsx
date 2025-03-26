@@ -6,19 +6,8 @@ const WukongScheduling = (props: SVGProps<SVGSVGElement>) => {
             <svg
                 preserveAspectRatio="xMidYMid meet"
                 viewBox="0 0 1240 970"
-                display={"block"}
-                style={{
-                    position: "absolute",
-                    display: "block",
-                    left: "0",
-                    top: "0",
-                    width: "100%",
-                    height: "100%",
-                    // outline: "1px red solid"
-                }} // , left: "0", top: "0", width: "100%", height: "100%"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
-                transform={`scale(${props.scale || 1}, ${props.scale || 1})`}
                 xmlSpace="preserve"
                 {...props}
             >

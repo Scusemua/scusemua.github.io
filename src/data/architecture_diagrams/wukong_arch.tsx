@@ -52,6 +52,7 @@ function getDefaultPopoverWidth(mq_xl: boolean, mq_lg: boolean, mq_md: boolean, 
 }
 
 const WukongArchitecture = (props: WukongArchitectureProps) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
     const mq_md = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
@@ -138,7 +139,17 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
     }
 
     const onClickScheduleGenerator = (event: MouseEvent) => {
-        setPopoverMaxWidth("95%");
+        if (mq_xs) {
+            setPopoverMaxWidth("95%");
+        } else if (mq_sm) {
+            setPopoverMaxWidth("85%");
+        } else if (mq_md) {
+            setPopoverMaxWidth("80%");
+        } else if (mq_lg) {
+            setPopoverMaxWidth("75%");
+        } else {
+            setPopoverMaxWidth("50%");
+        }
 
         event.stopPropagation();
 
@@ -150,7 +161,11 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
         setPopoverHeader("Static Schedule Generator");
 
         const content = (
-            <Stack direction={'column'}>
+            <Stack
+                direction={'column'}
+                sx={{
+                    margin: "0 auto",
+                }}>
                 <Typography sx={{p: 1}}>
                     {"The Static Schedule Generator generates static schedules from the DAG. For a DAG with 𝑛 " +
                         "leaf nodes, 𝑛 static schedules are generated. A static schedule for leaf node L contains all " +
@@ -165,8 +180,6 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
                     justifyContent: "center",
                     textAlign: "center",
                     position: "relative",
-                    height: mq_sm ? "200px" : "550px", // Seems to yield a good result, weirdly
-                    width: "100%",
                 }}>
                     <WukongScheduling/>
                 </div>

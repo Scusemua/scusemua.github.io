@@ -402,7 +402,14 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     </CardMedia>
                 </div>
                 {cardHeader}
-                <CardContent style={{overflow: "auto", margin: "5px"}}>
+                <CardContent
+                    style={{
+                        overflow: "auto",
+                        margin: "5px",
+                        maxHeight: "30rem",
+                        overflowY: "auto",
+                    }}
+                >
                     <Typography
                         onClick={() => onClickCard()}
                         variant="body1"
@@ -413,7 +420,14 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     >
                         {getDescription()}
                     </Typography>
-                    <Collapse in={props.expanded} timeout={"auto"} unmountOnExit sx={{marginBottom: "-1rem"}}>
+                    <Collapse
+                        in={props.expanded}
+                        timeout={"auto"}
+                        unmountOnExit
+                        sx={{
+                            marginBottom: "-1rem",
+                        }}
+                    >
                         <Stack direction={"column"}
                                spacing={1}
                                justifyContent={"center"}
