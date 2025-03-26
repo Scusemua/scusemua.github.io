@@ -129,10 +129,10 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
 
     return (
         <Card
-            sx={{height: `${props.height || 550}px`, width: "100%"}}
+            sx={{height: `${props.height || 550}px`, width: "100%", position: "relative"}}
             className={styles.education_degree_container_card}
         >
-            <CardActionArea sx={{display: "grid", height: props.variant === 'front' ? "450px" : "100%",}}>
+            <CardActionArea sx={{}}>
                 <div style={{
                     justifyContent: "center",
                     textAlign: "center",
@@ -170,30 +170,41 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
                     </CardContent>
                 </div>
             </CardActionArea>
-            {props.variant === 'front' && <CardActions sx={{justifyContent: "center"}}>
-                {props.degree.thesisFile && <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} style={{color: "#292cc1"}}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            event.preventDefault();
-                            downloadThesis(props.degree.thesisFile!);
-                        }} aria-label={"Download Thesis Button"}>
-                    Download Thesis
-                </Button>}
-                <Tooltip
-                    title={"Click to view selected coursework from this degree."}
-                    enterNextDelay={500}
-                    enterDelay={400}
-                    arrow={true}
-                    placement={"bottom"}
-                >
-                    <Button size="large"
-                            startIcon={<SchoolIcon fontSize="inherit"/>}
+            {props.variant === 'front' &&
+                <CardActions sx={{
+                    justifyContent: "center",
+                    textAlign: "center",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    position: "absolute",
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                }}>
+                    {props.degree.thesisFile &&
+                        <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} style={{color: "#292cc1"}}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    downloadThesis(props.degree.thesisFile!);
+                                }} aria-label={"Download Thesis Button"}>
+                            Download Thesis
+                        </Button>}
+                    <Tooltip
+                        title={"Click to view selected coursework from this degree."}
+                        enterNextDelay={500}
+                        enterDelay={400}
+                        arrow={true}
+                        placement={"bottom"}
+                    >
+                        <Button size="large"
+                                startIcon={<SchoolIcon fontSize="inherit"/>}
                                 style={{color: "info"}}
                                 aria-label={"View Selected Coursework Button"}>
-                        View Selected Coursework
-                    </Button>
-                </Tooltip>
-            </CardActions>}
+                            View Selected Coursework
+                        </Button>
+                    </Tooltip>
+                </CardActions>}
         </Card>);
 }
 

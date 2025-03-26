@@ -258,10 +258,11 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 </IconButton>
             </Tooltip>}
         {<PaperLinks project={props.project} is_xs={props.is_xs}/>}
-        <IconButton size={getIconSize(props.is_xs)} style={{marginLeft: "auto"}}
+        <Button size={getIconSize(props.is_xs)} style={{marginLeft: "auto", color: "#333333"}}
+                endIcon={<ExpandMoreIcon fontSize="inherit" style={{transform: (props.expanded ? "rotate(180deg)" : "")}}/>}
                     onClick={() => onClickCard()} aria-label={"Expand Project Card Button"}>
-            <ExpandMoreIcon fontSize="inherit" style={{transform: (props.expanded ? "rotate(180deg)" : "")}}/>
-        </IconButton>
+            Read More
+        </Button>
     </CardActions>);
 
     const getAnswer = (questionAndAnswer: QuestionAndAnswer): React.JSX.Element => {
@@ -303,14 +304,14 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     );
 
     const getExpandedHeight = (): string => {
-        let height: number = 15;
+        let height: number = 20;
 
         if (props.project.questionsAndAnswers && props.project.questionsAndAnswers.length > 0) {
-            height += 12;
+            height += 6;
         }
 
         if (props.project.architectureDiagram) {
-            height += 8.5;
+            height += 6;
         }
 
         return `${height}rem`;
@@ -348,7 +349,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 {cardHeader}
                 <CardContent
                     style={{
-                        overflow: "auto",
+                        overflow: props.expanded ? "auto" : "hidden",
                         height: (props.expanded ? getExpandedHeight() : "8.5rem"),
                         transition: "height 0.25s ease-in-out",
                         scrollbarGutter: "stable"

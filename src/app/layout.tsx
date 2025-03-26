@@ -55,7 +55,6 @@ export default function RootLayout({
                     <ParallaxProviders>
                         <BubbleContext.Consumer>
                             {(bubbleState: BubbleState) => {
-                                console.log(`bubbleState: ${bubbleState.bubblesEnabled}`);
                                 return (<main>
                                     {/*<div className="gradient_background" style={{width: "100%", zIndex: -1}}/>*/}
                                     {/*{bubbleState.bubblesEnabled &&*/}

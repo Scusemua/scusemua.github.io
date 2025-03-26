@@ -77,7 +77,7 @@ const EducationContent: React.FunctionComponent = () => {
                             initial="hidden"
                             whileInView="visible"
                             style={{
-                                width: "90%",
+                                width: "95%",
                                 margin: "0 auto",
                                 textAlign: "center",
                                 justifyContent: "center",
@@ -95,7 +95,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
     return (<div className={`${styles.education}`} id="education" ref={ref}>
         <Typography variant={"h2"} className={styles.education_header_text}>Education</Typography>
         <div style={{
-            width: "90%",
+            width: "95%",
             margin: "0 auto",
         }}>
             <EducationContent/>
