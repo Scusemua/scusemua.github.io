@@ -136,7 +136,7 @@ export const DoctoralDegree: DegreeInfo = {
     gpa: 4.0,
     phase: "Candidacy",
     startDate: 2021,
-    endDate: "August, 2025 (Estimated)",
+    endDate: "Aug, 2025 (Estimated)",
     thesisKind: "Dissertation",
     thesisTitle: "Towards Elastic, Stateful Serverless Systems",
     hasThesis: true,

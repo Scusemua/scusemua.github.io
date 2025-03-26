@@ -61,7 +61,7 @@ interface ThesisDisplayProps {
 
 const ThesisDisplay: React.FunctionComponent<ThesisDisplayProps> = (props: ThesisDisplayProps) => {
     return (<Stack direction={"column"} spacing={0} sx={{alignItems: "center", justifyContent: "center"}}>
-        <Typography sx={{color: 'text.secondary', width: "75%", marginBottom: "5px"}}
+        <Typography sx={{color: 'text.secondary', width: "90%", marginBottom: "5px"}}
                     variant={"h6"}><b>{props.degree.thesisKind}: </b>
             <i>{props.degree.thesisTitle}</i></Typography>
     </Stack>);
