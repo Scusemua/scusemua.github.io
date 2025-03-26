@@ -170,15 +170,15 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
                     </CardContent>
                 </div>
             </CardActionArea>
-            {props.variant === 'front' && props.degree.thesisFile && <CardActions sx={{justifyContent: "center"}}>
-                <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} style={{color: "#292cc1"}}
+            {props.variant === 'front' && <CardActions sx={{justifyContent: "center"}}>
+                {props.degree.thesisFile && <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} style={{color: "#292cc1"}}
                         onClick={(event) => {
                             event.stopPropagation();
                             event.preventDefault();
                             downloadThesis(props.degree.thesisFile!);
                         }} aria-label={"Download Thesis Button"}>
                     Download Thesis
-                </Button>
+                </Button>}
                 <Tooltip
                     title={"Click to view selected coursework from this degree."}
                     enterNextDelay={500}

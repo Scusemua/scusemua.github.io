@@ -38,10 +38,7 @@ interface EducationSectionProps {
 
 const DEGREE_CARD_HEIGHT: number = 525;
 
-// const EducationSection: React.FunctionComponent<EducationSectionProps> = (props: EducationSectionProps) => {
-const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_props: EducationSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
-    // const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    // const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+const EducationContent: React.FunctionComponent = () => {
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
 
@@ -49,7 +46,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
                                 className={styles.education_degree_container}>
         {AllDegreeInfo.map((degree: DegreeInfo) => (
             <Grid2 key={`degree-card-${degree.degree}`}
-                   style={{display: 'flex', justifyContent: 'center', margin: "0 auto"}}
+                   style={{display: 'flex', textAlign: "center", justifyContent: 'center', margin: "0 auto"}}
                    size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 12, 'xl': 4}}
                    component={motion.div}
                    variants={degreeVariant}
@@ -67,40 +64,42 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
         });
     }
 
-    const getCoreContentAsCarousel = (degrees: DegreeInfo[]) => {
-        return (
-            <EmblaCarousel className={styles.education_degree_container}
-                           is_md_or_less={mq_md_or_less}
-                           is_lg={mq_lg}
-                           slides={getSlides(degrees)}
-                           flippableSlides={true}
-                           autoplayEnabled={false}
-                           options={{loop: true}}/>
-        );
+    if (mq_md_or_less || mq_lg) {
+        return <EmblaCarousel className={styles.education_degree_container}
+                              is_md_or_less={mq_md_or_less}
+                              is_lg={mq_lg}
+                              slides={getSlides(AllDegreeInfo)}
+                              flippableSlides={true}
+                              autoplayEnabled={false}
+                              options={{loop: true}}/>
+    } else {
+        return (<motion.div variants={degreeContainerVariant}
+                            initial="hidden"
+                            whileInView="visible"
+                            style={{
+                                width: "90%",
+                                margin: "0 auto",
+                                textAlign: "center",
+                                justifyContent: "center",
+                            }}
+                            viewport={{once: true, amount: 0.25}}
+            // onViewportEnter={() => console.log("Education Section has entered viewport")}
+        >
+            {coreContent}
+        </motion.div>);
     }
+}
 
-    const getContent = () => {
-        if (mq_md_or_less || mq_lg) {
-            return getCoreContentAsCarousel(AllDegreeInfo);
-        } else {
-            return (<motion.div variants={degreeContainerVariant}
-                                initial="hidden"
-                                whileInView="visible"
-                                style={{
-                                    width: "90%",
-                                    margin: "0 auto",
-                                }}
-                                viewport={{once: true, amount: 0.25}}
-                // onViewportEnter={() => console.log("Education Section has entered viewport")}
-            >
-                {coreContent}
-            </motion.div>);
-        }
-    }
-
+// const EducationSection: React.FunctionComponent<EducationSectionProps> = (props: EducationSectionProps) => {
+const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_props: EducationSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
     return (<div className={`${styles.education}`} id="education" ref={ref}>
         <Typography variant={"h2"} className={styles.education_header_text}>Education</Typography>
-        {getContent()}
+        <div style={{
+            width: "90%",
+            margin: "0 auto",
+        }}>
+            <EducationContent/>
+        </div>
     </div>);
 });
 

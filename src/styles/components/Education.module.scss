@@ -15,10 +15,11 @@ $breakpoints: (
 }
 
 .education {
-  text-align: center;
   margin: 0 auto;
+  text-align: center;
   justify-content: center;
   align-items: center;
+  transition: height 0.5s ease;
   width: 100%;
   max-width: 2560px;
 
@@ -34,16 +35,15 @@ $breakpoints: (
   }
 
   &_degree_container {
+    margin: 0 auto;
     text-align: center;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
 
     &_card {
       @extend .education;
       transform-style: preserve-3d;
       overflow: visible;
-      margin: 1.5rem;
 
       &:hover {
         // box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
