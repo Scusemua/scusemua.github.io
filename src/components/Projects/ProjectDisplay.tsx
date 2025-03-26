@@ -57,6 +57,14 @@ function isString(value: any): boolean {
     return typeof value === "string" || value instanceof String;
 }
 
+function getIconSize(is_xs: boolean): 'small' | 'medium' | 'large' {
+    if (is_xs) {
+        return "medium";
+    }
+
+    return "large";
+}
+
 interface ExtendedDescriptionProps {
     project: Project;
     is_xs: boolean;
@@ -102,63 +110,60 @@ const ExtendedDescription: React.FunctionComponent<ExtendedDescriptionProps> = (
     </Stack>);
 }
 
+interface PaperLinksProps {
+    project: Project;
+    is_xs: boolean;
+}
+
+const PaperLinks: React.FunctionComponent<PaperLinksProps> = (props: PaperLinksProps) => {
+    return <Stack
+        direction="row"
+        spacing={{xs: 3, sm: 3, md: 3, lg: 3, xl: 3}}
+        justifyContent={"center"}
+        alignItems={"center"}
+    >
+        {props.project.arxiv_links.map((arxiv_url: string, idx: number) => {
+            let badgeContent: ReactNode;
+            if (props.project.arxiv_links.length === 1) {
+                badgeContent = (<Typography variant={"body2"}
+                                            style={{
+                                                fontSize: props.is_xs ? "" : "",
+                                            }}>
+                    {props.project.venue as string}
+                </Typography>);
+            } else {
+                badgeContent = (<Typography variant={"body2"}
+                                            style={{
+                                                fontSize: props.is_xs ? "0.6rem" : "",
+                                            }}>
+                    {(props.project.venue as string[])[idx]}
+                </Typography>);
+            }
+
+            return (<Tooltip title={`View Paper on arXiv`} arrow key={`paper-icon-${idx}`}>
+                <IconButton size={getIconSize(props.is_xs)}
+                            component={Link}
+                            href={arxiv_url}>
+                    <Badge sx={{
+                        "& .MuiBadge-badge": {
+                            color: "#fff",
+                            backgroundColor: badgeColors[idx],
+                        }
+                    }} badgeContent={badgeContent} anchorOrigin={{
+                        vertical: 'bottom', horizontal: 'right',
+                    }}>
+                        <ArticleIcon/>
+                    </Badge>
+                </IconButton>
+            </Tooltip>);
+        })}
+    </Stack>
+}
+
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
     React.useEffect(() => {
         highlightAll();
     }, []);
-
-    const getIconSize = (): "medium" | "large" => {
-        if (props.is_xs) {
-            return "medium";
-        }
-
-        return "large";
-    }
-
-    const getPaperLinks = () => {
-        return <Stack
-            direction="row"
-            spacing={{xs: 3, sm: 3, md: 3, lg: 3, xl: 3}}
-            justifyContent={"center"}
-            alignItems={"center"}
-        >
-            {props.project.arxiv_links.map((arxiv_url: string, idx: number) => {
-                let badgeContent: ReactNode;
-                if (props.project.arxiv_links.length === 1) {
-                    badgeContent = (<Typography variant={"body2"}
-                                                style={{
-                                                    fontSize: props.is_xs ? "" : "",
-                                                }}>
-                        {props.project.venue as string}
-                    </Typography>);
-                } else {
-                    badgeContent = (<Typography variant={"body2"}
-                                                style={{
-                                                    fontSize: props.is_xs ? "0.6rem" : "",
-                                                }}>
-                        {(props.project.venue as string[])[idx]}
-                    </Typography>);
-                }
-
-                return (<Tooltip title={`View Paper on arXiv`} arrow key={`paper-icon-${idx}`}>
-                    <IconButton size={getIconSize()}
-                                component={Link}
-                                href={arxiv_url}>
-                        <Badge sx={{
-                            "& .MuiBadge-badge": {
-                                color: "#fff",
-                                backgroundColor: badgeColors[idx],
-                            }
-                        }} badgeContent={badgeContent} anchorOrigin={{
-                            vertical: 'bottom', horizontal: 'right',
-                        }}>
-                            <ArticleIcon/>
-                        </Badge>
-                    </IconButton>
-                </Tooltip>);
-            })}
-        </Stack>
-    }
 
     const getStatusIcon = (): ReactElement => {
         if (props.project.status === 'ongoing') {
@@ -243,27 +248,27 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
 
     const cardActions = (<CardActions>
         {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
-            <IconButton aria-label={"GitHub Repo"} size={getIconSize()} component={Link}
+            <IconButton aria-label={"GitHub Repo"} size={getIconSize(props.is_xs)} component={Link}
                         href={props.project.repo_url}
                         color={"default"}>
                 <GitHubIcon fontSize="inherit"/>
             </IconButton>
         </Tooltip>}
         {!props.is_xs && props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
-            <IconButton size={getIconSize()} aria-label={"Project Website Button"} component={Link}
+            <IconButton size={getIconSize(props.is_xs)} aria-label={"Project Website Button"} component={Link}
                         href={props.project.repo_url}>
                 <WebIcon fontSize="inherit"/>
             </IconButton>
         </Tooltip>}
         {props.project.presentation_url && props.project.presentation_url !== "" &&
             <Tooltip title={`Paper Presentation (${props.project.presentation_venue})`} arrow>
-                <IconButton size={getIconSize()} aria-label={"Paper Presentation Button"} component={Link}
+                <IconButton size={getIconSize(props.is_xs)} aria-label={"Paper Presentation Button"} component={Link}
                             href={props.project.repo_url}>
                     <PresentationIcon fill={"#757575"} fontSize="inherit"/>
                 </IconButton>
             </Tooltip>}
-        {getPaperLinks()}
-        <IconButton size={getIconSize()} style={{marginLeft: "auto"}}
+        {<PaperLinks project={props.project} is_xs={props.is_xs}/>}
+        <IconButton size={getIconSize(props.is_xs)} style={{marginLeft: "auto"}}
                     onClick={() => onClickCard()} aria-label={"Expand Project Card Button"}>
             <ExpandMoreIcon fontSize="inherit" style={{transform: (props.expanded ? "rotate(180deg)" : "")}}/>
         </IconButton>
