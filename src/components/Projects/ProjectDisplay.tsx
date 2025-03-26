@@ -85,7 +85,7 @@ const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: De
         onClick={() => props.onClickCard()}
         variant="body1"
         component={"div"}
-        className={props.expanded ? "" : styles.project_description_collapsed}
+        // className={props.expanded ? "" : styles.project_description_collapsed}
         style={{
             // marginTop: "1rem",
             paddingLeft: "0.5rem",
@@ -350,7 +350,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 <CardContent
                     style={{
                         overflow: props.expanded ? "auto" : "hidden",
-                        height: (props.expanded ? getExpandedHeight() : "8.5rem"),
+                        height: (props.expanded ? getExpandedHeight() : "7rem"),
                         transition: "height 0.25s ease-in-out",
                         scrollbarGutter: "stable"
                     }}
