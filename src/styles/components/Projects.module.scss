@@ -27,7 +27,6 @@ $base: value 1.35;
 
   &_card {
     @extend .project_section;
-    display: flex;
 
     &_header {
       justify-content: center;
@@ -89,7 +88,7 @@ $base: value 1.35;
 
   &_keywords {
     margin: 0 auto;
-    max-width: 80%;
+    max-width: 85%;
     padding-top: 1rem;
   }
 

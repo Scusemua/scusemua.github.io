@@ -19,7 +19,6 @@ $breakpoints: (
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  transition: height 0.5s ease;
   width: 100%;
   max-width: 2560px;
 
@@ -44,18 +43,7 @@ $breakpoints: (
       @extend .education;
       transform-style: preserve-3d;
       overflow: visible;
-      display: flex;
       margin: 1.5rem;
-
-      &_front {
-        position: absolute;
-        backface-visibility: hidden;
-      }
-
-      &_back {
-        position: absolute;
-        backface-visibility: hidden;
-      }
 
       &:hover {
         // box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);

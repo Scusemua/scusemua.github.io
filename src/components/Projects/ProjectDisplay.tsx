@@ -88,6 +88,8 @@ const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: De
         className={props.expanded ? "" : styles.project_description_collapsed}
         style={{
             // marginTop: "1rem",
+            paddingLeft: "1rem",
+            paddingRight: "0.5rem",
             fontSize: props.is_xs ? "0.9rem" : "",
             marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
         }}
@@ -301,11 +303,17 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     );
 
     const getExpandedHeight = (): string => {
-        if (props.project.architectureDiagram || (props.project.questionsAndAnswers && props.project.questionsAndAnswers.length > 0)) {
-            return "32rem";
+        let height: number = 15;
+
+        if (props.project.questionsAndAnswers && props.project.questionsAndAnswers.length > 0) {
+            height += 12;
         }
 
-        return "20rem";
+        if (props.project.architectureDiagram) {
+            height += 8.5;
+        }
+
+        return `${height}rem`;
     }
 
     return (
@@ -367,8 +375,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                         </Stack>
                     </Collapse>
                 </CardContent>
-                {cardActions}
             </CardActionArea>
+            {cardActions}
         </Card>
     );
 };

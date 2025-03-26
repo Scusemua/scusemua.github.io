@@ -8,7 +8,7 @@ import {
     Avatar,
     Button,
     Card,
-    CardActionArea,
+    CardActionArea, CardActions,
     CardContent,
     CardHeader,
     CardMedia,
@@ -24,6 +24,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import {LibraryBooks} from "@mui/icons-material";
 import theme from "@src/app/theme";
 import SchoolIcon from "@mui/icons-material/School";
+import IconButton from "@mui/material/IconButton";
 
 interface DegreeDisplayProps {
     degree: DegreeInfo;
@@ -62,16 +63,6 @@ const ThesisDisplay: React.FunctionComponent<ThesisDisplayProps> = (props: Thesi
         <Typography sx={{color: 'text.secondary', width: "75%", marginBottom: "5px"}}
                     variant={"h6"}><b>{props.degree.thesisKind}: </b>
             <i>{props.degree.thesisTitle}</i></Typography>
-        {props.degree.thesisUrl && <Tooltip title={`Download Thesis: "${props.degree.thesisTitle}"`}>
-            <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} style={{color: "#292cc1"}}
-                    onClick={(event) => {
-                        event.stopPropagation();
-                        event.preventDefault();
-                        downloadThesis(props.degree.thesisFile!);
-                    }} aria-label={"Download Thesis Button"}>
-                Download Thesis
-            </Button>
-        </Tooltip>}
     </Stack>);
 }
 
@@ -115,18 +106,6 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
         return props.degree.degree;
     }
 
-    const cardHeader = (
-        <CardHeader
-            title={
-                <Typography gutterBottom variant="h4" component="div">
-                    {getDegreeText()}
-                </Typography>
-            }
-            subheader={<DegreeSubHeader variant={props.variant} degree={props.degree}/>}
-        >
-        </CardHeader>
-    );
-
     const courseList = (
         <List sx={{
             overflow: "auto",
@@ -148,34 +127,59 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
         </List>
     );
 
-    const cardInnerBody = (<div style={{
-            position: "absolute",
-            justifyContent: "center",
-            textAlign: "center",
-            alignItems: "center",
-            width: "100%",
-            top: 0,
-        }}>
-            <CardMedia sx={{position: 'relative'}}>
+    return (
+        <Card
+            sx={{height: `${props.height || 550}px`, width: "100%"}}
+            className={styles.education_degree_container_card}
+        >
+            <CardActionArea sx={{display: "grid", height: props.variant === 'front' ? "450px" : "100%",}}>
                 <div style={{
-                    position: 'relative',
-                    width: '150px',
-                    height: '100px',
-                    margin: '0.5rem auto 0 auto',
-                    display: "inline-block",
+                    justifyContent: "center",
+                    textAlign: "center",
+                    alignItems: "center",
+                    width: "100%",
                 }}>
-                    <Image
-                        src={GMU_Logo}
-                        fill
-                        alt="Project Logo"
-                        style={{objectFit: 'cover'}}
-                    />
+                    <CardMedia sx={{position: 'relative'}}>
+                        <div style={{
+                            position: 'relative',
+                            width: '150px',
+                            height: '100px',
+                            margin: '0.5rem auto 0 auto',
+                            display: "inline-block",
+                        }}>
+                            <Image
+                                src={GMU_Logo}
+                                fill
+                                alt="Project Logo"
+                                style={{objectFit: 'cover'}}
+                            />
+                        </div>
+                    </CardMedia>
+                    <CardContent sx={{height: "100%"}}>
+                        <CardHeader
+                            title={
+                                <Typography gutterBottom variant="h4" component="div">
+                                    {getDegreeText()}
+                                </Typography>
+                            }
+                            subheader={<DegreeSubHeader variant={props.variant} degree={props.degree}/>}
+                        >
+                        </CardHeader>
+                        {props.variant === 'front' && props.degree.hasThesis && <ThesisDisplay degree={props.degree}/>}
+                        {props.variant === 'back' && courseList}
+                    </CardContent>
                 </div>
-            </CardMedia>
-            {cardHeader}
-            <CardContent sx={{height: "100%"}}>
-                {props.variant === 'front' && props.degree.hasThesis && <ThesisDisplay degree={props.degree}/>}
-                {props.variant === 'front' && <Tooltip
+            </CardActionArea>
+            {props.variant === 'front' && props.degree.thesisFile && <CardActions sx={{justifyContent: "center"}}>
+                <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} style={{color: "#292cc1"}}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            event.preventDefault();
+                            downloadThesis(props.degree.thesisFile!);
+                        }} aria-label={"Download Thesis Button"}>
+                    Download Thesis
+                </Button>
+                <Tooltip
                     title={"Click to view selected coursework from this degree."}
                     enterNextDelay={500}
                     enterDelay={400}
@@ -184,32 +188,12 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
                 >
                     <Button size="large"
                             startIcon={<SchoolIcon fontSize="inherit"/>}
-                            style={{color: "info"}}
-                            aria-label={"View Selected Coursework Button"}>
+                                style={{color: "info"}}
+                                aria-label={"View Selected Coursework Button"}>
                         View Selected Coursework
                     </Button>
-                </Tooltip>}
-                {props.variant === 'back' && courseList}
-            </CardContent>
-        </div>
-    );
-
-    const getCardBody = () => {
-        if (props.degree.coursework) {
-            return (<CardActionArea sx={{height: "100%", position: "relative"}}>
-                {cardInnerBody}
-            </CardActionArea>);
-        }
-
-        return cardInnerBody;
-    }
-
-    return (
-        <Card
-            sx={{height: `${props.height || 550}px`, width: "100%"}}
-            className={styles.education_degree_container_card}
-        >
-            {getCardBody()}
+                </Tooltip>
+            </CardActions>}
         </Card>);
 }
 
