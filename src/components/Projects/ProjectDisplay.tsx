@@ -88,7 +88,7 @@ const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: De
         className={props.expanded ? "" : styles.project_description_collapsed}
         style={{
             // marginTop: "1rem",
-            paddingLeft: "1rem",
+            paddingLeft: "0.5rem",
             paddingRight: "0.5rem",
             fontSize: props.is_xs ? "0.9rem" : "",
             marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
