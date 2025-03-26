@@ -84,6 +84,7 @@ const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: De
     return <Typography
         onClick={() => props.onClickCard()}
         variant="body1"
+        component={"div"}
         className={props.expanded ? "" : styles.project_description_collapsed}
         style={{
             // marginTop: "1rem",
@@ -93,10 +94,10 @@ const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: De
     >
         {descriptions.map((line: string, idx: number) => {
             if (idx > 0) {
-                return (<div><br/>{line}</div>);
+                return (<div key={`project-${props.project.name}-desc-line-${idx}`}><br/>{line}</div>);
             }
 
-            return <div>{line}</div>;
+            return <div key={`project-${props.project.name}-desc-line-${idx}`}>{line}</div>;
         })}
     </Typography>
 }
