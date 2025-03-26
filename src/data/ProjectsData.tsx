@@ -224,7 +224,7 @@ export const LambdaFSProject: Project = {
 
 export const JupyterNotebookProject: Project = {
     name: "Distributed Deep Learning Training",
-    description: "I'm developing a platform optimized for multi-tenant distributed deep learning training workloads..." +
+    description: "I'm developing a platform optimized for multi-tenant distributed deep learning training workloads. " +
         "By leveraging a novel design, the platform enhances resource utilization and reduces JCT while integrating " +
         "industry-standard tools like Prometheus, Loki, and Grafana for real-time monitoring, metric collection, and visualization.",
     extendedDescription: "",
