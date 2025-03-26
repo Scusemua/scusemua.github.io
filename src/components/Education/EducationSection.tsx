@@ -41,6 +41,7 @@ const DEGREE_CARD_HEIGHT: number = 525;
 const EducationContent: React.FunctionComponent = () => {
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const coreContent = (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                                 className={styles.education_degree_container}>
@@ -77,7 +78,7 @@ const EducationContent: React.FunctionComponent = () => {
                             initial="hidden"
                             whileInView="visible"
                             style={{
-                                width: "90%",
+                                width: mq_xl ? "95%" : "90%",
                                 margin: "0 auto",
                                 textAlign: "center",
                                 justifyContent: "center",

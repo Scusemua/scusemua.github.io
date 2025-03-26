@@ -43,6 +43,7 @@ interface DegreeDisplaySideProps {
     height?: number;
     variant: 'front' | 'back';
     is_xs?: boolean;
+    is_xl?: boolean;
     handleClick: () => void;
 }
 
@@ -96,7 +97,7 @@ const DegreeSubHeader: React.FunctionComponent<DegreeSubHeaderProps> = (props: D
 
 const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (props: DegreeDisplaySideProps) => {
     const getDegreeText = (): string => {
-        if (props.is_xs) {
+        if (!props.is_xl) {
             return props.degree.degree;
         }
 
@@ -134,7 +135,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
             className={styles.education_degree_container_card}
         >
             <CardActionArea onClick={props.handleClick} sx={{
-                height: props.variant === "front" ? "87.5%" : "100%", position: 'relative',
+                height: props.variant === "front" ? "87.5%" : "100%", position: 'relative', width: "100%"
             }}>
                 <div style={{
                     justifyContent: "center",
@@ -161,7 +162,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
                             />
                         </div>
                     </CardMedia>
-                    <CardContent sx={{height: "100%"}}>
+                    <CardContent sx={{height: "100%", width: "100%"}}>
                         <CardHeader
                             title={
                                 <Typography gutterBottom variant="h4" component="div">
@@ -223,6 +224,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'))
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'))
 
     const [isFlipped, setIsFlipped] = React.useState<boolean>(false);
     const [rotateXaxis, setRotateXaxis] = React.useState(0)
@@ -275,7 +277,8 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
 
     // If there's no coursework, then the card will not respond to mouse and will not be clickable.
     if (!props.degree.coursework) {
-        return (<DegreeDisplaySide variant={'front'} degree={props.degree} handleClick={handleClick}/>);
+        return (<DegreeDisplaySide variant={'front'} degree={props.degree} handleClick={handleClick}
+                                   is_xs={mq_xs} is_xl={mq_xl}/>);
     }
 
     return (
@@ -297,6 +300,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                 transition={spring}
                 style={{
                     height: "100%",
+                    width: "100%",
                     rotateX: dx,
                     rotateY: dy,
                     margin: "0 auto",
@@ -328,6 +332,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                                            degree={props.degree}
                                            height={props.height}
                                            is_xs={mq_xs}
+                                           is_xl={mq_xl}
                                            handleClick={handleClick}/>
                     </motion.div>
                     <motion.div
@@ -348,6 +353,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                                            degree={props.degree}
                                            height={props.height}
                                            is_xs={mq_xs}
+                                           is_xl={mq_xl}
                                            handleClick={handleClick}/>
                     </motion.div>
                 </div>
