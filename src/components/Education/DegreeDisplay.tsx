@@ -43,6 +43,7 @@ interface DegreeDisplaySideProps {
     height?: number;
     variant: 'front' | 'back';
     is_xs?: boolean;
+    handleClick: () => void;
 }
 
 //Spring animation parameters
@@ -132,14 +133,19 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
             sx={{height: `${props.height || 550}px`, width: "100%", position: "relative"}}
             className={styles.education_degree_container_card}
         >
-            <CardActionArea sx={{}}>
+            <CardActionArea onClick={props.handleClick} sx={{
+                height: props.variant === "front" ? "87.5%" : "100%", position: 'relative',
+            }} >
                 <div style={{
                     justifyContent: "center",
                     textAlign: "center",
                     alignItems: "center",
                     width: "100%",
+                    marginTop: "auto",
+                    position: "absolute",
+                    top: 0,
                 }}>
-                    <CardMedia sx={{position: 'relative'}}>
+                    <CardMedia>
                         <div style={{
                             position: 'relative',
                             width: '150px',
@@ -264,12 +270,11 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
 
     // If there's no coursework, then the card will not respond to mouse and will not be clickable.
     if (!props.degree.coursework) {
-        return (<DegreeDisplaySide variant={'front'} degree={props.degree}/>);
+        return (<DegreeDisplaySide variant={'front'} degree={props.degree} handleClick={handleClick}/>);
     }
 
     return (
         <motion.div
-            onClick={handleClick}
             transition={spring}
             style={{
                 perspective: "1200px",
@@ -314,7 +319,11 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                         }}
                         className={styles.education_degree_container_card}
                     >
-                        <DegreeDisplaySide variant={'front'} degree={props.degree} height={props.height} is_xs={mq_xs}/>
+                        <DegreeDisplaySide variant={'front'}
+                                           degree={props.degree}
+                                           height={props.height}
+                                           is_xs={mq_xs}
+                                           handleClick={handleClick}/>
                     </motion.div>
                     <motion.div
                         initial={{rotateY: 180}}
@@ -330,7 +339,11 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                         }}
                         className={styles.education_degree_container_card}
                     >
-                        <DegreeDisplaySide variant={'back'} degree={props.degree} height={props.height} is_xs={mq_xs}/>
+                        <DegreeDisplaySide variant={'back'}
+                                           degree={props.degree}
+                                           height={props.height}
+                                           is_xs={mq_xs}
+                                           handleClick={handleClick}/>
                     </motion.div>
                 </div>
             </motion.div>
