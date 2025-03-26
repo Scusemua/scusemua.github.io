@@ -135,7 +135,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
         >
             <CardActionArea onClick={props.handleClick} sx={{
                 height: props.variant === "front" ? "87.5%" : "100%", position: 'relative',
-            }} >
+            }}>
                 <div style={{
                     justifyContent: "center",
                     textAlign: "center",
@@ -188,12 +188,15 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
                     right: 0,
                 }}>
                     {props.degree.thesisFile &&
-                        <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} style={{color: "#292cc1"}}
+                        <Button size="large"
+                                startIcon={<ArticleIcon fontSize="inherit"/>}
+                                style={{color: "#292cc1", width: "50%"}}
                                 onClick={(event) => {
                                     event.stopPropagation();
                                     event.preventDefault();
                                     downloadThesis(props.degree.thesisFile!);
-                                }} aria-label={"Download Thesis Button"}>
+                                }}
+                                aria-label={"Download Thesis Button"}>
                             Download Thesis
                         </Button>}
                     <Tooltip
@@ -205,7 +208,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
                     >
                         <Button size="large"
                                 startIcon={<SchoolIcon fontSize="inherit"/>}
-                                style={{color: "info"}}
+                                style={{color: "info", width: props.degree.thesisFile ? "50%" : "100%"}}
                                 aria-label={"View Selected Coursework Button"}>
                             View Selected Coursework
                         </Button>
