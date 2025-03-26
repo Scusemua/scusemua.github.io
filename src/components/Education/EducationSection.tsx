@@ -36,7 +36,7 @@ const degreeVariant = {
 interface EducationSectionProps {
 }
 
-const DEGREE_CARD_HEIGHT: number = 500;
+const DEGREE_CARD_HEIGHT: number = 525;
 
 // const EducationSection: React.FunctionComponent<EducationSectionProps> = (props: EducationSectionProps) => {
 const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_props: EducationSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {

@@ -53,46 +53,56 @@ const spring = {
 
 const DoctorOfPhilosophy: string = "Doctor of Philosophy";
 
+interface ThesisDisplayProps {
+    degree: DegreeInfo;
+}
+
+const ThesisDisplay: React.FunctionComponent<ThesisDisplayProps> = (props: ThesisDisplayProps) => {
+    return (<Stack direction={"column"} spacing={0} sx={{alignItems: "center", justifyContent: "center"}}>
+        <Typography sx={{color: 'text.secondary', width: "75%", marginBottom: "5px"}}
+                    variant={"h6"}><b>{props.degree.thesisKind}: </b>
+            <i>{props.degree.thesisTitle}</i></Typography>
+        {props.degree.thesisUrl && <Tooltip title={`Download Thesis: "${props.degree.thesisTitle}"`}>
+            <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} style={{color: "#292cc1"}}
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        downloadThesis(props.degree.thesisFile!);
+                    }} aria-label={"Download Thesis Button"}>
+                Download Thesis
+            </Button>
+        </Tooltip>}
+    </Stack>);
+}
+
+interface DegreeSubHeaderProps {
+    degree: DegreeInfo;
+    variant: 'front' | 'back';
+}
+
+const DegreeSubHeader: React.FunctionComponent<DegreeSubHeaderProps> = (props: DegreeSubHeaderProps) => {
+    if (props.variant === "front") {
+        return (<Stack direction={'column'}>
+            <Typography gutterBottom variant="h5" component="div"
+                        sx={{color: 'text.secondary'}}>{props.degree.subject}</Typography>
+            <Typography variant="h6"
+                        sx={{color: 'text.secondary'}}>
+                {props.degree.institution}
+            </Typography>
+            <Typography variant="h6"
+                        sx={{color: 'text.secondary'}}>
+                May, {props.degree.endDate}, <b>GPA:</b> {props.degree.gpa}.0
+            </Typography>
+        </Stack>);
+    }
+
+    return (<Typography variant="h6"
+                        sx={{color: 'text.secondary'}}>
+        {"Selected Coursework"}
+    </Typography>);
+}
+
 const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (props: DegreeDisplaySideProps) => {
-    const getThesis = () => {
-        return (<Stack direction={"column"} spacing={0} sx={{alignItems: "center", justifyContent: "center"}}>
-            <Typography sx={{color: 'text.secondary', width: "75%", marginBottom: "5px"}}
-                        variant={"h6"}><b>{props.degree.thesisKind}: </b>
-                <i>{props.degree.thesisTitle}</i></Typography>
-            {/*<div style={{width: "75%"}}>*/}
-            {/*    <Typography sx={{color: 'text.secondary'}} variant={"h6"}><i>{props.degree.thesisTitle}</i></Typography>*/}
-            {/*</div>*/}
-            {props.degree.thesisUrl && <Tooltip title={`Download Thesis: "${props.degree.thesisTitle}"`}>
-                <Button size="large" startIcon={<ArticleIcon fontSize="inherit"/>} style={{color: "#292cc1"}}
-                        onClick={() => downloadThesis(props.degree.thesisFile!)} aria-label={"Download Thesis Button"}>
-                    Download Thesis
-                </Button>
-            </Tooltip>}
-        </Stack>)
-    }
-
-    const getSubHeader = () => {
-        if (props.variant === "front") {
-            return (<Stack direction={'column'}>
-                <Typography gutterBottom variant="h5" component="div"
-                            sx={{color: 'text.secondary'}}>{props.degree.subject}</Typography>
-                <Typography variant="h6"
-                            sx={{color: 'text.secondary'}}>
-                    {props.degree.institution}
-                </Typography>
-                <Typography variant="h6"
-                            sx={{color: 'text.secondary'}}>
-                    May, {props.degree.endDate}, <b>GPA:</b> {props.degree.gpa}.0
-                </Typography>
-            </Stack>);
-        }
-
-        return (<Typography variant="h6"
-                            sx={{color: 'text.secondary'}}>
-            {"Selected Coursework"}
-        </Typography>);
-    }
-
     const getDegreeText = (): string => {
         if (props.is_xs) {
             return props.degree.degree;
@@ -112,7 +122,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
                     {getDegreeText()}
                 </Typography>
             }
-            subheader={getSubHeader()}
+            subheader={<DegreeSubHeader variant={props.variant} degree={props.degree}/>}
         >
         </CardHeader>
     );
@@ -164,7 +174,7 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
             </CardMedia>
             {cardHeader}
             <CardContent sx={{height: "100%"}}>
-                {props.variant === 'front' && props.degree.hasThesis && getThesis()}
+                {props.variant === 'front' && props.degree.hasThesis && <ThesisDisplay degree={props.degree}/>}
                 {props.variant === 'front' && <Tooltip
                     title={"Click to view selected coursework from this degree."}
                     enterNextDelay={500}
