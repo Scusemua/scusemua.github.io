@@ -209,7 +209,9 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
                         <Button size="large"
                                 startIcon={<SchoolIcon fontSize="inherit"/>}
                                 style={{color: "info", width: props.degree.thesisFile ? "50%" : "100%"}}
-                                aria-label={"View Selected Coursework Button"}>
+                                aria-label={"View Selected Coursework Button"}
+                                onClick={props.handleClick}
+                        >
                             View Selected Coursework
                         </Button>
                     </Tooltip>
