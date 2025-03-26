@@ -119,7 +119,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
                     </Typography>
                 </Button>
             </Tooltip>
-            <Tooltip title={"View the website's source code on GitHub (in a new tab)"} arrow>
+            <Tooltip title={"View the website's source code on GitHub"} arrow>
                 <Button href={"https://github.com/Scusemua/scusemua.github.io"} startIcon={<GitHubIcon/>}
                         variant={"contained"}
                         component={Link}
