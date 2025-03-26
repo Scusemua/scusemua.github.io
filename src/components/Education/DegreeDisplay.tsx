@@ -83,7 +83,7 @@ const DegreeSubHeader: React.FunctionComponent<DegreeSubHeaderProps> = (props: D
             </Typography>
             <Typography variant="h6"
                         sx={{color: 'text.secondary'}}>
-                May, {props.degree.endDate}, <b>GPA:</b> {props.degree.gpa}.0
+                {props.degree.endDate}, <b>GPA:</b> {props.degree.gpa}.0
             </Typography>
         </Stack>);
     }
