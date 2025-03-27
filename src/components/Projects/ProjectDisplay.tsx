@@ -69,6 +69,7 @@ interface DescriptionProps {
     project: Project;
     is_xs: boolean;
     expanded: boolean;
+    isPreview: boolean;
     onClickCard: () => void;
 }
 
@@ -81,10 +82,27 @@ const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: De
         descriptions = props.project.description as string[];
     }
 
+    const getClassName = (): string => {
+        let className: string = "";
+
+        if (props.isPreview) {
+            className += styles.project_description_preview + " ";
+
+            if (props.expanded) {
+                className += styles.project_description_hidden + " ";
+            }
+        } else if (!props.expanded) {
+            className += styles.project_description_hidden + " ";
+        }
+
+        return className;
+    }
+
     return <Typography
         onClick={() => props.onClickCard()}
         variant="body1"
         component={"div"}
+        className={styles.project_description + " " + getClassName()}
         // className={props.expanded ? "" : styles.project_description_collapsed}
         style={{
             // marginTop: "1rem",
@@ -94,6 +112,7 @@ const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: De
             marginBottom: props.project.architectureDiagram ? "1rem" : "0rem",
         }}
     >
+        {/*{descriptions.join(' ')}*/}
         {descriptions.map((line: string, idx: number) => {
             if (idx > 0) {
                 return (<div key={`project-${props.project.name}-desc-line-${idx}`}><br/>{line}</div>);
@@ -259,8 +278,9 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             </Tooltip>}
         {<PaperLinks project={props.project} is_xs={props.is_xs}/>}
         <Button size={getIconSize(props.is_xs)} style={{marginLeft: "auto", color: "#333333"}}
-                endIcon={<ExpandMoreIcon fontSize="inherit" style={{transform: (props.expanded ? "rotate(180deg)" : "")}}/>}
-                    onClick={() => onClickCard()} aria-label={"Expand Project Card Button"}>
+                endIcon={<ExpandMoreIcon fontSize="inherit"
+                                         style={{transform: (props.expanded ? "rotate(180deg)" : "")}}/>}
+                onClick={() => onClickCard()} aria-label={"Expand Project Card Button"}>
             Read More
         </Button>
     </CardActions>);
@@ -352,19 +372,23 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                         overflow: props.expanded ? "auto" : "hidden",
                         height: (props.expanded ? getExpandedHeight() : "7rem"),
                         transition: "height 0.25s ease-in-out",
-                        scrollbarGutter: "stable"
+                        scrollbarGutter: "stable",
                     }}
                 >
-                    <ProjectDescription project={props.project} is_xs={props.is_xs}
-                                        onClickCard={onClickCard} expanded={props.expanded}/>
+                    <ProjectDescription project={props.project} is_xs={props.is_xs} isPreview={true}
+                                        onClickCard={onClickCard} expanded={props.expanded}
+                    />
                     <Collapse
                         in={props.expanded}
-                        timeout={"auto"}
                         unmountOnExit
                         sx={{
                             marginBottom: "-1rem",
+                            position: "relative",
+                            transition: 'height 400ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
                         }}
                     >
+                        <ProjectDescription project={props.project} is_xs={props.is_xs} isPreview={false}
+                                            onClickCard={onClickCard} expanded={props.expanded}/>
                         <Stack direction={"column"}
                                spacing={1}
                                justifyContent={"center"}

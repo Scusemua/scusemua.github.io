@@ -107,12 +107,19 @@ $base: value 1.35;
   //  -webkit-text-fill-color: transparent;
   //}
 
-  &_description_collapsed {
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  &_description {
+    &_preview {
+      display: -webkit-box;
+      -webkit-line-clamp: 2; // Restrict to 2-3 lines
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+    }
+
+    &_hidden {
+      display: none;
+    }
   }
 }
 
