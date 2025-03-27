@@ -91,8 +91,12 @@ const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: De
             if (props.expanded) {
                 className += styles.project_description_hidden + " ";
             }
-        } else if (!props.expanded) {
-            className += styles.project_description_hidden + " ";
+        } else {
+            if (props.expanded) {
+                className += styles.project_description_full + " ";
+            } else {
+                className += styles.project_description_full_collapsed + " ";
+            }
         }
 
         return className;
@@ -341,6 +345,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         <Card
             style={{
                 margin: (props.is_xs ? "1rem" : "0 auto"),
+                width: "100%",
             }}
             sx={{
                 boxShadow: 3,
@@ -349,7 +354,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             className={styles.project_section_card}
         >
             <CardActionArea onClick={() => onClickCardActionArea()} sx={{
-                display: "grid",
+                width: "100%",
             }}>
                 <CardMedia className={styles.project_media_background} onClick={() => onClickCard()}>
                     <div style={{
@@ -370,35 +375,38 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 <CardContent
                     style={{
                         overflow: props.expanded ? "auto" : "hidden",
-                        height: (props.expanded ? getExpandedHeight() : "7rem"),
+                        width: "100%",
+                        height: (props.expanded ? getExpandedHeight() : "6rem"),
                         transition: "height 0.25s ease-in-out",
                         scrollbarGutter: "stable",
                     }}
                 >
-                    <ProjectDescription project={props.project} is_xs={props.is_xs} isPreview={true}
-                                        onClickCard={onClickCard} expanded={props.expanded}
-                    />
-                    <Collapse
-                        in={props.expanded}
-                        unmountOnExit
-                        sx={{
-                            marginBottom: "-1rem",
-                            position: "relative",
-                            transition: 'height 400ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-                        }}
-                    >
-                        <ProjectDescription project={props.project} is_xs={props.is_xs} isPreview={false}
-                                            onClickCard={onClickCard} expanded={props.expanded}/>
-                        <Stack direction={"column"}
-                               spacing={1}
-                               justifyContent={"center"}
-                               alignItems={"center"}
-                               alignContent={"center"}>
-                            {props.project.architectureDiagram && architectureDiagram}
-                            {props.project.questionsAndAnswers && questionsAndAnswers}
-                            {keywords}
-                        </Stack>
-                    </Collapse>
+                    <div style={{position: "relative"}}>
+                        <ProjectDescription project={props.project} is_xs={props.is_xs} isPreview={true}
+                                            onClickCard={onClickCard} expanded={props.expanded}
+                        />
+                        <Collapse
+                            in={props.expanded}
+                            unmountOnExit
+                            timeout={"auto"}
+                            sx={{
+                                marginBottom: "-1rem",
+                                position: "relative",
+                            }}
+                        >
+                            <ProjectDescription project={props.project} is_xs={props.is_xs} isPreview={false}
+                                                onClickCard={onClickCard} expanded={props.expanded}/>
+                            <Stack direction={"column"}
+                                   spacing={1}
+                                   justifyContent={"center"}
+                                   alignItems={"center"}
+                                   alignContent={"center"}>
+                                {props.project.architectureDiagram && architectureDiagram}
+                                {props.project.questionsAndAnswers && questionsAndAnswers}
+                                {keywords}
+                            </Stack>
+                        </Collapse>
+                    </div>
                 </CardContent>
             </CardActionArea>
             {cardActions}

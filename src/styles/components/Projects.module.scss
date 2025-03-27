@@ -69,6 +69,7 @@ $base: value 1.35;
 .project {
   text-align: center;
   transition: height 0.5s ease;
+  width: 100%;
 
   &_header_text {
     height: 100%;
@@ -99,6 +100,7 @@ $base: value 1.35;
     background: #1C192E;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     height: 150px;
+    width: 100%;
   }
 
   //&_description_expanded {
@@ -108,17 +110,34 @@ $base: value 1.35;
   //}
 
   &_description {
+    width: 100%;
+
     &_preview {
       display: -webkit-box;
-      -webkit-line-clamp: 2; // Restrict to 2-3 lines
+      -webkit-line-clamp: 3; // Restrict to 2-3 lines
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: normal;
+
+      position: absolute; // Stack preview on top
+      transition: opacity 0.2s ease-in-out;
+      top: 0;
+      left: 0;
+    }
+
+    &_full {
+      opacity: 1.0;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    &_full_collapsed {
+      opacity: 0.0;
+      transition: opacity 0.2s ease-in-out;
     }
 
     &_hidden {
-      display: none;
+      opacity: 0.0; // Smooth fade out
     }
   }
 }
