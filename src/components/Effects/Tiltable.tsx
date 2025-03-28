@@ -63,6 +63,7 @@ const Tiltable: React.FunctionComponent<TiltableCardProps> = (props: TiltableCar
                 width: `100%`,
                 height: isString(props.height) ? props.height : `${props.height}px`,
                 margin: "0 auto",
+                pointerEvents: "none",
             }}
         >
             <motion.div

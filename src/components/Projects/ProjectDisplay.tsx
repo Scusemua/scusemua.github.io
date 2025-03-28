@@ -361,12 +361,9 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     return (
         <Tiltable height={'auto'} hoverScale={1} rotationFactor={getRotationFactor()}>
             <Card
-                style={{
-                    margin: "0 auto",
-                    width: props.is_xs ? "95%" : "100%",
-                }}
                 sx={{
                     boxShadow: 3,
+                    width: props.is_xs ? "95%" : "100%",
                 }}
                 raised={true}
                 className={styles.project_section_card}

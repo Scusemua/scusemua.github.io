@@ -27,6 +27,8 @@ $base: value 1.35;
 
   &_card {
     @extend .project_section;
+    margin: 0 auto;
+    pointer-events: auto;
 
     &_header {
       justify-content: center;
