@@ -32,7 +32,7 @@ const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
         projects.forEach((project: Project) => {
             setExpandedProjects(prev => new Map(prev).set(project.name, false));
         })
-    }, [])
+    }, [projects])
 
     const onProjectSelectedIndexChanged = (selectedIndex: number) => {
         projects.forEach((project: Project, index: number) => {
@@ -57,6 +57,7 @@ const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
                                        variants={cardVariant}
                                        style={{
                                            margin: "0 auto",
+                                           justifyContent: "center",
                                            width: "100%",
                                        }}
                                        whileHover={!mq_xs ? {

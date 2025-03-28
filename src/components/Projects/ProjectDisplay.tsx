@@ -344,8 +344,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     return (
         <Card
             style={{
-                margin: (props.is_xs ? "1rem" : "0 auto"),
-                width: "100%",
+                margin: "0 auto",
+                width: props.is_xs ? "95%" : "100%",
             }}
             sx={{
                 boxShadow: 3,

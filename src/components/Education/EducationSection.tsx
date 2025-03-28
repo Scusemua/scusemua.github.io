@@ -76,7 +76,7 @@ const EducationContent: React.FunctionComponent = () => {
                             initial="hidden"
                             whileInView="visible"
                             style={{
-                                width: mq_xl ? "95%" : "90%",
+                                width: mq_xl ? "90%" : "85%",
                                 margin: "0 auto",
                                 textAlign: "center",
                                 justifyContent: "center",
@@ -91,10 +91,12 @@ const EducationContent: React.FunctionComponent = () => {
 
 // const EducationSection: React.FunctionComponent<EducationSectionProps> = (props: EducationSectionProps) => {
 const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_props: EducationSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+    const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
+
     return (<div className={`${styles.education}`} id="education" ref={ref}>
         <Typography variant={"h2"} className={styles.education_header_text}>Education</Typography>
         <div style={{
-            width: "90%",
+            width: mq_md_or_less ? "90%" : "100%",
             margin: "0 auto",
         }}>
             <EducationContent/>
