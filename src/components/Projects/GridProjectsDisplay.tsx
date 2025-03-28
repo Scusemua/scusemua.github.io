@@ -70,7 +70,7 @@ const GridProjectsDisplay = ({projects}: { projects: Project[] }) => {
 
     if (mq_xs || mq_sm) {
         return (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
-                       className={styles.project_container}>
+                       className={styles.projects_container}>
             {projects.map((project: Project) => (
                 <ProjectDisplay
                     toggleExpansion={toggleProjectExpanded}
@@ -96,7 +96,7 @@ const GridProjectsDisplay = ({projects}: { projects: Project[] }) => {
                 container
                 rowSpacing={4}
                 columnSpacing={8}
-                className={styles.project_container}
+                className={styles.projects_container}
                 sx={{
                     marginBottom: "4rem",
                 }}

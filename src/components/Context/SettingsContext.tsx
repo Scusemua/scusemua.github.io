@@ -11,7 +11,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(
     undefined
 );
 
-export const DefaultRotationMultiplier: number = 6.0
+export const DefaultRotationMultiplier: number = 7.0
 export const MaxRotationMultiplier: number = 100.0;
 
 // Provider component

@@ -310,4 +310,5 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
                   rotationFactor={getRotationFactor()} children={cardContent}/>
     )
 };
+
 export default DegreeDisplay;

@@ -12,6 +12,7 @@ import AwardsSection from "@src/components/Awards/AwardsSection";
 import CloudIcon from "@icons/cloud";
 import {useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
+import Tiltable from "@src/components/Effects/Tiltable";
 
 export default function Home() {
     const headshotRef = React.useRef<HTMLInputElement>(null) as React.MutableRefObject<HTMLInputElement>;

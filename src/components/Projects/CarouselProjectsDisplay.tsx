@@ -62,7 +62,7 @@ const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
         return { scale: 1.05 }
     }
 
-    return (<EmblaCarousel className={styles.project_container}
+    return (<EmblaCarousel className={styles.projects_container}
                            slides={projects.map((project: Project, idx: number) => {
                                return (
                                    <motion.div
