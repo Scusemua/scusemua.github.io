@@ -43,7 +43,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({open, onClose}) => {
             <Box sx={modalStyle}>
                 <Box display="flex" justifyContent="space-between" alignItems="center">
                     <Typography id="modal-settings-title" variant="h6" component="h2">
-                        Adjust Rotation Multiplier
+                        Adjust Card Rotation Multiplier
                     </Typography>
                     <IconButton onClick={onClose}>
                         <CloseIcon/>
@@ -51,7 +51,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({open, onClose}) => {
                 </Box>
 
                 <Typography gutterBottom>
-                    Rotation Multiplier: {rotationMultiplier.toFixed(1)}
+                    Card Rotation Multiplier: {rotationMultiplier.toFixed(1)}
                 </Typography>
                 <Box mt={3} sx={{
                     paddingBottom: "25px",
