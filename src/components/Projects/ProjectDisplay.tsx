@@ -396,6 +396,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                             height: (props.expanded ? getExpandedHeight() : "6rem"),
                             transition: "height 0.25s ease-in-out",
                             scrollbarGutter: "stable",
+                            overflow: "auto",
                         }}
                     >
                         <div style={{position: "relative"}}>

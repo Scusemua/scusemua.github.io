@@ -39,7 +39,7 @@ $breakpoints: (
 
     &_card {
       transform-style: preserve-3d;
-      overflow: visible;
+      overflow: auto;
       pointer-events: auto;
 
       &:hover {

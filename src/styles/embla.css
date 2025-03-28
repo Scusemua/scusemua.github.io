@@ -1,18 +1,34 @@
 .embla {
     --slide-height: auto;
     --slide-spacing: 14rem;
-    width: 85%;
+    width: 100%;
     /*--slide-size: 33%;*/
 }
 
 .embla__viewport {
     padding-top: 1rem;
     padding-bottom: 1.75rem;
-    overflow: visible;
+    overflow: hidden;
+    pointer-events: auto;
 
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
     text-align: center;
+    width: 85%;
+}
+
+.embla__viewport__flippable {
+    overflow: hidden;
+    padding-bottom: 4rem;
+    padding-top: 4rem;
+    pointer-events: auto;
+
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 85%;
 }
 
 /* Small (sm) */
@@ -20,8 +36,20 @@
     .embla {
         --slide-height: auto;
         --slide-spacing: 4rem;
-        width: 85%;
+        width: 100%;
         /*--slide-size: 33%;*/
+    }
+
+    .embla__viewport {
+        padding-top: 1rem;
+        padding-bottom: 1.75rem;
+        overflow: visible;
+
+        margin: 0 auto;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 85%;
     }
 }
 
@@ -30,8 +58,20 @@
     .embla {
         --slide-height: auto;
         --slide-spacing: 4rem;
-        width: 85%;
+        width: 100%;
         /*--slide-size: 33%;*/
+    }
+
+    .embla__viewport {
+        padding-top: 1rem;
+        padding-bottom: 1.75rem;
+        overflow: visible;
+
+        margin: 0 auto;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 85%;
     }
 }
 
@@ -40,7 +80,20 @@
     .embla {
         --slide-height: auto;
         --slide-spacing: 6rem;
+        width: 100%;
         /*--slide-size: 33%;*/
+    }
+
+    .embla__viewport {
+        padding-top: 1rem;
+        padding-bottom: 1.75rem;
+        overflow: visible;
+
+        margin: 0 auto;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 95%;
     }
 }
 
@@ -49,19 +102,21 @@
     .embla {
         --slide-height: auto;
         --slide-spacing: 3.75rem;
+        width: 100%;
         /*--slide-size: 33%;*/
     }
-}
 
-.embla__viewport__flippable {
-    overflow: visible;
-    padding-bottom: 4rem;
-    padding-top: 4rem;
+    .embla__viewport {
+        padding-top: 1rem;
+        padding-bottom: 1.75rem;
+        overflow: visible;
 
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    /*-webkit-mask-image: -webkit-radial-gradient(circle, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));*/
+        margin: 0 auto;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 95%;
+    }
 }
 
 .embla__container {
