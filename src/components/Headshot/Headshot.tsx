@@ -19,6 +19,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import theme from "@src/app/theme";
 import {BubbleContext} from "@src/providers/BubbleContext";
 import Link from "next/link";
+import Tiltable from "@src/components/Cards/Tiltable";
 
 interface HeadshotProps {
 }
@@ -353,28 +354,16 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     };
 
     return (
+        <Tiltable height={1080} hoverScale={1.0325}
+                  rotationFactor={10} children={
         <div className={styles.headshot} ref={ref} key={"headshot_layout_wrapper"}
              style={{marginTop: getTopMargin(), marginLeft: 'auto', marginRight: 'auto'}}>
-            {/*{(!mq_xs && !mq_sm && !mq_md && !mq_lg && !mq_xl) && getLayoutXL()}*/}
             {mq_xl && <ExtraLargeHeadshotLayout/>}
             {(mq_md || mq_lg) && <MediumOrLargeHeadshotLayout/>}
             {mq_sm && <SmallHeadshotLayout/>}
             {mq_xs && <ExtraSmallHeadshotLayout/>}
             {!mq_xl && <HeaderButtons/>}
-
-            {/*<Image*/}
-            {/*    src={Clouds}*/}
-            {/*    alt={"Clouds"}*/}
-            {/*    width={0}*/}
-            {/*    height={0}*/}
-            {/*    sizes="100vw"*/}
-            {/*    style={{*/}
-            {/*        zIndex: 0,*/}
-            {/*        width: '100%',*/}
-            {/*        height: 'auto' }} // optional*/}
-            {/*    priority={true}*/}
-            {/*/>*/}
-        </div>
+        </div>}/>
     );
 });
 

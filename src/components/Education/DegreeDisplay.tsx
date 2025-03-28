@@ -25,7 +25,7 @@ import {LibraryBooks} from "@mui/icons-material";
 import theme from "@src/app/theme";
 import SchoolIcon from "@mui/icons-material/School";
 import IconButton from "@mui/material/IconButton";
-import TiltableCard from "@src/components/Cards/TiltableCard";
+import Tiltable from "@src/components/Cards/Tiltable";
 
 interface DegreeDisplayProps {
     degree: DegreeInfo;
@@ -303,8 +303,8 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
     }
 
     return (
-        <TiltableCard height={props.height || 500} hoverScale={!mq_md_or_less ? 1.0325 : 1}
-                      rotationFactor={getRotationFactor()} children={cardContent}/>
+        <Tiltable height={props.height || 500} hoverScale={!mq_md_or_less ? 1.0325 : 1}
+                  rotationFactor={getRotationFactor()} children={cardContent}/>
     )
 };
 export default DegreeDisplay;

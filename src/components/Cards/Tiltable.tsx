@@ -18,7 +18,7 @@ interface TiltableCardProps {
     rotationFactor: number;
 }
 
-const TiltableCard: React.FunctionComponent<TiltableCardProps> = (props: TiltableCardProps) => {
+const Tiltable: React.FunctionComponent<TiltableCardProps> = (props: TiltableCardProps) => {
     const [rotateXaxis, setRotateXaxis] = React.useState(0)
     const [rotateYaxis, setRotateYaxis] = React.useState(0)
     const ref = React.useRef<HTMLDivElement>(null)
@@ -87,4 +87,4 @@ const TiltableCard: React.FunctionComponent<TiltableCardProps> = (props: Tiltabl
     )
 };
 
-export default TiltableCard;
+export default Tiltable;
