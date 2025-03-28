@@ -1,8 +1,6 @@
 import React, {ReactNode} from "react";
-import {useMediaQuery} from "@mui/material";
-import theme from "@src/app/theme";
 import {motion, useSpring} from "framer-motion";
-import styles from "@styles/components/Education.module.scss";
+import {isString} from "next/dist/build/webpack/plugins/jsconfig-paths-plugin";
 
 //Spring animation parameters
 const spring = {
@@ -12,7 +10,7 @@ const spring = {
 }
 
 interface TiltableCardProps {
-    height: number;
+    height: number | string;
     hoverScale: number;
     children: ReactNode | undefined;
     rotationFactor: number;
@@ -63,7 +61,7 @@ const Tiltable: React.FunctionComponent<TiltableCardProps> = (props: TiltableCar
                 perspective: "1200px",
                 transformStyle: "preserve-3d",
                 width: `100%`,
-                height: `${props.height || 550}px`,
+                height: isString(props.height) ? props.height : `${props.height}px`,
                 margin: "0 auto",
             }}
         >

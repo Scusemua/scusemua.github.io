@@ -244,6 +244,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
             height: "100%",
             margin: "0 auto",
         }}
+        onClick={() => setIsFlipped(!isFlipped)}
     >
         <motion.div
             animate={{rotateY: isFlipped ? -180 : 0}}
