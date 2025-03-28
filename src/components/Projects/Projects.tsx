@@ -7,7 +7,7 @@ import React, {forwardRef} from "react";
 import {Grid2, Stack, useMediaQuery} from "@mui/material";
 
 import Typography from '@mui/material/Typography';
-import {CurrentProjects, PastProjects, Project} from "@data/ProjectsData";
+import {CurrentProjects, PreviousProjects, Project} from "@data/ProjectsData";
 import ProjectDisplay from "@src/components/Projects/ProjectDisplay";
 import {motion} from "framer-motion";
 import theme from "@src/app/theme";
@@ -48,34 +48,19 @@ const cardVariant = {
 interface ProjectsProps {
 }
 
-// const Projects: React.FunctionComponent = () => {
-const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+interface ProjectsDisplayProps {
+    projects: Project[];
+    variant: 'grid' | 'carousel';
+}
+
+const ProjectsDisplay: React.FunctionComponent<ProjectsDisplayProps> = (props: ProjectsDisplayProps) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
-    const [expandedPastProjects, setExpandedPastProjects] = React.useState<Map<string, boolean>>(new Map<string, boolean>());
-    const [expandedCurrentProjects, setExpandedCurrentProjects] = React.useState<Map<string, boolean>>(new Map<string, boolean>());
-
-    React.useEffect(() => {
-        PastProjects.forEach((project: Project) => {
-            setExpandedPastProjects(prev => new Map(prev).set(project.name, false));
-        })
-
-        CurrentProjects.forEach((project: Project) => {
-            setExpandedCurrentProjects(prev => new Map(prev).set(project.name, false));
-        })
-    }, [])
-
-    const toggleExpansionOfPastProject = (name: string, expanded: boolean) => {
-        setExpandedPastProjects(prev => new Map(prev).set(name, expanded));
-    }
-
-    const toggleExpansionOfCurrentProject = (name: string, expanded: boolean) => {
-        setExpandedCurrentProjects(prev => new Map(prev).set(name, expanded));
-    }
+    const [expandedProjects, setExpandedProjects] = React.useState<Map<string, boolean>>(new Map<string, boolean>());
 
     const getAnimMargin = (): string => {
         if (mq_xl) {
@@ -91,14 +76,40 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
         return "150px";
     }
 
-    const getPastProjectsAsGrid = (projects: Project[]) => {
+    React.useEffect(() => {
+        props.projects.forEach((project: Project) => {
+            setExpandedProjects(prev => new Map(prev).set(project.name, false));
+        })
+
+        props.projects.forEach((project: Project) => {
+            setExpandedProjects(prev => new Map(prev).set(project.name, false));
+        })
+    }, [])
+
+    const onProjectSelectedIndexChanged = (selectedIndex: number) => {
+        props.projects.forEach((project: Project, index: number) => {
+            if (selectedIndex === index) {
+                return;
+            }
+
+            if (expandedProjects.get(project.name)) {
+                setExpandedProjects(prev => new Map(prev).set(project.name, false));
+            }
+        })
+    }
+
+    const toggleExpansionOfPastProject = (name: string, expanded: boolean) => {
+        setExpandedProjects(prev => new Map(prev).set(name, expanded));
+    }
+
+    const getProjectsAsGrid = (projects: Project[]) => {
         if (mq_xs || mq_sm) {
             return (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                            className={styles.project_container}>
                 {projects.map((project: Project) => (
                     <ProjectDisplay
                         toggleExpansion={toggleExpansionOfPastProject}
-                        expanded={expandedPastProjects.get(project.name) || false}
+                        expanded={expandedProjects.get(project.name) || false}
                         project={project}
                         is_xs={mq_xs}
                     />
@@ -140,7 +151,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                                          className={styles.project_section_card}>
                                         <ProjectDisplay
                                             toggleExpansion={toggleExpansionOfPastProject}
-                                            expanded={expandedPastProjects.get(project.name) || false}
+                                            expanded={expandedProjects.get(project.name) || false}
                                             project={project}
                                             is_xs={mq_xs}
                                         />
@@ -154,87 +165,34 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
         }
     }
 
-    const getSlides = (pastProjects: boolean): React.JSX.Element[] => {
-        if (pastProjects) {
-            return PastProjects.map((project: Project, idx: number) => {
-                return (
-                    <ProjectDisplay key={`project-${idx}-${project.name}`}
-                                    project={project}
-                                    is_xs={mq_xs || mq_sm || mq_md}
-                                    toggleExpansion={toggleExpansionOfPastProject}
-                                    expanded={expandedPastProjects.get(project.name) || false}
-                    />
-                );
-            });
-        }
-
-        return CurrentProjects.map((project: Project, idx: number) => {
-            return (
-                <ProjectDisplay key={`project-${idx}-${project.name}`}
-                                project={project}
-                                is_xs={mq_xs || mq_sm || mq_md}
-                                toggleExpansion={toggleExpansionOfCurrentProject}
-                                expanded={expandedCurrentProjects.get(project.name) || false}
-                />
-            );
-        });
+    if (props.variant === 'carousel') {
+        return (<EmblaCarousel className={styles.project_container}
+                               slides={props.projects.map((project: Project, idx: number) => {
+                                   return (
+                                       <ProjectDisplay key={`project-${idx}-${project.name}`}
+                                                       project={project}
+                                                       is_xs={mq_xs || mq_sm || mq_md}
+                                                       toggleExpansion={toggleExpansionOfPastProject}
+                                                       expanded={expandedProjects.get(project.name) || false}
+                                       />
+                                   );
+                               })}
+                               autoplayEnabled={true}
+                               onSelectedIndexChanged={onProjectSelectedIndexChanged}
+                               options={{
+                                   loop: true,
+                               }}
+        />);
     }
 
-    const onPastProjectSelectedIndexChanged = (selectedIndex: number) => {
-        PastProjects.forEach((project: Project, index: number) => {
-            if (selectedIndex === index) {
-                return;
-            }
+    return getProjectsAsGrid(props.projects);
+}
 
-            if (expandedPastProjects.get(project.name)) {
-                setExpandedPastProjects(prev => new Map(prev).set(project.name, false));
-            }
-        })
-    }
-
-    const onCurrentProjectSelectedIndexChanged = (selectedIndex: number) => {
-        CurrentProjects.forEach((project: Project, index: number) => {
-            if (selectedIndex === index) {
-                return;
-            }
-
-            if (expandedCurrentProjects.get(project.name)) {
-                setExpandedCurrentProjects(prev => new Map(prev).set(project.name, false));
-            }
-        })
-    }
-
-    const getCurrentProjectsAsCarousel = () => {
-        return (
-            <EmblaCarousel className={styles.project_container}
-                           is_md_or_less={mq_xs || mq_sm || mq_md}
-                           onSelectedIndexChanged={onCurrentProjectSelectedIndexChanged}
-                           is_lg={mq_lg}
-                           slides={getSlides(false)}
-                           autoplayEnabled={true}
-                           options={{
-                               loop: true,
-                           }}
-            />
-        );
-    }
-
-    const getPastProjects = () => {
-        if (mq_xs || mq_sm || mq_md || mq_lg) {
-            return (<EmblaCarousel className={styles.project_container}
-                                   is_md_or_less={mq_xs || mq_sm || mq_md}
-                                   is_lg={mq_lg}
-                                   slides={getSlides(true)}
-                                   autoplayEnabled={true}
-                                   onSelectedIndexChanged={onPastProjectSelectedIndexChanged}
-                                   options={{
-                                       loop: true,
-                                   }}
-            />);
-        }
-
-        return getPastProjectsAsGrid(PastProjects);
-    }
+// const Projects: React.FunctionComponent = () => {
+const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     return (
         <Stack
@@ -253,14 +211,16 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                 Past Research Projects
             </Typography>
 
-            {getPastProjects()}
+            <ProjectsDisplay projects={PreviousProjects} variant={mq_xl ? 'grid' : 'carousel'}/>
 
             <Typography variant={(mq_xs || mq_sm) ? "h3" : "h2"}
                         className={styles.project_section_subheader_text}>
                 Active Research Projects
             </Typography>
 
-            {getCurrentProjectsAsCarousel()}
+            <ProjectsDisplay projects={CurrentProjects} variant={'carousel'}/>
+
+            {/*{getCurrentProjectsAsCarousel()}*/}
         </Stack>
     )
 });

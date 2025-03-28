@@ -316,7 +316,7 @@ export const FaasPlatformProject: Project = {
     status: 'ongoing',
 }
 
-export const PastProjects: Project[] = [
+export const PreviousProjects: Project[] = [
     WukongProject, InfiniStoreProject, LambdaFSProject,
 ]
 
