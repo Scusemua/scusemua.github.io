@@ -16,6 +16,7 @@ interface TiltableCardProps {
     rotationFactor: number;
 }
 
+// NOTE: You will likely need to set "pointer-events: auto" on the child.
 const Tiltable: React.FunctionComponent<TiltableCardProps> = (props: TiltableCardProps) => {
     const [rotateXaxis, setRotateXaxis] = React.useState(0)
     const [rotateYaxis, setRotateYaxis] = React.useState(0)
