@@ -354,8 +354,6 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     };
 
     return (
-        <Tiltable height={1080} hoverScale={1.0325}
-                  rotationFactor={10} children={
         <div className={styles.headshot} ref={ref} key={"headshot_layout_wrapper"}
              style={{marginTop: getTopMargin(), marginLeft: 'auto', marginRight: 'auto'}}>
             {mq_xl && <ExtraLargeHeadshotLayout/>}
@@ -363,7 +361,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             {mq_sm && <SmallHeadshotLayout/>}
             {mq_xs && <ExtraSmallHeadshotLayout/>}
             {!mq_xl && <HeaderButtons/>}
-        </div>}/>
+        </div>
     );
 });
 
