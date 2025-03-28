@@ -25,6 +25,7 @@ import {LibraryBooks} from "@mui/icons-material";
 import theme from "@src/app/theme";
 import SchoolIcon from "@mui/icons-material/School";
 import Tiltable from "@src/components/Effects/Tiltable";
+import {useSettings} from "@src/components/Context/SettingsContext";
 
 interface DegreeDisplayProps {
     degree: DegreeInfo;
@@ -228,6 +229,8 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
 
     const [isFlipped, setIsFlipped] = React.useState<boolean>(false);
 
+    const { rotationMultiplier } = useSettings();
+
     // If there's no coursework, then the card will not respond to mouse and will not be clickable.
     if (!props.degree.coursework) {
         return (<DegreeDisplaySide variant={'front'} degree={props.degree} handleClick={() => {
@@ -299,7 +302,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
             return 6;
         }
 
-        return 10;
+        return rotationMultiplier;
     }
 
     return (

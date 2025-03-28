@@ -184,6 +184,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
 
+    const { rotationMultiplier } = useSettings();
+
     React.useEffect(() => {
         highlightAll();
     }, []);
@@ -346,8 +348,6 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
 
         return `${height}rem`;
     }
-
-    const { rotationMultiplier } = useSettings();
 
     const getRotationFactor = (): number => {
         if (mq_md_or_less) {

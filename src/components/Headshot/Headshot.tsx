@@ -309,6 +309,8 @@ interface SocialLinksProps {
 }
 
 const SocialLinks: React.FunctionComponent<SocialLinksProps> = (props: SocialLinksProps) => {
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
+
     return (<Stack direction={"row"} spacing={1} style={{zIndex: 2, justifyContent: "center", alignItems: "center"}}>
         <Tooltip title={"GitHub"} arrow>
             <IconButton aria-label={"GitHub"} size="large" component={Link}
@@ -339,11 +341,11 @@ const SocialLinks: React.FunctionComponent<SocialLinksProps> = (props: SocialLin
                 <SchoolIcon fontSize="inherit"/>
             </IconButton>
         </Tooltip>
-        <Tooltip title={"Settings"} arrow>
+        {mq_xl && <Tooltip title={"Settings"} arrow>
             <IconButton size="large" onClick={props.onClickSettingsButton}>
                 <SettingsRounded fontSize="inherit"/>
             </IconButton>
-        </Tooltip>
+        </Tooltip>}
     </Stack>);
 }
 
