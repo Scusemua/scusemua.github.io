@@ -25,6 +25,7 @@ import {LibraryBooks} from "@mui/icons-material";
 import theme from "@src/app/theme";
 import SchoolIcon from "@mui/icons-material/School";
 import IconButton from "@mui/material/IconButton";
+import TiltableCard from "@src/components/Cards/TiltableCard";
 
 interface DegreeDisplayProps {
     degree: DegreeInfo;
@@ -45,13 +46,6 @@ interface DegreeDisplaySideProps {
     is_xs?: boolean;
     is_xl?: boolean;
     handleClick: () => void;
-}
-
-//Spring animation parameters
-const spring = {
-    type: "spring",
-    stiffness: 75,
-    damping: 13,
 }
 
 const DoctorOfPhilosophy: string = "Doctor of Philosophy";
@@ -220,6 +214,13 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
         </Card>);
 }
 
+//Spring animation parameters
+const spring = {
+    type: "spring",
+    stiffness: 75,
+    damping: 13,
+}
+
 const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: DegreeDisplayProps) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'))
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
@@ -227,138 +228,83 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'))
 
     const [isFlipped, setIsFlipped] = React.useState<boolean>(false);
-    const [rotateXaxis, setRotateXaxis] = React.useState(0)
-    const [rotateYaxis, setRotateYaxis] = React.useState(0)
-    const ref = React.useRef<HTMLDivElement>(null)
-
-    const handleClick = () => {
-        setIsFlipped((prevState) => !prevState)
-    }
-
-    const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = (event) => {
-        const element: HTMLDivElement | null = ref.current
-
-        if (!element) {
-            return;
-        }
-
-        let rotationFactor: number = 10;
-        if (mq_lg) {
-            rotationFactor = 6;
-        } else if (mq_md_or_less) {
-            rotationFactor = 4;
-        }
-
-        const elementRect = element.getBoundingClientRect()
-        const elementWidth = elementRect.width
-        const elementHeight = elementRect.height
-        const elementCenterX = elementWidth / 2
-        const elementCenterY = elementHeight / 2
-        const mouseX = event.clientY - elementRect.y - elementCenterY
-        const mouseY = event.clientX - elementRect.x - elementCenterX
-        const degreeX = (mouseX / elementWidth) * rotationFactor //The number is the rotation factor
-        const degreeY = (mouseY / elementHeight) * rotationFactor //The number is the rotation factor
-        setRotateXaxis(degreeX)
-        setRotateYaxis(degreeY)
-    }
-
-    const handleMouseEnd = () => {
-        setRotateXaxis(0)
-        setRotateYaxis(0)
-    }
-
-    const dx = useSpring(0, spring)
-    const dy = useSpring(0, spring)
-
-    React.useEffect(() => {
-        dx.set(-rotateXaxis)
-        dy.set(rotateYaxis)
-    }, [rotateXaxis, rotateYaxis])
 
     // If there's no coursework, then the card will not respond to mouse and will not be clickable.
     if (!props.degree.coursework) {
-        return (<DegreeDisplaySide variant={'front'} degree={props.degree} handleClick={handleClick}
+        return (<DegreeDisplaySide variant={'front'} degree={props.degree} handleClick={() => {
+        }}
                                    is_xs={mq_xs} is_xl={mq_xl}/>);
     }
 
-    return (
+    const cardContent = (<div
+        style={{
+            perspective: "1800px",
+            transformStyle: "preserve-3d",
+            width: "100%",
+            height: "100%",
+            margin: "0 auto",
+        }}
+    >
         <motion.div
+            animate={{rotateY: isFlipped ? -180 : 0}}
             transition={spring}
             style={{
-                perspective: "1200px",
-                transformStyle: "preserve-3d",
-                width: `100%`,
-                height: `${props.height || 550}px`,
+                width: "100%",
+                zIndex: isFlipped ? 0 : 1,
+                backfaceVisibility: "hidden",
+                position: "absolute",
+                height: "100%",
                 margin: "0 auto",
             }}
+            className={styles.education_degree_container_card}
         >
-            <motion.div
-                ref={ref}
-                whileHover={{scale: !mq_md_or_less ? 1.0325 : 1}} //Change the scale of zooming in when hovering
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseEnd}
-                transition={spring}
-                style={{
-                    height: "100%",
-                    width: "100%",
-                    rotateX: dx,
-                    rotateY: dy,
-                    margin: "0 auto",
-                }}
-            >
-                <div
-                    style={{
-                        perspective: "1800px",
-                        transformStyle: "preserve-3d",
-                        width: "100%",
-                        height: "100%",
-                        margin: "0 auto",
-                    }}
-                >
-                    <motion.div
-                        animate={{rotateY: isFlipped ? -180 : 0}}
-                        transition={spring}
-                        style={{
-                            width: "100%",
-                            zIndex: isFlipped ? 0 : 1,
-                            backfaceVisibility: "hidden",
-                            position: "absolute",
-                            height: "100%",
-                            margin: "0 auto",
-                        }}
-                        className={styles.education_degree_container_card}
-                    >
-                        <DegreeDisplaySide variant={'front'}
-                                           degree={props.degree}
-                                           height={props.height}
-                                           is_xs={mq_xs}
-                                           is_xl={mq_xl}
-                                           handleClick={handleClick}/>
-                    </motion.div>
-                    <motion.div
-                        initial={{rotateY: 180}}
-                        animate={{rotateY: isFlipped ? 0 : 180}}
-                        transition={spring}
-                        style={{
-                            width: "100%",
-                            zIndex: isFlipped ? 1 : 0,
-                            backfaceVisibility: "hidden",
-                            position: "absolute",
-                            height: "100%",
-                            margin: "0 auto",
-                        }}
-                        className={styles.education_degree_container_card}
-                    >
-                        <DegreeDisplaySide variant={'back'}
-                                           degree={props.degree}
-                                           height={props.height}
-                                           is_xs={mq_xs}
-                                           is_xl={mq_xl}
-                                           handleClick={handleClick}/>
-                    </motion.div>
-                </div>
-            </motion.div>
+            <DegreeDisplaySide variant={'front'}
+                               degree={props.degree}
+                               height={props.height}
+                               is_xs={mq_xs}
+                               is_xl={mq_xl}
+                               handleClick={() => {
+                               }}/>
         </motion.div>
+        <motion.div
+            initial={{rotateY: 180}}
+            animate={{rotateY: isFlipped ? 0 : 180}}
+            transition={spring}
+            style={{
+                width: "100%",
+                zIndex: isFlipped ? 1 : 0,
+                backfaceVisibility: "hidden",
+                position: "absolute",
+                height: "100%",
+                margin: "0 auto",
+            }}
+            className={styles.education_degree_container_card}
+        >
+            <DegreeDisplaySide variant={'back'}
+                               degree={props.degree}
+                               height={props.height}
+                               is_xs={mq_xs}
+                               is_xl={mq_xl}
+                               handleClick={() => {
+                               }}/>
+        </motion.div>
+    </div>);
+
+    const getRotationFactor = (): number => {
+        if (mq_md_or_less) {
+            return 4;
+        }
+
+        if (mq_lg) {
+            return 6;
+        }
+
+        return 10;
+    }
+
+    return (
+        <TiltableCard height={props.height || 500} hoverScale={!mq_md_or_less ? 1.0325 : 1}
+                      rotationFactor={getRotationFactor()} children={cardContent}/>
     )
 };
 export default DegreeDisplay;
