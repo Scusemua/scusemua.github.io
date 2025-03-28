@@ -47,6 +47,9 @@ const FlippableCard: React.FunctionComponent<FlippableCardProps> = (props: Flipp
                 position: "absolute",
                 height: "100%",
                 margin: "0 auto",
+                transformStyle: "preserve-3d",
+                pointerEvents: "auto",
+                overflow: "visible",
             }}
         >
             {props.front}
@@ -62,6 +65,9 @@ const FlippableCard: React.FunctionComponent<FlippableCardProps> = (props: Flipp
                 position: "absolute",
                 height: "100%",
                 margin: "0 auto",
+                transformStyle: "preserve-3d",
+                pointerEvents: "auto",
+                overflow: "visible",
             }}
         >
             {props.back}

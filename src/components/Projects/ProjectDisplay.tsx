@@ -44,6 +44,7 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 import Tiltable from "@src/components/Effects/Tiltable";
 import theme from "@src/app/theme";
 import {useSettings} from "@src/components/Context/SettingsContext";
+import FlippableCard from "@src/components/Effects/FlippableCard";
 
 interface ProjectProps {
     project: Project;
