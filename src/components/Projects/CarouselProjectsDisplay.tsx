@@ -1,0 +1,83 @@
+import {Project} from "@data/ProjectsData";
+import {useMediaQuery} from "@mui/material";
+import theme from "@src/app/theme";
+import React from "react";
+import EmblaCarousel from "@src/components/Carousel/EmblaCarousel";
+import styles from "@styles/components/Projects.module.scss";
+import {motion} from "framer-motion";
+import ProjectDisplay from "@src/components/Projects/ProjectDisplay";
+
+const cardVariant = {
+    hidden: {
+        y: 10,
+        opacity: 0
+    },
+    visible: {
+        y: 0,
+        opacity: 1,
+        transition: {
+            duration: 0.5,
+        },
+    }
+}
+
+const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
+
+    const [expandedProjects, setExpandedProjects] = React.useState<Map<string, boolean>>(new Map<string, boolean>());
+
+    React.useEffect(() => {
+        projects.forEach((project: Project) => {
+            setExpandedProjects(prev => new Map(prev).set(project.name, false));
+        })
+    }, [])
+
+    const onProjectSelectedIndexChanged = (selectedIndex: number) => {
+        projects.forEach((project: Project, index: number) => {
+            if (selectedIndex === index) {
+                return;
+            }
+
+            if (expandedProjects.get(project.name)) {
+                setExpandedProjects(prev => new Map(prev).set(project.name, false));
+            }
+        })
+    }
+
+    const toggleProjectExpanded = (name: string, expanded: boolean) => {
+        setExpandedProjects(prev => new Map(prev).set(name, expanded));
+    }
+
+    return (<EmblaCarousel className={styles.project_container}
+                           slides={projects.map((project: Project, idx: number) => {
+                               return (
+                                   <motion.div
+                                       variants={cardVariant}
+                                       style={{
+                                           margin: "0 auto",
+                                           width: "100%",
+                                       }}
+                                       whileHover={!mq_xs ? {
+                                           scale: 1.05,
+                                       } : undefined}
+                                       key={`project-${project.name}-display-${idx}`}>
+                                       <ProjectDisplay key={`project-${idx}-${project.name}`}
+                                                       project={project}
+                                                       is_xs={mq_xs || mq_sm || mq_md}
+                                                       toggleExpansion={toggleProjectExpanded}
+                                                       expanded={expandedProjects.get(project.name) || false}
+                                       />
+                                   </motion.div>
+                               );
+                           })}
+                           autoplayEnabled={true}
+                           onSelectedIndexChanged={onProjectSelectedIndexChanged}
+                           options={{
+                               loop: true,
+                           }}
+    />);
+}
+
+export default CarouselProjectsDisplay;
