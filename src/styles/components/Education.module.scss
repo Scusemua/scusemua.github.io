@@ -35,13 +35,9 @@ $breakpoints: (
   }
 
   &_degree_container {
-    margin: 0 auto;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
+    @extend .education;
 
     &_card {
-      @extend .education;
       transform-style: preserve-3d;
       overflow: visible;
       pointer-events: auto;

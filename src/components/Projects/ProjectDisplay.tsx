@@ -294,7 +294,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 endIcon={<ExpandMoreIcon fontSize="inherit"
                                          style={{transform: (props.expanded ? "rotate(180deg)" : "")}}/>}
                 onClick={() => onClickCard()} aria-label={"Expand Project Card Button"}>
-            Read More
+            {props.expanded ? "Less" : "More"}
         </Button>
     </CardActions>);
 
@@ -393,8 +393,6 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     {cardHeader}
                     <CardContent
                         style={{
-                            overflow: props.expanded ? "auto" : "hidden",
-                            width: "100%",
                             height: (props.expanded ? getExpandedHeight() : "6rem"),
                             transition: "height 0.25s ease-in-out",
                             scrollbarGutter: "stable",

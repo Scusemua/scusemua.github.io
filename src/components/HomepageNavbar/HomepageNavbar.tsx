@@ -150,13 +150,15 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
             position="fixed"
             sx={{
                 bgcolor: "rgba(0,0,0,0.31)",
+                overflow: "hidden",
+                margin: "0 auto",
             }}
         >
-            <Container>
-                <Toolbar disableGutters>
+            <Container >
+                <Toolbar disableGutters >
                     <Stack direction={'row'} spacing={{'xs': 0, 'sm': 2, 'md': 6, 'lg': 8, 'xl': 10}}
                            alignItems={'center'} justifyContent={'center'}
-                           sx={{margin: "0 auto", overflow: "hidden"}}>
+                           sx={{margin: "0 auto", width: "100%", overflow: "hidden"}}>
                         {headshotButton}
                         {projectsButton}
                         {!mq_xs && awardsButton}

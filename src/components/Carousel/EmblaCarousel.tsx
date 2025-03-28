@@ -7,7 +7,15 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import {useAutoplay} from "@src/components/Carousel/EmblaCarouselAutoplay";
 import {Stack, Tooltip, useMediaQuery} from "@mui/material";
-import {ArrowBack, ArrowForward, Lens, PanoramaFishEye, PlayArrowRounded, StopRounded} from "@mui/icons-material";
+import {
+    ArrowBack,
+    ArrowForward,
+    ChevronLeft, ChevronRight,
+    Lens,
+    PanoramaFishEye,
+    PlayArrowRounded,
+    StopRounded
+} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import theme from "@src/app/theme";
 
@@ -122,7 +130,7 @@ const EmblaCarousel: React.FunctionComponent<EmblaCarouselProps> = (props: Embla
             return "100";
         }
 
-        return "33.5";
+        return "35";
     }
 
     const getSlideClassname = (index: number) => {
@@ -149,9 +157,36 @@ const EmblaCarousel: React.FunctionComponent<EmblaCarouselProps> = (props: Embla
         <section className={className ? `${className} embla` : "embla"}
                  style={{
                      maxWidth: is_md_or_less ? "100%" : "90%",
+                     overflow: "visible",
+                     // position: "relative"
                  }}
         >
-            <div className={props.flippableSlides ? "embla__viewport__flippable" : "embla__viewport"} ref={emblaRef}>
+            {/*<Stack direction={"row"} justifyContent={"center"} sx={{width: "100%"}}>*/}
+            {/*<IconButton onClick={() => onAutoplayButtonClick(onNextButtonClick)}*/}
+            {/*            sx={{*/}
+            {/*                zIndex: 5,*/}
+            {/*                position: "absolute",*/}
+            {/*                left: "-9rem",*/}
+            {/*                top: "13rem"*/}
+            {/*            }}*/}
+            {/*>*/}
+            {/*    <ChevronLeft fontSize={"large"} color={"secondary"}/>*/}
+            {/*</IconButton>*/}
+
+            {/*<IconButton onClick={() => onAutoplayButtonClick(onPrevButtonClick)}*/}
+            {/*            sx={{*/}
+            {/*                zIndex: 5,*/}
+            {/*                position: "absolute",*/}
+            {/*                right: "-9rem",*/}
+            {/*                top: "13rem"*/}
+            {/*            }}*/}
+            {/*>*/}
+            {/*    <ChevronRight fontSize={"large"} color={"secondary"}/>*/}
+            {/*</IconButton>*/}
+            {/*</Stack>*/}
+
+            <div className={props.flippableSlides ? "embla__viewport__flippable" : "embla__viewport"}
+                 ref={emblaRef}>
                 <div className="embla__container">
                     {slides.map((element: React.JSX.Element, index: number) => (
                         <div className={getSlideClassname(index)} key={index} style={{
@@ -189,14 +224,6 @@ const EmblaCarousel: React.FunctionComponent<EmblaCarouselProps> = (props: Embla
                         </IconButton>
                     </Tooltip>
                 </Stack>
-
-                {/*<div*/}
-                {/*    className={`embla__progress`.concat(*/}
-                {/*        showAutoplayProgress ? '' : ' embla__progress--hidden'*/}
-                {/*    )}*/}
-                {/*>*/}
-                {/*    <div className="embla__progress__bar" ref={progressNode}/>*/}
-                {/*</div>*/}
 
                 <div className="embla__dots">
                     {scrollSnaps.map((_, index) => (

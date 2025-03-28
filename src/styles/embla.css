@@ -1,20 +1,66 @@
 .embla {
     --slide-height: auto;
-    --slide-spacing: 4rem;
+    --slide-spacing: 14rem;
+    width: 85%;
     /*--slide-size: 33%;*/
 }
 
 .embla__viewport {
-    overflow: hidden;
     padding-top: 1rem;
     padding-bottom: 1.75rem;
-    /*-webkit-mask-image: -webkit-radial-gradient(circle, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));*/
+    overflow: visible;
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Small (sm) */
+@media (min-width: 600px) {
+    .embla {
+        --slide-height: auto;
+        --slide-spacing: 4rem;
+        width: 85%;
+        /*--slide-size: 33%;*/
+    }
+}
+
+/* Medium (md) */
+@media (min-width: 900px) {
+    .embla {
+        --slide-height: auto;
+        --slide-spacing: 4rem;
+        width: 85%;
+        /*--slide-size: 33%;*/
+    }
+}
+
+/* Large (lg) */
+@media (min-width: 1200px) {
+    .embla {
+        --slide-height: auto;
+        --slide-spacing: 6rem;
+        /*--slide-size: 33%;*/
+    }
+}
+
+/* Extra large (xl) */
+@media (min-width: 1536px) {
+    .embla {
+        --slide-height: auto;
+        --slide-spacing: 3.75rem;
+        /*--slide-size: 33%;*/
+    }
 }
 
 .embla__viewport__flippable {
-    overflow: hidden;
+    overflow: visible;
     padding-bottom: 4rem;
     padding-top: 4rem;
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     /*-webkit-mask-image: -webkit-radial-gradient(circle, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));*/
 }
 

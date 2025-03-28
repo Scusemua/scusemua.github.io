@@ -52,43 +52,43 @@ const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
 
     const getHoverScale = () => {
         if (mq_xs) {
-            return { scale: 1.0 }
+            return {scale: 1.0}
         }
 
         if (mq_sm || mq_md) {
-            return { scale: 1.025 }
+            return {scale: 1.025}
         }
 
-        return { scale: 1.05 }
+        return {scale: 1.05}
     }
 
-    return (<EmblaCarousel className={styles.projects_container}
-                           slides={projects.map((project: Project, idx: number) => {
-                               return (
-                                   <motion.div
-                                       variants={cardVariant}
-                                       style={{
-                                           margin: "0 auto",
-                                           justifyContent: "center",
-                                           width: "100%",
-                                       }}
-                                       whileHover={!mq_xs ? getHoverScale() : undefined}
-                                       key={`project-${project.name}-display-${idx}`}>
-                                       <ProjectDisplay key={`project-${idx}-${project.name}`}
-                                                       project={project}
-                                                       is_xs={mq_xs || mq_sm || mq_md}
-                                                       toggleExpansion={toggleProjectExpanded}
-                                                       expanded={expandedProjects.get(project.name) || false}
-                                       />
-                                   </motion.div>
-                               );
-                           })}
-                           autoplayEnabled={true}
-                           onSelectedIndexChanged={onProjectSelectedIndexChanged}
-                           options={{
-                               loop: true,
-                           }}
-    />);
+    return (
+        <EmblaCarousel className={styles.projects_container}
+                       slides={projects.map((project: Project, idx: number) => {
+                           return (
+                               <motion.div
+                                   variants={cardVariant}
+                                   style={{
+                                       width: "100%",
+                                   }}
+                                   whileHover={!mq_xs ? getHoverScale() : undefined}
+                                   key={`project-${project.name}-display-${idx}`}>
+                                   <ProjectDisplay key={`project-${idx}-${project.name}`}
+                                                   project={project}
+                                                   is_xs={mq_xs || mq_sm || mq_md}
+                                                   toggleExpansion={toggleProjectExpanded}
+                                                   expanded={expandedProjects.get(project.name) || false}
+                                   />
+                               </motion.div>
+                           );
+                       })}
+                       autoplayEnabled={true}
+                       onSelectedIndexChanged={onProjectSelectedIndexChanged}
+                       options={{
+                           loop: true,
+                       }}
+        />
+    );
 }
 
 export default CarouselProjectsDisplay;
