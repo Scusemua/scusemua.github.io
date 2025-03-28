@@ -18,7 +18,7 @@ import {
     Chip,
     Collapse,
     Stack,
-    Tooltip
+    Tooltip, useMediaQuery
 } from "@mui/material";
 
 import Typography from '@mui/material/Typography';
@@ -41,6 +41,8 @@ import 'prismjs/components/prism-python';
 import 'prismjs/themes/prism-tomorrow.css';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.js'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
+import Tiltable from "@src/components/Effects/Tiltable";
+import theme from "@src/app/theme";
 
 interface ProjectProps {
     project: Project;
@@ -178,6 +180,9 @@ const PaperLinks: React.FunctionComponent<PaperLinksProps> = (props: PaperLinksP
 }
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
+    const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+
     React.useEffect(() => {
         highlightAll();
     }, []);
@@ -341,76 +346,90 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         return `${height}rem`;
     }
 
+    const getRotationFactor = (): number => {
+        if (mq_md_or_less) {
+            return 3;
+        }
+
+        if (mq_lg) {
+            return 4;
+        }
+
+        return 5;
+    }
+
     return (
-        <Card
-            style={{
-                margin: "0 auto",
-                width: props.is_xs ? "95%" : "100%",
-            }}
-            sx={{
-                boxShadow: 3,
-            }}
-            raised={true}
-            className={styles.project_section_card}
-        >
-            <CardActionArea onClick={() => onClickCardActionArea()} sx={{
-                width: "100%",
-            }}>
-                <CardMedia className={styles.project_media_background} onClick={() => onClickCard()}>
-                    <div style={{
-                        position: 'relative',
-                        margin: "0 auto",
-                        height: '150px',
-                        zIndex: 5,
-                    }}>
-                        <Image
-                            src={props.project.image}
-                            fill
-                            alt="Project Logo"
-                            style={{objectFit: 'contain'}}
-                        />
-                    </div>
-                </CardMedia>
-                {cardHeader}
-                <CardContent
-                    style={{
-                        overflow: props.expanded ? "auto" : "hidden",
-                        width: "100%",
-                        height: (props.expanded ? getExpandedHeight() : "6rem"),
-                        transition: "height 0.25s ease-in-out",
-                        scrollbarGutter: "stable",
-                    }}
-                >
-                    <div style={{position: "relative"}}>
-                        <ProjectDescription project={props.project} is_xs={props.is_xs} isPreview={true}
-                                            onClickCard={onClickCard} expanded={props.expanded}
-                        />
-                        <Collapse
-                            in={props.expanded}
-                            unmountOnExit
-                            timeout={"auto"}
-                            sx={{
-                                marginBottom: "-1rem",
-                                position: "relative",
-                            }}
-                        >
-                            <ProjectDescription project={props.project} is_xs={props.is_xs} isPreview={false}
-                                                onClickCard={onClickCard} expanded={props.expanded}/>
-                            <Stack direction={"column"}
-                                   spacing={1}
-                                   justifyContent={"center"}
-                                   alignItems={"center"}
-                                   alignContent={"center"}>
-                                {props.project.architectureDiagram && architectureDiagram}
-                                {props.project.questionsAndAnswers && questionsAndAnswers}
-                                {keywords}
-                            </Stack>
-                        </Collapse>
-                    </div>
-                </CardContent>
-            </CardActionArea>
-            {cardActions}
-        </Card>
+        <Tiltable height={'auto'} hoverScale={1} rotationFactor={getRotationFactor()}>
+            <Card
+                style={{
+                    margin: "0 auto",
+                    width: props.is_xs ? "95%" : "100%",
+                }}
+                sx={{
+                    boxShadow: 3,
+                }}
+                raised={true}
+                className={styles.project_section_card}
+            >
+                <CardActionArea onClick={() => onClickCardActionArea()} sx={{
+                    width: "100%",
+                }}>
+                    <CardMedia className={styles.project_media_background} onClick={() => onClickCard()}>
+                        <div style={{
+                            position: 'relative',
+                            margin: "0 auto",
+                            height: '150px',
+                            zIndex: 5,
+                        }}>
+                            <Image
+                                src={props.project.image}
+                                fill
+                                alt="Project Logo"
+                                style={{objectFit: 'contain'}}
+                            />
+                        </div>
+                    </CardMedia>
+                    {cardHeader}
+                    <CardContent
+                        style={{
+                            overflow: props.expanded ? "auto" : "hidden",
+                            width: "100%",
+                            height: (props.expanded ? getExpandedHeight() : "6rem"),
+                            transition: "height 0.25s ease-in-out",
+                            scrollbarGutter: "stable",
+                        }}
+                    >
+                        <div style={{position: "relative"}}>
+                            <ProjectDescription project={props.project} is_xs={props.is_xs} isPreview={true}
+                                                onClickCard={onClickCard} expanded={props.expanded}
+                            />
+                            <Collapse
+                                in={props.expanded}
+                                unmountOnExit
+                                timeout={"auto"}
+                                sx={{
+                                    marginBottom: "-1rem",
+                                    position: "relative",
+                                }}
+                            >
+                                <ProjectDescription project={props.project} is_xs={props.is_xs} isPreview={false}
+                                                    onClickCard={onClickCard} expanded={props.expanded}/>
+                                <Stack direction={"column"}
+                                       spacing={1}
+                                       justifyContent={"center"}
+                                       alignItems={"center"}
+                                       alignContent={"center"}>
+                                    {props.project.architectureDiagram && architectureDiagram}
+                                    {props.project.questionsAndAnswers && questionsAndAnswers}
+                                    {keywords}
+                                </Stack>
+                            </Collapse>
+                        </div>
+                    </CardContent>
+                </CardActionArea>
+                {cardActions}
+            </Card>
+        </Tiltable>
     );
 };
 export default ProjectDisplay;

@@ -19,7 +19,6 @@ import DownloadIcon from '@mui/icons-material/Download';
 import theme from "@src/app/theme";
 import {BubbleContext} from "@src/providers/BubbleContext";
 import Link from "next/link";
-import Tiltable from "@src/components/Cards/Tiltable";
 
 interface HeadshotProps {
 }

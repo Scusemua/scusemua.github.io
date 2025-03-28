@@ -50,6 +50,18 @@ const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
         setExpandedProjects(prev => new Map(prev).set(name, expanded));
     }
 
+    const getHoverScale = () => {
+        if (mq_xs) {
+            return { scale: 1.0 }
+        }
+
+        if (mq_sm || mq_md) {
+            return { scale: 1.025 }
+        }
+
+        return { scale: 1.05 }
+    }
+
     return (<EmblaCarousel className={styles.project_container}
                            slides={projects.map((project: Project, idx: number) => {
                                return (
@@ -60,9 +72,7 @@ const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
                                            justifyContent: "center",
                                            width: "100%",
                                        }}
-                                       whileHover={!mq_xs ? {
-                                           scale: 1.05,
-                                       } : undefined}
+                                       whileHover={!mq_xs ? getHoverScale() : undefined}
                                        key={`project-${project.name}-display-${idx}`}>
                                        <ProjectDisplay key={`project-${idx}-${project.name}`}
                                                        project={project}

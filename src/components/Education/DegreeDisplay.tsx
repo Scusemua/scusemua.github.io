@@ -24,8 +24,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import {LibraryBooks} from "@mui/icons-material";
 import theme from "@src/app/theme";
 import SchoolIcon from "@mui/icons-material/School";
-import IconButton from "@mui/material/IconButton";
-import Tiltable from "@src/components/Cards/Tiltable";
+import Tiltable from "@src/components/Effects/Tiltable";
 
 interface DegreeDisplayProps {
     degree: DegreeInfo;
