@@ -19,6 +19,7 @@ import theme from "@src/app/theme";
 import React, {Context} from "react";
 import {BubbleContext, BubbleProvider, BubbleState} from "@src/providers/BubbleContext";
 import {ParallaxProviders} from "@src/providers/ParallaxProvider";
+import {SettingsProvider} from "@src/components/Context/SettingsContext";
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
@@ -53,21 +54,23 @@ export default function RootLayout({
             <ThemeProvider theme={theme}>
                 <BubbleProvider>
                     <ParallaxProviders>
-                        <BubbleContext.Consumer>
-                            {(bubbleState: BubbleState) => {
-                                return (<main>
-                                    {/*<div className="gradient_background" style={{width: "100%", zIndex: -1}}/>*/}
-                                    {/*{bubbleState.bubblesEnabled &&*/}
-                                    {/*    <div id={mq_xs ? "mobile_stars" : "stars"} style={{zIndex: 2}}/>}*/}
-                                    {/*{bubbleState.bubblesEnabled &&*/}
-                                    {/*    <div id={mq_xs ? "mobile_stars2" : "stars2"} style={{zIndex: 2}}/>}*/}
-                                    {/*{bubbleState.bubblesEnabled &&*/}
-                                    {/*    <div id={mq_xs ? "mobile_stars3" : "stars3"} style={{zIndex: 2}}/>}*/}
-                                    {children}
-                                </main>);
-                            }
-                            }
-                        </BubbleContext.Consumer>
+                        <SettingsProvider>
+                            <BubbleContext.Consumer>
+                                {(bubbleState: BubbleState) => {
+                                    return (<main>
+                                        {/*<div className="gradient_background" style={{width: "100%", zIndex: -1}}/>*/}
+                                        {/*{bubbleState.bubblesEnabled &&*/}
+                                        {/*    <div id={mq_xs ? "mobile_stars" : "stars"} style={{zIndex: 2}}/>}*/}
+                                        {/*{bubbleState.bubblesEnabled &&*/}
+                                        {/*    <div id={mq_xs ? "mobile_stars2" : "stars2"} style={{zIndex: 2}}/>}*/}
+                                        {/*{bubbleState.bubblesEnabled &&*/}
+                                        {/*    <div id={mq_xs ? "mobile_stars3" : "stars3"} style={{zIndex: 2}}/>}*/}
+                                        {children}
+                                    </main>);
+                                }
+                                }
+                            </BubbleContext.Consumer>
+                        </SettingsProvider>
                     </ParallaxProviders>
                 </BubbleProvider>
             </ThemeProvider>

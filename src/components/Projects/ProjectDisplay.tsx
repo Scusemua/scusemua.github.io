@@ -43,6 +43,7 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers.js'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 import Tiltable from "@src/components/Effects/Tiltable";
 import theme from "@src/app/theme";
+import {useSettings} from "@src/components/Context/SettingsContext";
 
 interface ProjectProps {
     project: Project;
@@ -346,6 +347,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         return `${height}rem`;
     }
 
+    const { rotationMultiplier } = useSettings();
+
     const getRotationFactor = (): number => {
         if (mq_md_or_less) {
             return 3;
@@ -355,7 +358,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             return 4;
         }
 
-        return 5;
+        return rotationMultiplier;
     }
 
     return (

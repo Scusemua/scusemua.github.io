@@ -19,11 +19,17 @@ import DownloadIcon from '@mui/icons-material/Download';
 import theme from "@src/app/theme";
 import {BubbleContext} from "@src/providers/BubbleContext";
 import Link from "next/link";
+import {SettingsRounded} from "@mui/icons-material";
+import SettingsModal from "@src/components/Modals/SettingsModal";
 
 interface HeadshotProps {
 }
 
-const ExtraSmallHeadshotLayout: React.FunctionComponent = () => {
+interface HeaderLayoutProps {
+    onClickSettingsButton: () => void;
+}
+
+const ExtraSmallHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
     return (
         <Stack
             className={styles.headshot_container}
@@ -44,7 +50,7 @@ const ExtraSmallHeadshotLayout: React.FunctionComponent = () => {
                 priority={true}
             />
             <div className={styles.social_links_container}>
-                <SocialLinks/>
+                <SocialLinks onClickSettingsButton={props.onClickSettingsButton}/>
             </div>
             <div className={styles.headshot_header_text_greeting}>
                 <Typography variant={"h2"}>{PersonalData.name}</Typography>
@@ -62,7 +68,7 @@ const ExtraSmallHeadshotLayout: React.FunctionComponent = () => {
     );
 }
 
-const SmallHeadshotLayout: React.FunctionComponent = () => {
+const SmallHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
     return (
         <div key={"lg_layout_headshot"} style={{margin: "0 auto"}}>
             <Stack
@@ -89,7 +95,7 @@ const SmallHeadshotLayout: React.FunctionComponent = () => {
                         priority={true}
                     />
                     <div className={styles.social_links_container}>
-                        <SocialLinks/>
+                        <SocialLinks onClickSettingsButton={props.onClickSettingsButton}/>
                     </div>
                 </Stack>
                 <div className={styles.headshot_header_text_greeting}>
@@ -106,7 +112,7 @@ const SmallHeadshotLayout: React.FunctionComponent = () => {
     );
 }
 
-const MediumOrLargeHeadshotLayout: React.FunctionComponent = () => {
+const MediumOrLargeHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
     return (
         <div key={"lg_layout_headshot"}>
             <Stack
@@ -137,7 +143,7 @@ const MediumOrLargeHeadshotLayout: React.FunctionComponent = () => {
                             priority={true}
                         />
                         <div className={styles.social_links_container}>
-                            <SocialLinks/>
+                            <SocialLinks onClickSettingsButton={props.onClickSettingsButton}/>
                         </div>
                     </Stack>
                     <div className={styles.headshot_header_text_greeting}>
@@ -211,7 +217,7 @@ const HeaderButtons: React.FunctionComponent = () => {
     );
 }
 
-const ExtraLargeHeadshotLayout: React.FunctionComponent = () => {
+const ExtraLargeHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
     return (
         <div key={"xl_layout_headshot"}>
             <Stack
@@ -242,7 +248,7 @@ const ExtraLargeHeadshotLayout: React.FunctionComponent = () => {
                         />
                     </div>
                     <div className={styles.social_links_container}>
-                        <SocialLinks/>
+                        <SocialLinks onClickSettingsButton={props.onClickSettingsButton}/>
                     </div>
                 </Stack>
                 <Stack
@@ -267,7 +273,7 @@ const ExtraLargeHeadshotLayout: React.FunctionComponent = () => {
                     <div style={{width: "86%", margin: "0 auto"}}>
                         <HeaderBioText mq_xs={false}/>
                     </div>
-                    <div><HeaderButtons/></div>
+                    <HeaderButtons/>
                 </Stack>
             </Stack>
         </div>
@@ -298,7 +304,11 @@ const HeaderBioText: React.FunctionComponent<HeaderBioTextProps> = (props: Heade
     </div>);
 }
 
-const SocialLinks: React.FunctionComponent = () => {
+interface SocialLinksProps {
+    onClickSettingsButton: () => void;
+}
+
+const SocialLinks: React.FunctionComponent<SocialLinksProps> = (props: SocialLinksProps) => {
     return (<Stack direction={"row"} spacing={1} style={{zIndex: 2, justifyContent: "center", alignItems: "center"}}>
         <Tooltip title={"GitHub"} arrow>
             <IconButton aria-label={"GitHub"} size="large" component={Link}
@@ -329,6 +339,11 @@ const SocialLinks: React.FunctionComponent = () => {
                 <SchoolIcon fontSize="inherit"/>
             </IconButton>
         </Tooltip>
+        <Tooltip title={"Settings"} arrow>
+            <IconButton size="large" onClick={props.onClickSettingsButton}>
+                <SettingsRounded fontSize="inherit"/>
+            </IconButton>
+        </Tooltip>
     </Stack>);
 }
 
@@ -342,6 +357,8 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
 
     const {bubblesEnabled, setBubblesEnabled} = React.useContext(BubbleContext);
 
+    const [settingsModalOpen, setSettingsModalOpen] = React.useState<boolean>(false);
+
     const getTopMargin = () => {
         if (mq_xl) {
             return "2rem";
@@ -352,14 +369,17 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         }
     };
 
+    console.log(`settingsModalOpen: ${settingsModalOpen}`)
+
     return (
         <div className={styles.headshot} ref={ref} key={"headshot_layout_wrapper"}
              style={{marginTop: getTopMargin(), marginLeft: 'auto', marginRight: 'auto'}}>
-            {mq_xl && <ExtraLargeHeadshotLayout/>}
-            {(mq_md || mq_lg) && <MediumOrLargeHeadshotLayout/>}
-            {mq_sm && <SmallHeadshotLayout/>}
-            {mq_xs && <ExtraSmallHeadshotLayout/>}
+            {mq_xl && <ExtraLargeHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
+            {(mq_md || mq_lg) && <MediumOrLargeHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
+            {mq_sm && <SmallHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
+            {mq_xs && <ExtraSmallHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
             {!mq_xl && <HeaderButtons/>}
+            <SettingsModal open={settingsModalOpen} onClose={() => setSettingsModalOpen(false)}/>
         </div>
     );
 });
