@@ -10,6 +10,7 @@ interface FlippableCardProps {
     height: string | number;
     front: ReactNode;
     back: ReactNode;
+    isFlipped?: boolean;
 }
 
 //Spring animation parameters
@@ -23,9 +24,17 @@ const FlippableCard: React.FunctionComponent<FlippableCardProps> = (props: Flipp
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
 
-    const [isFlipped, setIsFlipped] = React.useState<boolean>(false);
+    const [isFlipped, setIsFlipped] = React.useState<boolean>(props.isFlipped || false);
 
     const { rotationMultiplier } = useSettings();
+
+    const getIsFlipped = (): boolean => {
+        if (props.isFlipped !== undefined) {
+            return props.isFlipped;
+        }
+
+        return isFlipped;
+    }
 
     const cardContent = (<div
         style={{
@@ -38,11 +47,11 @@ const FlippableCard: React.FunctionComponent<FlippableCardProps> = (props: Flipp
         onClick={() => setIsFlipped(!isFlipped)}
     >
         <motion.div
-            animate={{rotateY: isFlipped ? -180 : 0}}
+            animate={{rotateY: getIsFlipped() ? -180 : 0}}
             transition={spring}
             style={{
                 width: "100%",
-                zIndex: isFlipped ? 0 : 1,
+                zIndex: getIsFlipped() ? 0 : 1,
                 backfaceVisibility: "hidden",
                 position: "absolute",
                 height: "100%",
@@ -56,11 +65,11 @@ const FlippableCard: React.FunctionComponent<FlippableCardProps> = (props: Flipp
         </motion.div>
         <motion.div
             initial={{rotateY: 180}}
-            animate={{rotateY: isFlipped ? 0 : 180}}
+            animate={{rotateY: getIsFlipped() ? 0 : 180}}
             transition={spring}
             style={{
                 width: "100%",
-                zIndex: isFlipped ? 1 : 0,
+                zIndex: getIsFlipped() ? 1 : 0,
                 backfaceVisibility: "hidden",
                 position: "absolute",
                 height: "100%",
