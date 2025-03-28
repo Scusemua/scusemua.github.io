@@ -1,8 +1,5 @@
 import React, {ReactNode} from "react";
-import {useMediaQuery} from "@mui/material";
-import theme from "@src/app/theme";
 import {motion, useSpring} from "framer-motion";
-import styles from "@styles/components/Education.module.scss";
 
 //Spring animation parameters
 const spring = {
