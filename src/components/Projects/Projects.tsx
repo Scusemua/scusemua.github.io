@@ -15,6 +15,7 @@ import theme from "@src/app/theme";
 import EmblaCarousel from "@src/components/Carousel/EmblaCarousel";
 
 import "@styles/embla.css"
+import Tiltable from "@src/components/Cards/Tiltable";
 
 const cardContainerVariant = {
     hidden: {
@@ -52,8 +53,6 @@ const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
-    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
-    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const [expandedProjects, setExpandedProjects] = React.useState<Map<string, boolean>>(new Map<string, boolean>());
 
@@ -82,12 +81,22 @@ const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
     return (<EmblaCarousel className={styles.project_container}
                            slides={projects.map((project: Project, idx: number) => {
                                return (
-                                   <ProjectDisplay key={`project-${idx}-${project.name}`}
-                                                   project={project}
-                                                   is_xs={mq_xs || mq_sm || mq_md}
-                                                   toggleExpansion={toggleProjectExpanded}
-                                                   expanded={expandedProjects.get(project.name) || false}
-                                   />
+                                   <motion.div
+                                       variants={cardVariant}
+                                       style={{
+                                           margin: "0 auto",
+                                       }}
+                                       whileHover={!mq_xs ? {
+                                           scale: 1.05,
+                                       } : undefined}
+                                       key={`project-${project.name}-display-${idx}`}>
+                                       <ProjectDisplay key={`project-${idx}-${project.name}`}
+                                                       project={project}
+                                                       is_xs={mq_xs || mq_sm || mq_md}
+                                                       toggleExpansion={toggleProjectExpanded}
+                                                       expanded={expandedProjects.get(project.name) || false}
+                                       />
+                                   </motion.div>
                                );
                            })}
                            autoplayEnabled={true}
@@ -176,15 +185,12 @@ const GridProjectsDisplay = ({projects}: { projects: Project[] }) => {
                                    scale: 1.05,
                                } : undefined}
                                key={`project-${project.name}-display-${index}`}>
-                            <div style={{overflow: "hidden"}}
-                                 className={styles.project_section_card}>
-                                <ProjectDisplay
-                                    toggleExpansion={toggleProjectExpanded}
-                                    expanded={expandedProjects.get(project.name) || false}
-                                    project={project}
-                                    is_xs={mq_xs}
-                                />
-                            </div>
+                            <ProjectDisplay
+                                toggleExpansion={toggleProjectExpanded}
+                                expanded={expandedProjects.get(project.name) || false}
+                                project={project}
+                                is_xs={mq_xs}
+                            />
                         </Grid2>
                     );
                 })}
@@ -237,8 +243,6 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
             </Typography>
 
             <ProjectsDisplay projects={CurrentProjects} variant={'carousel'}/>
-
-            {/*{getCurrentProjectsAsCarousel()}*/}
         </Stack>
     )
 });
