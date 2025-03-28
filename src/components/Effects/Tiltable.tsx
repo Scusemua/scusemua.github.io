@@ -11,6 +11,7 @@ const spring = {
 
 interface TiltableCardProps {
     height: number | string;
+    width?: number | string;
     hoverScale: number;
     children: ReactNode | undefined;
     rotationFactor: number;
@@ -53,7 +54,19 @@ const Tiltable: React.FunctionComponent<TiltableCardProps> = (props: TiltableCar
     React.useEffect(() => {
         dx.set(-rotateXaxis)
         dy.set(rotateYaxis)
-    }, [rotateXaxis, rotateYaxis])
+    }, [dx, dy, rotateXaxis, rotateYaxis])
+
+    const getWidth = (): string => {
+        if (props.width === undefined) {
+            return "100%";
+        }
+
+        if (isString(props.width)) {
+            return props.width;
+        }
+
+        return `${props.width}px`;
+    }
 
     return (
         <motion.div
@@ -61,7 +74,7 @@ const Tiltable: React.FunctionComponent<TiltableCardProps> = (props: TiltableCar
             style={{
                 perspective: "1200px",
                 transformStyle: "preserve-3d",
-                width: `100%`,
+                width: getWidth(),
                 height: isString(props.height) ? props.height : `${props.height}px`,
                 margin: "0 auto",
                 pointerEvents: "none",

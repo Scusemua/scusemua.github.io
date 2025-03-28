@@ -36,11 +36,10 @@ $breakpoints: (
 
   &_degree_container {
     @extend .education;
+    width: 100%;
 
     &_card {
       transform-style: preserve-3d;
-      overflow: auto;
-      pointer-events: auto;
 
       &:hover {
         // box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);

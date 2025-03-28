@@ -41,7 +41,6 @@ const DEGREE_CARD_HEIGHT: number = 525;
 const EducationContent: React.FunctionComponent = () => {
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
-    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const coreContent = (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                                 className={styles.education_degree_container}>
@@ -76,7 +75,6 @@ const EducationContent: React.FunctionComponent = () => {
                             initial="hidden"
                             whileInView="visible"
                             style={{
-                                width: mq_xl ? "90%" : "85%",
                                 margin: "0 auto",
                                 textAlign: "center",
                                 justifyContent: "center",
@@ -91,12 +89,12 @@ const EducationContent: React.FunctionComponent = () => {
 
 // const EducationSection: React.FunctionComponent<EducationSectionProps> = (props: EducationSectionProps) => {
 const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_props: EducationSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
-    const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     return (<div className={`${styles.education}`} id="education" ref={ref}>
         <Typography variant={"h2"} className={styles.education_header_text}>Education</Typography>
         <div style={{
-            width: mq_md_or_less ? "90%" : "100%",
+            width: mq_xl ? "90%" : "100%",
             margin: "0 auto",
         }}>
             <EducationContent/>

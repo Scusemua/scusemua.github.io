@@ -228,15 +228,15 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'))
 
-    const [isFlipped, setIsFlipped] = React.useState<boolean>(false);
-
     const {rotationMultiplier} = useSettings();
 
     // If there's no coursework, then the card will not respond to mouse and will not be clickable.
     if (!props.degree.coursework) {
-        return (<DegreeDisplaySide variant={'front'} degree={props.degree} handleClick={() => {
-        }}
-                                   is_xs={mq_xs} is_xl={mq_xl}/>);
+        return (
+            <DegreeDisplaySide variant={'front'} degree={props.degree}
+                               handleClick={() => {
+                               }}
+                               is_xs={mq_xs} is_xl={mq_xl}/>);
     }
 
     const getRotationFactor = (): number => {
@@ -253,7 +253,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
 
     return (
         <Tiltable height={props.height || 500} hoverScale={!mq_md_or_less ? 1.0325 : 1}
-                  rotationFactor={getRotationFactor()}>
+                  rotationFactor={getRotationFactor()} width={mq_md_or_less ? "90%" : "100%"}>
             <FlippableCard
                 height={props.height || 500}
                 front={<DegreeDisplaySide variant={'front'}
