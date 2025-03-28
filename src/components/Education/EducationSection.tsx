@@ -67,8 +67,6 @@ const EducationContent: React.FunctionComponent = () => {
 
     if (mq_md_or_less || mq_lg) {
         return <EmblaCarousel className={styles.education_degree_container}
-                              is_md_or_less={mq_md_or_less}
-                              is_lg={mq_lg}
                               slides={getSlides(AllDegreeInfo)}
                               flippableSlides={true}
                               autoplayEnabled={false}

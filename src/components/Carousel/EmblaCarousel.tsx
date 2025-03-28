@@ -6,19 +6,18 @@ import useEmblaCarousel from 'embla-carousel-react'
 
 import Autoplay from 'embla-carousel-autoplay'
 import {useAutoplay} from "@src/components/Carousel/EmblaCarouselAutoplay";
-import {Stack, Tooltip} from "@mui/material";
+import {Stack, Tooltip, useMediaQuery} from "@mui/material";
 import {ArrowBack, ArrowForward, Lens, PanoramaFishEye, PlayArrowRounded, StopRounded} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
+import theme from "@src/app/theme";
 
-type PropType = {
+type EmblaCarouselProps = {
     slides: React.JSX.Element[]
     flippableSlides?: boolean;
     onSelectedIndexChanged?: (selectedIndex: number) => void;
     options?: EmblaOptionsType
     autoplayEnabled?: boolean;
     className?: string
-    is_md_or_less?: boolean;
-    is_lg?: boolean;
 }
 
 const numberWithinRange = (number: number, min: number, max: number): number =>
@@ -28,7 +27,10 @@ const TWEEN_FACTOR_BASE: number = 0.54
 
 const DEFAULT_AUTOPLAY_DELAY: number = 10000;
 
-const EmblaCarousel: React.FC<PropType> = (props) => {
+const EmblaCarousel: React.FunctionComponent<EmblaCarouselProps> = (props: EmblaCarouselProps) => {
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const is_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
+
     const {slides, options, className} = props
     // @ts-ignore
     const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay({
@@ -112,11 +114,11 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     }, [emblaApi, tweenOpacity])
 
     const getFlexPercent = () => {
-        if (props.is_lg) {
+        if (mq_lg) {
             return "75";
         }
 
-        if (props.is_md_or_less) {
+        if (is_md_or_less) {
             return "100";
         }
 
@@ -146,7 +148,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     return (
         <section className={className ? `${className} embla` : "embla"}
                  style={{
-                     maxWidth: props.is_md_or_less ? "100%" : "90%",
+                     maxWidth: is_md_or_less ? "100%" : "90%",
                  }}
         >
             <div className={props.flippableSlides ? "embla__viewport__flippable" : "embla__viewport"} ref={emblaRef}>
