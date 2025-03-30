@@ -20,8 +20,8 @@ body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.7;
     background-size: 100%;
+    /*background: linear-gradient(to bottom, #811351, #120c4d, #1c1860, #961a60, #784BA0) no-repeat;*/
     background: linear-gradient(to bottom, #811351, #120c4d, #1c1860, #961a60, #784BA0) no-repeat;
-
 }
 
 a {

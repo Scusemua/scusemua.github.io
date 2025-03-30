@@ -3,7 +3,7 @@ import {Grid2, useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
 import React from "react";
 import styles from "@styles/components/Projects.module.scss";
-import ProjectDisplay from "@src/components/Projects/ProjectDisplay";
+import ProjectCard from "@src/components/Projects/ProjectDisplay";
 import {motion} from "framer-motion";
 
 const cardContainerVariant = {
@@ -72,7 +72,7 @@ const GridProjectsDisplay = ({projects}: { projects: Project[] }) => {
         return (<Grid2 container rowSpacing={4} columnSpacing={8} alignItems="stretch"
                        className={styles.projects_container}>
             {projects.map((project: Project) => (
-                <ProjectDisplay
+                <ProjectCard
                     toggleExpansion={toggleProjectExpanded}
                     expanded={expandedProjects.get(project.name) || false}
                     project={project}
@@ -113,7 +113,7 @@ const GridProjectsDisplay = ({projects}: { projects: Project[] }) => {
                                    scale: 1.05,
                                } : undefined}
                                key={`project-${project.name}-display-${index}`}>
-                            <ProjectDisplay
+                            <ProjectCard
                                 toggleExpansion={toggleProjectExpanded}
                                 expanded={expandedProjects.get(project.name) || false}
                                 project={project}

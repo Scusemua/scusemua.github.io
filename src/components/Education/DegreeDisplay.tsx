@@ -215,13 +215,6 @@ const DegreeDisplaySide: React.FunctionComponent<DegreeDisplaySideProps> = (prop
         </Card>);
 }
 
-//Spring animation parameters
-const spring = {
-    type: "spring",
-    stiffness: 75,
-    damping: 13,
-}
-
 const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: DegreeDisplayProps) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'))
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));

@@ -19,7 +19,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import theme from "@src/app/theme";
 import {BubbleContext} from "@src/providers/BubbleContext";
 import Link from "next/link";
-import {SettingsRounded} from "@mui/icons-material";
+import {Info, SettingsRounded} from "@mui/icons-material";
 import SettingsModal from "@src/components/Modals/SettingsModal";
 
 interface HeadshotProps {
@@ -292,7 +292,10 @@ const HeaderBioText: React.FunctionComponent<HeaderBioTextProps> = (props: Heade
         className={styles.headshot_header_text_bio_container}
     >
         <div className={styles.headshot_header_text_bio_text}>
-            <Typography variant={"h6"} style={{fontSize: props.mq_xs ? "1.2rem" : "1.5rem"}}>
+            {/*<Typography variant={"h1"} style={{fontSize: props.mq_xs ? "1.5rem" : "1.7rem"}} align={"left"}>*/}
+            {/*    <Info/> About Me*/}
+            {/*</Typography>*/}
+            <Typography variant={"h6"} style={{fontSize: props.mq_xs ? "1.2rem" : "1.5rem"}} align={"justify"}>
                 I'm a 4th year computer science PhD student at George Mason University and a member of
                 the <a href={"https://ds2-lab.github.io/"}>DS<sup>2</sup> lab</a> at the University of Virginia
                 (UVA).

@@ -5,7 +5,7 @@ import React from "react";
 import EmblaCarousel from "@src/components/Carousel/EmblaCarousel";
 import styles from "@styles/components/Projects.module.scss";
 import {motion} from "framer-motion";
-import ProjectDisplay from "@src/components/Projects/ProjectDisplay";
+import ProjectCard from "@src/components/Projects/ProjectDisplay";
 
 const cardVariant = {
     hidden: {
@@ -73,11 +73,11 @@ const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
                                    }}
                                    whileHover={!mq_xs ? getHoverScale() : undefined}
                                    key={`project-${project.name}-display-${idx}`}>
-                                   <ProjectDisplay key={`project-${idx}-${project.name}`}
-                                                   project={project}
-                                                   is_xs={mq_xs || mq_sm || mq_md}
-                                                   toggleExpansion={toggleProjectExpanded}
-                                                   expanded={expandedProjects.get(project.name) || false}
+                                   <ProjectCard key={`project-${idx}-${project.name}`}
+                                                project={project}
+                                                is_xs={mq_xs || mq_sm || mq_md}
+                                                toggleExpansion={toggleProjectExpanded}
+                                                expanded={expandedProjects.get(project.name) || false}
                                    />
                                </motion.div>
                            );
