@@ -337,14 +337,18 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     );
 
     const getExpandedHeight = (): string => {
+        if (!props.project.architectureDiagram && (!props.project.questionsAndAnswers || props.project.questionsAndAnswers.length == 0)) {
+            return "auto";
+        }
+
         let height: number = 20;
 
         if (props.project.questionsAndAnswers && props.project.questionsAndAnswers.length > 0) {
-            height += 6;
+            height += 7;
         }
 
         if (props.project.architectureDiagram) {
-            height += 6;
+            height += 7;
         }
 
         return `${height}rem`;

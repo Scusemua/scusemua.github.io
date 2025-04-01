@@ -1,9 +1,28 @@
 import {createTheme} from '@mui/material/styles';
 import {red} from '@mui/material/colors';
 
+declare module '@mui/material/styles' {
+    interface BreakpointOverrides {
+        xs: true;
+        sm: true;
+        md: true;
+        lg: true;
+        xl: true;
+    }
+}
+
 // A custom theme for this app
 const theme = createTheme({
     cssVariables: true,
+    breakpoints: {
+        values: {
+            xs: 0,
+            sm: 600,
+            md: 900,
+            lg: 1200,
+            xl: 1536,
+        },
+    },
     palette: {
         primary: {
             main: '#A4243B' // To match Shroom Haze

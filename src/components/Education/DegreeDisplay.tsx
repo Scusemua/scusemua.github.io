@@ -219,7 +219,7 @@ const DegreeDisplay: React.FunctionComponent<DegreeDisplayProps> = (props: Degre
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'))
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
-    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'))
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const {rotationMultiplier} = useSettings();
 
