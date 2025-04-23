@@ -155,3 +155,27 @@ body:before{
         transform: translateX(0);
     }
 }
+
+.custom-shape-divider-bottom-1745444908 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    z-index: -1;
+}
+
+.custom-shape-divider-bottom-1745444908 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 130px;
+    z-index: -1;
+}
+
+.custom-shape-divider-bottom-1745444908 .shape-fill {
+    fill: #FFFFFF;
+    z-index: -1;
+}

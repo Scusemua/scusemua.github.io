@@ -380,7 +380,8 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         <div className={styles.headshot} ref={ref} key={"headshot_layout_wrapper"}
              style={{marginTop: getTopMargin(), marginLeft: 'auto', marginRight: 'auto'}}>
             {mq_xl && <ExtraLargeHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
-            {(mq_md || mq_lg) && <MediumOrLargeHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
+            {(mq_md || mq_lg) &&
+                <MediumOrLargeHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
             {mq_sm && <SmallHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
             {mq_xs && <ExtraSmallHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
             {!mq_xl && <HeaderButtons/>}
