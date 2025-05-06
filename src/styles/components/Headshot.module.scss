@@ -69,3 +69,22 @@
 .headshot_cv_button_stack {
   margin-top: 2rem;
 }
+
+.project_divider {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+  margin-top: 5rem;
+
+  svg {
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 98px;
+    fill: #FFFFFF;
+  }
+
+  .shape_fill {
+    fill: #FFFFFF;
+  }
+}

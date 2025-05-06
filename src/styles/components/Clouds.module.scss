@@ -1,0 +1,15 @@
+.cloudContainer {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: -1;
+  fill: #FFFFFF;
+
+  svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 130px;
+    z-index: -1;
+  }
+}
