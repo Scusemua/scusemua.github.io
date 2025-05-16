@@ -48,13 +48,6 @@ import {useSettings} from "@src/components/Context/SettingsContext";
 import FlippableCard from "@src/components/Effects/FlippableCard";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 
-interface ProjectProps {
-    project: Project;
-    expanded: boolean;
-    toggleExpansion: (name: string, expanded: boolean) => void;
-    is_xs: boolean;
-}
-
 // To match the red/blue and sort of the original
 // const badgeColors: string[] = ["#E22753", "#3f5efb"]
 const badgeColors: string[] = ["#A4243B", "#1c40c4"]
@@ -246,16 +239,60 @@ const SlideAndPaperLinksMenu: React.FunctionComponent<SlideAndPaperLinksProps> =
 const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (props: SlideAndPaperLinksProps) => {
     const badge_xs_font: number = 0.55;
 
+    const useBadges = () => {
+        if (props.is_xs) {
+            return true;
+        }
+
+        const num_papers_and_slides: number = props.project.arxiv_links.length + (props.project.presentation_slides?.length || 0);
+
+        return (num_papers_and_slides >= 4 || (num_papers_and_slides >= 3 && props.project.presentation_url));
+    }
+
+    const presentationBadegContent = (
+        <Typography variant={"body2"}
+                    style={{
+                        fontSize: props.is_xs ? `${badge_xs_font}rem` : "",
+                    }}
+        >
+            {props.project.presentation_venue}
+        </Typography>
+    );
+
     return <Stack
         className={styles.paper_and_slide_links}
         direction="row"
-        spacing={{xs: 2.5, sm: 2, md: 2, lg: 2, xl: 2}}
+        spacing={useBadges() ? 3 : 0.75}
         justifyContent={"center"}
         alignItems={"center"}
         sx={{
             marginLeft: props.is_xs ? "0rem" : "0.5rem",
         }}
     >
+        {props.project.presentation_url && props.project.presentation_url !== "" &&
+            <Tooltip title={`Paper Presentation (${props.project.presentation_venue})`} arrow>
+                {useBadges() ? <IconButton size={getIconSize(props.is_xs || false)}
+                                           component={Link}
+                                           aria-label={"Paper Presentation Button"}
+                                           href={props.project.presentation_url}>
+                    <Badge
+                        badgeContent={presentationBadegContent}
+                        anchorOrigin={{
+                            vertical: 'bottom', horizontal: 'right',
+                        }}
+                        sx={{
+                            "& .MuiBadge-badge": {
+                                color: "#fff",
+                                backgroundColor: badgeColors[1],
+                                transform: `translate(30%, 95%)`, // original is (50%, -50%)
+                            }
+                        }}>
+                        <YouTubeIcon/>
+                    </Badge>
+                </IconButton> : <Chip variant={"outlined"} icon={<YouTubeIcon/>}
+                                      label={props.project.presentation_venue} component="a"
+                                      href={props.project.presentation_url} clickable/>}
+            </Tooltip>}
         {props.project.arxiv_links.map((arxiv_url: string, idx: number) => {
             let venue: string;
             if (props.project.arxiv_links.length === 1) {
@@ -272,7 +309,7 @@ const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (pr
             </Typography>);
 
             return (<SlideOrPaperIcon idx={idx} is_xs={props.is_xs} href={arxiv_url} badgeContent={badgeContent}
-                                      variant={"Paper"} iconVariant={props.is_xs ? "Badge" : "Chip"} venue={venue}/>);
+                                      variant={"Paper"} iconVariant={useBadges() ? "Badge" : "Chip"} venue={venue}/>);
         })}
         {props.project.presentation_slides?.map((slides: PresentationSlides, idx: number) => {
             const badgeContent: ReactNode = (<Typography variant={"body2"}
@@ -283,7 +320,7 @@ const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (pr
             </Typography>);
 
             return (<SlideOrPaperIcon idx={idx} is_xs={props.is_xs} href={slides.path} badgeContent={badgeContent}
-                                      variant={"Slides"} iconVariant={props.is_xs ? "Badge" : "Chip"}
+                                      variant={"Slides"} iconVariant={useBadges() ? "Badge" : "Chip"}
                                       venue={slides.venue}/>);
         })}
     </Stack>
@@ -328,6 +365,14 @@ const SlideLinks: React.FunctionComponent<SlideLinkProps> = (props: SlideLinkPro
             </Tooltip>);
         })}
     </Stack>
+}
+
+interface ProjectProps {
+    project: Project;
+    expanded: boolean;
+    toggleExpansion: (name: string, expanded: boolean) => void;
+    is_xs: boolean;
+    is_xl: boolean;
 }
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
@@ -417,7 +462,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         props.toggleExpansion(props.project.name, !props.expanded);
     }
 
-    const useMenuForPapersAndSlides = ():boolean => {
+    const useMenuForPapersAndSlides = (): boolean => {
         if (!props.is_xs) {
             return false;
         }
@@ -439,16 +484,6 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 <WebIcon fontSize="inherit"/>
             </IconButton>
         </Tooltip>}
-        {props.project.presentation_url && props.project.presentation_url !== "" &&
-            <Tooltip title={`Paper Presentation (${props.project.presentation_venue})`} arrow>
-                {props.is_xs ? <IconButton size={getIconSize(props.is_xs)} aria-label={"Paper Presentation Button"}
-                                           component={Link}
-                                           href={props.project.presentation_url}>
-                    <PresentationIcon fill={"#757575"} fontSize="inherit"/>
-                </IconButton> : <Chip variant={"outlined"} icon={<YouTubeIcon/>}
-                                      label={props.project.presentation_venue} component="a"
-                                      href={props.project.presentation_url} clickable/>}
-            </Tooltip>}
         {useMenuForPapersAndSlides() ? <SlideAndPaperLinksMenu project={props.project} is_xs={props.is_xs}/> :
             <SlideAndPaperLinks project={props.project} is_xs={props.is_xs}/>}
         <Button size={getIconSize(props.is_xs)} style={{marginLeft: "auto", color: "#333333"}}
@@ -533,7 +568,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 sx={{
                     boxShadow: 3,
                     width: props.is_xs ? "95%" : "100%",
-                    paddingBottom: props.is_xs ? "10px" : "0px",
+                    paddingBottom: props.is_xs ? "10px" : "5px",
                 }}
                 raised={true}
                 className={styles.project_section_card}
