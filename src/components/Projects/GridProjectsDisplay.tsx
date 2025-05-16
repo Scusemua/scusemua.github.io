@@ -77,6 +77,7 @@ const GridProjectsDisplay = ({projects}: { projects: Project[] }) => {
                     expanded={expandedProjects.get(project.name) || false}
                     project={project}
                     is_xs={mq_xs}
+                    is_xl={mq_xl}
                 />
             ))}
         </Grid2>)
@@ -118,6 +119,7 @@ const GridProjectsDisplay = ({projects}: { projects: Project[] }) => {
                                 expanded={expandedProjects.get(project.name) || false}
                                 project={project}
                                 is_xs={mq_xs}
+                                is_xl={mq_xl}
                             />
                         </Grid2>
                     );
