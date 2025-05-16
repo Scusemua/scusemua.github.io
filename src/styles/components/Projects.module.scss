@@ -16,6 +16,15 @@ $breakpoints: (
 
 $base: value 1.35;
 
+.paper_and_slide_links {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.paper_and_slide_links::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
 .project_section {
   text-align: center;
   justify-content: center;

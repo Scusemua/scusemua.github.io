@@ -1,6 +1,7 @@
 import styles from "@src/styles/components/Projects.module.scss";
 import React, {ReactElement, ReactNode} from "react";
 import Link from "next/link";
+import {styled} from '@mui/material/styles';
 
 import {
     Accordion,
@@ -16,13 +17,13 @@ import {
     CardHeader,
     CardMedia,
     Chip,
-    Collapse,
+    Collapse, ListItemIcon, ListItemText, Menu, MenuItem,
     Stack,
     Tooltip, useMediaQuery
 } from "@mui/material";
 
 import Typography from '@mui/material/Typography';
-import {Project, QuestionAndAnswer} from "@data/ProjectsData";
+import {PresentationSlides, Project, QuestionAndAnswer} from "@data/ProjectsData";
 import IconButton from "@mui/material/IconButton";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import ArticleIcon from '@mui/icons-material/Article';
@@ -32,7 +33,7 @@ import TerminalIcon from '@mui/icons-material/Terminal';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image from "next/image";
 import PresentationIcon from "@icons/presentation";
-import {OpenInNew} from "@mui/icons-material";
+import {FilePresent, OpenInNew, SlideshowRounded} from "@mui/icons-material";
 
 import Prism, {highlightAll} from 'prismjs';
 
@@ -45,6 +46,7 @@ import Tiltable from "@src/components/Effects/Tiltable";
 import theme from "@src/app/theme";
 import {useSettings} from "@src/components/Context/SettingsContext";
 import FlippableCard from "@src/components/Effects/FlippableCard";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 
 interface ProjectProps {
     project: Project;
@@ -76,6 +78,11 @@ interface DescriptionProps {
     isPreview: boolean;
     onClickCard: () => void;
 }
+
+const CustomCardActions = styled(CardActions)(({theme}) => ({
+    justifyContent: 'space-between',
+    gap: theme.spacing(1),
+}));
 
 const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: DescriptionProps) => {
     let descriptions: string[];
@@ -131,49 +138,191 @@ const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: De
     </Typography>
 }
 
-interface PaperLinksProps {
+interface SlideOrPaperIconProps {
+    is_xs?: boolean;
+    idx: number;
+    badgeContent: ReactNode;
+    href: string;
+    variant: "Paper" | "Slides";
+    iconVariant: "Badge" | "Chip";
+    venue: string;
+}
+
+const SlideOrPaperIcon: React.FunctionComponent<SlideOrPaperIconProps> = (props: SlideOrPaperIconProps) => {
+    const getTooltipTitle = () => {
+        if (props.variant === "Paper") {
+            return `View Paper on arXiv`;
+        }
+
+        return `View Presentation Slides`;
+    }
+
+    const translate_x: string = props.is_xs ? "30%" : "33%";
+
+    if (props.iconVariant === "Badge") {
+
+    } else {
+        return (<Tooltip title={getTooltipTitle()} arrow key={`paper-icon-${props.idx}`}>
+            <Chip variant={"outlined"} icon={props.variant === "Paper" ? <ArticleIcon/> : <FilePresent/>}
+                  label={props.venue} component="a" href={props.href} clickable/>
+        </Tooltip>);
+    }
+
+    return (<Tooltip title={getTooltipTitle()} arrow key={`paper-icon-${props.idx}`}>
+        <IconButton size={getIconSize(props.is_xs || false)}
+                    component={Link}
+                    href={props.href}>
+            <Badge sx={{
+                "& .MuiBadge-badge": {
+                    color: "#fff",
+                    backgroundColor: badgeColors[props.idx],
+                    transform: `translate(${translate_x}, 95%)`, // original is (50%, -50%)
+                }
+            }} badgeContent={props.badgeContent} anchorOrigin={{
+                vertical: 'bottom', horizontal: 'right',
+            }}>
+                {props.variant === "Paper" && <ArticleIcon/>}
+                {props.variant === "Slides" && <FilePresent/>}
+            </Badge>
+        </IconButton>
+    </Tooltip>);
+}
+
+interface SlideAndPaperLinksProps {
     project: Project;
     is_xs: boolean;
 }
 
-const PaperLinks: React.FunctionComponent<PaperLinksProps> = (props: PaperLinksProps) => {
+const SlideAndPaperLinksMenu: React.FunctionComponent<SlideAndPaperLinksProps> = (props: SlideAndPaperLinksProps) => {
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    return <div>
+        <Chip
+            id="basic-button"
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+            label={"Slides & Papers"}
+            variant={"outlined"}
+            clickable
+        />
+        <Menu open={open}
+              onClose={handleClose}
+              anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+              }}
+              transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+              }}>
+            {props.project.arxiv_links.map((arxiv_url: string, idx: number) => {
+                let venue: string;
+                if (props.project.arxiv_links.length === 1) {
+                    venue = props.project.venue as string;
+                } else {
+                    venue = (props.project.venue as string[])[idx];
+                }
+
+                return (<MenuItem key={`paper-menu-link-${idx}`} component="a" href={arxiv_url}>
+                    <ListItemIcon>
+                        <ArticleIcon/>
+                    </ListItemIcon>
+                    <ListItemText>{venue}</ListItemText>
+                </MenuItem>);
+            })}
+        </Menu>
+    </div>
+}
+
+const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (props: SlideAndPaperLinksProps) => {
+    const badge_xs_font: number = 0.55;
+
+    return <Stack
+        className={styles.paper_and_slide_links}
+        direction="row"
+        spacing={{xs: 2.5, sm: 2, md: 2, lg: 2, xl: 2}}
+        justifyContent={"center"}
+        alignItems={"center"}
+        sx={{
+            marginLeft: props.is_xs ? "0rem" : "0.5rem",
+        }}
+    >
+        {props.project.arxiv_links.map((arxiv_url: string, idx: number) => {
+            let venue: string;
+            if (props.project.arxiv_links.length === 1) {
+                venue = props.project.venue as string;
+            } else {
+                venue = (props.project.venue as string[])[idx];
+            }
+
+            const badgeContent: ReactNode = (<Typography variant={"body2"}
+                                                         style={{
+                                                             fontSize: props.is_xs ? `${badge_xs_font}rem` : "",
+                                                         }}>
+                {venue}
+            </Typography>);
+
+            return (<SlideOrPaperIcon idx={idx} is_xs={props.is_xs} href={arxiv_url} badgeContent={badgeContent}
+                                      variant={"Paper"} iconVariant={props.is_xs ? "Badge" : "Chip"} venue={venue}/>);
+        })}
+        {props.project.presentation_slides?.map((slides: PresentationSlides, idx: number) => {
+            const badgeContent: ReactNode = (<Typography variant={"body2"}
+                                                         style={{
+                                                             fontSize: props.is_xs ? `${badge_xs_font}rem` : ""
+                                                         }}>
+                {slides.venue as string}
+            </Typography>);
+
+            return (<SlideOrPaperIcon idx={idx} is_xs={props.is_xs} href={slides.path} badgeContent={badgeContent}
+                                      variant={"Slides"} iconVariant={props.is_xs ? "Badge" : "Chip"}
+                                      venue={slides.venue}/>);
+        })}
+    </Stack>
+}
+
+interface SlideLinkProps {
+    project: Project;
+    is_xs: boolean;
+}
+
+const SlideLinks: React.FunctionComponent<SlideLinkProps> = (props: SlideLinkProps) => {
     return <Stack
         direction="row"
-        spacing={{xs: 3, sm: 3, md: 3, lg: 3, xl: 3}}
+        spacing={{xs: 3, sm: 3, md: 3, lg: 3, xl: 4}}
         justifyContent={"center"}
         alignItems={"center"}
     >
-        {props.project.arxiv_links.map((arxiv_url: string, idx: number) => {
-            let badgeContent: ReactNode;
-            if (props.project.arxiv_links.length === 1) {
-                badgeContent = (<Typography variant={"body2"}
-                                            style={{
-                                                fontSize: props.is_xs ? "" : "",
-                                            }}>
-                    {props.project.venue as string}
-                </Typography>);
-            } else {
-                badgeContent = (<Typography variant={"body2"}
-                                            style={{
-                                                fontSize: props.is_xs ? "0.6rem" : "",
-                                            }}>
-                    {(props.project.venue as string[])[idx]}
-                </Typography>);
-            }
+        {props.project.presentation_slides?.map((slides: PresentationSlides, idx: number) => {
+            const badgeContent: ReactNode = (<Typography variant={"body2"}
+                                                         style={{
+                                                             fontSize: props.is_xs ? `$0.55rem` : ""
+                                                         }}>
+                {slides.venue as string}
+            </Typography>);
 
             return (<Tooltip title={`View Paper on arXiv`} arrow key={`paper-icon-${idx}`}>
                 <IconButton size={getIconSize(props.is_xs)}
                             component={Link}
-                            href={arxiv_url}>
+                            href={slides.path}>
                     <Badge sx={{
                         "& .MuiBadge-badge": {
                             color: "#fff",
                             backgroundColor: badgeColors[idx],
+                            transform: 'translate(35%, 95%)', // original is (50%, -50%)
                         }
                     }} badgeContent={badgeContent} anchorOrigin={{
                         vertical: 'bottom', horizontal: 'right',
                     }}>
-                        <ArticleIcon/>
+                        <FilePresent/>
                     </Badge>
                 </IconButton>
             </Tooltip>);
@@ -185,7 +334,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
 
-    const { rotationMultiplier } = useSettings();
+    const {rotationMultiplier} = useSettings();
 
     React.useEffect(() => {
         highlightAll();
@@ -268,7 +417,15 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         props.toggleExpansion(props.project.name, !props.expanded);
     }
 
-    const cardActions = (<CardActions>
+    const useMenuForPapersAndSlides = ():boolean => {
+        if (!props.is_xs) {
+            return false;
+        }
+
+        return (props.project.arxiv_links.length + (props.project.presentation_slides?.length || 0) > 3);
+    }
+
+    const cardActions = (<CustomCardActions disableSpacing={true}>
         {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
             <IconButton aria-label={"GitHub Repo"} size={getIconSize(props.is_xs)} component={Link}
                         href={props.project.repo_url}
@@ -284,19 +441,23 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         </Tooltip>}
         {props.project.presentation_url && props.project.presentation_url !== "" &&
             <Tooltip title={`Paper Presentation (${props.project.presentation_venue})`} arrow>
-                <IconButton size={getIconSize(props.is_xs)} aria-label={"Paper Presentation Button"} component={Link}
-                            href={props.project.repo_url}>
+                {props.is_xs ? <IconButton size={getIconSize(props.is_xs)} aria-label={"Paper Presentation Button"}
+                                           component={Link}
+                                           href={props.project.presentation_url}>
                     <PresentationIcon fill={"#757575"} fontSize="inherit"/>
-                </IconButton>
+                </IconButton> : <Chip variant={"outlined"} icon={<YouTubeIcon/>}
+                                      label={props.project.presentation_venue} component="a"
+                                      href={props.project.presentation_url} clickable/>}
             </Tooltip>}
-        {<PaperLinks project={props.project} is_xs={props.is_xs}/>}
+        {useMenuForPapersAndSlides() ? <SlideAndPaperLinksMenu project={props.project} is_xs={props.is_xs}/> :
+            <SlideAndPaperLinks project={props.project} is_xs={props.is_xs}/>}
         <Button size={getIconSize(props.is_xs)} style={{marginLeft: "auto", color: "#333333"}}
                 endIcon={<ExpandMoreIcon fontSize="inherit"
                                          style={{transform: (props.expanded ? "rotate(180deg)" : "")}}/>}
                 onClick={() => onClickCard()} aria-label={"Expand Project Card Button"}>
             {props.expanded ? "Less" : "More"}
         </Button>
-    </CardActions>);
+    </CustomCardActions>);
 
     const getAnswer = (questionAndAnswer: QuestionAndAnswer): React.JSX.Element => {
         if (isString(questionAndAnswer.answer)) {
@@ -372,6 +533,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 sx={{
                     boxShadow: 3,
                     width: props.is_xs ? "95%" : "100%",
+                    paddingBottom: props.is_xs ? "10px" : "0px",
                 }}
                 raised={true}
                 className={styles.project_section_card}

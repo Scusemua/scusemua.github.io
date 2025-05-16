@@ -31,6 +31,11 @@ export interface QuestionAndAnswer {
     read_more_url?: string;
 }
 
+export interface PresentationSlides {
+    path: string;
+    venue: string;
+}
+
 export interface Project {
     name: string;
     description: string | string[];
@@ -39,6 +44,7 @@ export interface Project {
     project_website_url: string;
     presentation_url?: string;
     presentation_venue?: string;
+    presentation_slides?: PresentationSlides[];
     image: string;
     keywords: string[];
     arxiv_links: string[];
@@ -168,7 +174,13 @@ export const WukongProject: Project = {
                 </Typography>
             </Stack>,
         }
-    ]
+    ],
+    presentation_slides: [
+        {
+            venue: "SOCC'20",
+            path: "slides/wukong_socc20.pdf"
+        },
+    ],
 }
 
 export const InfiniStoreProject: Project = {
@@ -186,6 +198,12 @@ export const InfiniStoreProject: Project = {
     architectureDiagram: <InfiniStoreArchitecture/>,
     architectureDiagramHeight: 370,
     arxiv_links: ["https://arxiv.org/abs/2209.01496"],
+    presentation_slides: [
+        {
+            venue: "VLDB'23",
+            path: "slides/infinistore_vldb23.pdf"
+        },
+    ],
     status: 'inactive',
 }
 
@@ -198,6 +216,8 @@ export const LambdaFSProject: Project = {
     venue: "ASPLOS'23",
     repo_url: "https://github.com/ds2-lab/LambdaFS",
     project_website_url: "",
+    presentation_url: "https://www.youtube.com/watch?v=Joaz3GdkBVA",
+    presentation_venue: "ASPLOS'24",
     image: lfs_logo,
     keywords: ["serverless computing", "functions-as-a-service", "faas", "distributed file systems", "file storage", "metadata"],
     builtWith: ["AWS", "Google Cloud", "IBM Cloud", "Nuclio", "OpenWhisk", "Java", "C++", "MySQL Cluster NDB", "HopsFS", "HDFS"],
@@ -205,6 +225,16 @@ export const LambdaFSProject: Project = {
     architectureDiagramIsInteractive: true,
     status: 'inactive',
     architectureDiagram: <LambdaFSArchitecture/>,
+    presentation_slides: [
+        // {
+        //     venue: "WoSCx2",
+        //     path: "slides/lambdafs_WoSCx2_2023.pdf"
+        // },
+        {
+            venue: "ASPLOS'24",
+            path: "slides/lambdafs_asplos24.pdf"
+        },
+    ],
     architectureDiagramHeight: 300,
     questionsAndAnswers: [
         {
