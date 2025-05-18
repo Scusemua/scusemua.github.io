@@ -500,7 +500,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         </Tooltip>}
         {!props.is_xs && props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
             <IconButton size={getIconSize(props.is_xs)} aria-label={"Project Website Button"} component={Link}
-                        href={props.project.repo_url}>
+                        href={props.project.project_website_url}>
                 <WebIcon fontSize="inherit"/>
             </IconButton>
         </Tooltip>}
