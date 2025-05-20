@@ -33,7 +33,7 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
 
 const TWEEN_FACTOR_BASE: number = 0.54
 
-const DEFAULT_AUTOPLAY_DELAY: number = 10000;
+const DEFAULT_AUTOPLAY_DELAY: number = 5000;
 
 const EmblaCarousel: React.FunctionComponent<EmblaCarouselProps> = (props: EmblaCarouselProps) => {
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));

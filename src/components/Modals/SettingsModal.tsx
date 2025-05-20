@@ -5,7 +5,7 @@ import {
     Slider,
     Typography,
     Button,
-    IconButton, Stack,
+    IconButton, Stack, Checkbox, FormControlLabel,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {DefaultRotationMultiplier, MaxRotationMultiplier, useSettings} from "@src/components/Context/SettingsContext";
@@ -32,11 +32,18 @@ interface SettingsModalProps {
 }
 
 const SettingsModal: React.FC<SettingsModalProps> = ({open, onClose}) => {
-    const {rotationMultiplier, setRotationMultiplier} = useSettings();
+    const {rotationMultiplier, setRotationMultiplier, darkCardActionArea, setDarkCardActionArea} = useSettings();
 
     const handleSliderChange = (_: Event, value: number | number[]) => {
         setRotationMultiplier(value as number);
     };
+
+    const handleDarkCardActionAreaToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDarkCardActionArea(event.target.checked);
+    };
+
+    const darkCardActionAreaCheckbox = (<Checkbox checked={darkCardActionArea} onChange={handleDarkCardActionAreaToggle}
+                                                  inputProps={{'aria-label': 'controlled'}} size={"medium"}/>);
 
     return (
         <Modal open={open} onClose={onClose} aria-labelledby="modal-settings-title">
@@ -74,6 +81,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({open, onClose}) => {
                         ]}
                         valueLabelDisplay="auto"
                     />
+                </Box>
+                <Box mt={3} sx={{
+                    paddingBottom: "25px",
+                    textAlign: "center",
+                }}>
+                    <FormControlLabel control={darkCardActionAreaCheckbox} label={"Dark Project Actions UI"}/>
                 </Box>
 
                 <Box mt={3} display="flex" justifyContent="flex-end">

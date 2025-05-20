@@ -138,6 +138,7 @@ interface SlideOrPaperIconProps {
     variant: "Paper" | "Slides";
     iconVariant: "Badge" | "Chip";
     venue: string;
+    dark_card_actions?: boolean;
 }
 
 const SlideOrPaperIcon: React.FunctionComponent<SlideOrPaperIconProps> = (props: SlideOrPaperIconProps) => {
@@ -151,12 +152,12 @@ const SlideOrPaperIcon: React.FunctionComponent<SlideOrPaperIconProps> = (props:
 
     const translate_x: string = props.is_xs ? "30%" : "33%";
 
-    if (props.iconVariant === "Badge") {
-
-    } else {
+    if (props.iconVariant === "Chip") {
         return (<Tooltip title={getTooltipTitle()} arrow key={`paper-icon-${props.idx}`}>
-            <Chip variant={"outlined"} icon={props.variant === "Paper" ? <ArticleIcon/> : <WebStories/>}
-                  label={props.venue} component="a" href={props.href} clickable/>
+            <Chip variant={"outlined"} label={props.venue} component="a" href={props.href} clickable
+                  style={{color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}} icon={props.variant === "Paper" ?
+                <ArticleIcon style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/> :
+                <WebStories style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}/>
         </Tooltip>);
     }
 
@@ -173,8 +174,10 @@ const SlideOrPaperIcon: React.FunctionComponent<SlideOrPaperIconProps> = (props:
             }} badgeContent={props.badgeContent} anchorOrigin={{
                 vertical: 'bottom', horizontal: 'right',
             }}>
-                {props.variant === "Paper" && <ArticleIcon/>}
-                {props.variant === "Slides" && <WebStories/>}
+                {props.variant === "Paper" &&
+                    <ArticleIcon style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}
+                {props.variant === "Slides" &&
+                    <WebStories style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}
             </Badge>
         </IconButton>
     </Tooltip>);
@@ -183,6 +186,7 @@ const SlideOrPaperIcon: React.FunctionComponent<SlideOrPaperIconProps> = (props:
 interface SlideAndPaperLinksProps {
     project: Project;
     is_xs: boolean;
+    dark_card_actions?: boolean;
 }
 
 const SlideAndPaperLinksMenu: React.FunctionComponent<SlideAndPaperLinksProps> = (props: SlideAndPaperLinksProps) => {
@@ -240,6 +244,7 @@ interface PaperPresentationIconProps {
     is_xs: boolean;
     use_badges: boolean;
     badge_xs_font: string | number;
+    dark_card_actions?: boolean;
 }
 
 const PaperPresentationIcon: React.FunctionComponent<PaperPresentationIconProps> = (props: PaperPresentationIconProps) => {
@@ -270,13 +275,14 @@ const PaperPresentationIcon: React.FunctionComponent<PaperPresentationIconProps>
                         transform: `translate(30%, 95%)`, // original is (50%, -50%)
                     }
                 }}>
-                <YouTubeIcon/>
+                <YouTubeIcon style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>
             </Badge>
         </IconButton>);
     }
 
-    return (<Chip variant={"outlined"} icon={<YouTubeIcon/>}
+    return (<Chip variant={"outlined"} icon={<YouTubeIcon style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}
                   label={props.project.presentation_venue} component="a"
+                  style={{color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}
                   href={props.project.presentation_url} clickable/>);
 }
 
@@ -310,7 +316,8 @@ const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (pr
                 <PaperPresentationIcon is_xs={props.is_xs}
                                        project={props.project}
                                        badge_xs_font={badge_xs_font}
-                                       use_badges={shouldUseBadges}/>
+                                       use_badges={shouldUseBadges}
+                                       dark_card_actions={props.dark_card_actions}/>
             </Tooltip>}
         {props.project.arxiv_links.map((arxiv_url: string, idx: number) => {
             let venue: string;
@@ -329,7 +336,7 @@ const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (pr
 
             return (<SlideOrPaperIcon idx={idx} is_xs={props.is_xs} href={arxiv_url} badgeContent={badgeContent}
                                       variant={"Paper"} iconVariant={shouldUseBadges ? "Badge" : "Chip"}
-                                      venue={venue}/>);
+                                      venue={venue} dark_card_actions={props.dark_card_actions}/>);
         })}
         {props.project.presentation_slides?.map((slides: PresentationSlides, idx: number) => {
             const badgeContent: ReactNode = (<Typography variant={"body2"}
@@ -341,7 +348,7 @@ const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (pr
 
             return (<SlideOrPaperIcon idx={idx} is_xs={props.is_xs} href={slides.path} badgeContent={badgeContent}
                                       variant={"Slides"} iconVariant={shouldUseBadges ? "Badge" : "Chip"}
-                                      venue={slides.venue}/>);
+                                      venue={slides.venue} dark_card_actions={props.dark_card_actions}/>);
         })}
     </Stack>
 }
@@ -379,7 +386,7 @@ const SlideLinks: React.FunctionComponent<SlideLinkProps> = (props: SlideLinkPro
                     }} badgeContent={badgeContent} anchorOrigin={{
                         vertical: 'bottom', horizontal: 'right',
                     }}>
-                        <WebStories/>
+                        <WebStories />
                     </Badge>
                 </IconButton>
             </Tooltip>);
@@ -393,6 +400,7 @@ interface ProjectProps {
     toggleExpansion: (name: string, expanded: boolean) => void;
     is_xs: boolean;
     is_xl: boolean;
+    dark_card_actions?: boolean;
 }
 
 const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectProps) => {
@@ -446,8 +454,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                                 component="div">{props.project.name}</Typography>
                     <Chip label={props.project.status} icon={getStatusIcon()} color={getStatusColor()}/>
                 </Stack>}
-        >
-        </CardHeader>
+        />
     );
 
     const architectureDiagram = (<div style={{
@@ -490,29 +497,47 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         return (props.project.arxiv_links.length + (props.project.presentation_slides?.length || 0) > 3);
     }
 
-    const cardActions = (<CustomCardActions disableSpacing={true}>
-        {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
-            <IconButton aria-label={"GitHub Repo"} size={getIconSize(props.is_xs)} component={Link}
-                        href={props.project.repo_url}
-                        color={"default"}>
-                <GitHubIcon fontSize="inherit"/>
-            </IconButton>
-        </Tooltip>}
-        {!props.is_xs && props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
-            <IconButton size={getIconSize(props.is_xs)} aria-label={"Project Website Button"} component={Link}
-                        href={props.project.project_website_url}>
-                <WebIcon fontSize="inherit"/>
-            </IconButton>
-        </Tooltip>}
-        {useMenuForPapersAndSlides() ? <SlideAndPaperLinksMenu project={props.project} is_xs={props.is_xs}/> :
-            <SlideAndPaperLinks project={props.project} is_xs={props.is_xs}/>}
-        <Button size={getIconSize(props.is_xs)} style={{marginLeft: "auto", color: "#333333"}}
-                endIcon={<ExpandMoreIcon fontSize="inherit"
+    const cardActions = (
+        <CustomCardActions
+            disableSpacing={true}
+            sx={{
+                background: props.dark_card_actions ? "#1c192f" : "#ffffff",
+            }}
+        >
+            {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
+                {/*<Chip variant={"outlined"} icon={<GitHubIcon/>}*/}
+                {/*       label={"Code"} component="a"*/}
+                {/*       href={props.project.repo_url} clickable/>*/}
+                <IconButton aria-label={"GitHub Repo"} size={getIconSize(props.is_xs)} component={Link}
+                            href={props.project.repo_url}
+                            color={"default"}>
+                    <GitHubIcon fontSize="inherit" htmlColor={props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}/>
+                </IconButton>
+            </Tooltip>}
+            {!props.is_xs && props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
+                <IconButton size={getIconSize(props.is_xs)}
+                            aria-label={"Project Website Button"}
+                            component={Link}
+                            href={props.project.project_website_url}>
+                    <WebIcon fontSize="inherit" htmlColor={props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}/>
+                </IconButton>
+            </Tooltip>}
+            {useMenuForPapersAndSlides() ? <SlideAndPaperLinksMenu project={props.project} is_xs={props.is_xs}/> :
+                <SlideAndPaperLinks project={props.project} is_xs={props.is_xs}
+                                    dark_card_actions={props.dark_card_actions}/>}
+            <Button
+                size={getIconSize(props.is_xs)}
+                style={{
+                    marginLeft: "auto",
+                    color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main,
+                }}
+                endIcon={<ExpandMoreIcon fontSize="inherit" htmlColor={props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}
                                          style={{transform: (props.expanded ? "rotate(180deg)" : "")}}/>}
                 onClick={() => onClickCard()} aria-label={"Expand Project Card Button"}>
-            {props.expanded ? "Less" : "More"}
-        </Button>
-    </CustomCardActions>);
+                {props.expanded ? "Less" : "More"}
+            </Button>
+        </CustomCardActions>
+    );
 
     const getAnswer = (questionAndAnswer: QuestionAndAnswer): React.JSX.Element => {
         if (isString(questionAndAnswer.answer)) {
@@ -539,7 +564,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                                 {getAnswer(questionAndAnswer)}
                             </AccordionDetails>
                             {questionAndAnswer.read_more_url && <AccordionActions>
-                                <Button style={{color: "#2424ea"}} endIcon={<OpenInNew/>}
+                                <Button style={{color: "#2424ea"}} endIcon={<OpenInNew
+                                    htmlColor={props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}/>}
                                         href={questionAndAnswer.read_more_url}
                                         component={Link}>
                                     Learn More
@@ -588,13 +614,14 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 sx={{
                     boxShadow: 3,
                     width: props.is_xs ? "95%" : "100%",
-                    paddingBottom: props.is_xs ? "10px" : "5px",
+                    background: props.dark_card_actions ? theme.palette.darkProjectActionIconColor.main : "#ffffff",
                 }}
                 raised={true}
                 className={styles.project_section_card}
             >
                 <CardActionArea onClick={() => onClickCardActionArea()} sx={{
                     width: "100%",
+                    background: "#ffffff",
                 }}>
                     <CardMedia className={styles.project_media_background} onClick={() => onClickCard()}>
                         <div style={{

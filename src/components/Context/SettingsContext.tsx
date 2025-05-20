@@ -4,6 +4,8 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 interface SettingsContextType {
     rotationMultiplier: number;
     setRotationMultiplier: (value: number) => void;
+    darkCardActionArea: boolean;
+    setDarkCardActionArea: (value: boolean) => void;
 }
 
 // Create the context with a default value
@@ -13,16 +15,20 @@ const SettingsContext = createContext<SettingsContextType | undefined>(
 
 export const DefaultRotationMultiplier: number = 5;
 export const MaxRotationMultiplier: number = 100.0;
+export const DefaultUseDarkCardActionArea: boolean = false;
 
 // Provider component
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     const [rotationMultiplier, setRotationMultiplier] = useState<number>(DefaultRotationMultiplier);
+    const [darkCardActionArea, setDarkCardActionArea] = useState<boolean>(DefaultUseDarkCardActionArea);
 
     return (
         <SettingsContext.Provider
             value={{
                 rotationMultiplier,
-                setRotationMultiplier
+                setRotationMultiplier,
+                darkCardActionArea,
+                setDarkCardActionArea,
             }}
         >
             {children}

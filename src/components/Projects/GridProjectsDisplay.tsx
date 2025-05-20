@@ -35,7 +35,7 @@ const cardVariant = {
     }
 }
 
-const GridProjectsDisplay = ({projects}: { projects: Project[] }) => {
+const GridProjectsDisplay = ({projects, dark_card_actions}: { projects: Project[], dark_card_actions?: boolean}) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
@@ -120,6 +120,7 @@ const GridProjectsDisplay = ({projects}: { projects: Project[] }) => {
                                 project={project}
                                 is_xs={mq_xs}
                                 is_xl={mq_xl}
+                                dark_card_actions={dark_card_actions}
                             />
                         </Grid2>
                     );

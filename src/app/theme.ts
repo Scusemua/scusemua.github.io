@@ -9,10 +9,22 @@ declare module '@mui/material/styles' {
         lg: true;
         xl: true;
     }
+
+    interface Palette {
+        darkProjectActionIconColor: Palette['primary'];
+    }
+
+    interface PaletteOptions {
+        darkProjectActionIconColor?: PaletteOptions['primary'];
+    }
 }
 
 // A custom theme for this app
-const theme = createTheme({
+let theme = createTheme({
+    // Theme customization goes here as usual, including tonalOffset and/or
+    // contrastThreshold as the augmentColor() function relies on these
+});
+theme = createTheme({
     cssVariables: true,
     breakpoints: {
         values: {
@@ -38,6 +50,12 @@ const theme = createTheme({
         error: {
             main: red.A400,
         },
+        darkProjectActionIconColor: theme.palette.augmentColor({
+            color: {
+                main: '#565656',
+            },
+            name: 'Dark Project Action Icon Color',
+        }),
     },
     typography: {
         fontFamily: 'var(--font-roboto)',

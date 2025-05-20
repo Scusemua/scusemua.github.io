@@ -21,7 +21,7 @@ const cardVariant = {
     }
 }
 
-const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
+const CarouselProjectsDisplay = ({projects, dark_card_actions}: { projects: Project[], dark_card_actions?: boolean}) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
@@ -80,6 +80,7 @@ const CarouselProjectsDisplay = ({projects}: { projects: Project[] }) => {
                                                 is_xl={mq_xl}
                                                 toggleExpansion={toggleProjectExpanded}
                                                 expanded={expandedProjects.get(project.name) || false}
+                                                dark_card_actions={dark_card_actions}
                                    />
                                </motion.div>
                            );
