@@ -155,9 +155,12 @@ const SlideOrPaperIcon: React.FunctionComponent<SlideOrPaperIconProps> = (props:
     if (props.iconVariant === "Chip") {
         return (<Tooltip title={getTooltipTitle()} arrow key={`paper-icon-${props.idx}`}>
             <Chip variant={"outlined"} label={props.venue} component="a" href={props.href} clickable
-                  style={{color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}} icon={props.variant === "Paper" ?
-                <ArticleIcon style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/> :
-                <WebStories style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}/>
+                  style={{color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}
+                  icon={props.variant === "Paper" ?
+                      <ArticleIcon
+                          style={{color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/> :
+                      <WebStories
+                          style={{color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}/>
         </Tooltip>);
     }
 
@@ -175,9 +178,11 @@ const SlideOrPaperIcon: React.FunctionComponent<SlideOrPaperIconProps> = (props:
                 vertical: 'bottom', horizontal: 'right',
             }}>
                 {props.variant === "Paper" &&
-                    <ArticleIcon style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}
+                    <ArticleIcon
+                        style={{color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}
                 {props.variant === "Slides" &&
-                    <WebStories style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}
+                    <WebStories
+                        style={{color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}
             </Badge>
         </IconButton>
     </Tooltip>);
@@ -275,12 +280,14 @@ const PaperPresentationIcon: React.FunctionComponent<PaperPresentationIconProps>
                         transform: `translate(30%, 95%)`, // original is (50%, -50%)
                     }
                 }}>
-                <YouTubeIcon style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>
+                <YouTubeIcon
+                    style={{color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>
             </Badge>
         </IconButton>);
     }
 
-    return (<Chip variant={"outlined"} icon={<YouTubeIcon style={{ color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}
+    return (<Chip variant={"outlined"} icon={<YouTubeIcon
+        style={{color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}/>}
                   label={props.project.presentation_venue} component="a"
                   style={{color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}}
                   href={props.project.presentation_url} clickable/>);
@@ -312,7 +319,8 @@ const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (pr
         }}
     >
         {props.project.presentation_url && props.project.presentation_url !== "" &&
-            <Tooltip title={`Paper Presentation (${props.project.presentation_venue})`} arrow>
+            <Tooltip key={`presentation-icon-${props.project.name}`}
+                     title={`Paper Presentation (${props.project.presentation_venue})`} arrow>
                 <PaperPresentationIcon is_xs={props.is_xs}
                                        project={props.project}
                                        badge_xs_font={badge_xs_font}
@@ -334,7 +342,8 @@ const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (pr
                 {venue}
             </Typography>);
 
-            return (<SlideOrPaperIcon idx={idx} is_xs={props.is_xs} href={arxiv_url} badgeContent={badgeContent}
+            return (<SlideOrPaperIcon key={`paper-icon-${idx}-${props.project.name}`} idx={idx} is_xs={props.is_xs}
+                                      href={arxiv_url} badgeContent={badgeContent}
                                       variant={"Paper"} iconVariant={shouldUseBadges ? "Badge" : "Chip"}
                                       venue={venue} dark_card_actions={props.dark_card_actions}/>);
         })}
@@ -346,7 +355,8 @@ const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (pr
                 {slides.venue as string}
             </Typography>);
 
-            return (<SlideOrPaperIcon idx={idx} is_xs={props.is_xs} href={slides.path} badgeContent={badgeContent}
+            return (<SlideOrPaperIcon key={`slides-icon-${idx}-${props.project.name}`} idx={idx} is_xs={props.is_xs}
+                                      href={slides.path} badgeContent={badgeContent}
                                       variant={"Slides"} iconVariant={shouldUseBadges ? "Badge" : "Chip"}
                                       venue={slides.venue} dark_card_actions={props.dark_card_actions}/>);
         })}
@@ -386,7 +396,7 @@ const SlideLinks: React.FunctionComponent<SlideLinkProps> = (props: SlideLinkPro
                     }} badgeContent={badgeContent} anchorOrigin={{
                         vertical: 'bottom', horizontal: 'right',
                     }}>
-                        <WebStories />
+                        <WebStories/>
                     </Badge>
                 </IconButton>
             </Tooltip>);
@@ -511,7 +521,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                 <IconButton aria-label={"GitHub Repo"} size={getIconSize(props.is_xs)} component={Link}
                             href={props.project.repo_url}
                             color={"default"}>
-                    <GitHubIcon fontSize="inherit" htmlColor={props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}/>
+                    <GitHubIcon fontSize="inherit"
+                                htmlColor={props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}/>
                 </IconButton>
             </Tooltip>}
             {!props.is_xs && props.project.project_website_url !== "" && <Tooltip title={`Project Website`} arrow>
@@ -519,7 +530,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                             aria-label={"Project Website Button"}
                             component={Link}
                             href={props.project.project_website_url}>
-                    <WebIcon fontSize="inherit" htmlColor={props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}/>
+                    <WebIcon fontSize="inherit"
+                             htmlColor={props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}/>
                 </IconButton>
             </Tooltip>}
             {useMenuForPapersAndSlides() ? <SlideAndPaperLinksMenu project={props.project} is_xs={props.is_xs}/> :
@@ -531,7 +543,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
                     marginLeft: "auto",
                     color: props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main,
                 }}
-                endIcon={<ExpandMoreIcon fontSize="inherit" htmlColor={props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}
+                endIcon={<ExpandMoreIcon fontSize="inherit"
+                                         htmlColor={props.dark_card_actions ? "#ffffff" : theme.palette.darkProjectActionIconColor.main}
                                          style={{transform: (props.expanded ? "rotate(180deg)" : "")}}/>}
                 onClick={() => onClickCard()} aria-label={"Expand Project Card Button"}>
                 {props.expanded ? "Less" : "More"}

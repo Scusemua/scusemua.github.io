@@ -288,45 +288,19 @@ export const GpuPricingProject: Project = {
 }
 
 export const ObliviousInfiniStoreProject: Project = {
-    name: "Oblivious Serverless Storage",
-    description: ["This project is focused on the design and creation of an extension of InfiniStore that provides " +
-        "enhanced security while still delivering strong performance and scalability.",
-        "Specifically, we are designing an enhanced version of InfiniStore using techniques from " +
-        "cryptography, computer and network security, and oblivious storage and database systems. This new version " +
-        "will offer strong privacy and security guarantees while leveraging the unique benefits of FaaS to offset " +
-        "the overheads introduced by these new guarantees."],
+    name: "Enhanced Serverless Storage",
+    description: ["This project is focused on the design and creation of an extension of InfiniStore that satisfies " +
+        "additional properties, such as improved security, while still delivering strong performance and scalability.",
+        ],
     venue: "",
     repo_url: "",
     arxiv_links: [],
     image: obliv_inf_store_logo,
     project_website_url: "",
     keywords: ["serverless computing", "functions-as-a-service", "faas", "secure storage systems", "caching",
-        "obliviousness", "persistence", "security", "privacy"],
+        "persistence", "security", "privacy"],
     builtWith: ["Golang", "C", "C++"],
     status: 'ongoing',
-    questionsAndAnswers: [
-        {
-            question: "What does \"oblivious\" mean in this context?",
-            answer: <Stack direction={"column"} spacing={1}>
-                <Typography component={"span"}>
-                    An "oblivious" data structure is one that reveals no information about the sequence/pattern of
-                    operations that are applied to the data structure -- except for the final result of the operations.
-                    So, "oblivious" ultimately indicates that the storage system is privacy-preserving. The goal is
-                    to prevent the server and any adversaries/malicious users from inferring information about the
-                    data access patterns or the specific data being accessed.
-                </Typography>
-                <Typography component={"span"}>
-                    For example, <Button variant={'text'} href={"http://en.wikipedia.org/wiki/Oblivious_RAM"}
-                                         component={Link}>Oblivious RAM (ORAM)</Button> is
-                    a well-known concept related to oblivious storage. ORAMs are data structures or compilers that
-                    obfuscate the input/output pattern of a program or algorithm. For a concrete example, refer
-                    to <Button component={Link} href={"https://eprint.iacr.org/2013/280.pdf"}>Path ORAM</Button>,
-                    a simple Oblivious RAM protocol.
-                </Typography>
-            </Stack>,
-            read_more_url: "https://en.wikipedia.org/wiki/Oblivious_data_structure"
-        }
-    ]
 }
 
 export const FaasPlatformProject: Project = {
