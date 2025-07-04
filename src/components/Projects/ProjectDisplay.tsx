@@ -512,6 +512,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             disableSpacing={true}
             sx={{
                 background: props.dark_card_actions ? "#1c192f" : "#ffffff",
+                marginBottom: props.is_xs ? "10px" : "0px",
             }}
         >
             {props.project.repo_url !== "" && <Tooltip title={"GitHub"} arrow>
