@@ -297,10 +297,10 @@ const HeaderBioText: React.FunctionComponent<HeaderBioTextProps> = (props: Heade
             {/*    <Info/> About Me*/}
             {/*</Typography>*/}
             <Typography variant={"h6"} style={{fontSize: props.mq_xs ? "1.2rem" : "1.5rem"}} align={"justify"}>
-                I'm a 4th year computer science PhD student at George Mason University and a member of
+                I received my PhD in computer science from George Mason University and was a member of
                 the <a href={"https://ds2-lab.github.io/"}>DS<sup>2</sup> lab</a> at the University of Virginia
                 (UVA).
-                My advisors are Dr. Yue Cheng (UVA) & Dr. Songqing Chen (GMU). My research is
+                My advisors were Dr. Yue Cheng (UVA) & Dr. Songqing Chen (GMU). My research has
                 focused on developing unique and innovative applications of cloud and serverless computing to a
                 wide variety of domains, including data analytics, machine learning, file systems, and more.
             </Typography>
