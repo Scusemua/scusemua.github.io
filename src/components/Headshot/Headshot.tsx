@@ -324,7 +324,7 @@ const SocialLinks: React.FunctionComponent<SocialLinksProps> = (props: SocialLin
         </Tooltip>
         <Tooltip title={"LinkedIn"} arrow>
             <IconButton size="large" component={Link}
-                        href={'https://www.linkedin.com/in/benjamin-carver-30988a1b6/'}>
+                        href={'https://www.linkedin.com/in/benjamin-carver-phd-30988a1b6/'}>
                 <LinkedInIcon fontSize="inherit"/>
             </IconButton>
         </Tooltip>
