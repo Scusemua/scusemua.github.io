@@ -4,9 +4,11 @@ import obliv_inf_store_logo from "@images/logos/oblivious_infinistore_logo.webp"
 import lfs_logo from "@images/logos/lambda_fs_logo.webp";
 import optimal_gpu_platform_logo from "@images/logos/optimal_gpu_platform_logo.webp";
 import distributed_dl_training from "@images/logos/distributed_dl_training_logo.webp";
+import notebook_os_white from "@images/logos/notebook_os_white.webp";
 import faas_platform_logo from "@images/logos/faas_platforms_logo.webp";
 import LambdaFSArchitecture from "@data/architecture_diagrams/lambda_fs_arch";
 import WukongArchitecture from "@data/architecture_diagrams/wukong_arch";
+import NotebookOSArchitecture from "@data/architecture_diagrams/notebook_os_arch";
 import React from "react";
 import InfiniStoreArchitecture from "@data/architecture_diagrams/infinistore_arch";
 import Typography from "@mui/material/Typography";
@@ -254,18 +256,32 @@ export const LambdaFSProject: Project = {
 }
 
 export const JupyterNotebookProject: Project = {
-    name: "Distributed Deep Learning Training",
-    description: ["I'm developing a Jupyter Notebook-as-a-Service platform optimized for multi-tenant, distributed, GPU-enabled deep learning training workloads.",
-        "By leveraging a novel design, the platform enhances resource utilization and reduces JCT while integrating " +
-        "industry-standard tools like Prometheus, Loki, and Grafana for real-time monitoring, metric collection, and visualization."],
-    venue: "",
-    repo_url: "",
+    name: "NotebookOS",
+    description: [
+        "Interactive notebook programming within environments like Jupyter and Google Colab is universal in modern ML & AI workflows. " +
+        "A dominant application of production notebook workloads is interactive deep learning training (IDLT). " +
+        "To guarantee high interactivity, modern notebook platforms typically reserve GPU resources within actively running notebook sessions. " +
+        "These notebook sessions are long-running but exhibit intermittent and sporadic GPU usage. " +
+        "Consequently, during most of their lifetimes, notebook sessions do not use the reserved GPUs, resulting in extremely low GPU utilization and prohibitively high cost.",
+
+        "NotebookOS is a GPU-efficient notebook platform designed for the unique requirements of IDLT. " +
+        "NotebookOS using a replicated kernel design in which each kernel consists of 3 distinct kernel replicas scheduled across multiple, distinct GPU servers and synchronized via Raft. " +
+        "To optimize GPU utilization, NotebookOS oversubscribes server resources via kernel replication to leverage the relatively high task inter-arrival times in IDLT workloads. " +
+        "By dynamically allocating GPUs to kernel replicas only while they are actively executing notebook cells, NotebookOS maximizes the likelihood of immediate and interactive training upon notebook notebook-cell task submission. " +
+        "NotebookOS also migrates kernel replicas and automatically scales the GPU cluster under overload conditions.",
+
+        "We evaluated NotebookOS extensively using production notebook workloads and demonstrated that NotebookOS saves 1,187+ GPU hours over a 17.5-hour real-world IDLT workload while greatly enhancing interactivity."
+    ],
+    venue: "ASPLOS'26",
+    repo_url: "https://github.com/ds2-lab/NotebookOS",
     project_website_url: "",
-    image: distributed_dl_training, // jupyter_naas,
-    keywords: ["serverless computing", "functions-as-a-service", "faas", "deep learning", "gpu scheduling", "platforms"], // "jupyter notebooks"
-    builtWith: ["Kubernetes", "Docker", "Golang", "Python"],
-    arxiv_links: [],
+    image: notebook_os_white, // jupyter_naas,
+    keywords: ["serverless computing", "jupyter notebook", "jupyter notebooks-as-a-service", "deep learning", "gpu scheduling", "platforms", "interactive deep learning training", "IDLT"], // "jupyter notebooks"
+    builtWith: ["Kubernetes", "Docker", "Golang", "Python", "C"],
+    arxiv_links: ["https://arxiv.org/abs/2503.20591"],
     status: 'ongoing',
+    architectureDiagram: <NotebookOSArchitecture/>,
+    architectureDiagramIsInteractive: false,
 }
 
 export const GpuPricingProject: Project = {
@@ -321,9 +337,9 @@ export const FaasPlatformProject: Project = {
 }
 
 export const PreviousProjects: Project[] = [
-    WukongProject, InfiniStoreProject, LambdaFSProject,
+    WukongProject, InfiniStoreProject, LambdaFSProject, JupyterNotebookProject
 ]
 
 export const CurrentProjects: Project[] = [
-    JupyterNotebookProject, GpuPricingProject, ObliviousInfiniStoreProject, FaasPlatformProject,
+    GpuPricingProject, ObliviousInfiniStoreProject, FaasPlatformProject,
 ]

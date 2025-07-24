@@ -54,18 +54,18 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
 
             <Typography variant={(mq_xs || mq_sm) ? "h3" : "h2"}
                         className={styles.project_section_subheader_text}>
-                Past Research Projects
+                Published Research Projects
             </Typography>
 
-            <ProjectsDisplay projects={PreviousProjects} variant={mq_xl ? 'grid' : 'carousel'}
+            <ProjectsDisplay projects={PreviousProjects} variant={'carousel'}
                              dark_card_actions={darkCardActionArea}/>
 
             <Typography variant={(mq_xs || mq_sm) ? "h3" : "h2"}
                         className={styles.project_section_subheader_text}>
-                Active Research Projects
+                Work-in-Progress Research Projects
             </Typography>
 
-            <ProjectsDisplay projects={CurrentProjects} variant={'carousel'} dark_card_actions={darkCardActionArea}/>
+            <ProjectsDisplay projects={CurrentProjects} variant={'grid'} dark_card_actions={darkCardActionArea}/>
         </Stack>
     )
 });
