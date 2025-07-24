@@ -6,6 +6,7 @@ import DeveloperIcon from "@icons/developer";
 import DeveloperMonitorIcon from "@icons/developer_monitor";
 import DeveloperDeskIcon from "@icons/developer_desk";
 import TeacherIcon from "@icons/teacher";
+import MetaLogo from "@icons/meta_logo";
 
 export interface Employment {
     start_month: string;
@@ -74,7 +75,7 @@ const MicrosoftResearchIntern: Employment = {
     employer: "Microsoft Research Lab - Redmond",
     description: "Under the mentorship of Dr. Rodrigo Fonseca, assisted in the design, development, testing, and evaluation of new a microsecond-latency serverless stack.",
     getIcon: (width: number, height: number, scale: number = 1.65) => (<Avatar style={{width: width, height: height}}>
-        <MicrosoftIcon transform={`scale(${scale * -1}, ${scale})`} style={{margin: "0 auto"}}/>
+        <MicrosoftIcon transform={`scale(${scale * -1.3125}, ${scale * 1.3125})`} style={{margin: "0 auto"}}/>
     </Avatar>)
 }
 
@@ -107,7 +108,8 @@ const UndergraduateResearchAssistant: Employment = {
 const GraduateResearchAssistant: Employment = {
     start_month: "Jun",
     start_year: 2020,
-    end_month: "Ongoing",
+    end_month: "Aug",
+    end_year: 2025,
     title: "Graduate Research Assistant",
     employer: "George Mason University",
     description: "Conducting research under the direction of Dr. Yue Cheng (University of Virginia) and Dr. Songqing Chen (George Mason University).",
@@ -116,7 +118,19 @@ const GraduateResearchAssistant: Employment = {
     </Avatar>)
 }
 
+const MetaEmployment: Employment = {
+    start_month: "Aug",
+    start_year: 2025,
+    end_month: "Ongoing",
+    title: "Research Scientist",
+    employer: "Meta",
+    description: "Working on AI Network Infrastructure at Meta in NYC.",
+    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
+        <MetaLogo fill={"#fff"} transform="scale(-1.1, 1.1)"/>
+    </Avatar>)
+}
+
 export const EmploymentHistoryData: Employment[] = [
     // SummerInternship, JuniorDeveloper, UndergraduateTeachingAssistant, MicrosoftResearchIntern, UndergraduateResearchAssistant, GraduateResearchAssistant
-    GraduateResearchAssistant, MicrosoftResearchIntern, UndergraduateResearchAssistant, UndergraduateTeachingAssistant, JuniorDeveloper, SummerInternship
+    MetaEmployment, GraduateResearchAssistant, MicrosoftResearchIntern, UndergraduateResearchAssistant, UndergraduateTeachingAssistant, JuniorDeveloper, SummerInternship
 ];
