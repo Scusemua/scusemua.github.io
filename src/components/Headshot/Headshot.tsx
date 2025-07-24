@@ -30,6 +30,8 @@ interface HeaderLayoutProps {
     onClickSettingsButton: () => void;
 }
 
+const headerText: string = "Research Scientist at Meta working on AI Network Infrastructure";
+
 const ExtraSmallHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
     return (
         <Stack
@@ -58,10 +60,7 @@ const ExtraSmallHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (pr
             </div>
             <div className={styles.headshot_header_text_greeting_xs}>
                 <Typography variant={"h5"}>
-                    Computer Science
-                    <br/>PhD Candidate
-                    <br/>at George Mason
-                    University
+                    {headerText}
                 </Typography>
             </div>
             <HeaderBioText mq_xs={true}/>
@@ -102,8 +101,7 @@ const SmallHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: 
                 <div className={styles.headshot_header_text_greeting}>
                     <Typography variant={"h5"}>Hello! I am</Typography>
                     <Typography variant={"h2"}>{PersonalData.name}</Typography>
-                    <Typography variant={"h5"}>Computer Science<br/>PhD Candidate<br/>at George Mason
-                        University</Typography>
+                    <Typography variant={"h5"}>{headerText}</Typography>
                 </div>
             </Stack>
             <div style={{margin: "1rem auto 0 auto", width: "95%"}}>
@@ -150,8 +148,7 @@ const MediumOrLargeHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = 
                     <div className={styles.headshot_header_text_greeting}>
                         <Typography variant={"h5"}>Hello! I am</Typography>
                         <Typography variant={"h1"}>{PersonalData.name}</Typography>
-                        <Typography variant={"h4"}>Computer Science<br/>PhD Candidate at<br/>George Mason
-                            University</Typography>
+                        <Typography variant={"h4"}>{headerText}</Typography>
                     </div>
                 </Stack>
             </Stack>
@@ -267,9 +264,7 @@ const ExtraLargeHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (pr
                     <div className={styles.headshot_header_text_greeting}>
                         <Typography variant={"h4"}>Hello! I am</Typography>
                         <Typography variant={"h1"}>{PersonalData.name}</Typography>
-                        <Typography variant={"h5"} style={{fontSize: "1.7rem"}}>Computer Science PhD Candidate at
-                            George Mason
-                            University</Typography>
+                        <Typography variant={"h5"} style={{fontSize: "1.7rem"}}>{headerText}</Typography>
                     </div>
                     <div style={{width: "86%", margin: "0 auto"}}>
                         <HeaderBioText mq_xs={false}/>
@@ -299,10 +294,10 @@ const HeaderBioText: React.FunctionComponent<HeaderBioTextProps> = (props: Heade
             <Typography variant={"h6"} style={{fontSize: props.mq_xs ? "1.2rem" : "1.5rem"}} align={"justify"}>
                 I received my PhD in computer science from George Mason University in August, 2025. I was a member of
                 the <a href={"https://ds2-lab.github.io/"}>DS<sup>2</sup> lab</a> at the University of Virginia
-                (UVA). I'll be joining Meta as a Research Scientist in August, 2025.
-                My advisors were Dr. Yue Cheng (UVA) & Dr. Songqing Chen (GMU). My research has
+                (UVA). My advisors were Dr. Yue Cheng (UVA) & Dr. Songqing Chen (GMU). My research has
                 focused on developing unique and innovative applications of cloud and serverless computing to a
                 wide variety of domains, including data analytics, machine learning, file systems, and more.
+                In August of 2025, I will be joining Meta as a Research Scientist working on AI network infrastructure.
             </Typography>
         </div>
     </div>);
