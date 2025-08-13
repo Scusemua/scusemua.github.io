@@ -167,6 +167,10 @@ const HeaderButtons: React.FunctionComponent = () => {
         link.click();
     }
 
+    const viewResume = () => {
+        window.open('CarverBenjamin_Resume.pdf');
+    }
+
     return (
         <Stack className={styles.headshot_cv_button_stack} spacing={2} key={"headshot_header_buttons"}
                direction={{'xs': 'column', 'sm': 'row', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
@@ -174,12 +178,12 @@ const HeaderButtons: React.FunctionComponent = () => {
                    justifyContent: "center",
                    alignItems: "center",
                }}>
-            <Tooltip title={"Download a PDF copy of my resume"} arrow>
-                <Button variant={"contained"} color={'primary'} onClick={downloadResume}
+            <Tooltip title={"View a PDF copy of my resume"} arrow>
+                <Button variant={"contained"} color={'primary'} onClick={viewResume}
                         startIcon={<DownloadIcon/>} style={{height: 45, width: "16rem"}}
-                        aria-label={"Download my Resume Button"}>
+                        aria-label={"View my Resume Button"}>
                     <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
-                        Download my Resume
+                        View my Resume
                     </Typography>
                 </Button>
             </Tooltip>
