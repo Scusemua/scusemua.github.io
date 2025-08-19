@@ -3,7 +3,7 @@
   align-items: center;
   margin: 0 auto;
   max-width: 2560px;
-  height: 100vh;
+  height: 105vh;
   width: 100%;
   display: flex;
   background: #FFFFFF;
@@ -17,11 +17,12 @@
     border-radius: 2rem;
     padding: 1.5rem;
     z-index: 2;
-    width: 70%;
   }
 }
 
 .identity_text {
   text-align: center;
   margin: 0 auto;
+  display: inline-block;
+  line-height: 1.25;
 }

@@ -31,7 +31,7 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
             return "4rem";
         }
 
-        return "3rem";
+        return "2rem";
     }
 
     const getBioTextSize = () => {
@@ -50,8 +50,17 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
         return "1.2rem";
     }
 
+    const getBioContainerWidth = () => {
+        if (mq_xs) {
+            return "100%";
+        }
+
+        return "70%";
+    }
+
     return (<div
         className={styles.about_bio_container}
+        style={{width: getBioContainerWidth()}}
     >
         <TypeAnimation
             preRenderFirstString={true}
@@ -67,7 +76,10 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
             ]}
             className={styles.identity_text}
             speed={35}
-            style={{fontSize: getIdentityTextSize(), display: "inline-block"}}
+            style={{
+                fontSize: getIdentityTextSize(),
+                marginBottom: mq_xs ? "1rem" : "0rem",
+            }}
             repeat={Infinity}
         />
 
@@ -86,7 +98,8 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
                     next-generation AI.
                 </Typography>
                 <Typography variant={"h5"} style={{fontSize: getBioTextSize()}}>
-                    During my academic research career, I worked under <a href={"https://tddg.github.io/"}>Dr. Yue Cheng</a> and
+                    During my academic research career, I worked under <a href={"https://tddg.github.io/"}>Dr. Yue
+                    Cheng</a> and
                     was a member of the <a href={"https://ds2-lab.github.io/"}>DS<sup>2</sup> lab</a> at the University
                     of Virginia.
                 </Typography>

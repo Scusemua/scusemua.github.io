@@ -357,9 +357,7 @@ const SocialLinks: React.FunctionComponent<SocialLinksProps> = (props: SocialLin
     </Stack>);
 }
 
-const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
-    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+const GreetingText: React.FunctionComponent = () => {
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
@@ -379,6 +377,34 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
 
         return "4rem";
     }
+
+    const getWidth = () => {
+        if (mq_xl || mq_lg || mq_md) {
+            return "1100px";
+        }
+
+        return "350px";
+    }
+
+    return (<div style={{width: getWidth()}}>
+        <div className={styles.headshot_header_text_greeting}>
+            <div style={{height: mq_md || mq_lg || mq_xl ? "auto" : "150px"}}>
+                <TypeAnimation
+                    sequence={[`Hello, I'm ${PersonalData.name}`]}
+                    speed={25}
+                    style={{fontSize: getGreetingTextSize(), lineHeight: "1"}}
+                    repeat={0}
+                />
+            </div>
+            <Typography variant={"h5"} style={{fontSize: "2rem"}}>{headerText}</Typography>
+        </div>
+        <HeaderButtons/>
+    </div>);
+}
+
+const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const getSpacing = () => {
         if (mq_xl) {
@@ -432,18 +458,7 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
                         <SocialLinks onClickSettingsButton={props.onClickSettingsButton}/>
                     </div>
                 </div>
-                <div style={{width: "1100px"}}>
-                    <div className={styles.headshot_header_text_greeting}>
-                        <TypeAnimation
-                            sequence={[`Hello, I'm ${PersonalData.name}`]}
-                            speed={25}
-                            style={{fontSize: getGreetingTextSize()}}
-                            repeat={0}
-                        />
-                        <Typography variant={"h5"} style={{fontSize: "2rem"}}>{headerText}</Typography>
-                    </div>
-                    <HeaderButtons/>
-                </div>
+                <GreetingText/>
             </Stack>
         </div>
     );
@@ -463,7 +478,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         if (mq_xl) {
             return "0rem";
         } else if (mq_xs) {
-            return "4rem";
+            return "2.5rem";
         } else {
             return "2rem";
         }
