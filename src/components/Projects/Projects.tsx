@@ -14,6 +14,7 @@ import "@styles/embla.css"
 import CarouselProjectsDisplay from "@src/components/Projects/CarouselProjectsDisplay";
 import GridProjectsDisplay from "@src/components/Projects/GridProjectsDisplay";
 import {useSettings} from "@src/components/Context/SettingsContext";
+import Wave from "@src/components/Effects/Wave";
 
 interface ProjectsProps {
 }
@@ -41,12 +42,13 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
     const {darkCardActionArea} = useSettings();
 
     return (
-        <Stack
-            className={styles.project_section} ref={ref}
-            direction={"column"}
-            justifyContent={"center"}
+    <Stack
+        className={styles.project_section} ref={ref}
+        direction={"column"}
+        justifyContent={"center"}
             alignItems={"center"}
         >
+
             <Typography variant={"h2"}
                         className={styles.project_section_header_text}>
                 Research

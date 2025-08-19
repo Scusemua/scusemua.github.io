@@ -1,0 +1,29 @@
+.waves {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  fill: #FFFFFF;
+
+  &_bottom {
+    bottom: 0;
+    transform: rotate(180deg);
+  }
+
+  &_top {
+    top: 0;
+  }
+
+  &_svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 150px;
+    fill: #FFFFFF;
+  }
+}
+
+.flipped {
+  transform: rotateY(180deg);
+}

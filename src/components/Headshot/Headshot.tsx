@@ -16,12 +16,15 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import SchoolIcon from '@mui/icons-material/School';
 import DownloadIcon from '@mui/icons-material/Download';
+import MouseIcon from '@mui/icons-material/Mouse';
 import theme from "@src/app/theme";
 import {BubbleContext} from "@src/providers/BubbleContext";
 import Link from "next/link";
 import {SettingsRounded} from "@mui/icons-material";
 import SettingsModal from "@src/components/Modals/SettingsModal";
 import Clouds from "@src/components/Effects/Clouds";
+import {TypeAnimation} from "react-type-animation";
+import Wave from "@src/components/Effects/Wave";
 
 interface HeadshotProps {
 }
@@ -179,33 +182,34 @@ const HeaderButtons: React.FunctionComponent = () => {
                    alignItems: "center",
                }}>
             <Tooltip title={"View a PDF copy of my resume"} arrow>
-                <Button variant={"contained"} color={'primary'} onClick={viewResume}
-                        startIcon={<DownloadIcon/>} style={{height: 45, width: "16rem"}}
+                <Button variant={"contained"} color={'secondary'} onClick={viewResume}
+                        startIcon={<DownloadIcon style={{color: "#322364"}}/>} style={{height: 45, width: "16rem"}}
                         aria-label={"View my Resume Button"}>
-                    <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
+                    <Typography variant={"button"} align={"center"} style={{fontSize: "1rem", color: "#322364"}}>
                         View my Resume
                     </Typography>
                 </Button>
             </Tooltip>
             <Tooltip title={"Email me (bcarver2@gmu.edu)"} arrow>
-                <Button variant={"contained"} color={'info'} href={`mailto:bcarver2@gmu.edu`} target="_top"
-                        rel="noopener noreferrer" startIcon={<MailIcon/>} style={{height: 45, width: "12rem"}}
+                <Button variant={"contained"} color={'primary'} href={`mailto:bcarver2@gmu.edu`} target="_top"
+                        rel="noopener noreferrer" startIcon={<MailIcon style={{color: "white"}}/>}
+                        style={{height: 45, width: "12rem"}}
                         aria-label={"Contact Me Button"}>
-                    <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
+                    <Typography variant={"button"} align={"center"} style={{fontSize: "1rem", color: "white"}}>
                         Contact Me
                     </Typography>
                 </Button>
             </Tooltip>
-            <Tooltip title={"View the website's source code on GitHub"} arrow>
-                <Button href={"https://github.com/Scusemua/scusemua.github.io"} startIcon={<GitHubIcon/>}
-                        variant={"contained"}
-                        component={Link}
-                        style={{height: 45, width: "12rem"}} color={'secondary'}>
-                    <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>
-                        Source Code
-                    </Typography>
-                </Button>
-            </Tooltip>
+            {/*<Tooltip title={"View the website's source code on GitHub"} arrow>*/}
+            {/*    <Button href={"https://github.com/Scusemua/scusemua.github.io"} startIcon={<GitHubIcon/>}*/}
+            {/*            variant={"contained"}*/}
+            {/*            component={Link}*/}
+            {/*            style={{height: 45, width: "12rem"}} color={'info'}>*/}
+            {/*        <Typography variant={"button"} align={"center"} style={{fontSize: "1rem"}}>*/}
+            {/*            Source Code*/}
+            {/*        </Typography>*/}
+            {/*    </Button>*/}
+            {/*</Tooltip>*/}
             {/*<Tooltip title={"Toggle the \"bubbles\" in the background on/off. This button is just for development/testing and will not stick around long-term!"} arrow>*/}
             {/*    <Button variant={"contained"} color={'secondary'} onClick={() => setBubblesEnabled(!bubblesEnabled)}*/}
             {/*            startIcon={<BubbleChart/>} style={{height: 45, width: "12rem"}}*/}
@@ -221,7 +225,8 @@ const HeaderButtons: React.FunctionComponent = () => {
 
 const ExtraLargeHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
     return (
-        <div key={"xl_layout_headshot"}>
+        <div key={"xl_layout_headshot"}
+             style={{height: "100vh", width: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
             <Stack
                 className={styles.headshot_container}
                 direction={'row'}
@@ -352,6 +357,77 @@ const SocialLinks: React.FunctionComponent<SocialLinksProps> = (props: SocialLin
     </Stack>);
 }
 
+const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
+    return (
+        <div key={"xl_layout_headshot"}
+             style={{
+                 height: "100vh",
+                 width: "100%",
+                 display: "flex",
+                 alignItems: "center",
+                 justifyContent: "center"
+             }}>
+            <Stack
+                className={styles.headshot_container}
+                direction={'row'}
+                justifyContent={'center'}
+                alignContent={"center"}
+                alignItems={'center'}
+                style={{
+                    margin: '0 auto'
+                }}
+            >
+                <Stack
+                    direction={"column"}
+                    spacing={4}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                >
+                    <div>
+                        <Image
+                            src={PersonalData.image}
+                            alt={"Ben's Headshot"}
+                            className={styles.headshot_container_image}
+                            width={376}
+                            priority={true}
+                        />
+                    </div>
+                    <div className={styles.social_links_container}>
+                        <SocialLinks onClickSettingsButton={props.onClickSettingsButton}/>
+                    </div>
+                </Stack>
+                <Stack
+                    direction={"column"}
+                    spacing={0}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    alignContent={"center"}
+                    style={{
+                        zIndex: 2,
+                        margin: "0 auto",
+                        paddingLeft: "4rem",
+                        width: "75%"
+                    }}
+                >
+                    <div className={styles.headshot_header_text_greeting}>
+                        <TypeAnimation
+                            sequence={[`Hello, I'm ${PersonalData.name}!`]}
+                            speed={25}
+                            style={{fontSize: '4em'}}
+                            repeat={0}
+                        />
+                        <Typography variant={"h5"} style={{fontSize: "1.7rem"}}>{headerText}</Typography>
+                    </div>
+                    {/*<div style={{width: "86%", margin: "0 auto"}}>*/}
+                    {/*    <HeaderBioText mq_xs={false}/>*/}
+                    {/*</div>*/}
+                    <HeaderButtons/>
+                </Stack>
+            </Stack>
+        </div>
+    );
+}
+
 // const Headshot: React.FunctionComponent = () => {
 const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotProps, ref: React.ForwardedRef<HTMLInputElement>) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
@@ -377,21 +453,8 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     return (
         <div className={styles.headshot} ref={ref} key={"headshot_layout_wrapper"}
              style={{marginTop: getTopMargin(), marginLeft: 'auto', marginRight: 'auto'}}>
-            {mq_xl && <ExtraLargeHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
-            {(mq_md || mq_lg) &&
-                <MediumOrLargeHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
-            {mq_sm && <SmallHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
-            {mq_xs && <ExtraSmallHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>}
-            {!mq_xl && <HeaderButtons/>}
+            <UnifiedHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>
             <SettingsModal open={settingsModalOpen} onClose={() => setSettingsModalOpen(false)}/>
-            {/*<div className={styles.project_divider}>*/}
-            {/*    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"*/}
-            {/*         preserveAspectRatio="none">*/}
-            {/*        <path*/}
-            {/*            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"*/}
-            {/*            className="shape-fill"></path>*/}
-            {/*    </svg>*/}
-            {/*</div>*/}
         </div>
     );
 });

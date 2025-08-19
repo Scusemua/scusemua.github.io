@@ -31,6 +31,7 @@
     "react-scripts": "latest",
     "react-scroll-parallax": "^3.4.5",
     "react-svg-pan-zoom": "^3.13.1",
+    "react-type-animation": "^3.2.0",
     "sharp": "^0.33.5",
     "terser-webpack-plugin": "^5.3.10",
     "typescript": "latest"
