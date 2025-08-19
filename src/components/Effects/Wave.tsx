@@ -8,7 +8,7 @@ interface WaveProps {
 
 const Wave: React.FunctionComponent<WaveProps> = (props: WaveProps) => {
     return (<div style={{position: "relative"}}>
-        <div className={`${props.variant === "top" ? styles.waves_top : styles.waves_bottom} ${props.flipped ? styles.flipped : ""}`}>
+        <div className={`${props.variant === "top" ? styles.waves_top : styles.waves_bottom} ${props.flipped ? styles.flipped : ""}`} >
             <svg data-name="Layer 1"
                  xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 0 1200 120"
