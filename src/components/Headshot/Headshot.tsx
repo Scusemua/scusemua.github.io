@@ -358,6 +358,48 @@ const SocialLinks: React.FunctionComponent<SocialLinksProps> = (props: SocialLin
 }
 
 const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
+
+    const getGreetingTextSize = () => {
+        if (mq_xl) {
+            return "7rem";
+        }
+
+        if (mq_lg) {
+            return "5rem";
+        }
+
+        if (mq_md) {
+            return "5rem";
+        }
+
+        return "4rem";
+    }
+
+    const getSpacing = () => {
+        if (mq_xl) {
+            return 4;
+        }
+
+        if (mq_lg) {
+            return 0;
+        }
+
+        return 0;
+    }
+
+    const getImageWidth = () => {
+        if (mq_xl || mq_lg) {
+            return "24rem";
+        }
+
+        return "16rem";
+    }
+
     return (
         <div key={"xl_layout_headshot"}
              style={{
@@ -370,11 +412,11 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
              }}>
             <Stack
                 className={styles.headshot_container}
-                direction={'row'}
+                direction={mq_xl || mq_lg ? 'row' : 'column'}
                 justifyContent={'center'}
                 alignContent={"center"}
                 alignItems={'center'}
-                spacing={4}
+                spacing={getSpacing()}
             >
                 <div>
                     <div>
@@ -382,7 +424,7 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
                             src={PersonalData.image}
                             alt={"Ben's Headshot"}
                             className={styles.headshot_container_image}
-                            width={376}
+                            style={{width: getImageWidth(), height: "auto"}}
                             priority={true}
                         />
                     </div>
@@ -395,7 +437,7 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
                         <TypeAnimation
                             sequence={[`Hello, I'm ${PersonalData.name}`]}
                             speed={25}
-                            style={{fontSize: '7rem'}}
+                            style={{fontSize: getGreetingTextSize()}}
                             repeat={0}
                         />
                         <Typography variant={"h5"} style={{fontSize: "2rem"}}>{headerText}</Typography>
@@ -419,11 +461,11 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
 
     const getTopMargin = () => {
         if (mq_xl) {
-            return "2rem";
+            return "0rem";
         } else if (mq_xs) {
             return "4rem";
         } else {
-            return "6rem";
+            return "2rem";
         }
     };
 
