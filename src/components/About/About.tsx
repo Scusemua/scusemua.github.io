@@ -4,13 +4,52 @@ import Typography from "@mui/material/Typography";
 import Wave from "@src/components/Effects/Wave";
 import {TypeAnimation} from "react-type-animation";
 import {PersonalData} from "@data/PersonalData";
-import {Stack} from "@mui/material";
+import {Stack, useMediaQuery} from "@mui/material";
+import theme from "@src/app/theme";
 
 interface BioTextProps {
     mq_xs: boolean;
 }
 
 const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
+
+    const getIdentityTextSize = () => {
+        if (mq_xl) {
+            return "6rem";
+        }
+
+        if (mq_lg) {
+            return "6rem";
+        }
+
+        if (mq_md) {
+            return "4rem";
+        }
+
+        return "3rem";
+    }
+
+    const getBioTextSize = () => {
+        if (mq_xl) {
+            return "2.1rem";
+        }
+
+        if (mq_lg) {
+            return "2.1rem";
+        }
+
+        if (mq_md) {
+            return "1.5rem";
+        }
+
+        return "1.2rem";
+    }
+
     return (<div
         className={styles.about_bio_container}
     >
@@ -28,25 +67,25 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
             ]}
             className={styles.identity_text}
             speed={35}
-            style={{fontSize: '6em', display: "inline-block"}}
+            style={{fontSize: getIdentityTextSize(), display: "inline-block"}}
             repeat={Infinity}
         />
 
         <div className={styles.about_bio_text}>
             <Stack direction={"column"} spacing={3}>
-                <Typography variant={"h5"} style={{fontSize: props.mq_xs ? "1.2rem" : "2.1rem"}}>
+                <Typography variant={"h5"} style={{fontSize: getBioTextSize()}}>
                     I'm passionate about building large-scale distributed systems that power today's most demanding
                     applications.
                 </Typography>
-                <Typography variant={"h5"} style={{fontSize: props.mq_xs ? "1.2rem" : "2.1rem"}}>
+                <Typography variant={"h5"} style={{fontSize: getBioTextSize()}}>
                     I recently completed my PhD at George Mason University, where I designed and developed
                     several open-source systems in cloud and serverless computing.
                 </Typography>
-                <Typography variant={"h5"} style={{fontSize: props.mq_xs ? "1.2rem" : "2.1rem"}}>
+                <Typography variant={"h5"} style={{fontSize: getBioTextSize()}}>
                     I now work as a Research Scientist at Meta on cutting-edge networking infrastructure for
                     next-generation AI.
                 </Typography>
-                <Typography variant={"h5"} style={{fontSize: props.mq_xs ? "1.2rem" : "2.1rem"}}>
+                <Typography variant={"h5"} style={{fontSize: getBioTextSize()}}>
                     During my academic research career, I worked under <a href={"https://tddg.github.io/"}>Dr. Yue Cheng</a> and
                     was a member of the <a href={"https://ds2-lab.github.io/"}>DS<sup>2</sup> lab</a> at the University
                     of Virginia.
