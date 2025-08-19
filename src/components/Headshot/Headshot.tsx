@@ -365,7 +365,8 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
                  width: "100%",
                  display: "flex",
                  alignItems: "center",
-                 justifyContent: "center"
+                 justifyContent: "center",
+                 margin: "0 auto",
              }}>
             <Stack
                 className={styles.headshot_container}
@@ -373,16 +374,9 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
                 justifyContent={'center'}
                 alignContent={"center"}
                 alignItems={'center'}
-                style={{
-                    margin: '0 auto'
-                }}
+                spacing={4}
             >
-                <Stack
-                    direction={"column"}
-                    spacing={4}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                >
+                <div>
                     <div>
                         <Image
                             src={PersonalData.image}
@@ -395,34 +389,19 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
                     <div className={styles.social_links_container}>
                         <SocialLinks onClickSettingsButton={props.onClickSettingsButton}/>
                     </div>
-                </Stack>
-                <Stack
-                    direction={"column"}
-                    spacing={0}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    alignContent={"center"}
-                    style={{
-                        zIndex: 2,
-                        margin: "0 auto",
-                        paddingLeft: "4rem",
-                        width: "75%"
-                    }}
-                >
+                </div>
+                <div style={{width: "1100px"}}>
                     <div className={styles.headshot_header_text_greeting}>
                         <TypeAnimation
-                            sequence={[`Hello, I'm ${PersonalData.name}!`]}
+                            sequence={[`Hello, I'm ${PersonalData.name}`]}
                             speed={25}
-                            style={{fontSize: '4em'}}
+                            style={{fontSize: '7rem'}}
                             repeat={0}
                         />
-                        <Typography variant={"h5"} style={{fontSize: "1.7rem"}}>{headerText}</Typography>
+                        <Typography variant={"h5"} style={{fontSize: "2rem"}}>{headerText}</Typography>
                     </div>
-                    {/*<div style={{width: "86%", margin: "0 auto"}}>*/}
-                    {/*    <HeaderBioText mq_xs={false}/>*/}
-                    {/*</div>*/}
                     <HeaderButtons/>
-                </Stack>
+                </div>
             </Stack>
         </div>
     );
@@ -435,8 +414,6 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
-
-    const {bubblesEnabled, setBubblesEnabled} = React.useContext(BubbleContext);
 
     const [settingsModalOpen, setSettingsModalOpen] = React.useState<boolean>(false);
 

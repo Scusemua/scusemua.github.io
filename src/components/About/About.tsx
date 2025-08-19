@@ -15,6 +15,7 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
         className={styles.about_bio_container}
     >
         <TypeAnimation
+            preRenderFirstString={true}
             sequence={[
                 "I'm a computer scientist.",
                 1000,
