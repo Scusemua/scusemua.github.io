@@ -8,7 +8,7 @@
 
   &_bottom {
     bottom: 0;
-    transform: rotate(180deg)+translateY(-5px);
+    transform: rotate(180deg)+translateY(-1px);
   }
 
   &_top {
@@ -19,7 +19,6 @@
     position: relative;
     display: block;
     width: calc(100% + 1.35px);
-    height: 150px;
     fill: #FFFFFF;
   }
 }

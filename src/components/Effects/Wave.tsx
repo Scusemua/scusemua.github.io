@@ -1,5 +1,7 @@
 import styles from "@styles/components/Wave.module.scss";
 import React, {ReactNode} from "react";
+import {useMediaQuery} from "@mui/material";
+import theme from "@src/app/theme";
 
 interface WaveProps {
     variant: "top" | "bottom";
@@ -7,11 +9,19 @@ interface WaveProps {
 }
 
 const Wave: React.FunctionComponent<WaveProps> = (props: WaveProps) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
+    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
+
     return (<div style={{position: "relative"}}>
-        <div className={`${props.variant === "top" ? styles.waves_top : styles.waves_bottom} ${props.flipped ? styles.flipped : ""}`} >
+        <div
+            className={`${props.variant === "top" ? styles.waves_top : styles.waves_bottom} ${props.flipped ? styles.flipped : ""}`}>
             <svg data-name="Layer 1"
                  xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 0 1200 120"
+                 height={mq_xs ? "50px" : "100px"}
                  preserveAspectRatio="none"
                  className={styles.waves_svg}
             >
