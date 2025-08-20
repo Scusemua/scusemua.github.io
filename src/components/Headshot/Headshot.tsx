@@ -444,20 +444,18 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
                 alignItems={'center'}
                 spacing={getSpacing()}
             >
-                <div>
-                    <div>
-                        <Image
-                            src={PersonalData.image}
-                            alt={"Ben's Headshot"}
-                            className={styles.headshot_container_image}
-                            style={{width: getImageWidth(), height: "auto"}}
-                            priority={true}
-                        />
-                    </div>
+                <Stack direction={"column"}>
+                    <Image
+                        src={PersonalData.image}
+                        alt={"Ben's Headshot"}
+                        className={styles.headshot_container_image}
+                        style={{width: getImageWidth(), height: "auto", marginBottom: "1rem"}}
+                        priority={true}
+                    />
                     <div className={styles.social_links_container}>
                         <SocialLinks onClickSettingsButton={props.onClickSettingsButton}/>
                     </div>
-                </div>
+                </Stack>
                 <GreetingText/>
             </Stack>
         </div>
