@@ -13,25 +13,25 @@ interface BioTextProps {
 
 const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    // const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const getIdentityTextSize = () => {
-        if (mq_xl) {
-            return "6rem";
-        }
-
-        if (mq_lg) {
+        if (mq_xl || mq_lg) {
             return "6rem";
         }
 
         if (mq_md) {
-            return "4rem";
+            return "3.5rem";
         }
 
-        return "2rem";
+        if (mq_sm) {
+            return "2rem";
+        }
+
+        return "1.75rem";
     }
 
     const getBioTextSize = () => {
@@ -44,7 +44,7 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
         }
 
         if (mq_md) {
-            return "1.5rem";
+            return "1.4rem";
         }
 
         return "1.2rem";
@@ -55,7 +55,7 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
             return "100%";
         }
 
-        return "70%";
+        return "75%";
     }
 
     const scrollToProjects = () => {
@@ -97,7 +97,7 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
                 </Typography>
                 <Typography variant={"h5"} sx={{fontSize: getBioTextSize()}}>
                     I recently completed my PhD at George Mason University, where I designed and developed
-                    several open-source systems in cloud and serverless computing. You can read more about them <span onClick={scrollToProjects}><strong>here!</strong></span>
+                    several open-source systems in cloud and serverless computing. You can read more about them <span onClick={scrollToProjects}><strong>below</strong>.</span>
                 </Typography>
                 <Typography variant={"h5"} sx={{fontSize: getBioTextSize()}}>
                     During my academic research career, I worked under <a href={"https://tddg.github.io/"}>Dr. Yue
