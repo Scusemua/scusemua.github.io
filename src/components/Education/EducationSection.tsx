@@ -80,7 +80,6 @@ const EducationContent: React.FunctionComponent = () => {
                                 justifyContent: "center",
                             }}
                             viewport={{once: true, amount: 0.25}}
-            // onViewportEnter={() => console.log("Education Section has entered viewport")}
         >
             {coreContent}
         </motion.div>);
