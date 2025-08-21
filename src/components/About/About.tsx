@@ -8,12 +8,12 @@ import {Stack, useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
 
 interface BioTextProps {
-    mq_xs: boolean;
+    projectSectionRef: React.RefObject<HTMLInputElement> | undefined;
 }
 
 const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    // const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
@@ -58,6 +58,12 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
         return "70%";
     }
 
+    const scrollToProjects = () => {
+        if (props.projectSectionRef?.current) {
+            props.projectSectionRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
+        }
+    }
+
     return (<div
         className={styles.about_bio_container}
         style={{width: getBioContainerWidth()}}
@@ -91,7 +97,7 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
                 </Typography>
                 <Typography variant={"h5"} sx={{fontSize: getBioTextSize()}}>
                     I recently completed my PhD at George Mason University, where I designed and developed
-                    several open-source systems in cloud and serverless computing.
+                    several open-source systems in cloud and serverless computing. You can read more about them <span onClick={scrollToProjects}><strong>here!</strong></span>
                 </Typography>
                 <Typography variant={"h5"} sx={{fontSize: getBioTextSize()}}>
                     During my academic research career, I worked under <a href={"https://tddg.github.io/"}>Dr. Yue
@@ -109,7 +115,7 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
 }
 
 interface AboutSectionProps {
-
+    projectSectionRef: React.RefObject<HTMLInputElement> | undefined;
 }
 
 const AboutSection = forwardRef<HTMLInputElement, AboutSectionProps>((_props: AboutSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
@@ -117,7 +123,7 @@ const AboutSection = forwardRef<HTMLInputElement, AboutSectionProps>((_props: Ab
         <div style={{position: "relative"}}>
             <Wave variant={"bottom"}/>
             <div className={styles.about}>
-                <BioText mq_xs={false}/>
+                <BioText projectSectionRef={_props.projectSectionRef}/>
             </div>
             <Wave variant={"top"}/>
         </div>
