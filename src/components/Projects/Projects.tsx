@@ -50,7 +50,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
             alignItems={"center"}
         >
 
-            <Typography variant={"h2"}
+            <Typography variant={mq_xs ? "h2" : "h1"}
                         className={styles.project_section_header_text}>
                 Research
             </Typography>
@@ -69,7 +69,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
             </Typography>
 
             {/* These are displayed as a static grid for Large and XL screens and a carousel for <= Medium screens. */}
-            <ProjectsDisplay projects={CurrentProjects} variant={(mq_xl || mq_lg) ? 'grid' : 'carousel'} dark_card_actions={darkCardActionArea}/>
+            <ProjectsDisplay projects={CurrentProjects} variant={'grid'} dark_card_actions={darkCardActionArea}/>
         </Stack>
     )
 });

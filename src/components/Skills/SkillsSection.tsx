@@ -33,9 +33,11 @@ const GetSkill = (skill: string, i: number, isXs: boolean) => {
     );
 }
 
-const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((props: SkillsSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => (
-    <div className={`${styles.skills}`} id="skills" ref={ref}>
-        <Typography key="skills_section_header" variant={"h2"} className={styles.skills_header_text}>Skills</Typography>
+const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((props: SkillsSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
+
+    return (<div className={`${styles.skills}`} id="skills" ref={ref}>
+        <Typography key="skills_section_header" variant={mq_xs ? "h2" : "h1"} className={styles.skills_header_text}>Skills</Typography>
         {SkillsData.map((skills: Skills, index: number) => (
             <motion.div
                 variants={skillWrapperVariant}
@@ -45,7 +47,7 @@ const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((props: S
                 className={`${styles.skills_body}`}
                 key={`skills-category-${skills.category}-${index}`}
             >
-                <Typography key={`skills_category_header_${skills.category}`} variant={"h3"} className={styles.skills_body_category_header}>
+                <Typography key={`skills_category_header_${skills.category}`} variant={"h2"} className={styles.skills_body_category_header}>
                     {skills.icon} {skills.category.toString()}
                 </Typography>
 
@@ -62,6 +64,7 @@ const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((props: S
                 </div>
             </motion.div>
         ))}
-    </div>
-));
+    </div>)}
+);
+
 export default SkillsSection;
