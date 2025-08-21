@@ -25,6 +25,7 @@ interface HeaderLayoutProps {
 const headerText: string = "Research Scientist at Meta working on AI Network Infrastructure";
 
 const GreetingText: React.FunctionComponent = () => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
@@ -66,8 +67,8 @@ const GreetingText: React.FunctionComponent = () => {
     }
 
     return (<div style={{width: getWidth()}}>
-        <div className={styles.headshot_header_text_greeting}>
-            <div style={{height: mq_md || mq_lg || mq_xl ? "auto" : "150px"}}>
+        <Stack className={styles.headshot_header_text_greeting} direction={"column"} spacing={1}>
+            <div style={{height: mq_xs ? "100px" : "auto"}}>
                 <TypeAnimation
                     sequence={[`Hello, I'm ${PersonalData.name}`]}
                     speed={25}
@@ -76,17 +77,22 @@ const GreetingText: React.FunctionComponent = () => {
                 />
             </div>
             <Typography variant={"h5"} style={{fontSize: getShortDescTextSize()}}>{headerText}</Typography>
-        </div>
+        </Stack>
         <HeaderButtons/>
     </div>);
 }
 
 const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
+    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const getSpacing = () => {
+        if (mq_xs) {
+            return 0;
+        }
+
         return 4;
     }
 
@@ -158,7 +164,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
             return "2.5rem";
         }
 
-        return "3.5rem"
+        return "3rem"
     };
 
     return (
