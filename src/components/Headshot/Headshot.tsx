@@ -131,9 +131,7 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
                         style={{width: getImageWidth(), height: "auto", marginBottom: "1rem"}}
                         priority={true}
                     />
-                    <div className={styles.social_links_container}>
-                        <SocialLinks onClickSettingsButton={props.onClickSettingsButton}/>
-                    </div>
+                    <SocialLinks onClickSettingsButton={props.onClickSettingsButton}/>
                 </Stack>
                 <GreetingText/>
             </Stack>
