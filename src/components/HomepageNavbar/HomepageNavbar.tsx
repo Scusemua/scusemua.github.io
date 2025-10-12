@@ -29,7 +29,6 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
         key={"header_section"}
         onClick={() => {
             if (props.headshotRef?.current) {
-                console.log("Scrolling to Headshot section.");
                 props.headshotRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
             }
         }}>
@@ -50,7 +49,6 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
         aria-label={"Go to Projects Section Button"}
         onClick={() => {
             if (props.projectRef?.current) {
-                console.log("Scrolling to Projects section.");
                 props.projectRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
             }
         }}
@@ -69,7 +67,6 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
         aria-label={"Go to Employment History Section Button"}
         onClick={() => {
             if (props.employmentHistoryRef?.current) {
-                console.log("Scrolling to Employment History section.");
                 props.employmentHistoryRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
             }
         }}
@@ -89,7 +86,6 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
             key={"education_section"}
             onClick={() => {
                 if (props.educationRef?.current) {
-                    console.log("Scrolling to Education section.");
                     props.educationRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
                 }
             }}
@@ -110,7 +106,6 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
             key={"awards_section_button"}
             onClick={() => {
                 if (props.awardRef?.current) {
-                    console.log("Scrolling to Awards section.");
                     props.awardRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
                 }
             }}
@@ -131,7 +126,6 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
             key={"skills_section"}
             onClick={() => {
                 if (props.skillsRef?.current) {
-                    console.log("Scrolling to Skills section.");
                     props.skillsRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
                 }
             }}

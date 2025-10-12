@@ -31,7 +31,7 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
     return (
         <div className={`${styles.employment}`} id="skills" ref={ref} key={"employment_history_section"} style={{maxWidth: getMaxWidth()}}>
             <Typography
-                variant={"h2"}
+                variant={mq_xs ? "h2" : "h1"}
                 className={styles.employment_header_text}
                 key={"employment_history_header"}
                 style={{

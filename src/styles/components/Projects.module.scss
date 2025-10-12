@@ -63,6 +63,7 @@ $base: value 1.35;
     position: relative;
     color: #EFF6EE;
     padding-top: 2rem;
+    padding-bottom: 1rem;
 
     @include mq(xs) {
       padding-top: 2.5rem;

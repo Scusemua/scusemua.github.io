@@ -37,6 +37,7 @@ const ProjectsDisplay: React.FunctionComponent<ProjectsDisplayProps> = (props: P
 const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsProps, ref: React.ForwardedRef<HTMLInputElement>) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
+    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const {darkCardActionArea} = useSettings();
@@ -49,7 +50,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
             alignItems={"center"}
         >
 
-            <Typography variant={"h2"}
+            <Typography variant={mq_xs ? "h2" : "h1"}
                         className={styles.project_section_header_text}>
                 Research
             </Typography>
@@ -67,6 +68,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
                 Work-in-Progress Research Projects
             </Typography>
 
+            {/* These are displayed as a static grid for Large and XL screens and a carousel for <= Medium screens. */}
             <ProjectsDisplay projects={CurrentProjects} variant={'grid'} dark_card_actions={darkCardActionArea}/>
         </Stack>
     )

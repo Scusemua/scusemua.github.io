@@ -33,7 +33,7 @@ const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>(
                  width: mq_xs ? "100%" : "90%"
              }}
         >
-            <Typography variant={"h2"} className={styles.awards_header_text} component={"div"}
+            <Typography variant={mq_xs ? "h2" : "h1"} className={styles.awards_header_text} component={"div"}
                         key={"awards_section_header"}>
                 Awards
             </Typography>

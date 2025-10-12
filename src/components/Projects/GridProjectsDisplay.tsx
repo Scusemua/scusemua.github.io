@@ -104,7 +104,7 @@ const GridProjectsDisplay = ({projects, dark_card_actions}: { projects: Project[
             >
                 {projects.map((project: Project, index: number) => {
                     return (
-                        <Grid2 size={{'xs': 12, 'sm': 12, 'md': 12, 'lg': 4, 'xl': 4}}
+                        <Grid2 size={{'xs': 12, 'sm': 12, 'md': 4, 'lg': 4, 'xl': 4}}
                                component={motion.div}
                                variants={cardVariant}
                                sx={{

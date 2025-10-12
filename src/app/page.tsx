@@ -39,7 +39,7 @@ export default function Home() {
             <Navbar headshotRef={headshotRef} educationRef={educationRef} projectRef={projectRef}
                     skillsRef={skillsRef} employmentHistoryRef={employmentRef} awardRef={awardRef} key={"navbar"}/>
             <Headshot ref={headshotRef} key={"headshot_section"}/>
-            <AboutSection ref={aboutRef} key={"about_section"}/>
+            <AboutSection ref={aboutRef} key={"about_section"} projectSectionRef={projectRef}/>
             <Projects ref={projectRef} key={"projects_section"}/>
             <AwardsSection ref={awardRef} key={"awardsSection"}/>
             <EducationSection ref={educationRef} key={"education_section"}/>
