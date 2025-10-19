@@ -24,7 +24,7 @@ const cardVariant = {
 const CarouselProjectsDisplay = ({projects, dark_card_actions}: { projects: Project[], dark_card_actions?: boolean}) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
-    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
+    const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const [expandedProjects, setExpandedProjects] = React.useState<Map<string, boolean>>(new Map<string, boolean>());
@@ -56,7 +56,7 @@ const CarouselProjectsDisplay = ({projects, dark_card_actions}: { projects: Proj
             return {scale: 1.0}
         }
 
-        if (mq_sm || mq_md) {
+        if (mq_md_or_less) {
             return {scale: 1.025}
         }
 
@@ -76,7 +76,7 @@ const CarouselProjectsDisplay = ({projects, dark_card_actions}: { projects: Proj
                                    key={`project-${project.name}-display-${idx}`}>
                                    <ProjectCard key={`project-${idx}-${project.name}`}
                                                 project={project}
-                                                is_xs={mq_xs || mq_sm || mq_md}
+                                                is_xs={mq_md_or_less}
                                                 is_xl={mq_xl}
                                                 toggleExpansion={toggleProjectExpanded}
                                                 expanded={expandedProjects.get(project.name) || false}
