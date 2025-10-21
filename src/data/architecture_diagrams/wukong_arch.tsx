@@ -33,7 +33,7 @@ function isString(value: any): boolean {
 
 function getDefaultPopoverWidth(mq_xl: boolean, mq_lg: boolean, mq_md: boolean, mq_sm: boolean): string {
     if (mq_xl) {
-        return "45%";
+        return "85%";
     }
 
     if (mq_lg) {
@@ -145,10 +145,8 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
             setPopoverMaxWidth("85%");
         } else if (mq_md) {
             setPopoverMaxWidth("80%");
-        } else if (mq_lg) {
-            setPopoverMaxWidth("75%");
         } else {
-            setPopoverMaxWidth("50%");
+            setPopoverMaxWidth("75%");
         }
 
         event.stopPropagation();
