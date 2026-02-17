@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useMemo, ReactNode } from "react";
 
 // Define the shape of the settings
 interface SettingsContextType {
@@ -22,15 +22,15 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     const [rotationMultiplier, setRotationMultiplier] = useState<number>(DefaultRotationMultiplier);
     const [darkCardActionArea, setDarkCardActionArea] = useState<boolean>(DefaultUseDarkCardActionArea);
 
+    const value = useMemo(() => ({
+        rotationMultiplier,
+        setRotationMultiplier,
+        darkCardActionArea,
+        setDarkCardActionArea,
+    }), [rotationMultiplier, darkCardActionArea, setRotationMultiplier, setDarkCardActionArea]);
+
     return (
-        <SettingsContext.Provider
-            value={{
-                rotationMultiplier,
-                setRotationMultiplier,
-                darkCardActionArea,
-                setDarkCardActionArea,
-            }}
-        >
+        <SettingsContext.Provider value={value}>
             {children}
         </SettingsContext.Provider>
     );

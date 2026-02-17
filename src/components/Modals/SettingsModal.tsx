@@ -43,7 +43,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({open, onClose}) => {
     };
 
     const darkCardActionAreaCheckbox = (<Checkbox checked={darkCardActionArea} onChange={handleDarkCardActionAreaToggle}
-                                                  inputProps={{'aria-label': 'controlled'}} size={"medium"}/>);
+                                                  inputProps={{'aria-label': 'Toggle dark project actions UI'}} size={"medium"}/>);
 
     return (
         <Modal open={open} onClose={onClose} aria-labelledby="modal-settings-title">

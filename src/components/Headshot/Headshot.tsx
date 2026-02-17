@@ -136,15 +136,15 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
     );
 }
 
-// const Headshot: React.FunctionComponent = () => {
 const Headshot = forwardRef<HTMLDivElement>((_props, ref) => {
-    // const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
     const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     const [settingsModalOpen, setSettingsModalOpen] = React.useState<boolean>(false);
+    const openSettingsModal = React.useCallback(() => setSettingsModalOpen(true), []);
+    const closeSettingsModal = React.useCallback(() => setSettingsModalOpen(false), []);
 
     const getTopMargin = () => {
         if (mq_xl || mq_lg) {
@@ -165,8 +165,8 @@ const Headshot = forwardRef<HTMLDivElement>((_props, ref) => {
     return (
         <div className={styles.headshot} ref={ref} key={"headshot_layout_wrapper"}
              style={{marginTop: getTopMargin(), marginLeft: 'auto', marginRight: 'auto'}}>
-            <UnifiedHeadshotLayout onClickSettingsButton={() => setSettingsModalOpen(true)}/>
-            <SettingsModal open={settingsModalOpen} onClose={() => setSettingsModalOpen(false)}/>
+            <UnifiedHeadshotLayout onClickSettingsButton={openSettingsModal}/>
+            <SettingsModal open={settingsModalOpen} onClose={closeSettingsModal}/>
         </div>
     );
 });

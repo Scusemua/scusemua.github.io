@@ -12,30 +12,33 @@ import Image from "next/image";
 import styles from "@src/styles/components/Headshot.module.scss";
 import {Stack, useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
+import {SectionRef} from "@src/types";
+import {scrollToRef} from "@src/utils/scrollToRef";
 
 interface NavbarProps {
-    headshotRef: React.RefObject<HTMLDivElement> | undefined;
-    projectRef: React.RefObject<HTMLDivElement> | undefined;
-    employmentHistoryRef: React.RefObject<HTMLDivElement> | undefined;
-    educationRef: React.RefObject<HTMLDivElement> | undefined;
-    skillsRef: React.RefObject<HTMLDivElement> | undefined;
-    awardRef: React.RefObject<HTMLDivElement> | undefined;
+    headshotRef: SectionRef | undefined;
+    projectRef: SectionRef | undefined;
+    employmentHistoryRef: SectionRef | undefined;
+    educationRef: SectionRef | undefined;
+    skillsRef: SectionRef | undefined;
+    awardRef: SectionRef | undefined;
 }
 
 interface NavButtonProps {
-    sectionRef: React.RefObject<HTMLDivElement> | undefined;
+    sectionRef: SectionRef | undefined;
     label: string;
 }
+
+const navButtonSx = {my: 2, color: 'white', display: 'block'} as const;
+const navButtonTypographySx = {typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}} as const;
 
 const NavButton: React.FunctionComponent<NavButtonProps> = ({sectionRef, label}) => (
     <Button
         aria-label={`Go to ${label} Section`}
-        onClick={() => sectionRef?.current?.scrollIntoView({behavior: 'smooth', block: 'start'})}
-        sx={{my: 2, color: 'white', display: 'block'}}
+        onClick={() => scrollToRef(sectionRef)}
+        sx={navButtonSx}
     >
-        <Typography
-            sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
-        >
+        <Typography sx={navButtonTypographySx}>
             <b>{label}</b>
         </Typography>
     </Button>
@@ -60,7 +63,7 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
                            sx={{margin: "0 auto", width: "100%", overflow: "hidden"}}>
                         <IconButton
                             aria-label="Go to top"
-                            onClick={() => props.headshotRef?.current?.scrollIntoView({behavior: 'smooth', block: 'start'})}>
+                            onClick={() => scrollToRef(props.headshotRef)}>
                             <Avatar style={{width: 50, height: 50}}>
                                 <Image
                                     className={styles.headshot_container_image}

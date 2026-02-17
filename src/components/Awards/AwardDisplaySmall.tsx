@@ -42,7 +42,7 @@ const AwardDisplaySmall: React.FunctionComponent<AwardDisplaySmallProps> = (prop
             initial="hidden"
             whileInView="visible"
             viewport={{once: true, amount: (props.extraSmall ? 0.5 : 1.0), margin: (props.extraSmall ? "-5px" : "-25px")}}
-            // onViewportEnter={() => console.log("Education Section has entered viewport")}
+
         >
             <TimelineOppositeContent
                 sx={{

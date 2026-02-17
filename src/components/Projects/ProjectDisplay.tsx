@@ -204,10 +204,12 @@ const SlideAndPaperLinksMenu: React.FunctionComponent<SlideAndPaperLinksProps> =
         setAnchorEl(null);
     };
 
+    const menuId = `slides-papers-menu-${props.project.name.replace(/\s+/g, '-').toLowerCase()}`;
+
     return <div>
         <Chip
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
+            id={menuId}
+            aria-controls={open ? `${menuId}-list` : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
@@ -215,7 +217,8 @@ const SlideAndPaperLinksMenu: React.FunctionComponent<SlideAndPaperLinksProps> =
             variant={"outlined"}
             clickable
         />
-        <Menu open={open}
+        <Menu id={`${menuId}-list`}
+              open={open}
               onClose={handleClose}
               anchorOrigin={{
                   vertical: 'top',

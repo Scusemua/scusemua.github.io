@@ -6,6 +6,8 @@ import {TypeAnimation} from "react-type-animation";
 import {motion} from "framer-motion";
 import {Stack, useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
+import {SectionRef} from "@src/types";
+import {scrollToRef} from "@src/utils/scrollToRef";
 
 const bioTextAnimationVariant = {
     hidden: {y: -10, opacity: 0},
@@ -19,7 +21,7 @@ const bioTextAnimationVariant = {
 }
 
 interface BioTextProps {
-    projectSectionRef: React.RefObject<HTMLDivElement> | undefined;
+    projectSectionRef: SectionRef | undefined;
 }
 
 const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => {
@@ -70,9 +72,7 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
     }
 
     const scrollToProjects = () => {
-        if (props.projectSectionRef?.current) {
-            props.projectSectionRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
-        }
+        scrollToRef(props.projectSectionRef);
     }
 
     const bioText: ReactElement[] = [
@@ -138,12 +138,12 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
 }
 
 interface AboutSectionProps {
-    projectSectionRef: React.RefObject<HTMLDivElement> | undefined;
+    projectSectionRef: SectionRef | undefined;
 }
 
 const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>((_props: AboutSectionProps, ref) => {
     return (
-        <div style={{position: "relative"}}>
+        <div ref={ref} style={{position: "relative"}}>
             <Wave variant={"bottom"}/>
             <div className={styles.about}>
                 <BioText projectSectionRef={_props.projectSectionRef}/>

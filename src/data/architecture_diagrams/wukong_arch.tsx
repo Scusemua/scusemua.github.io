@@ -310,8 +310,6 @@ const WukongArchitecture = (props: WukongArchitectureProps) => {
         }
     }
 
-    // console.log(`popoverMaxWidth: ${popoverMaxWidth}, popoverOpen: ${popoverOpen}`)
-
     return (
         <svg
             onClick={onSvgClicked}

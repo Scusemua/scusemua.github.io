@@ -29,9 +29,7 @@ const CarouselProjectsDisplay = ({projects, dark_card_actions}: { projects: Proj
     const [expandedProjects, setExpandedProjects] = React.useState<Map<string, boolean>>(new Map<string, boolean>());
 
     React.useEffect(() => {
-        projects.forEach((project: Project) => {
-            setExpandedProjects(prev => new Map(prev).set(project.name, false));
-        })
+        setExpandedProjects(new Map(projects.map((p) => [p.name, false])));
     }, [projects])
 
     const onProjectSelectedIndexChanged = (selectedIndex: number) => {
