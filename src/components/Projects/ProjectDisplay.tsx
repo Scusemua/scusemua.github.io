@@ -296,7 +296,7 @@ const PaperPresentationIcon: React.FunctionComponent<PaperPresentationIconProps>
 const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (props: SlideAndPaperLinksProps) => {
     const badge_xs_font: number = 0.55;
 
-    const useBadges = React.useCallback((): boolean => {
+    const computeShouldUseBadges = React.useCallback((): boolean => {
         if (props.is_xs) {
             return true;
         }
@@ -306,12 +306,12 @@ const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (pr
         return (num_papers_and_slides >= 4 || (num_papers_and_slides >= 3 && props.project.presentation_url !== undefined && props.project.presentation_url !== ""));
     }, [props.is_xs, props.project.arxiv_links.length, props.project.presentation_slides?.length, props.project.presentation_url]);
 
-    const shouldUseBadges = useBadges();
+    const shouldUseBadges = computeShouldUseBadges();
 
     return <Stack
         className={styles.paper_and_slide_links}
         direction="row"
-        spacing={useBadges() ? 3 : 0.75}
+        spacing={shouldUseBadges ? 3 : 0.75}
         justifyContent={"center"}
         alignItems={"center"}
         sx={{

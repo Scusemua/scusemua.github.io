@@ -19,11 +19,7 @@ declare module '@mui/material/styles' {
     }
 }
 
-// A custom theme for this app
-let theme = createTheme({
-    // Theme customization goes here as usual, including tonalOffset and/or
-    // contrastThreshold as the augmentColor() function relies on these
-});
+let theme = createTheme({});
 theme = createTheme({
     cssVariables: true,
     breakpoints: {
@@ -37,15 +33,13 @@ theme = createTheme({
     },
     palette: {
         primary: {
-            main: '#A4243B' // To match Shroom Haze
-            // main: '#E22753', // Not original, but whatever I was using in the interum, with the red-blue
+            main: '#A4243B',
         },
         secondary: {
             main: '#FDFFFF',
         },
         info: {
-            // main: '#3f5efb', // Not original, but whatever I was using in the interum, with the red-blue
-            main: '#D8973C' // To match Shroom Haze
+            main: '#D8973C',
         },
         error: {
             main: red.A400,

@@ -186,19 +186,20 @@ const EmblaCarousel: React.FunctionComponent<EmblaCarouselProps> = (props: Embla
             <div className="embla__controls">
                 <Stack direction={"row"} spacing={2}>
                     <Tooltip title={"Previous project"}>
-                        <IconButton size={"large"}
+                        <IconButton size={"large"} aria-label="Previous project"
                                     onClick={() => onAutoplayButtonClick(onPrevButtonClick)}>
                             {<ArrowBack sx={{color: "#DEDEDEFF"}}/>}
                         </IconButton>
                     </Tooltip>
                     <Tooltip title={"Next project"}>
-                        <IconButton size={"large"}
+                        <IconButton size={"large"} aria-label="Next project"
                                     onClick={() => onAutoplayButtonClick(onNextButtonClick)}>
                             {<ArrowForward sx={{color: "#DEDEDEFF"}}/>}
                         </IconButton>
                     </Tooltip>
                     <Tooltip title={autoplayIsPlaying ? "Pause auto-scrolling" : "Resume auto-scrolling"}>
                         <IconButton size={"large"}
+                                    aria-label={autoplayIsPlaying ? "Pause auto-scrolling" : "Resume auto-scrolling"}
                                     onClick={toggleAutoplay}>
                             {autoplayIsPlaying ? <StopRounded sx={{color: "#DEDEDEFF"}}/> :
                                 <PlayArrowRounded sx={{color: "#DEDEDEFF"}}/>}
