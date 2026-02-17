@@ -25,7 +25,7 @@ const SkillAnimationVariant: Variants = {
     },
 };
 
-const SkillDisplay: React.FunctionComponent<SkillProps> = (props: SkillProps) => {
+const SkillDisplay: React.FunctionComponent<SkillProps> = React.memo((props: SkillProps) => {
     return (
         <motion.div
             variants={SkillAnimationVariant}
@@ -43,5 +43,8 @@ const SkillDisplay: React.FunctionComponent<SkillProps> = (props: SkillProps) =>
             </Typography>
         </motion.div>
     );
-};
+});
+
+SkillDisplay.displayName = "SkillDisplay";
+
 export default SkillDisplay;

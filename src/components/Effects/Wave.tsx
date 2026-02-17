@@ -8,7 +8,7 @@ interface WaveProps {
     flipped?: boolean;
 }
 
-const Wave: React.FunctionComponent<WaveProps> = (props: WaveProps) => {
+const Wave: React.FunctionComponent<WaveProps> = React.memo((props: WaveProps) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
 
     return (<div style={{position: "relative"}}>
@@ -28,6 +28,8 @@ const Wave: React.FunctionComponent<WaveProps> = (props: WaveProps) => {
             </svg>
         </div>
     </div>);
-}
+});
+
+Wave.displayName = "Wave";
 
 export default Wave;

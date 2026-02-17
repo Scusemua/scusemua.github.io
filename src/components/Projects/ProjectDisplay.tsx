@@ -42,7 +42,7 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
 import Tiltable from "@src/components/Effects/Tiltable";
 import theme from "@src/app/theme";
 import {useSettings} from "@src/components/Context/SettingsContext";
-import FlippableCard from "@src/components/Effects/FlippableCard";
+
 import YouTubeIcon from "@mui/icons-material/YouTube";
 
 // To match the red/blue and sort of the original
@@ -559,7 +559,7 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
     );
 
     const getExpandedHeight = (): string => {
-        if (!props.project.architectureDiagram && (!props.project.questionsAndAnswers || props.project.questionsAndAnswers.length == 0)) {
+        if (!props.project.architectureDiagram && (!props.project.questionsAndAnswers || props.project.questionsAndAnswers.length === 0)) {
             return "auto";
         }
 

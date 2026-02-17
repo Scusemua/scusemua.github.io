@@ -7,11 +7,11 @@ interface CloudProps {
     style?: React.CSSProperties;
 }
 
-const Clouds: React.FunctionComponent<CloudProps> = (props: CloudProps) => {
-    const combinedStyles = {
+const Clouds: React.FunctionComponent<CloudProps> = React.memo((props: CloudProps) => {
+    const combinedStyles = React.useMemo(() => ({
         transform: props.flipped ? "rotate(180deg)" : "",
         ...props.style,
-    };
+    }), [props.flipped, props.style]);
 
     return (<div className={styles.cloudContainer} style={combinedStyles}>
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
@@ -27,6 +27,8 @@ const Clouds: React.FunctionComponent<CloudProps> = (props: CloudProps) => {
                 className="shape-fill"></path>
         </svg>
     </div>);
-};
+});
+
+Clouds.displayName = "Clouds";
 
 export default Clouds;

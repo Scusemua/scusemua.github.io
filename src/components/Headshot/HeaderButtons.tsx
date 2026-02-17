@@ -7,10 +7,10 @@ import Typography from "@mui/material/Typography";
 import DownloadIcon from "@mui/icons-material/Download";
 import MailIcon from "@mui/icons-material/Mail";
 
-const HeaderButtons: React.FunctionComponent = () => {
-    const viewResume = () => {
+const HeaderButtons: React.FunctionComponent = React.memo(() => {
+    const viewResume = React.useCallback(() => {
         window.open('CarverBenjamin_Resume.pdf');
-    }
+    }, []);
 
     return (
         <Stack className={styles.headshot_cv_button_stack} spacing={2} key={"headshot_header_buttons"}
@@ -40,6 +40,8 @@ const HeaderButtons: React.FunctionComponent = () => {
             </Tooltip>
         </Stack>
     );
-}
+});
+
+HeaderButtons.displayName = "HeaderButtons";
 
 export default HeaderButtons;

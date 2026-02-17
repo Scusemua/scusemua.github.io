@@ -38,6 +38,9 @@ jspm_packages
 .next
 
 .DS_STORE
+
+# Photoshop source files (large, not needed in deployment)
+*.psd
 scripts/flow/*/.flowconfig
 .flowconfig
 *~

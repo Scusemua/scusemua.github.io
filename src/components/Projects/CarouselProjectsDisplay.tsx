@@ -32,23 +32,23 @@ const CarouselProjectsDisplay = ({projects, dark_card_actions}: { projects: Proj
         setExpandedProjects(new Map(projects.map((p) => [p.name, false])));
     }, [projects])
 
-    const onProjectSelectedIndexChanged = (selectedIndex: number) => {
-        projects.forEach((project: Project, index: number) => {
-            if (selectedIndex === index) {
-                return;
-            }
+    const onProjectSelectedIndexChanged = React.useCallback((selectedIndex: number) => {
+        setExpandedProjects(prev => {
+            const next = new Map(prev);
+            projects.forEach((project: Project, index: number) => {
+                if (selectedIndex !== index && next.get(project.name)) {
+                    next.set(project.name, false);
+                }
+            });
+            return next;
+        });
+    }, [projects])
 
-            if (expandedProjects.get(project.name)) {
-                setExpandedProjects(prev => new Map(prev).set(project.name, false));
-            }
-        })
-    }
-
-    const toggleProjectExpanded = (name: string, expanded: boolean) => {
+    const toggleProjectExpanded = React.useCallback((name: string, expanded: boolean) => {
         setExpandedProjects(prev => new Map(prev).set(name, expanded));
-    }
+    }, []);
 
-    const getHoverScale = () => {
+    const hoverScale = React.useMemo(() => {
         if (mq_xs) {
             return {scale: 1.0}
         }
@@ -58,7 +58,7 @@ const CarouselProjectsDisplay = ({projects, dark_card_actions}: { projects: Proj
         }
 
         return {scale: 1.05}
-    }
+    }, [mq_xs, mq_md_or_less]);
 
     return (
         <EmblaCarousel className={styles.projects_container}
@@ -69,7 +69,7 @@ const CarouselProjectsDisplay = ({projects, dark_card_actions}: { projects: Proj
                                    style={{
                                        width: "100%",
                                    }}
-                                   whileHover={!mq_xs ? getHoverScale() : undefined}
+                                   whileHover={!mq_xs ? hoverScale : undefined}
                                    key={`project-${project.name}-display-${idx}`}>
                                    <ProjectCard key={`project-${idx}-${project.name}`}
                                                 project={project}

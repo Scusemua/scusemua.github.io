@@ -19,7 +19,7 @@ interface SocialLinksProps {
     onClickSettingsButton: () => void;
 }
 
-const SocialLinks: React.FunctionComponent<SocialLinksProps> = (props: SocialLinksProps) => {
+const SocialLinks: React.FunctionComponent<SocialLinksProps> = React.memo((props: SocialLinksProps) => {
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     return (
@@ -67,6 +67,8 @@ const SocialLinks: React.FunctionComponent<SocialLinksProps> = (props: SocialLin
             </Stack>
         </div>
     );
-}
+});
+
+SocialLinks.displayName = "SocialLinks";
 
 export default SocialLinks;

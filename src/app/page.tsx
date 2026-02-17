@@ -14,6 +14,10 @@ import {useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
 import AboutSection from "@src/components/About/About";
 
+const rootStyle: React.CSSProperties = {position: 'relative'};
+const skillsWrapperStyle: React.CSSProperties = {position: "relative"};
+const cloudsStyle: React.CSSProperties = {position: "absolute", bottom: 0, left: 0};
+
 export default function Home() {
     const headshotRef = React.useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
     const aboutRef = React.useRef<HTMLDivElement>(null);
@@ -35,7 +39,7 @@ export default function Home() {
     );
 
     return (
-        <div style={{position: 'relative'}}>
+        <div style={rootStyle}>
             <Navbar headshotRef={headshotRef} educationRef={educationRef} projectRef={projectRef}
                     skillsRef={skillsRef} employmentHistoryRef={employmentRef} awardRef={awardRef} key={"navbar"}/>
             <Headshot ref={headshotRef} key={"headshot_section"}/>
@@ -44,15 +48,11 @@ export default function Home() {
             <AwardsSection ref={awardRef} key={"awardsSection"}/>
             <EducationSection ref={educationRef} key={"education_section"}/>
             <EmploymentHistory ref={employmentRef} key={"employment_section"}/>
-            <div style={{
-                position: "relative",
-            }}><SkillsSection ref={skillsRef} key={"skills_section"} is_xs={mq_xs}/></div>
+            <div style={skillsWrapperStyle}>
+                <SkillsSection ref={skillsRef} key={"skills_section"} is_xs={mq_xs}/>
+            </div>
             <CopyrightNotice key={"copyright_section"}/>
-            <Clouds flipped style={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-            }}/>
+            <Clouds flipped style={cloudsStyle}/>
         </div>
     );
 }
