@@ -12,6 +12,7 @@
     "@mui/lab": "^6.0.0-beta.14",
     "@mui/material": "^6.1.6",
     "@mui/material-nextjs": "^6.1.5",
+    "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "embla-carousel-autoplay": "^8.5.2",
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "latest",
+    "@types/node": "25.2.3",
     "@types/prismjs": "^1.26.5",
     "gh-pages": "^5.0.0",
     "sass": "^1.80.6"
