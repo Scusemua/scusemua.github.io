@@ -6,11 +6,12 @@ import optimal_gpu_platform_logo from "@images/logos/optimal_gpu_platform_logo.w
 import distributed_dl_training from "@images/logos/distributed_dl_training_logo.webp";
 import notebook_os_white from "@images/logos/notebook_os_white.webp";
 import faas_platform_logo from "@images/logos/faas_platforms_logo.webp";
-import LambdaFSArchitecture from "@data/architecture_diagrams/lambda_fs_arch";
-import WukongArchitecture from "@data/architecture_diagrams/wukong_arch";
-import NotebookOSArchitecture from "@data/architecture_diagrams/notebook_os_arch";
 import React from "react";
-import InfiniStoreArchitecture from "@data/architecture_diagrams/infinistore_arch";
+
+const WukongArchitecture = React.lazy(() => import("@data/architecture_diagrams/wukong_arch"));
+const InfiniStoreArchitecture = React.lazy(() => import("@data/architecture_diagrams/infinistore_arch"));
+const LambdaFSArchitecture = React.lazy(() => import("@data/architecture_diagrams/lambda_fs_arch"));
+const NotebookOSArchitecture = React.lazy(() => import("@data/architecture_diagrams/notebook_os_arch"));
 import Typography from "@mui/material/Typography";
 import {Button, Stack} from "@mui/material";
 import Prism from 'prismjs';
@@ -52,7 +53,7 @@ export interface Project {
     arxiv_links: string[];
     builtWith?: string[];
     learnMoreEnabled?: boolean;
-    architectureDiagram?: React.JSX.Element;
+    architectureDiagram?: React.ComponentType;
     architectureDiagramHeight?: number;
     architectureDiagramIsInteractive?: boolean;
     questionsAndAnswers?: QuestionAndAnswer[];
@@ -124,7 +125,7 @@ export const WukongProject: Project = {
     presentation_venue: "SoCC'20",
     learnMoreEnabled: false,
     learnMoreUrl: "projects/wukong",
-    architectureDiagram: <WukongArchitecture/>,
+    architectureDiagram: WukongArchitecture,
     architectureDiagramIsInteractive: true,
     architectureDiagramHeight: 465,
     status: 'inactive',
@@ -197,7 +198,7 @@ export const InfiniStoreProject: Project = {
     project_website_url: "",
     keywords: ["serverless computing", "functions-as-a-service", "faas", "object storage", "caching", "persistence", "fault tolerance", "erasure coding"],
     builtWith: ["AWS", "AWS Lambda", "AWS S3", "AWS ElastiCache", "Redis", "Golang", "Python"],
-    architectureDiagram: <InfiniStoreArchitecture/>,
+    architectureDiagram: InfiniStoreArchitecture,
     architectureDiagramHeight: 370,
     arxiv_links: ["https://arxiv.org/abs/2209.01496"],
     presentation_slides: [
@@ -226,7 +227,7 @@ export const LambdaFSProject: Project = {
     arxiv_links: ["https://arxiv.org/abs/2306.11877"],
     architectureDiagramIsInteractive: true,
     status: 'inactive',
-    architectureDiagram: <LambdaFSArchitecture/>,
+    architectureDiagram: LambdaFSArchitecture,
     presentation_slides: [
         // {
         //     venue: "WoSCx2",
@@ -280,7 +281,7 @@ export const JupyterNotebookProject: Project = {
     builtWith: ["Kubernetes", "Docker", "Golang", "Python", "C"],
     arxiv_links: ["https://arxiv.org/abs/2503.20591"],
     status: 'ongoing',
-    architectureDiagram: <NotebookOSArchitecture/>,
+    architectureDiagram: NotebookOSArchitecture,
     architectureDiagramIsInteractive: false,
 }
 

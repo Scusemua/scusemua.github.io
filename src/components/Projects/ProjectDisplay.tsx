@@ -1,5 +1,5 @@
 import styles from "@src/styles/components/Projects.module.scss";
-import React, {ReactElement, ReactNode} from "react";
+import React, {ReactElement, ReactNode, Suspense} from "react";
 import Link from "next/link";
 import {styled} from '@mui/material/styles';
 
@@ -34,9 +34,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image from "next/image";
 import {OpenInNew, WebStories} from "@mui/icons-material";
 
-import Prism, {highlightAll} from 'prismjs';
-
-import 'prismjs';
+import {highlightAll} from 'prismjs';
 import 'prismjs/components/prism-python';
 import 'prismjs/themes/prism-tomorrow.css';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.js'
@@ -429,6 +427,8 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
         />
     );
 
+    const ArchDiagramComponent = props.project.architectureDiagram;
+
     const architectureDiagram = (<div style={{
         justifyContent: "center",
         textAlign: "center",
@@ -443,7 +443,11 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             <div style={{
                 width: "100%",
             }}>
-                {props.project.architectureDiagram}
+                {ArchDiagramComponent && (
+                    <Suspense fallback={<div style={{textAlign: "center", padding: "2rem"}}>Loading diagram...</div>}>
+                        <ArchDiagramComponent />
+                    </Suspense>
+                )}
             </div>
         </Stack>
     </div>);

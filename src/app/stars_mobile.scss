@@ -19,6 +19,7 @@ $mobile-shadows-big: multiple-box-shadow-mobile(50);
   background: transparent;
   box-shadow: $mobile-shadows-small;
   animation: animStarMobile 25s linear infinite;
+  will-change: transform;
 
   &:after {
     overflow: hidden;
@@ -39,6 +40,7 @@ $mobile-shadows-big: multiple-box-shadow-mobile(50);
   background: transparent;
   box-shadow: $mobile-shadows-medium;
   animation: animStarMobile 45s linear infinite;
+  will-change: transform;
 
   &:after {
     overflow: hidden;
@@ -59,6 +61,7 @@ $mobile-shadows-big: multiple-box-shadow-mobile(50);
   background: transparent;
   box-shadow: $mobile-shadows-big;
   animation: animStarMobile 60s linear infinite;
+  will-change: transform;
 
   &:after {
     overflow: hidden;
