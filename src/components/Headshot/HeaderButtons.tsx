@@ -8,13 +8,6 @@ import DownloadIcon from "@mui/icons-material/Download";
 import MailIcon from "@mui/icons-material/Mail";
 
 const HeaderButtons: React.FunctionComponent = () => {
-    const downloadResume = () => {
-        const link = document.createElement("a");
-        link.download = 'CarverBenjamin_Resume.pdf';
-        link.href = 'CarverBenjamin_Resume.pdf'
-        link.click();
-    }
-
     const viewResume = () => {
         window.open('CarverBenjamin_Resume.pdf');
     }

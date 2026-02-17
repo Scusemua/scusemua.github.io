@@ -5,7 +5,6 @@ import React, {forwardRef, ReactElement} from "react";
 import styles from "@src/styles/components/Skills.module.scss";
 import SkillDisplay from "./SkillDisplay";
 import Typography from "@mui/material/Typography";
-import Projects from "@src/components/Projects/Projects";
 import {useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
 
@@ -33,7 +32,7 @@ const GetSkill = (skill: string, i: number, isXs: boolean) => {
     );
 }
 
-const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((props: SkillsSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+const SkillsSection = forwardRef<HTMLDivElement, SkillsSectionProps>((props: SkillsSectionProps, ref) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
 
     return (<div className={`${styles.skills}`} id="skills" ref={ref}>
@@ -66,5 +65,7 @@ const SkillsSection = forwardRef<HTMLInputElement, SkillsSectionProps>((props: S
         ))}
     </div>)}
 );
+
+SkillsSection.displayName = "SkillsSection";
 
 export default SkillsSection;

@@ -23,7 +23,6 @@ const cardVariant = {
 
 const CarouselProjectsDisplay = ({projects, dark_card_actions}: { projects: Project[], dark_card_actions?: boolean}) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 

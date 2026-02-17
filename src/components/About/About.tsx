@@ -19,7 +19,7 @@ const bioTextAnimationVariant = {
 }
 
 interface BioTextProps {
-    projectSectionRef: React.RefObject<HTMLInputElement> | undefined;
+    projectSectionRef: React.RefObject<HTMLDivElement> | undefined;
 }
 
 const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => {
@@ -81,7 +81,7 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
             applications.
         </Typography>,
         <Typography variant={"h5"} sx={{fontSize: getBioTextSize()}}>
-            I recently completed my PhD at George Mason University, where I designed and developed several open-source systems in cloud and serverless computing. You can read more about them <span onClick={scrollToProjects}><strong>below</strong>.</span>
+            I recently completed my PhD at George Mason University, where I designed and developed several open-source systems in cloud and serverless computing. You can read more about them <button onClick={scrollToProjects} style={{background: "none", border: "none", cursor: "pointer", font: "inherit", color: "inherit", padding: 0, textDecoration: "underline"}} aria-label="Scroll to projects section"><strong>below</strong></button>.
         </Typography>,
         <Typography variant={"h5"} sx={{fontSize: getBioTextSize()}}>
             During my academic research career, I worked under <a href={"https://tddg.github.io/"}>Dr. Yue
@@ -138,10 +138,10 @@ const BioText: React.FunctionComponent<BioTextProps> = (props: BioTextProps) => 
 }
 
 interface AboutSectionProps {
-    projectSectionRef: React.RefObject<HTMLInputElement> | undefined;
+    projectSectionRef: React.RefObject<HTMLDivElement> | undefined;
 }
 
-const AboutSection = forwardRef<HTMLInputElement, AboutSectionProps>((_props: AboutSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+const AboutSection = forwardRef<HTMLDivElement, AboutSectionProps>((_props: AboutSectionProps, ref) => {
     return (
         <div style={{position: "relative"}}>
             <Wave variant={"bottom"}/>
@@ -152,5 +152,7 @@ const AboutSection = forwardRef<HTMLInputElement, AboutSectionProps>((_props: Ab
         </div>
     )
 });
+
+AboutSection.displayName = "AboutSection";
 
 export default AboutSection;

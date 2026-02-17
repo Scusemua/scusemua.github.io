@@ -33,9 +33,6 @@ const degreeVariant = {
     }
 }
 
-interface EducationSectionProps {
-}
-
 const DEGREE_CARD_HEIGHT: number = 525;
 
 const EducationContent: React.FunctionComponent = () => {
@@ -87,7 +84,7 @@ const EducationContent: React.FunctionComponent = () => {
 }
 
 // const EducationSection: React.FunctionComponent<EducationSectionProps> = (props: EducationSectionProps) => {
-const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_props: EducationSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+const EducationSection = forwardRef<HTMLDivElement>((_props, ref) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
 
     const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
@@ -102,5 +99,7 @@ const EducationSection = forwardRef<HTMLInputElement, EducationSectionProps>((_p
         </div>
     </div>);
 });
+
+EducationSection.displayName = "EducationSection";
 
 export default EducationSection;

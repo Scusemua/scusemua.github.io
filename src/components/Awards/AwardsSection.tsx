@@ -9,10 +9,7 @@ import theme from "@src/app/theme";
 import AwardDisplay from "@src/components/Awards/AwardDisplay";
 import AwardDisplaySmall from "@src/components/Awards/AwardDisplaySmall";
 
-interface AwardsSectionProps {
-}
-
-const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>((_props: AwardsSectionProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+const AwardsSectionComponent = forwardRef<HTMLDivElement>((_props, ref) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
 
@@ -27,7 +24,7 @@ const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>(
     }
 
     return (
-        <div className={`${styles.awards}`} id="skills" ref={ref}
+        <div className={`${styles.awards}`} id="awards" ref={ref}
              key={"awards_section_wrapper"}
              style={{
                  width: mq_xs ? "100%" : "90%"
@@ -50,5 +47,7 @@ const AwardsSectionComponent = forwardRef<HTMLInputElement, AwardsSectionProps>(
         </div>
     );
 });
+
+AwardsSectionComponent.displayName = "AwardsSection";
 
 export default AwardsSectionComponent;

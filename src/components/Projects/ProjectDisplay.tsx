@@ -363,47 +363,6 @@ const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (pr
     </Stack>
 }
 
-interface SlideLinkProps {
-    project: Project;
-    is_xs: boolean;
-}
-
-const SlideLinks: React.FunctionComponent<SlideLinkProps> = (props: SlideLinkProps) => {
-    return <Stack
-        direction="row"
-        spacing={{xs: 3, sm: 3, md: 3, lg: 3, xl: 4}}
-        justifyContent={"center"}
-        alignItems={"center"}
-    >
-        {props.project.presentation_slides?.map((slides: PresentationSlides, idx: number) => {
-            const badgeContent: ReactNode = (<Typography variant={"body2"}
-                                                         style={{
-                                                             fontSize: props.is_xs ? `$0.55rem` : ""
-                                                         }}>
-                {slides.venue as string}
-            </Typography>);
-
-            return (<Tooltip title={`View Paper on arXiv`} arrow key={`paper-icon-${idx}`}>
-                <IconButton size={getIconSize(props.is_xs)}
-                            component={Link}
-                            href={slides.path}>
-                    <Badge sx={{
-                        "& .MuiBadge-badge": {
-                            color: "#fff",
-                            backgroundColor: badgeColors[idx],
-                            transform: 'translate(35%, 95%)', // original is (50%, -50%)
-                        }
-                    }} badgeContent={badgeContent} anchorOrigin={{
-                        vertical: 'bottom', horizontal: 'right',
-                    }}>
-                        <WebStories/>
-                    </Badge>
-                </IconButton>
-            </Tooltip>);
-        })}
-    </Stack>
-}
-
 interface ProjectProps {
     project: Project;
     expanded: boolean;

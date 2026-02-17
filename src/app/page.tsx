@@ -15,13 +15,13 @@ import theme from "@src/app/theme";
 import AboutSection from "@src/components/About/About";
 
 export default function Home() {
-    const headshotRef = React.useRef<HTMLInputElement>(null) as React.MutableRefObject<HTMLInputElement>;
-    const aboutRef = React.useRef<HTMLInputElement>(null);
-    const projectRef = React.useRef<HTMLInputElement>(null);
-    const employmentRef = React.useRef<HTMLInputElement>(null);
-    const educationRef = React.useRef<HTMLInputElement>(null);
-    const skillsRef = React.useRef<HTMLInputElement>(null);
-    const awardRef = React.useRef<HTMLInputElement>(null);
+    const headshotRef = React.useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
+    const aboutRef = React.useRef<HTMLDivElement>(null);
+    const projectRef = React.useRef<HTMLDivElement>(null);
+    const employmentRef = React.useRef<HTMLDivElement>(null);
+    const educationRef = React.useRef<HTMLDivElement>(null);
+    const skillsRef = React.useRef<HTMLDivElement>(null);
+    const awardRef = React.useRef<HTMLDivElement>(null);
 
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
 

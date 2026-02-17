@@ -15,9 +15,6 @@ import {TypeAnimation} from "react-type-animation";
 import HeaderButtons from "@src/components/Headshot/HeaderButtons";
 import SocialLinks from "@src/components/Headshot/SocialLinks";
 
-interface HeadshotProps {
-}
-
 interface HeaderLayoutProps {
     onClickSettingsButton: () => void;
 }
@@ -140,7 +137,7 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
 }
 
 // const Headshot: React.FunctionComponent = () => {
-const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+const Headshot = forwardRef<HTMLDivElement>((_props, ref) => {
     // const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
     const mq_md = useMediaQuery(theme.breakpoints.only('md'));
@@ -173,5 +170,7 @@ const Headshot = forwardRef<HTMLInputElement, HeadshotProps>((_props: HeadshotPr
         </div>
     );
 });
+
+Headshot.displayName = "Headshot";
 
 export default Headshot;

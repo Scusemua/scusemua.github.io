@@ -7,6 +7,7 @@ import TimelineItem from "@mui/lab/TimelineItem";
 const FramerTimelineItemComponent = React.forwardRef((props: TimelineItemProps, ref) => (
     <TimelineItem {...props} ref={ref} />
 ));
+FramerTimelineItemComponent.displayName = "FramerTimelineItem";
 
 const FramerTimelineItem = motion.create(FramerTimelineItemComponent);
 

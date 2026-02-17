@@ -1,5 +1,5 @@
 import styles from "@styles/components/Wave.module.scss";
-import React, {ReactNode} from "react";
+import React from "react";
 import {useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
 
@@ -10,10 +10,6 @@ interface WaveProps {
 
 const Wave: React.FunctionComponent<WaveProps> = (props: WaveProps) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
-    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
-    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
-    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
 
     return (<div style={{position: "relative"}}>
         <div

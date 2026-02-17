@@ -7,6 +7,7 @@ import MuiBox, { BoxProps } from "@mui/material/Box";
 const FramerBoxComponent = React.forwardRef((props: BoxProps, ref) => (
     <MuiBox {...props} ref={ref} />
 ));
+FramerBoxComponent.displayName = "FramerBox";
 
 const FramerBox = motion.create(FramerBoxComponent);
 

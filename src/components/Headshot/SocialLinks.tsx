@@ -36,31 +36,31 @@ const SocialLinks: React.FunctionComponent<SocialLinksProps> = (props: SocialLin
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"Email Me (bcarver2@gmu.edu)"} arrow>
-                    <IconButton size="large" href={'mailto:bcarver2@gmu.edu'}
+                    <IconButton aria-label={"Email"} size="large" href={'mailto:bcarver2@gmu.edu'}
                                 component={Link} >
                         <MailIcon fontSize="inherit"/>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"LinkedIn"} arrow>
-                    <IconButton size="large" component={Link}
+                    <IconButton aria-label={"LinkedIn"} size="large" component={Link}
                                 href={'https://www.linkedin.com/in/benjamin-carver-phd-30988a1b6/'}>
                         <LinkedInIcon fontSize="inherit"/>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"YouTube"} arrow>
-                    <IconButton size="large" component={Link}
+                    <IconButton aria-label={"YouTube"} size="large" component={Link}
                                 href={'https://www.youtube.com/@benrcarver'}>
                         <YouTubeIcon fontSize="inherit"/>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"Google Scholar"} arrow>
-                    <IconButton size="large" component={Link}
+                    <IconButton aria-label={"Google Scholar"} size="large" component={Link}
                                 href={'https://scholar.google.com/citations?user=sCOVuPEAAAAJ&hl=en'}>
                         <SchoolIcon fontSize="inherit"/>
                     </IconButton>
                 </Tooltip>
                 {mq_xl && <Tooltip title={"Settings"} arrow>
-                    <IconButton size="large" onClick={props.onClickSettingsButton} >
+                    <IconButton aria-label={"Settings"} size="large" onClick={props.onClickSettingsButton} >
                         <SettingsRounded fontSize="inherit"/>
                     </IconButton>
                 </Tooltip>}

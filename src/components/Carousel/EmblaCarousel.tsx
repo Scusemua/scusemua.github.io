@@ -43,7 +43,7 @@ const EmblaCarousel: React.FunctionComponent<EmblaCarouselProps> = (props: Embla
     const progressNode = React.useRef<HTMLDivElement>(null);
 
     const {slides, options, className} = props
-    // @ts-ignore
+    // @ts-expect-error -- Autoplay plugin types don't perfectly match EmblaCarousel's plugin type
     const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay({
         playOnInit: props.autoplayEnabled,
         delay: DEFAULT_AUTOPLAY_DELAY,
@@ -62,7 +62,7 @@ const EmblaCarousel: React.FunctionComponent<EmblaCarouselProps> = (props: Embla
         if (props.onSelectedIndexChanged) {
             props.onSelectedIndexChanged(selectedIndex);
         }
-    }, [selectedIndex])
+    }, [selectedIndex, props.onSelectedIndexChanged])
 
     const {
         onPrevButtonClick,

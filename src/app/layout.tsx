@@ -16,8 +16,7 @@ import {Roboto} from 'next/font/google';
 
 import {ThemeProvider, useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
-import React, {Context} from "react";
-import {BubbleContext, BubbleProvider, BubbleState} from "@src/providers/BubbleContext";
+import React from "react";
 import {ParallaxProviders} from "@src/providers/ParallaxProvider";
 import {SettingsProvider} from "@src/components/Context/SettingsContext";
 

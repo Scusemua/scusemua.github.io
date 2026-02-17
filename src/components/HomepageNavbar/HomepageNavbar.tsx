@@ -14,130 +14,35 @@ import {Stack, useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
 
 interface NavbarProps {
-    headshotRef: React.RefObject<HTMLInputElement> | undefined;
-    projectRef: React.RefObject<HTMLInputElement> | undefined;
-    employmentHistoryRef: React.RefObject<HTMLInputElement> | undefined;
-    educationRef: React.RefObject<HTMLInputElement> | undefined;
-    skillsRef: React.RefObject<HTMLInputElement> | undefined;
-    awardRef: React.RefObject<HTMLInputElement> | undefined;
+    headshotRef: React.RefObject<HTMLDivElement> | undefined;
+    projectRef: React.RefObject<HTMLDivElement> | undefined;
+    employmentHistoryRef: React.RefObject<HTMLDivElement> | undefined;
+    educationRef: React.RefObject<HTMLDivElement> | undefined;
+    skillsRef: React.RefObject<HTMLDivElement> | undefined;
+    awardRef: React.RefObject<HTMLDivElement> | undefined;
 }
+
+interface NavButtonProps {
+    sectionRef: React.RefObject<HTMLDivElement> | undefined;
+    label: string;
+}
+
+const NavButton: React.FunctionComponent<NavButtonProps> = ({sectionRef, label}) => (
+    <Button
+        aria-label={`Go to ${label} Section`}
+        onClick={() => sectionRef?.current?.scrollIntoView({behavior: 'smooth', block: 'start'})}
+        sx={{my: 2, color: 'white', display: 'block'}}
+    >
+        <Typography
+            sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
+        >
+            <b>{label}</b>
+        </Typography>
+    </Button>
+);
 
 const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-
-    const headshotButton = (<IconButton
-        key={"header_section"}
-        onClick={() => {
-            if (props.headshotRef?.current) {
-                props.headshotRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
-            }
-        }}>
-        <Avatar style={{width: 50, height: 50}}>
-            <Image
-                className={styles.headshot_container_image}
-                src={headshot}
-                alt={"Ben's Headshot Avatar"}
-                width={50}
-                height={50}
-                priority={true}
-            />
-        </Avatar>
-    </IconButton>);
-
-    const projectsButton = (<Button
-        key={"projects_section"}
-        aria-label={"Go to Projects Section Button"}
-        onClick={() => {
-            if (props.projectRef?.current) {
-                props.projectRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
-            }
-        }}
-        sx={{my: 2, color: 'white', display: 'block'}}
-    >
-        <Typography
-            // style={{fontSize: fontSize}}
-            sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
-        >
-            <b>Research</b>
-        </Typography>
-    </Button>);
-
-    const getEmploymentButton = (text: string) => (<Button
-        key={"employment_history_section"}
-        aria-label={"Go to Employment History Section Button"}
-        onClick={() => {
-            if (props.employmentHistoryRef?.current) {
-                props.employmentHistoryRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
-            }
-        }}
-        sx={{my: 2, color: 'white', display: 'block'}}
-    >
-        <Typography
-            // style={{fontSize: fontSize}}
-            sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
-        >
-            <b>{text}</b>
-        </Typography>
-    </Button>);
-
-    const getEducationButton = (text: string) => (
-        <Button
-            aria-label={"Go to Education Section Button"}
-            key={"education_section"}
-            onClick={() => {
-                if (props.educationRef?.current) {
-                    props.educationRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
-                }
-            }}
-            sx={{my: 2, color: 'white', display: 'block'}}
-        >
-            <Typography
-                // style={{fontSize: fontSize}}
-                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
-            >
-                <b>{text}</b>
-            </Typography>
-        </Button>
-    );
-
-    const awardsButton = (
-        <Button
-            aria-label={"Go to Awards Section Button"}
-            key={"awards_section_button"}
-            onClick={() => {
-                if (props.awardRef?.current) {
-                    props.awardRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
-                }
-            }}
-            sx={{my: 2, color: 'white', display: 'block'}}
-        >
-            <Typography
-                // style={{fontSize: fontSize}}
-                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
-            >
-                <b>Awards</b>
-            </Typography>
-        </Button>
-    );
-
-    const skillsButton = (
-        <Button
-            aria-label={"Go to Skills Section Button"}
-            key={"skills_section"}
-            onClick={() => {
-                if (props.skillsRef?.current) {
-                    props.skillsRef?.current.scrollIntoView({behavior: 'smooth', block: 'start'});
-                }
-            }}
-            sx={{my: 2, color: 'white', display: 'block'}}
-        >
-            <Typography
-                // style={{fontSize: fontSize}}
-                sx={{typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}}}
-            >
-                <b>Skills</b>
-            </Typography>
-        </Button>);
 
     return (
         <AppBar
@@ -148,17 +53,30 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
                 margin: "0 auto",
             }}
         >
-            <Container >
-                <Toolbar disableGutters >
+            <Container>
+                <Toolbar disableGutters>
                     <Stack direction={'row'} spacing={{'xs': 0, 'sm': 2, 'md': 6, 'lg': 8, 'xl': 10}}
                            alignItems={'center'} justifyContent={'center'}
                            sx={{margin: "0 auto", width: "100%", overflow: "hidden"}}>
-                        {headshotButton}
-                        {projectsButton}
-                        {!mq_xs && awardsButton}
-                        {getEducationButton(mq_xs ? "School" : "Education")}
-                        {getEmploymentButton(mq_xs ? "Work" : "Employment")}
-                        {!mq_xs && skillsButton}
+                        <IconButton
+                            aria-label="Go to top"
+                            onClick={() => props.headshotRef?.current?.scrollIntoView({behavior: 'smooth', block: 'start'})}>
+                            <Avatar style={{width: 50, height: 50}}>
+                                <Image
+                                    className={styles.headshot_container_image}
+                                    src={headshot}
+                                    alt={"Ben's Headshot Avatar"}
+                                    width={50}
+                                    height={50}
+                                    priority={true}
+                                />
+                            </Avatar>
+                        </IconButton>
+                        <NavButton sectionRef={props.projectRef} label="Research"/>
+                        {!mq_xs && <NavButton sectionRef={props.awardRef} label="Awards"/>}
+                        <NavButton sectionRef={props.educationRef} label={mq_xs ? "School" : "Education"}/>
+                        <NavButton sectionRef={props.employmentHistoryRef} label={mq_xs ? "Work" : "Employment"}/>
+                        {!mq_xs && <NavButton sectionRef={props.skillsRef} label="Skills"/>}
                     </Stack>
                 </Toolbar>
             </Container>

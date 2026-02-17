@@ -16,9 +16,6 @@ import GridProjectsDisplay from "@src/components/Projects/GridProjectsDisplay";
 import {useSettings} from "@src/components/Context/SettingsContext";
 import Wave from "@src/components/Effects/Wave";
 
-interface ProjectsProps {
-}
-
 interface ProjectsDisplayProps {
     projects: Project[];
     variant: 'grid' | 'carousel';
@@ -34,7 +31,7 @@ const ProjectsDisplay: React.FunctionComponent<ProjectsDisplayProps> = (props: P
 }
 
 // const Projects: React.FunctionComponent = () => {
-const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+const Projects = forwardRef<HTMLDivElement>((_props, ref) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
     const mq_md_or_less = useMediaQuery(theme.breakpoints.down('lg'));
@@ -73,5 +70,7 @@ const Projects = forwardRef<HTMLInputElement, ProjectsProps>((_props: ProjectsPr
         </Stack>
     )
 });
+
+Projects.displayName = "Projects";
 
 export default Projects;

@@ -9,10 +9,7 @@ import theme from "@src/app/theme";
 import EmploymentDisplay from "@src/components/EmploymentHistory/EmploymentDisplay";
 import EmploymentDisplaySmall from "@src/components/EmploymentHistory/EmploymentDisplaySmall";
 
-interface EmploymentHistoryProps {
-}
-
-const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((_props: EmploymentHistoryProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+const EmploymentHistory = forwardRef<HTMLDivElement>((_props, ref) => {
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
     const mq_sm = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -29,7 +26,7 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
     }
 
     return (
-        <div className={`${styles.employment}`} id="skills" ref={ref} key={"employment_history_section"} style={{maxWidth: getMaxWidth()}}>
+        <div className={`${styles.employment}`} id="employment" ref={ref} key={"employment_history_section"} style={{maxWidth: getMaxWidth()}}>
             <Typography
                 variant={mq_xs ? "h2" : "h1"}
                 className={styles.employment_header_text}
@@ -54,5 +51,7 @@ const EmploymentHistory = forwardRef<HTMLInputElement, EmploymentHistoryProps>((
         </div>
     );
 });
+
+EmploymentHistory.displayName = "EmploymentHistory";
 
 export default EmploymentHistory;

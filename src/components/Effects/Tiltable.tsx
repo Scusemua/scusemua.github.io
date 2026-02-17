@@ -1,6 +1,8 @@
 import React, {ReactNode} from "react";
 import {motion, useSpring} from "framer-motion";
-import {isString} from "next/dist/build/webpack/plugins/jsconfig-paths-plugin";
+
+const isString = (value: unknown): value is string =>
+    typeof value === "string" || value instanceof String;
 
 //Spring animation parameters
 const spring = {

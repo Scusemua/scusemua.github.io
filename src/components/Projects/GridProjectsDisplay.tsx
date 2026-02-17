@@ -48,7 +48,7 @@ const GridProjectsDisplay = ({projects, dark_card_actions}: { projects: Project[
         projects.forEach((project: Project) => {
             setExpandedProjects(prev => new Map(prev).set(project.name, false));
         })
-    }, [])
+    }, [projects])
 
     const getAnimMargin = (): string => {
         if (mq_xl) {
