@@ -70,8 +70,10 @@ interface DescriptionProps {
 }
 
 const CustomCardActions = styled(CardActions)(({theme}) => ({
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
     gap: theme.spacing(1),
+    rowGap: theme.spacing(3),
+    alignItems: 'center',
 }));
 
 const ProjectDescription: React.FunctionComponent<DescriptionProps> = (props: DescriptionProps) => {
@@ -315,8 +317,11 @@ const SlideAndPaperLinks: React.FunctionComponent<SlideAndPaperLinksProps> = (pr
         spacing={shouldUseBadges ? 3 : 0.75}
         justifyContent={"center"}
         alignItems={"center"}
+        useFlexGap
         sx={{
             marginLeft: props.is_xs ? "0rem" : "0.5rem",
+            flexWrap: "wrap",
+            rowGap: shouldUseBadges ? "2rem" : "0.5rem",
         }}
     >
         {props.project.presentation_url && props.project.presentation_url !== "" &&
