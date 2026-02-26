@@ -8,10 +8,30 @@ import notebook_os_white from "@images/logos/notebook_os_white.webp";
 import faas_platform_logo from "@images/logos/faas_platforms_logo.webp";
 import React from "react";
 
-const WukongArchitecture = React.lazy(() => import("@data/architecture_diagrams/wukong_arch"));
-const InfiniStoreArchitecture = React.lazy(() => import("@data/architecture_diagrams/infinistore_arch"));
-const LambdaFSArchitecture = React.lazy(() => import("@data/architecture_diagrams/lambda_fs_arch"));
-const NotebookOSArchitecture = React.lazy(() => import("@data/architecture_diagrams/notebook_os_arch"));
+const wukongImport = () => import("@data/architecture_diagrams/wukong_arch");
+const infiniStoreImport = () => import("@data/architecture_diagrams/infinistore_arch");
+const lambdaFSImport = () => import("@data/architecture_diagrams/lambda_fs_arch");
+const notebookOSImport = () => import("@data/architecture_diagrams/notebook_os_arch");
+
+const WukongArchitecture = React.lazy(wukongImport);
+const InfiniStoreArchitecture = React.lazy(infiniStoreImport);
+const LambdaFSArchitecture = React.lazy(lambdaFSImport);
+const NotebookOSArchitecture = React.lazy(notebookOSImport);
+
+if (typeof window !== 'undefined') {
+    const preload = () => {
+        wukongImport();
+        infiniStoreImport();
+        lambdaFSImport();
+        notebookOSImport();
+    };
+
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(preload);
+    } else {
+        setTimeout(preload, 3000);
+    }
+}
 import Typography from "@mui/material/Typography";
 import {Button, Stack} from "@mui/material";
 import Prism from 'prismjs';
