@@ -9,76 +9,79 @@ import faas_platform_logo from "@images/logos/faas_platforms_logo.webp";
 import React from "react";
 
 const wukongImport = () => import("@data/architecture_diagrams/wukong_arch");
-const infiniStoreImport = () => import("@data/architecture_diagrams/infinistore_arch");
-const lambdaFSImport = () => import("@data/architecture_diagrams/lambda_fs_arch");
-const notebookOSImport = () => import("@data/architecture_diagrams/notebook_os_arch");
+const infiniStoreImport = () =>
+  import("@data/architecture_diagrams/infinistore_arch");
+const lambdaFSImport = () =>
+  import("@data/architecture_diagrams/lambda_fs_arch");
+const notebookOSImport = () =>
+  import("@data/architecture_diagrams/notebook_os_arch");
 
 const WukongArchitecture = React.lazy(wukongImport);
 const InfiniStoreArchitecture = React.lazy(infiniStoreImport);
 const LambdaFSArchitecture = React.lazy(lambdaFSImport);
 const NotebookOSArchitecture = React.lazy(notebookOSImport);
 
-if (typeof window !== 'undefined') {
-    const preload = () => {
-        wukongImport();
-        infiniStoreImport();
-        lambdaFSImport();
-        notebookOSImport();
-    };
+if (typeof window !== "undefined") {
+  const preload = () => {
+    wukongImport();
+    infiniStoreImport();
+    lambdaFSImport();
+    notebookOSImport();
+  };
 
-    if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(preload);
-    } else {
-        setTimeout(preload, 3000);
-    }
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(preload);
+  } else {
+    setTimeout(preload, 3000);
+  }
 }
 import Typography from "@mui/material/Typography";
-import {Button, Stack} from "@mui/material";
-import Prism from 'prismjs';
+import { Button, Stack } from "@mui/material";
+import Prism from "prismjs";
 import Link from "next/link";
 
-import 'prismjs';
-import 'prismjs/components/prism-python';
-import 'prismjs/themes/prism-tomorrow.css';
-import 'prismjs/plugins/line-numbers/prism-line-numbers.js'
-import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
+import "prismjs";
+import "prismjs/components/prism-python";
+import "prismjs/themes/prism-tomorrow.css";
+import "prismjs/plugins/line-numbers/prism-line-numbers.js";
+import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 
 const openInNewTab = (url: string | URL | undefined) => {
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-    if (newWindow) newWindow.opener = null
-}
+  const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+  if (newWindow) newWindow.opener = null;
+};
 
 export interface QuestionAndAnswer {
-    question: string | React.JSX.Element[];
-    answer: string | React.JSX.Element | React.JSX.Element[];
-    read_more_url?: string;
+  question: string | React.JSX.Element[];
+  answer: string | React.JSX.Element | React.JSX.Element[];
+  read_more_url?: string;
 }
 
 export interface PresentationSlides {
-    path: string;
-    venue: string;
+  path: string;
+  venue: string;
 }
 
 export interface Project {
-    name: string;
-    description: string | string[];
-    venue: string | string[];
-    repo_url: string;
-    project_website_url: string;
-    presentation_url?: string;
-    presentation_venue?: string;
-    presentation_slides?: PresentationSlides[];
-    image: string;
-    keywords: string[];
-    arxiv_links: string[];
-    builtWith?: string[];
-    learnMoreEnabled?: boolean;
-    architectureDiagram?: React.ComponentType;
-    architectureDiagramHeight?: number;
-    architectureDiagramIsInteractive?: boolean;
-    questionsAndAnswers?: QuestionAndAnswer[];
-    learnMoreUrl?: string;
-    status: 'ongoing' | 'inactive';
+  name: string;
+  description: string | string[];
+  venue: string | string[];
+  repo_url: string;
+  project_website_url: string;
+  presentation_url?: string;
+  presentation_venue?: string;
+  presentation_slides?: PresentationSlides[];
+  image: string;
+  keywords: string[];
+  arxiv_links: string[];
+  builtWith?: string[];
+  learnMoreEnabled?: boolean;
+  architectureDiagram?: React.ComponentType;
+  architectureDiagramHeight?: number;
+  architectureDiagramIsInteractive?: boolean;
+  questionsAndAnswers?: QuestionAndAnswer[];
+  learnMoreUrl?: string;
+  status: "ongoing" | "inactive";
 }
 
 const WUKONG_CODE_EXAMPLE: string = `import dask.array as da
@@ -124,243 +127,366 @@ XX.compute(
 // `;
 
 export const WukongProject: Project = {
-    name: "Wukong",
-    description: ["Wukong is a scalable, high-performance, and locality-aware serverless DAG engine. Wukong uses FaaS " +
-    "to accelerate the execution of linear algebra, ML, and data analytics workloads.",
-        "The key insight of Wukong is that partitioning the work of a centralized scheduler (i.e., " +
-        "tracking task completions, identifying and dispatching ready tasks, etc.) across a large number of Lambda executors, " +
-        "can greatly improve performance by permitting tasks to be scheduled in parallel, reducing resource contention during " +
-        "scheduling, and making task scheduling data locality-aware, with automatic resource elasticity and improved cost " +
-        "effectiveness.", "The results of Wukong's evaluation showed that it executes large-scale parallel computing jobs up " +
-        "to 68.17× faster while reducing tenant-side cost by 92.96% compared to state-of-the-art industry and academic baselines."],
-    venue: ["PDSW'19", "SoCC'20"],
-    repo_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
-    project_website_url: "https://ds2-lab.github.io/Wukong/",
-    image: wukong_logo,
-    keywords: ["serverless computing", "functions-as-a-service", "faas", "dag", "linear algebra", "task scheduling",
-        "distributed", "python", "data analytics"],
-    builtWith: ["AWS", "AWS Lambda", "Python", "Dask", "AWS Fargate", "Redis"],
-    arxiv_links: ["https://arxiv.org/abs/1910.05896", "https://arxiv.org/abs/2010.07268"],
-    presentation_url: "https://youtu.be/W0tENnx_58I",
-    presentation_venue: "SoCC'20",
-    learnMoreEnabled: false,
-    learnMoreUrl: "projects/wukong",
-    architectureDiagram: WukongArchitecture,
-    architectureDiagramIsInteractive: true,
-    architectureDiagramHeight: 465,
-    status: 'inactive',
-    questionsAndAnswers: [
-        {
-            question: "What is a Directed Acyclic Graph (DAG)?",
-            answer: <Stack direction={"column"} spacing={1}>
-                <Typography component={"span"}>
-                    A Directed Acyclic Graph (DAG) is a graph in which the nodes (i.e., vertices) are connected
-                    by <i>directed</i> edges (i.e., arrows), without any cycles or loops.
-
-                    This means that you <i>cannot</i> start at a node and begin following edges (arrows) to get back
-                    to the same starting node.
-                </Typography>
-                <Typography component={"span"}>
-                    The use of <i>directed</i> edges (or arrows) indicates a dependency between the two nodes. The
-                    arrow points from the source node to the destination node. In the context of Wukong, this
-                    dependency relationship is that of a data dependency. Since each node within the DAG represents an
-                    executable task, the direction of the arrows connecting the different tasks describe how task
-                    outputs are propagated throughout the DAG (i.e., they're used as inputs to subsequent/future tasks).
-                </Typography>
-            </Stack>,
-            read_more_url: "https://en.wikipedia.org/wiki/Directed_acyclic_graph",
-        },
-        {
-            question: "What does a Wukong program look like?",
-            read_more_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
-            answer: <Stack direction={"column"} spacing={2}>
-                <Typography component={"span"}>
-                    The code shown below is from a sample <b>matrix multiplication</b> program. First, a new matrix of
-                    size 10,000 x 10,000 is created before being separated into chunks of size 1,000 x 1,000.
-                    Finally, the matrix is multiplied with itself.
-                </Typography>
-                <pre className="line-numbers">
-                    <code className="language-python">
-                        <div className={"example"} style={{overflow: "scroll"}} onClick={(event) => {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }}
-                             dangerouslySetInnerHTML={{__html: Prism.highlight(WUKONG_CODE_EXAMPLE, Prism.languages.python, 'python')}}/>
-                    </code>
-                </pre>
-                <Typography component={"span"}>
-                    If you're familiar with the <span style={{color: "#d03900"}}
-                                                      onClick={() => openInNewTab("https://www.dask.org/")}><b>Dask</b></span> Python
-                    library, then you may have recognized that the Wukong program looks extremely similar to a Dask
-                    program. This is because Wukong reuses much of the Dask API, as well as Dask's DAG generation
-                    substrate.
-                </Typography>
-            </Stack>,
-        }
-    ],
-    presentation_slides: [
-        {
-            venue: "SOCC'20",
-            path: "slides/wukong_socc20.pdf"
-        },
-    ],
-}
+  name: "Wukong",
+  description: [
+    "Wukong is a scalable, high-performance, and locality-aware serverless DAG engine. Wukong uses FaaS " +
+      "to accelerate the execution of linear algebra, ML, and data analytics workloads.",
+    "The key insight of Wukong is that partitioning the work of a centralized scheduler (i.e., " +
+      "tracking task completions, identifying and dispatching ready tasks, etc.) across a large number of Lambda executors, " +
+      "can greatly improve performance by permitting tasks to be scheduled in parallel, reducing resource contention during " +
+      "scheduling, and making task scheduling data locality-aware, with automatic resource elasticity and improved cost " +
+      "effectiveness.",
+    "The results of Wukong's evaluation showed that it executes large-scale parallel computing jobs up " +
+      "to 68.17× faster while reducing tenant-side cost by 92.96% compared to state-of-the-art industry and academic baselines.",
+  ],
+  venue: ["PDSW'19", "SoCC'20"],
+  repo_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
+  project_website_url: "/projects/wukong",
+  image: wukong_logo,
+  keywords: [
+    "serverless computing",
+    "functions-as-a-service",
+    "faas",
+    "dag",
+    "linear algebra",
+    "task scheduling",
+    "distributed",
+    "python",
+    "data analytics",
+  ],
+  builtWith: ["AWS", "AWS Lambda", "Python", "Dask", "AWS Fargate", "Redis"],
+  arxiv_links: [
+    "https://arxiv.org/abs/1910.05896",
+    "https://arxiv.org/abs/2010.07268",
+  ],
+  presentation_url: "https://youtu.be/W0tENnx_58I",
+  presentation_venue: "SoCC'20",
+  learnMoreEnabled: false,
+  learnMoreUrl: "projects/wukong",
+  architectureDiagram: WukongArchitecture,
+  architectureDiagramIsInteractive: true,
+  architectureDiagramHeight: 465,
+  status: "inactive",
+  questionsAndAnswers: [
+    {
+      question: "What is a Directed Acyclic Graph (DAG)?",
+      answer: (
+        <Stack direction={"column"} spacing={1}>
+          <Typography component={"span"}>
+            A Directed Acyclic Graph (DAG) is a graph in which the nodes (i.e.,
+            vertices) are connected by <i>directed</i> edges (i.e., arrows),
+            without any cycles or loops. This means that you <i>cannot</i> start
+            at a node and begin following edges (arrows) to get back to the same
+            starting node.
+          </Typography>
+          <Typography component={"span"}>
+            The use of <i>directed</i> edges (or arrows) indicates a dependency
+            between the two nodes. The arrow points from the source node to the
+            destination node. In the context of Wukong, this dependency
+            relationship is that of a data dependency. Since each node within
+            the DAG represents an executable task, the direction of the arrows
+            connecting the different tasks describe how task outputs are
+            propagated throughout the DAG (i.e., they're used as inputs to
+            subsequent/future tasks).
+          </Typography>
+        </Stack>
+      ),
+      read_more_url: "https://en.wikipedia.org/wiki/Directed_acyclic_graph",
+    },
+    {
+      question: "What does a Wukong program look like?",
+      read_more_url: "https://github.com/ds2-lab/Wukong/tree/socc2020",
+      answer: (
+        <Stack direction={"column"} spacing={2}>
+          <Typography component={"span"}>
+            The code shown below is from a sample <b>matrix multiplication</b>{" "}
+            program. First, a new matrix of size 10,000 x 10,000 is created
+            before being separated into chunks of size 1,000 x 1,000. Finally,
+            the matrix is multiplied with itself.
+          </Typography>
+          <pre className="line-numbers">
+            <code className="language-python">
+              <div
+                className={"example"}
+                style={{ overflow: "scroll" }}
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: Prism.highlight(
+                    WUKONG_CODE_EXAMPLE,
+                    Prism.languages.python,
+                    "python"
+                  ),
+                }}
+              />
+            </code>
+          </pre>
+          <Typography component={"span"}>
+            If you're familiar with the{" "}
+            <span
+              style={{ color: "#d03900" }}
+              onClick={() => openInNewTab("https://www.dask.org/")}
+            >
+              <b>Dask</b>
+            </span>{" "}
+            Python library, then you may have recognized that the Wukong program
+            looks extremely similar to a Dask program. This is because Wukong
+            reuses much of the Dask API, as well as Dask's DAG generation
+            substrate.
+          </Typography>
+        </Stack>
+      ),
+    },
+  ],
+  presentation_slides: [
+    {
+      venue: "SOCC'20",
+      path: "slides/wukong_socc20.pdf",
+    },
+  ],
+};
 
 export const InfiniStoreProject: Project = {
-    name: "InfiniStore",
-    description: ["InfiniStore is an elastic, cost-effective, and high-performance object store built atop ephemeral " +
-        "cloud functions. InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.",
-        "Our extensive evaluation of InfiniStore showed that the system provides competitive performance " +
-        "with state-of-the-art data storage services AWS ElastiCache and Anna while reducing user-side cost by 97.24% (compared to AWS ElastiCache)."],
-    venue: "VLDB'23",
-    repo_url: "https://github.com/ds2-lab/infinistore",
-    image: infinistore_logo,
-    project_website_url: "",
-    keywords: ["serverless computing", "functions-as-a-service", "faas", "object storage", "caching", "persistence", "fault tolerance", "erasure coding"],
-    builtWith: ["AWS", "AWS Lambda", "AWS S3", "AWS ElastiCache", "Redis", "Golang", "Python"],
-    architectureDiagram: InfiniStoreArchitecture,
-    architectureDiagramHeight: 370,
-    arxiv_links: ["https://arxiv.org/abs/2209.01496"],
-    presentation_slides: [
-        {
-            venue: "VLDB'23",
-            path: "slides/infinistore_vldb23.pdf"
-        },
-    ],
-    status: 'inactive',
-}
+  name: "InfiniStore",
+  description: [
+    "InfiniStore is an elastic, cost-effective, and high-performance object store built atop ephemeral " +
+      "cloud functions. InfiniStore offers automatic elasticity, durability, strong consistency, and high performance.",
+    "Our extensive evaluation of InfiniStore showed that the system provides competitive performance " +
+      "with state-of-the-art data storage services AWS ElastiCache and Anna while reducing user-side cost by 97.24% (compared to AWS ElastiCache).",
+  ],
+  venue: "VLDB'23",
+  repo_url: "https://github.com/ds2-lab/infinistore",
+  image: infinistore_logo,
+  project_website_url: "",
+  keywords: [
+    "serverless computing",
+    "functions-as-a-service",
+    "faas",
+    "object storage",
+    "caching",
+    "persistence",
+    "fault tolerance",
+    "erasure coding",
+  ],
+  builtWith: [
+    "AWS",
+    "AWS Lambda",
+    "AWS S3",
+    "AWS ElastiCache",
+    "Redis",
+    "Golang",
+    "Python",
+  ],
+  architectureDiagram: InfiniStoreArchitecture,
+  architectureDiagramHeight: 370,
+  arxiv_links: ["https://arxiv.org/abs/2209.01496"],
+  presentation_slides: [
+    {
+      venue: "VLDB'23",
+      path: "slides/infinistore_vldb23.pdf",
+    },
+  ],
+  status: "inactive",
+};
 
 export const LambdaFSProject: Project = {
-    name: "λFS",
-    description: ["λFS is a first-of-its-kind elastic, scalable, and high-performance metadata service for large-scale " +
-        "distributed file systems (DFSes) that uses a FaaS-based metadata cache to maximize performance & cost efficiency.",
-        "λFS leverages the benefits of serverless computing to provide up to 4.13x higher throughput, " +
-        "90.40% lower latency, and 85.99% lower user cost compared to state-of-the-art baselines for a real-world industrial workload."],
-    venue: "ASPLOS'23",
-    repo_url: "https://github.com/ds2-lab/LambdaFS",
-    project_website_url: "",
-    presentation_url: "https://www.youtube.com/watch?v=Joaz3GdkBVA",
-    presentation_venue: "ASPLOS'24",
-    image: lfs_logo,
-    keywords: ["serverless computing", "functions-as-a-service", "faas", "distributed file systems", "file storage", "metadata"],
-    builtWith: ["AWS", "Google Cloud", "IBM Cloud", "Nuclio", "OpenWhisk", "Java", "C++", "MySQL Cluster NDB", "HopsFS", "HDFS"],
-    arxiv_links: ["https://arxiv.org/abs/2306.11877"],
-    architectureDiagramIsInteractive: true,
-    status: 'inactive',
-    architectureDiagram: LambdaFSArchitecture,
-    presentation_slides: [
-        // {
-        //     venue: "WoSCx2",
-        //     path: "slides/lambdafs_WoSCx2_2023.pdf"
-        // },
-        {
-            venue: "ASPLOS'24",
-            path: "slides/lambdafs_asplos24.pdf"
-        },
-    ],
-    architectureDiagramHeight: 300,
-    questionsAndAnswers: [
-        {
-            question: "What is a Distributed File System (DFS)?",
-            answer: "A Distributed File System (DFS) is a file system that enables users to access and manage " +
-                "files/data that is stored across multiple distinct servers as though everything were stored on a " +
-                "single device. DFSes typically offer advances such as scalability, reliability, and improved performance.",
-            read_more_url: "https://en.wikipedia.org/wiki/Clustered_file_system#Distributed_file_systems",
-        },
-        {
-            question: "What is ZooKeeper?",
-            answer: "Apache ZooKeeper is a service designed for the maintenance of configuration and naming information, " +
-                "as well as to provide distributed synchronization and group services.",
-            read_more_url: "https://zookeeper.apache.org/",
-        }
-    ]
-}
+  name: "λFS",
+  description: [
+    "λFS is a first-of-its-kind elastic, scalable, and high-performance metadata service for large-scale " +
+      "distributed file systems (DFSes) that uses a FaaS-based metadata cache to maximize performance & cost efficiency.",
+    "λFS leverages the benefits of serverless computing to provide up to 4.13x higher throughput, " +
+      "90.40% lower latency, and 85.99% lower user cost compared to state-of-the-art baselines for a real-world industrial workload.",
+  ],
+  venue: "ASPLOS'23",
+  repo_url: "https://github.com/ds2-lab/LambdaFS",
+  project_website_url: "",
+  presentation_url: "https://www.youtube.com/watch?v=Joaz3GdkBVA",
+  presentation_venue: "ASPLOS'24",
+  image: lfs_logo,
+  keywords: [
+    "serverless computing",
+    "functions-as-a-service",
+    "faas",
+    "distributed file systems",
+    "file storage",
+    "metadata",
+  ],
+  builtWith: [
+    "AWS",
+    "Google Cloud",
+    "IBM Cloud",
+    "Nuclio",
+    "OpenWhisk",
+    "Java",
+    "C++",
+    "MySQL Cluster NDB",
+    "HopsFS",
+    "HDFS",
+  ],
+  arxiv_links: ["https://arxiv.org/abs/2306.11877"],
+  architectureDiagramIsInteractive: true,
+  status: "inactive",
+  architectureDiagram: LambdaFSArchitecture,
+  presentation_slides: [
+    // {
+    //     venue: "WoSCx2",
+    //     path: "slides/lambdafs_WoSCx2_2023.pdf"
+    // },
+    {
+      venue: "ASPLOS'24",
+      path: "slides/lambdafs_asplos24.pdf",
+    },
+  ],
+  architectureDiagramHeight: 300,
+  questionsAndAnswers: [
+    {
+      question: "What is a Distributed File System (DFS)?",
+      answer:
+        "A Distributed File System (DFS) is a file system that enables users to access and manage " +
+        "files/data that is stored across multiple distinct servers as though everything were stored on a " +
+        "single device. DFSes typically offer advances such as scalability, reliability, and improved performance.",
+      read_more_url:
+        "https://en.wikipedia.org/wiki/Clustered_file_system#Distributed_file_systems",
+    },
+    {
+      question: "What is ZooKeeper?",
+      answer:
+        "Apache ZooKeeper is a service designed for the maintenance of configuration and naming information, " +
+        "as well as to provide distributed synchronization and group services.",
+      read_more_url: "https://zookeeper.apache.org/",
+    },
+  ],
+};
 
 export const JupyterNotebookProject: Project = {
-    name: "NotebookOS",
-    description: [
-        "Interactive notebook programming within environments like Jupyter and Google Colab is universal in modern ML & AI workflows. " +
-        "A dominant application of production notebook workloads is interactive deep learning training (IDLT). " +
-        "To guarantee high interactivity, modern notebook platforms typically reserve GPU resources within actively running notebook sessions. " +
-        "These notebook sessions are long-running but exhibit intermittent and sporadic GPU usage. " +
-        "Consequently, during most of their lifetimes, notebook sessions do not use the reserved GPUs, resulting in extremely low GPU utilization and prohibitively high cost.",
+  name: "NotebookOS",
+  description: [
+    "Interactive notebook programming within environments like Jupyter and Google Colab is universal in modern ML & AI workflows. " +
+      "A dominant application of production notebook workloads is interactive deep learning training (IDLT). " +
+      "To guarantee high interactivity, modern notebook platforms typically reserve GPU resources within actively running notebook sessions. " +
+      "These notebook sessions are long-running but exhibit intermittent and sporadic GPU usage. " +
+      "Consequently, during most of their lifetimes, notebook sessions do not use the reserved GPUs, resulting in extremely low GPU utilization and prohibitively high cost.",
 
-        "NotebookOS is a GPU-efficient notebook platform designed for the unique requirements of IDLT. " +
-        "NotebookOS using a replicated kernel design in which each kernel consists of 3 distinct kernel replicas scheduled across multiple, distinct GPU servers and synchronized via Raft. " +
-        "To optimize GPU utilization, NotebookOS oversubscribes server resources via kernel replication to leverage the relatively high task inter-arrival times in IDLT workloads. " +
-        "By dynamically allocating GPUs to kernel replicas only while they are actively executing notebook cells, NotebookOS maximizes the likelihood of immediate and interactive training upon notebook notebook-cell task submission. " +
-        "NotebookOS also migrates kernel replicas and automatically scales the GPU cluster under overload conditions.",
+    "NotebookOS is a GPU-efficient notebook platform designed for the unique requirements of IDLT. " +
+      "NotebookOS using a replicated kernel design in which each kernel consists of 3 distinct kernel replicas scheduled across multiple, distinct GPU servers and synchronized via Raft. " +
+      "To optimize GPU utilization, NotebookOS oversubscribes server resources via kernel replication to leverage the relatively high task inter-arrival times in IDLT workloads. " +
+      "By dynamically allocating GPUs to kernel replicas only while they are actively executing notebook cells, NotebookOS maximizes the likelihood of immediate and interactive training upon notebook notebook-cell task submission. " +
+      "NotebookOS also migrates kernel replicas and automatically scales the GPU cluster under overload conditions.",
 
-        "We evaluated NotebookOS extensively using production notebook workloads and demonstrated that NotebookOS saves 1,187+ GPU hours over a 17.5-hour real-world IDLT workload while greatly enhancing interactivity."
-    ],
-    venue: "ASPLOS'26",
-    repo_url: "https://github.com/ds2-lab/NotebookOS",
-    project_website_url: "",
-    image: notebook_os_white, // jupyter_naas,
-    keywords: ["serverless computing", "jupyter notebook", "jupyter notebooks-as-a-service", "deep learning", "gpu scheduling", "platforms", "interactive deep learning training", "IDLT"], // "jupyter notebooks"
-    builtWith: ["Kubernetes", "Docker", "Golang", "Python", "C"],
-    arxiv_links: ["https://arxiv.org/abs/2503.20591"],
-    status: 'ongoing',
-    architectureDiagram: NotebookOSArchitecture,
-    architectureDiagramIsInteractive: false,
-}
+    "We evaluated NotebookOS extensively using production notebook workloads and demonstrated that NotebookOS saves 1,187+ GPU hours over a 17.5-hour real-world IDLT workload while greatly enhancing interactivity.",
+  ],
+  venue: "ASPLOS'26",
+  repo_url: "https://github.com/ds2-lab/NotebookOS",
+  project_website_url: "/projects/notebookos",
+  image: notebook_os_white, // jupyter_naas,
+  keywords: [
+    "serverless computing",
+    "jupyter notebook",
+    "jupyter notebooks-as-a-service",
+    "deep learning",
+    "gpu scheduling",
+    "platforms",
+    "interactive deep learning training",
+    "IDLT",
+  ], // "jupyter notebooks"
+  builtWith: ["Kubernetes", "Docker", "Golang", "Python", "C"],
+  arxiv_links: ["https://arxiv.org/abs/2503.20591"],
+  status: "ongoing",
+  architectureDiagram: NotebookOSArchitecture,
+  architectureDiagramIsInteractive: false,
+};
 
 export const GpuPricingProject: Project = {
-    // name: "Jupyter NaaS",
-    name: "Optimal GPU Training Platform",
-    description: ["Building on our multi-tenant deep learning platform, we are developing an optimized cost-aware " +
-        "scheduling and pricing model for shared GPU environments.", "This extension focuses on dynamic resource allocation, fair cost distribution, and " +
-        "maximizing GPU efficiency to ensure an optimal balance between performance and user cost."],
-    // description: "I'm working on a Jupyter Notebooks-as-a-Service (NaaS) platform that is optimized for providing maximum interactivity for users. The platform uses a novel designed that we developed to enable support for new classes of AI/ML applications and workloads.",
-    // extendedDescription: "This extension focuses on dynamic resource allocation, fair cost distribution, and " +
-    //     "maximizing GPU efficiency to ensure an optimal balance between performance and user cost.",
-    venue: "",
-    repo_url: "",
-    project_website_url: "",
-    image: optimal_gpu_platform_logo, // jupyter_naas,
-    keywords: ["serverless computing", "functions-as-a-service", "faas", "deep learning", "gpu scheduling", "platforms"], // "jupyter notebooks"
-    builtWith: ["Kubernetes", "Docker", "Golang", "Python"],
-    arxiv_links: [],
-    status: 'ongoing',
-}
+  // name: "Jupyter NaaS",
+  name: "Optimal GPU Training Platform",
+  description: [
+    "Building on our multi-tenant deep learning platform, we are developing an optimized cost-aware " +
+      "scheduling and pricing model for shared GPU environments.",
+    "This extension focuses on dynamic resource allocation, fair cost distribution, and " +
+      "maximizing GPU efficiency to ensure an optimal balance between performance and user cost.",
+  ],
+  // description: "I'm working on a Jupyter Notebooks-as-a-Service (NaaS) platform that is optimized for providing maximum interactivity for users. The platform uses a novel designed that we developed to enable support for new classes of AI/ML applications and workloads.",
+  // extendedDescription: "This extension focuses on dynamic resource allocation, fair cost distribution, and " +
+  //     "maximizing GPU efficiency to ensure an optimal balance between performance and user cost.",
+  venue: "",
+  repo_url: "",
+  project_website_url: "",
+  image: optimal_gpu_platform_logo, // jupyter_naas,
+  keywords: [
+    "serverless computing",
+    "functions-as-a-service",
+    "faas",
+    "deep learning",
+    "gpu scheduling",
+    "platforms",
+  ], // "jupyter notebooks"
+  builtWith: ["Kubernetes", "Docker", "Golang", "Python"],
+  arxiv_links: [],
+  status: "ongoing",
+};
 
 export const ObliviousInfiniStoreProject: Project = {
-    name: "Enhanced Serverless Storage",
-    description: ["This project is focused on the design and creation of an extension of InfiniStore that satisfies " +
-        "additional properties, such as improved security, while still delivering strong performance and scalability.",
-        ],
-    venue: "",
-    repo_url: "",
-    arxiv_links: [],
-    image: obliv_inf_store_logo,
-    project_website_url: "",
-    keywords: ["serverless computing", "functions-as-a-service", "faas", "secure storage systems", "caching",
-        "persistence", "security", "privacy"],
-    builtWith: ["Golang", "C", "C++"],
-    status: 'ongoing',
-}
+  name: "Enhanced Serverless Storage",
+  description: [
+    "This project is focused on the design and creation of an extension of InfiniStore that satisfies " +
+      "additional properties, such as improved security, while still delivering strong performance and scalability.",
+  ],
+  venue: "",
+  repo_url: "",
+  arxiv_links: [],
+  image: obliv_inf_store_logo,
+  project_website_url: "",
+  keywords: [
+    "serverless computing",
+    "functions-as-a-service",
+    "faas",
+    "secure storage systems",
+    "caching",
+    "persistence",
+    "security",
+    "privacy",
+  ],
+  builtWith: ["Golang", "C", "C++"],
+  status: "ongoing",
+};
 
 export const FaasPlatformProject: Project = {
-    name: "Highly Optimized FaaS Platforms",
-    description: ["I'm using my prior experiences developing stateful applications for serverless computing to design " +
-    "and create a highly-optimized and scalable Functions-as-a-Service (FaaS) platform.",
-        "Specifically, we're incorporating techniques and strategies from cryptography, network " +
-        "security, and database systems to provide strong security guarantees while leveraging FaaS to provide good performance"],
-    venue: "",
-    repo_url: "",
-    arxiv_links: [],
-    image: faas_platform_logo,
-    project_website_url: "",
-    keywords: ["serverless computing", "functions-as-a-service", "faas", "cloud provider", "functions as a service",
-        "platform", "scalability"],
-    builtWith: ["Python", "CPython", "C++"],
-    status: 'ongoing',
-}
+  name: "Highly Optimized FaaS Platforms",
+  description: [
+    "I'm using my prior experiences developing stateful applications for serverless computing to design " +
+      "and create a highly-optimized and scalable Functions-as-a-Service (FaaS) platform.",
+    "Specifically, we're incorporating techniques and strategies from cryptography, network " +
+      "security, and database systems to provide strong security guarantees while leveraging FaaS to provide good performance",
+  ],
+  venue: "",
+  repo_url: "",
+  arxiv_links: [],
+  image: faas_platform_logo,
+  project_website_url: "",
+  keywords: [
+    "serverless computing",
+    "functions-as-a-service",
+    "faas",
+    "cloud provider",
+    "functions as a service",
+    "platform",
+    "scalability",
+  ],
+  builtWith: ["Python", "CPython", "C++"],
+  status: "ongoing",
+};
 
 export const PreviousProjects: Project[] = [
-    WukongProject, InfiniStoreProject, LambdaFSProject, JupyterNotebookProject
-]
+  WukongProject,
+  InfiniStoreProject,
+  LambdaFSProject,
+  JupyterNotebookProject,
+];
 
 export const CurrentProjects: Project[] = [
-    GpuPricingProject, ObliviousInfiniStoreProject, FaasPlatformProject,
-]
+  GpuPricingProject,
+  ObliviousInfiniStoreProject,
+  FaasPlatformProject,
+];

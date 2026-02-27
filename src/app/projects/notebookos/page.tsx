@@ -5,10 +5,11 @@ import {motion, useScroll, useTransform} from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import {Fab, Stack} from "@mui/material";
-import {ArrowBack, GitHub, OndemandVideo, Description} from "@mui/icons-material";
-import wukongLogo from "@images/logos/wukong_logo.webp";
+import {ArrowBack, GitHub, Description} from "@mui/icons-material";
+import notebookOSLogo from "@images/logos/notebook_os_white.webp";
 
-const GRADIENT = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+const GRADIENT = "linear-gradient(135deg, #10b981 0%, #3b82f6 100%)";
+const ACCENT = "#10b981";
 
 const sectionStyle: React.CSSProperties = {
     minHeight: "100vh",
@@ -29,16 +30,6 @@ const fadeUp = {
 const fadeIn = {
     hidden: {opacity: 0},
     visible: {opacity: 1},
-};
-
-const slideLeft = {
-    hidden: {opacity: 0, x: -80},
-    visible: {opacity: 1, x: 0},
-};
-
-const slideRight = {
-    hidden: {opacity: 0, x: 80},
-    visible: {opacity: 1, x: 0},
 };
 
 const scaleUp = {
@@ -66,10 +57,8 @@ function HeroSection() {
     const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
     return (
-        <div ref={ref} style={{...sectionStyle, background: "#07060d", minHeight: "100vh"}}>
-            <motion.div
-                style={{opacity, scale, y, textAlign: "center"}}
-            >
+        <div ref={ref} style={{...sectionStyle, background: "#060d0b", minHeight: "100vh"}}>
+            <motion.div style={{opacity, scale, y, textAlign: "center"}}>
                 <motion.div
                     initial={{opacity: 0, scale: 0.7}}
                     animate={{opacity: 1, scale: 1}}
@@ -77,11 +66,11 @@ function HeroSection() {
                     style={{marginBottom: "2rem"}}
                 >
                     <Image
-                        src={wukongLogo}
-                        alt="Wukong Logo"
-                        width={500}
+                        src={notebookOSLogo}
+                        alt="NotebookOS Logo"
+                        width={420}
                         height={200}
-                        style={{objectFit: "contain", maxWidth: "90vw", height: "auto"}}
+                        style={{objectFit: "contain", maxWidth: "85vw", height: "auto"}}
                         priority
                     />
                 </motion.div>
@@ -91,14 +80,14 @@ function HeroSection() {
                     animate={{opacity: 1, y: 0}}
                     transition={{delay: 0.5, duration: 0.6}}
                     style={{
-                        color: "#a0a0b8",
+                        color: "#8ab0a0",
                         fontSize: "clamp(1rem, 2.5vw, 1.4rem)",
-                        maxWidth: "600px",
+                        maxWidth: "640px",
                         lineHeight: 1.7,
                         margin: "0 auto",
                     }}
                 >
-                    A scalable, high-performance, and locality-aware serverless DAG engine
+                    A GPU-efficient notebook platform for interactive deep learning training
                 </motion.p>
 
                 <motion.div
@@ -110,11 +99,11 @@ function HeroSection() {
                     <motion.div
                         animate={{y: [0, 10, 0]}}
                         transition={{repeat: Infinity, duration: 1.8, ease: "easeInOut"}}
-                        style={{color: "#667eea", fontSize: "2rem"}}
+                        style={{color: ACCENT, fontSize: "2rem"}}
                     >
                         ↓
                     </motion.div>
-                    <p style={{color: "#555", fontSize: "0.85rem", marginTop: "0.5rem"}}>Scroll to explore</p>
+                    <p style={{color: "#445", fontSize: "0.85rem", marginTop: "0.5rem"}}>Scroll to explore</p>
                 </motion.div>
             </motion.div>
         </div>
@@ -123,7 +112,7 @@ function HeroSection() {
 
 function ProblemSection() {
     return (
-        <div style={{...sectionStyle, background: "#0b0a14"}}>
+        <div style={{...sectionStyle, background: "#080e0c"}}>
             <motion.div
                 variants={staggerContainer}
                 initial="hidden"
@@ -135,7 +124,7 @@ function ProblemSection() {
                     variants={fadeUp}
                     transition={{duration: 0.6}}
                     style={{
-                        color: "#667eea",
+                        color: ACCENT,
                         textTransform: "uppercase",
                         letterSpacing: "0.2em",
                         fontSize: "0.9rem",
@@ -150,49 +139,50 @@ function ProblemSection() {
                     variants={fadeUp}
                     transition={{duration: 0.7}}
                     style={{
-                        color: "#e8e8f0",
+                        color: "#e0f0e8",
                         fontSize: "clamp(1.8rem, 4vw, 3rem)",
                         fontWeight: 700,
                         lineHeight: 1.2,
                         margin: "0 0 2rem",
                     }}
                 >
-                    Serverless computing meets{" "}
+                    GPUs sit{" "}
                     <span style={{
                         background: GRADIENT,
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                     }}>
-                        parallel computing
-                    </span>
+                        idle
+                    </span>{" "}
+                    while notebooks run
                 </motion.h2>
 
                 <motion.p
                     variants={fadeUp}
                     transition={{duration: 0.7}}
                     style={{
-                        color: "#9090a8",
+                        color: "#809088",
                         fontSize: "clamp(1rem, 2vw, 1.25rem)",
                         lineHeight: 1.8,
                         maxWidth: "750px",
                         margin: "0 auto",
                     }}
                 >
-                    Serverless computing is increasingly being used for parallel computing,
-                    which have traditionally been implemented as stateful applications.
-                    But executing complex, burst-parallel workloads on serverless platforms
-                    introduces fundamental challenges.
+                    Interactive notebook programming is universal in modern ML and AI workflows.
+                    To ensure responsiveness, platforms like Jupyter and Colab <em style={{color: "#a0c0b0"}}>reserve GPUs
+                    for entire notebook sessions</em> — even though GPU usage is intermittent and
+                    sporadic. The result: extremely low GPU utilization and prohibitively high costs.
                 </motion.p>
             </motion.div>
         </div>
     );
 }
 
-function ChallengeSection() {
+function WasteSection() {
     return (
         <div style={{
             ...sectionStyle,
-            background: "linear-gradient(180deg, #0b0a14 0%, #0f0e1a 100%)",
+            background: "linear-gradient(180deg, #080e0c 0%, #0a100e 100%)",
         }}>
             <motion.div
                 variants={staggerContainer}
@@ -205,7 +195,7 @@ function ChallengeSection() {
                     variants={fadeUp}
                     transition={{duration: 0.6}}
                     style={{
-                        color: "#667eea",
+                        color: ACCENT,
                         textTransform: "uppercase",
                         letterSpacing: "0.2em",
                         fontSize: "0.9rem",
@@ -214,14 +204,14 @@ function ChallengeSection() {
                         textAlign: "center",
                     }}
                 >
-                    The Challenge
+                    The Root Cause
                 </motion.p>
 
                 <motion.h2
                     variants={fadeUp}
                     transition={{duration: 0.7}}
                     style={{
-                        color: "#e8e8f0",
+                        color: "#e0f0e8",
                         fontSize: "clamp(1.6rem, 3.5vw, 2.5rem)",
                         fontWeight: 700,
                         lineHeight: 1.3,
@@ -230,7 +220,7 @@ function ChallengeSection() {
                         maxWidth: "850px",
                     }}
                 >
-                    Executing complex DAG jobs at massive scale
+                    Long sessions, sporadic usage
                 </motion.h2>
 
                 <div style={{
@@ -243,16 +233,16 @@ function ChallengeSection() {
                 }}>
                     {[
                         {
-                            title: "Rapid Scaling",
-                            description: "Serverless frameworks must rapidly scale to handle burst-parallel workloads with thousands of concurrent tasks.",
+                            title: "Reserved but Unused",
+                            description: "Notebook sessions reserve GPU resources for their entire lifetime, but actually use them for only brief training bursts.",
                         },
                         {
-                            title: "High-Throughput Scheduling",
-                            description: "Tasks must be scheduled at high throughput to keep pace with the parallelism of the computation.",
+                            title: "Low Utilization",
+                            description: "During most of their lifetimes, notebook sessions do not use the reserved GPUs — utilization can drop below 10%.",
                         },
                         {
-                            title: "Data Movement",
-                            description: "Minimizing data movement across tasks is critical for performance — shuffling data between executors is expensive.",
+                            title: "Prohibitive Costs",
+                            description: "Cloud GPU time is expensive. Paying for idle reservations makes interactive deep learning training inaccessible at scale.",
                         },
                     ].map((item, i) => (
                         <motion.div
@@ -260,14 +250,14 @@ function ChallengeSection() {
                             variants={fadeUp}
                             transition={{duration: 0.6, delay: i * 0.15}}
                             style={{
-                                background: "rgba(102, 126, 234, 0.06)",
-                                border: "1px solid rgba(102, 126, 234, 0.15)",
+                                background: `rgba(16, 185, 129, 0.06)`,
+                                border: `1px solid rgba(16, 185, 129, 0.15)`,
                                 borderRadius: "16px",
                                 padding: "2rem",
                             }}
                         >
                             <h3 style={{
-                                color: "#c4c4e0",
+                                color: "#c0e0d0",
                                 fontSize: "1.2rem",
                                 fontWeight: 600,
                                 marginBottom: "0.75rem",
@@ -276,7 +266,7 @@ function ChallengeSection() {
                                 {item.title}
                             </h3>
                             <p style={{
-                                color: "#8080a0",
+                                color: "#708878",
                                 fontSize: "1rem",
                                 lineHeight: 1.7,
                                 margin: 0,
@@ -293,10 +283,7 @@ function ChallengeSection() {
 
 function SolutionSection() {
     return (
-        <div style={{
-            ...sectionStyle,
-            background: "#0f0e1a",
-        }}>
+        <div style={{...sectionStyle, background: "#0a100e"}}>
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -307,7 +294,7 @@ function SolutionSection() {
                     variants={fadeIn}
                     transition={{duration: 0.5}}
                     style={{
-                        color: "#667eea",
+                        color: ACCENT,
                         textTransform: "uppercase",
                         letterSpacing: "0.2em",
                         fontSize: "0.9rem",
@@ -315,7 +302,7 @@ function SolutionSection() {
                         marginBottom: "2rem",
                     }}
                 >
-                    The Insight
+                    The Solution
                 </motion.p>
 
                 <motion.h2
@@ -331,26 +318,24 @@ function SolutionSection() {
                         WebkitTextFillColor: "transparent",
                     }}
                 >
-                    Decentralized
-                    <br/>
-                    Scheduling
+                    NotebookOS
                 </motion.h2>
 
                 <motion.p
                     variants={fadeUp}
                     transition={{duration: 0.7, delay: 0.3}}
                     style={{
-                        color: "#9090a8",
+                        color: "#809088",
                         fontSize: "clamp(1rem, 2vw, 1.25rem)",
                         lineHeight: 1.8,
                         maxWidth: "700px",
                         margin: "0 auto 2.5rem",
                     }}
                 >
-                    Rather than relying on a single centralized scheduler, Wukong distributes
-                    scheduling across Lambda executors themselves — enabling tasks to be
-                    scheduled <em style={{color: "#b0b0d0"}}>in parallel</em>, reducing resource
-                    contention, and making task scheduling locality-aware.
+                    A GPU-efficient notebook platform tailored for the unique requirements
+                    of interactive deep learning training. NotebookOS decouples GPU allocation
+                    from notebook session lifetime, allocating GPUs{" "}
+                    <em style={{color: "#a0d0b8"}}>only during active cell execution</em>.
                 </motion.p>
 
                 <motion.div
@@ -365,17 +350,17 @@ function SolutionSection() {
                         flexWrap: "wrap",
                     }}
                 >
-                    {["Parallel Scheduling", "Reduced Contention", "Data Locality", "Auto-Elasticity"].map((label) => (
+                    {["Replicated Kernels", "Raft Consensus", "GPU Oversubscription", "Auto-Scaling"].map((label) => (
                         <motion.span
                             key={label}
                             variants={fadeUp}
                             transition={{duration: 0.4}}
                             style={{
-                                background: "rgba(102, 126, 234, 0.12)",
-                                border: "1px solid rgba(102, 126, 234, 0.25)",
+                                background: `rgba(16, 185, 129, 0.12)`,
+                                border: `1px solid rgba(16, 185, 129, 0.25)`,
                                 borderRadius: "999px",
                                 padding: "0.6rem 1.4rem",
-                                color: "#a0a0d0",
+                                color: "#90c0a8",
                                 fontSize: "0.9rem",
                                 fontWeight: 500,
                             }}
@@ -389,34 +374,34 @@ function SolutionSection() {
     );
 }
 
-function BenefitsSection() {
-    const benefits = [
+function ArchitectureSection() {
+    const pillars = [
         {
-            icon: "🎯",
-            title: "Enhanced Data Locality",
-            description: "Tasks are scheduled on executors that already hold the required data, eliminating costly data transfers.",
-        },
-        {
-            icon: "📉",
-            title: "Reduced Network I/O",
-            description: "Network I/O is reduced by multiple orders of magnitude compared to centralized approaches.",
+            icon: "🔄",
+            title: "Replicated Kernels",
+            description: "Each notebook kernel consists of 3 distinct replicas scheduled across multiple GPU servers and synchronized via the Raft consensus protocol.",
         },
         {
             icon: "⚡",
-            title: "Automatic Elasticity",
-            description: "Resources scale automatically with workload demands — no manual provisioning required.",
+            title: "On-Demand GPU Allocation",
+            description: "GPUs are dynamically allocated to kernel replicas only while they are actively executing notebook cells — not for the entire session.",
         },
         {
-            icon: "💰",
-            title: "Cost Effective",
-            description: "Pay only for the compute you use. Wukong achieves 92.96% tenant-side cost savings.",
+            icon: "📊",
+            title: "Resource Oversubscription",
+            description: "NotebookOS oversubscribes server resources via kernel replication, leveraging the relatively high task inter-arrival times in IDLT workloads.",
+        },
+        {
+            icon: "🔀",
+            title: "Replica Migration",
+            description: "Under high load, NotebookOS migrates kernel replicas and automatically scales the GPU cluster to maintain interactive responsiveness.",
         },
     ];
 
     return (
         <div style={{
             ...sectionStyle,
-            background: "linear-gradient(180deg, #0f0e1a 0%, #0b0a14 100%)",
+            background: "linear-gradient(180deg, #0a100e 0%, #080e0c 100%)",
         }}>
             <motion.div
                 variants={staggerContainer}
@@ -429,7 +414,7 @@ function BenefitsSection() {
                     variants={fadeUp}
                     transition={{duration: 0.6}}
                     style={{
-                        color: "#667eea",
+                        color: ACCENT,
                         textTransform: "uppercase",
                         letterSpacing: "0.2em",
                         fontSize: "0.9rem",
@@ -438,14 +423,14 @@ function BenefitsSection() {
                         textAlign: "center",
                     }}
                 >
-                    Key Benefits
+                    Architecture
                 </motion.p>
 
                 <motion.h2
                     variants={fadeUp}
                     transition={{duration: 0.7}}
                     style={{
-                        color: "#e8e8f0",
+                        color: "#e0f0e8",
                         fontSize: "clamp(1.6rem, 3.5vw, 2.5rem)",
                         fontWeight: 700,
                         textAlign: "center",
@@ -453,7 +438,7 @@ function BenefitsSection() {
                         marginTop: 0,
                     }}
                 >
-                    Why decentralized scheduling wins
+                    Four pillars of GPU efficiency
                 </motion.h2>
 
                 <div style={{
@@ -463,10 +448,10 @@ function BenefitsSection() {
                     maxWidth: "1000px",
                     margin: "0 auto",
                 }}>
-                    {benefits.map((benefit, i) => (
+                    {pillars.map((pillar, i) => (
                         <motion.div
-                            key={benefit.title}
-                            variants={slideLeft}
+                            key={pillar.title}
+                            variants={fadeUp}
                             transition={{duration: 0.5, delay: i * 0.12}}
                             whileHover={{
                                 y: -8,
@@ -480,23 +465,23 @@ function BenefitsSection() {
                                 cursor: "default",
                             }}
                         >
-                            <div style={{fontSize: "2.5rem", marginBottom: "1rem"}}>{benefit.icon}</div>
+                            <div style={{fontSize: "2.5rem", marginBottom: "1rem"}}>{pillar.icon}</div>
                             <h3 style={{
-                                color: "#d0d0e8",
+                                color: "#c0e0d0",
                                 fontSize: "1.15rem",
                                 fontWeight: 600,
                                 marginBottom: "0.75rem",
                                 marginTop: 0,
                             }}>
-                                {benefit.title}
+                                {pillar.title}
                             </h3>
                             <p style={{
-                                color: "#7878a0",
+                                color: "#688078",
                                 fontSize: "0.95rem",
                                 lineHeight: 1.7,
                                 margin: 0,
                             }}>
-                                {benefit.description}
+                                {pillar.description}
                             </p>
                         </motion.div>
                     ))}
@@ -511,10 +496,7 @@ function StatCard({value, label, delay}: { value: string; label: string; delay: 
         <motion.div
             variants={scaleUp}
             transition={{duration: 0.6, delay}}
-            style={{
-                textAlign: "center",
-                padding: "2rem 1.5rem",
-            }}
+            style={{textAlign: "center", padding: "2rem 1.5rem"}}
         >
             <div style={{
                 fontSize: "clamp(2.5rem, 5vw, 4rem)",
@@ -528,7 +510,7 @@ function StatCard({value, label, delay}: { value: string; label: string; delay: 
                 {value}
             </div>
             <p style={{
-                color: "#8080a0",
+                color: "#688078",
                 fontSize: "1rem",
                 margin: 0,
                 lineHeight: 1.5,
@@ -541,10 +523,7 @@ function StatCard({value, label, delay}: { value: string; label: string; delay: 
 
 function ResultsSection() {
     return (
-        <div style={{
-            ...sectionStyle,
-            background: "#0b0a14",
-        }}>
+        <div style={{...sectionStyle, background: "#080e0c"}}>
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -555,7 +534,7 @@ function ResultsSection() {
                     variants={fadeUp}
                     transition={{duration: 0.6}}
                     style={{
-                        color: "#667eea",
+                        color: ACCENT,
                         textTransform: "uppercase",
                         letterSpacing: "0.2em",
                         fontSize: "0.9rem",
@@ -570,29 +549,29 @@ function ResultsSection() {
                     variants={fadeUp}
                     transition={{duration: 0.7}}
                     style={{
-                        color: "#e8e8f0",
+                        color: "#e0f0e8",
                         fontSize: "clamp(1.6rem, 3.5vw, 2.5rem)",
                         fontWeight: 700,
                         marginBottom: "1rem",
                         marginTop: 0,
                     }}
                 >
-                    Performance that speaks for itself
+                    Proven on production workloads
                 </motion.h2>
 
                 <motion.p
                     variants={fadeUp}
                     transition={{duration: 0.7, delay: 0.1}}
                     style={{
-                        color: "#8080a0",
+                        color: "#688078",
                         fontSize: "1.1rem",
-                        marginBottom: "3rem",
                         maxWidth: "650px",
                         margin: "0 auto 3rem",
                     }}
                 >
-                    Deployed on AWS Lambda, Wukong delivers transformative improvements
-                    across every dimension.
+                    Evaluated on real-world interactive deep learning training workloads,
+                    NotebookOS delivers massive resource savings while improving the
+                    interactive experience.
                 </motion.p>
 
                 <motion.div
@@ -608,10 +587,9 @@ function ResultsSection() {
                         margin: "0 auto",
                     }}
                 >
-                    <StatCard value="68.17×" label="Faster execution" delay={0}/>
-                    <StatCard value="10²–10³×" label="Less network I/O" delay={0.12}/>
-                    <StatCard value="92.96%" label="Cost savings" delay={0.24}/>
-                    <StatCard value="Near-ideal" label="Scalability" delay={0.36}/>
+                    <StatCard value="1,187+" label="GPU hours saved" delay={0}/>
+                    <StatCard value="17.5 hrs" label="Real-world IDLT workload" delay={0.12}/>
+                    <StatCard value="3×" label="Raft-synchronized replicas" delay={0.24}/>
                 </motion.div>
             </motion.div>
         </div>
@@ -622,7 +600,7 @@ function ImplementationSection() {
     return (
         <div style={{
             ...sectionStyle,
-            background: "linear-gradient(180deg, #0b0a14 0%, #0f0e1a 100%)",
+            background: "linear-gradient(180deg, #080e0c 0%, #0a100e 100%)",
             minHeight: "70vh",
         }}>
             <motion.div
@@ -636,7 +614,7 @@ function ImplementationSection() {
                     variants={fadeUp}
                     transition={{duration: 0.6}}
                     style={{
-                        color: "#667eea",
+                        color: ACCENT,
                         textTransform: "uppercase",
                         letterSpacing: "0.2em",
                         fontSize: "0.9rem",
@@ -651,30 +629,31 @@ function ImplementationSection() {
                     variants={fadeUp}
                     transition={{duration: 0.7}}
                     style={{
-                        color: "#e8e8f0",
+                        color: "#e0f0e8",
                         fontSize: "clamp(1.6rem, 3.5vw, 2.5rem)",
                         fontWeight: 700,
                         marginBottom: "2rem",
                         marginTop: 0,
                     }}
                 >
-                    Built on AWS Lambda
+                    Built on Kubernetes
                 </motion.h2>
 
                 <motion.p
                     variants={fadeUp}
                     transition={{duration: 0.7}}
                     style={{
-                        color: "#9090a8",
+                        color: "#809088",
                         fontSize: "clamp(1rem, 2vw, 1.15rem)",
                         lineHeight: 1.8,
                         marginBottom: "2.5rem",
                     }}
                 >
-                    Wukong is implemented and deployed on AWS Lambda, leveraging serverless
-                    functions as distributed executors. Each Lambda function acts as both a
-                    worker and a scheduler, enabling fully decentralized task coordination
-                    with no dedicated scheduling infrastructure.
+                    NotebookOS is built on Kubernetes with custom operators that manage the
+                    lifecycle of replicated notebook kernels. The kernel replicas, scheduler,
+                    and migration controller are written in Go for performance, while the
+                    user-facing notebook interface remains fully compatible with standard
+                    Jupyter environments.
                 </motion.p>
 
                 <motion.div
@@ -687,15 +666,15 @@ function ImplementationSection() {
                         flexWrap: "wrap",
                     }}
                 >
-                    {["AWS Lambda", "Python", "Dask", "Redis", "AWS Fargate"].map((tech) => (
+                    {["Kubernetes", "Docker", "Golang", "Python", "C"].map((tech) => (
                         <span
                             key={tech}
                             style={{
-                                background: "rgba(102, 126, 234, 0.08)",
-                                border: "1px solid rgba(102, 126, 234, 0.2)",
+                                background: `rgba(16, 185, 129, 0.08)`,
+                                border: `1px solid rgba(16, 185, 129, 0.2)`,
                                 borderRadius: "8px",
                                 padding: "0.5rem 1rem",
-                                color: "#9090b8",
+                                color: "#80a898",
                                 fontSize: "0.9rem",
                             }}
                         >
@@ -718,13 +697,12 @@ function CTASection() {
         fontSize: "1rem",
         fontWeight: 600,
         textDecoration: "none",
-        transition: "transform 0.2s, box-shadow 0.2s",
     };
 
     return (
         <div style={{
             ...sectionStyle,
-            background: "#0f0e1a",
+            background: "#0a100e",
             minHeight: "60vh",
         }}>
             <motion.div
@@ -737,28 +715,27 @@ function CTASection() {
                     variants={fadeUp}
                     transition={{duration: 0.7}}
                     style={{
-                        color: "#e8e8f0",
+                        color: "#e0f0e8",
                         fontSize: "clamp(1.6rem, 3.5vw, 2.5rem)",
                         fontWeight: 700,
                         marginBottom: "1rem",
                         marginTop: 0,
                     }}
                 >
-                    Explore Wukong
+                    Explore NotebookOS
                 </motion.h2>
 
                 <motion.p
                     variants={fadeUp}
                     transition={{duration: 0.6, delay: 0.1}}
                     style={{
-                        color: "#8080a0",
+                        color: "#688078",
                         fontSize: "1.1rem",
-                        marginBottom: "2.5rem",
                         maxWidth: "500px",
                         margin: "0 auto 2.5rem",
                     }}
                 >
-                    Read the paper, explore the code, or watch the presentation.
+                    Read the paper or explore the source code.
                 </motion.p>
 
                 <motion.div
@@ -776,7 +753,7 @@ function CTASection() {
                         <motion.a
                             variants={fadeUp}
                             transition={{duration: 0.5}}
-                            href="https://arxiv.org/abs/2010.07268"
+                            href="https://arxiv.org/abs/2503.20591"
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{
@@ -793,38 +770,20 @@ function CTASection() {
                         <motion.a
                             variants={fadeUp}
                             transition={{duration: 0.5}}
-                            href="https://github.com/ds2-lab/Wukong/tree/socc2020"
+                            href="https://github.com/ds2-lab/NotebookOS"
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{
                                 ...linkStyle,
                                 background: "rgba(255,255,255,0.06)",
                                 border: "1px solid rgba(255,255,255,0.12)",
-                                color: "#c0c0d8",
+                                color: "#b0d0c0",
                             }}
                             whileHover={{scale: 1.05}}
                             whileTap={{scale: 0.98}}
                         >
                             <GitHub fontSize="small"/>
                             View Source
-                        </motion.a>
-                        <motion.a
-                            variants={fadeUp}
-                            transition={{duration: 0.5}}
-                            href="https://youtu.be/W0tENnx_58I"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                                ...linkStyle,
-                                background: "rgba(255,255,255,0.06)",
-                                border: "1px solid rgba(255,255,255,0.12)",
-                                color: "#c0c0d8",
-                            }}
-                            whileHover={{scale: 1.05}}
-                            whileTap={{scale: 0.98}}
-                        >
-                            <OndemandVideo fontSize="small"/>
-                            Watch Talk
                         </motion.a>
                     </Stack>
                 </motion.div>
@@ -833,11 +792,11 @@ function CTASection() {
     );
 }
 
-export default function WukongPage() {
+export default function NotebookOSPage() {
     return (
         <div style={{
-            background: "#07060d",
-            color: "#e8e8f0",
+            background: "#060d0b",
+            color: "#e0f0e8",
             fontFamily: "var(--font-roboto), sans-serif",
             overflowX: "hidden",
         }}>
@@ -858,9 +817,9 @@ export default function WukongPage() {
 
             <HeroSection/>
             <ProblemSection/>
-            <ChallengeSection/>
+            <WasteSection/>
             <SolutionSection/>
-            <BenefitsSection/>
+            <ArchitectureSection/>
             <ResultsSection/>
             <ImplementationSection/>
             <CTASection/>
@@ -868,11 +827,11 @@ export default function WukongPage() {
             <footer style={{
                 textAlign: "center",
                 padding: "3rem 2rem",
-                color: "#4a4a6a",
+                color: "#3a5a4a",
                 fontSize: "0.85rem",
-                background: "#07060d",
+                background: "#060d0b",
             }}>
-                Published at ACM SoCC 2020 &middot; arXiv:2010.07268
+                To appear at ASPLOS 2026 &middot; arXiv:2503.20591
             </footer>
         </div>
     );
