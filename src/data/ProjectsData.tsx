@@ -259,7 +259,7 @@ export const InfiniStoreProject: Project = {
   venue: "VLDB'23",
   repo_url: "https://github.com/ds2-lab/infinistore",
   image: infinistore_logo,
-  project_website_url: "",
+  project_website_url: "/projects/infinistore",
   keywords: [
     "serverless computing",
     "functions-as-a-service",
