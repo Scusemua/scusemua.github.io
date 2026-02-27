@@ -301,7 +301,7 @@ export const LambdaFSProject: Project = {
   ],
   venue: "ASPLOS'23",
   repo_url: "https://github.com/ds2-lab/LambdaFS",
-  project_website_url: "",
+  project_website_url: "/projects/lambdafs",
   presentation_url: "https://www.youtube.com/watch?v=Joaz3GdkBVA",
   presentation_venue: "ASPLOS'24",
   image: lfs_logo,
