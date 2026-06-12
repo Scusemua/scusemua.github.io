@@ -167,12 +167,12 @@ const DistinguishedAcademicAchievement2026: AwardData = {
 };
 
 export const AwardsData: AwardData[] = [
+  DistinguishedAcademicAchievement2026,
   VLDB2023NSFTravelGrant,
   GMUPresidentialScholar,
   DistinguishedAcademicAchievement2021,
   DistinguishedUndergradResearch,
   DistinguishedAcademicAchievement2020,
-  DistinguishedAcademicAchievement2026,
 ];
 
 // export const AwardsData: AwardData[] = [
