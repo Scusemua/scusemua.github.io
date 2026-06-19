@@ -1,6 +1,6 @@
-import {ReactElement, ReactNode} from "react";
-import {Avatar} from "@mui/material";
-import MicrosoftIcon from '@mui/icons-material/Microsoft';
+import { ReactElement, ReactNode } from "react";
+import { Avatar } from "@mui/material";
+import MicrosoftIcon from "@mui/icons-material/Microsoft";
 import * as React from "react";
 import DeveloperIcon from "@icons/developer";
 import DeveloperMonitorIcon from "@icons/developer_monitor";
@@ -9,128 +9,185 @@ import TeacherIcon from "@icons/teacher";
 import MetaLogo from "@icons/meta_logo";
 
 export interface Employment {
-    start_month: string;
-    start_year: number;
-    end_month: string;
-    end_year?: number;
-    title: string;
-    employer: string;
-    description: string;
-    descriptionList?: (string | ReactNode)[];
-    getIcon: (width: number, height: number, scale: number) => ReactElement;
+  start_month: string;
+  start_year: number;
+  end_month: string;
+  end_year?: number;
+  title: string;
+  employer: string;
+  description: string;
+  descriptionList?: (string | ReactNode)[];
+  getIcon: (width: number, height: number, scale: number) => ReactElement;
 }
 
 const SummerInternship: Employment = {
-
-    start_month: "Jun",
-    start_year: 2016,
-    end_month: "Aug",
-    end_year: 2016,
-    title: "Summer Intern",
-    employer: "BRTRC Federal Solutions",
-    description: "Worked as a development team member to extend a .NET desktop application.",
-    getIcon: (width: number, height: number, scale: number = 1.1) => (<Avatar style={{width: width, height: height}}>
-        <DeveloperIcon fill={"#fff"} transform={`scale(${scale}, ${scale})`}/>
-    </Avatar>)
-}
+  start_month: "Jun",
+  start_year: 2016,
+  end_month: "Aug",
+  end_year: 2016,
+  title: "Summer Intern",
+  employer: "BRTRC Federal Solutions",
+  description:
+    "Worked as a development team member to extend a .NET desktop application.",
+  getIcon: (width: number, height: number, scale: number = 1.1) => (
+    <Avatar style={{ width: width, height: height }}>
+      <DeveloperIcon fill={"#fff"} transform={`scale(${scale}, ${scale})`} />
+    </Avatar>
+  ),
+};
 
 const JuniorDeveloper: Employment = {
-    start_month: "Sept",
-    start_year: 2016,
-    end_month: "Jul",
-    end_year: 2020,
-    title: "Junior Software Developer",
-    employer: "BRTRC Federal Solutions.",
-    description: "Worked as a development team member to extend a Geographic Information Systems (GIS) desktop application using Windows Presentation Foundation and C#/.NET",
-    descriptionList: [
-        "Implemented application GUI & memory-efficient algorithms for processing & displaying GIS data.",
-        "Optimized algorithms for creating & displaying user-defined contour lines to produce realistic terrain maps.",
-        "Decreased application load time by a factor of five & memory footprint by 70%.",
-        "Implemented a system for manipulating, serializing, and viewing 3D models.",
-    ],
-    getIcon: (width: number, height: number, scale: number = 1.25) => (<Avatar style={{width: width, height: height}}>
-        <DeveloperDeskIcon fill={"#fff"} transform={`scale(${scale * -1}, ${scale})`}/>
-    </Avatar>)
-}
+  start_month: "Sept",
+  start_year: 2016,
+  end_month: "Jul",
+  end_year: 2020,
+  title: "Junior Software Developer",
+  employer: "BRTRC Federal Solutions.",
+  description:
+    "Worked as a development team member to extend a Geographic Information Systems (GIS) desktop application using Windows Presentation Foundation and C#/.NET",
+  descriptionList: [
+    "Implemented application GUI & memory-efficient algorithms for processing & displaying GIS data.",
+    "Optimized algorithms for creating & displaying user-defined contour lines to produce realistic terrain maps.",
+    "Decreased application load time by a factor of five & memory footprint by 70%.",
+    "Implemented a system for manipulating, serializing, and viewing 3D models.",
+  ],
+  getIcon: (width: number, height: number, scale: number = 1.25) => (
+    <Avatar style={{ width: width, height: height }}>
+      <DeveloperDeskIcon
+        fill={"#fff"}
+        transform={`scale(${scale * -1}, ${scale})`}
+      />
+    </Avatar>
+  ),
+};
 
 const UndergraduateTeachingAssistant: Employment = {
-    start_month: "Jan",
-    start_year: 2018,
-    end_month: "Dec",
-    end_year: 2018,
-    title: "Undergraduate Teaching Assistant",
-    employer: "George Mason University",
-    description: "Assisted students with assignments and projects. Held review sessions for exams.",
-    getIcon: (width: number, height: number, scale: number = 1.125) => (<Avatar style={{width: width, height: height}}>
-        <TeacherIcon fill={"#fff"} transform={`scale(${scale}, ${scale})`}/>
-    </Avatar>)
-}
+  start_month: "Jan",
+  start_year: 2018,
+  end_month: "Dec",
+  end_year: 2018,
+  title: "Undergraduate Teaching Assistant",
+  employer: "George Mason University",
+  description:
+    "Assisted students with assignments and projects. Held review sessions for exams.",
+  getIcon: (width: number, height: number, scale: number = 1.125) => (
+    <Avatar style={{ width: width, height: height }}>
+      <TeacherIcon fill={"#fff"} transform={`scale(${scale}, ${scale})`} />
+    </Avatar>
+  ),
+};
 
 const MicrosoftResearchIntern: Employment = {
-    start_month: "May",
-    start_year: 2022,
-    end_month: "Aug",
-    end_year: 2022,
-    title: "Research Intern",
-    employer: "Microsoft Research Lab - Redmond",
-    description: "Under the mentorship of Dr. Rodrigo Fonseca, assisted in the design, development, testing, and evaluation of new a microsecond-latency serverless stack.",
-    getIcon: (width: number, height: number, scale: number = 1.65) => (<Avatar style={{width: width, height: height}}>
-        <MicrosoftIcon transform={`scale(${scale * -1.3125}, ${scale * 1.3125})`} style={{margin: "0 auto"}}/>
-    </Avatar>)
-}
+  start_month: "May",
+  start_year: 2022,
+  end_month: "Aug",
+  end_year: 2022,
+  title: "Research Intern",
+  employer: "Microsoft Research Lab - Redmond",
+  description:
+    "Under the mentorship of Dr. Rodrigo Fonseca, assisted in the design, development, testing, and evaluation of new a microsecond-latency serverless stack.",
+  descriptionList: [
+    "Responsible for designing, developing, and evaluating a new microsecond-latency FaaS platform.",
+    "Improved API usability and reduced overheads by 25% through re-implementing client-facing interfaces as CPython extension modules, enabling multi-threading support and improving client application performance.",
+  ],
+  getIcon: (width: number, height: number, scale: number = 1.65) => (
+    <Avatar style={{ width: width, height: height }}>
+      <MicrosoftIcon
+        transform={`scale(${scale * -1.3125}, ${scale * 1.3125})`}
+        style={{ margin: "0 auto" }}
+      />
+    </Avatar>
+  ),
+};
 
 const UndergraduateResearchAssistant: Employment = {
-    start_month: "Jan",
-    start_year: 2019,
-    end_month: "May",
-    end_year: 2020,
-    title: "Undergraduate Research Assistant",
-    employer: "George Mason University",
-    description: "Conducted research under the direction of Dr. Yue Cheng (University of Virginia).",
-    descriptionList: [
-        "Developed and implemented baseline version of Wukong.",
-        <span>
-            Authored, published, and presented first Wukong paper <a href={"https://arxiv.org/abs/1910.05896"} style={{color: "white"}}>
-                <i>In Search of a Fast and Efficient Serverless DAG Engine</i>
-            </a> [PDSW'19].
-        </span>,
-        <span>
-            Developed <a href={"https://github.com/Scusemua/InfiniCacheMapReduceTest"} style={{color: "white"}}>
-            microservice-based MapReduce benchmarking software</a> that would later be used in the evaluation
-            of InfiniCache [FAST'20] and InfiniStore [VLDB'23].
-        </span>
-    ],
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <DeveloperMonitorIcon fill={"#fff"} transform="scale(1.1, 1.1)"/>
-    </Avatar>)
-}
+  start_month: "Jan",
+  start_year: 2019,
+  end_month: "May",
+  end_year: 2020,
+  title: "Undergraduate Research Assistant",
+  employer: "George Mason University",
+  description:
+    "Conducted research under the direction of Dr. Yue Cheng (University of Virginia).",
+  descriptionList: [
+    "Developed and implemented baseline version of Wukong.",
+    <span>
+      Authored, published, and presented first Wukong paper{" "}
+      <a href={"https://arxiv.org/abs/1910.05896"} style={{ color: "white" }}>
+        <i>In Search of a Fast and Efficient Serverless DAG Engine</i>
+      </a>{" "}
+      [PDSW'19].
+    </span>,
+    <span>
+      Developed{" "}
+      <a
+        href={"https://github.com/Scusemua/InfiniCacheMapReduceTest"}
+        style={{ color: "white" }}
+      >
+        microservice-based MapReduce benchmarking software
+      </a>{" "}
+      that would later be used in the evaluation of InfiniCache [FAST'20] and
+      InfiniStore [VLDB'23].
+    </span>,
+  ],
+  getIcon: (width: number, height: number) => (
+    <Avatar style={{ width: width, height: height }}>
+      <DeveloperMonitorIcon fill={"#fff"} transform="scale(1.1, 1.1)" />
+    </Avatar>
+  ),
+};
 
 const GraduateResearchAssistant: Employment = {
-    start_month: "Jun",
-    start_year: 2020,
-    end_month: "Aug",
-    end_year: 2025,
-    title: "Graduate Research Assistant",
-    employer: "George Mason University",
-    description: "Conducting research under the direction of Dr. Yue Cheng (University of Virginia) and Dr. Songqing Chen (George Mason University).",
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <DeveloperMonitorIcon fill={"#fff"} transform="scale(-1.1, 1.1)"/>
-    </Avatar>)
-}
+  start_month: "Jun",
+  start_year: 2020,
+  end_month: "Aug",
+  end_year: 2025,
+  title: "Graduate Research Assistant",
+  employer: "George Mason University",
+  description:
+    "Conducted research in cloud & serverless computing and file systems under the direction of Dr. Yue Cheng, leading to multiple large-scale, open source systems and associated publications at top-tier academic conferences.",
+  descriptionList: [
+    "Served as the sole developer and tester of 3 complete, large-scale open-source distributed systems and as a co-developer of 2 other distributed applications of similar scale.",
+    "Experience creating and deploying distributed applications and services in cloud environments, including AWS, GCP, Microsoft Azure, and IBM Cloud, using Kubernetes and Docker (Compose/Swarm).",
+    "Published 5 academic papers in top-tier academic conferences, 4 of which were first-authorship publications, with additional papers close to submission.",
+    "Established, lead, and facilitated multiple collaborations with leading academic and industry research labs.",
+  ],
+  getIcon: (width: number, height: number) => (
+    <Avatar style={{ width: width, height: height }}>
+      <DeveloperMonitorIcon fill={"#fff"} transform="scale(-1.1, 1.1)" />
+    </Avatar>
+  ),
+};
 
 const MetaEmployment: Employment = {
-    start_month: "Aug",
-    start_year: 2025,
-    end_month: "Ongoing",
-    title: "Research Scientist",
-    employer: "Meta",
-    description: "Working on AI Network Infrastructure at Meta in NYC.",
-    getIcon: (width: number, height: number) => (<Avatar style={{width: width, height: height}}>
-        <MetaLogo fill={"#fff"} transform="scale(-1.1, 1.1)"/>
-    </Avatar>)
-}
+  start_month: "Aug",
+  start_year: 2025,
+  end_month: "Ongoing",
+  title: "Research Scientist",
+  employer: "Meta",
+  description:
+    "Working on the communication layer that synchronizes GPUs during large-scale AI training at Meta. My focus is designing high-performance collective protocols, building the performance infrastructure that keeps them stable in production, and preparing them for open-source release.",
+  descriptionList: [
+    "Designed improved initialization architecture and algorithms, cutting communication setup latency by 96% at multi-thousand-GPU scales, directly reducing training job startup and recovery times across Meta's GPU fleet.",
+    "Designed core low-level pipelining primitives and broadcast algorithms that are 2.4x+ faster than NCCL at small messages, now foundational to Meta's next-generation collective protocols.",
+    "Built and validated automated performance regression infrastructure, effectively protecting Meta's large-scale production deployments.",
+    "Prepared open-source build systems and demos from scratch; lead author on upcoming OSS-related talks and publications.",
+    "Currently implementing highly-optimized GPU collectives over IBGDA and NVL transports targeting large-scale production AI training workloads.",
+  ],
+  getIcon: (width: number, height: number) => (
+    <Avatar style={{ width: width, height: height }}>
+      <MetaLogo fill={"#fff"} transform="scale(-1.1, 1.1)" />
+    </Avatar>
+  ),
+};
 
 export const EmploymentHistoryData: Employment[] = [
-    // SummerInternship, JuniorDeveloper, UndergraduateTeachingAssistant, MicrosoftResearchIntern, UndergraduateResearchAssistant, GraduateResearchAssistant
-    MetaEmployment, GraduateResearchAssistant, MicrosoftResearchIntern, UndergraduateResearchAssistant, UndergraduateTeachingAssistant, JuniorDeveloper, SummerInternship
+  // SummerInternship, JuniorDeveloper, UndergraduateTeachingAssistant, MicrosoftResearchIntern, UndergraduateResearchAssistant, GraduateResearchAssistant
+  MetaEmployment,
+  GraduateResearchAssistant,
+  MicrosoftResearchIntern,
+  UndergraduateResearchAssistant,
+  UndergraduateTeachingAssistant,
+  JuniorDeveloper,
+  SummerInternship,
 ];
