@@ -87,10 +87,7 @@ export const ToolSkills: Skills = {
     "MySQL",
     "PyTorch",
     "CMake",
-    "Bazel",
     "Git",
-    "GDB",
-    "Slurm",
   ],
 };
 
