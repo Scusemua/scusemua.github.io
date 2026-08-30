@@ -12,9 +12,6 @@
     "@mui/lab": "^6.0.0-beta.14",
     "@mui/material": "^6.1.6",
     "@mui/material-nextjs": "^6.1.5",
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
     "embla-carousel-autoplay": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^11.11.10",
@@ -23,8 +20,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-type-animation": "^3.2.0",
-    "sharp": "^0.33.5",
-    "typescript": "latest"
+    "sharp": "^0.33.5"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -33,12 +29,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -54,9 +44,18 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "latest",
-    "@types/node": "25.2.3",
+    "@types/node": "^20.17.0",
     "@types/prismjs": "^1.26.5",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.16",
     "gh-pages": "^5.0.0",
-    "sass": "^1.80.6"
+    "sass": "^1.80.6",
+    "typescript": "^5.6.3"
+  },
+  "resolutions": {
+    "eslint-visitor-keys": "^3.4.3",
+    "espree": "^9.6.1"
   }
 }
