@@ -49,6 +49,8 @@ const AwardDisplay: React.FunctionComponent<AwardDisplayProps> = (props: AwardDi
                 sx={{
                     typography: {xs: 'body1', sm: 'h6', md: "h6", lg: "h6", xl: "h6"},
                     margin: "auto 0",
+                    flex: {xs: '0 0 90px', sm: '0 0 130px', md: '0 0 150px'},
+                    minWidth: 0,
                 }}
                 align="right"
                 color="secondary"
