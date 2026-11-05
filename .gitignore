@@ -1,3 +1,14 @@
+# Orbital portfolio build artifacts (source tracked in orbital-portfolio/src/)
+orbital-portfolio/dist
+orbital-portfolio/node_modules
+orbital-portfolio/src/generated-textures.js
+orbital-portfolio/index.html
+orbital-portfolio/previews
+orbital-portfolio/tests
+orbital-portfolio/PERFORMANCE.md
+orbital-portfolio/TESTING.md
+public/orbital
+
 # Logs
 logs
 *.log
