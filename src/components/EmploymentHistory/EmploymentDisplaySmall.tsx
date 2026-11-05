@@ -47,6 +47,8 @@ const EmploymentDisplaySmall: React.FunctionComponent<EmploymentDisplaySmallProp
                 sx={{
                     typography: {xs: 'body1', sm: 'h6', md: "h6", lg: "h6", xl: "h6"},
                     margin: "auto 0",
+                    flex: {xs: '0 0 80px', sm: '0 0 120px'},
+                    minWidth: 0,
                 }}
                 align="right"
                 color="secondary"
