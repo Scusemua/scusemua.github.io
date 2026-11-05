@@ -21,7 +21,7 @@ export interface Skills {
 
 export const HighPerformanceComputingSkills: Skills = {
   category: SkillCategory.HighPerformanceComputing,
-  icon: <MemoryIcon fontSize={"inherit"} style={{ fontSize: "24pt" }} />,
+  icon: <MemoryIcon fontSize={"inherit"} />,
   skills: [
     "Collective Communication",
     "NCCL",
@@ -43,7 +43,7 @@ export const HighPerformanceComputingSkills: Skills = {
 
 export const CloudPlatformSkills: Skills = {
   category: SkillCategory.Platforms,
-  icon: <CloudIcon fontSize={"inherit"} style={{ fontSize: "24pt" }} />,
+  icon: <CloudIcon fontSize={"inherit"} />,
   skills: [
     "Google Cloud Platform",
     "Azure Cloud",
@@ -64,7 +64,7 @@ export const CloudPlatformSkills: Skills = {
 
 export const ToolSkills: Skills = {
   category: SkillCategory.Tools,
-  icon: <BuildIcon fontSize={"inherit"} style={{ fontSize: "24pt" }} />,
+  icon: <BuildIcon fontSize={"inherit"} />,
   skills: [
     "Docker",
     "Kubernetes",
@@ -93,7 +93,7 @@ export const ToolSkills: Skills = {
 
 export const ProgrammingLanguagesSkills: Skills = {
   category: SkillCategory.Languages,
-  icon: <TerminalIcon fontSize={"inherit"} style={{ fontSize: "24pt" }} />,
+  icon: <TerminalIcon fontSize={"inherit"} />,
   skills: [
     "C++",
     "CUDA C++",
@@ -109,7 +109,7 @@ export const ProgrammingLanguagesSkills: Skills = {
 
 export const RelevantCoursework: Skills = {
   category: SkillCategory.Coursework,
-  icon: <SchoolIcon fontSize={"inherit"} style={{ fontSize: "24pt" }} />,
+  icon: <SchoolIcon fontSize={"inherit"} />,
   skills: [
     "Large-Scale Optimization for Deep Learning",
     "Advanced Artificial Intelligence",

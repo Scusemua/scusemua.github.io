@@ -46,7 +46,10 @@ const SkillsSection = forwardRef<HTMLDivElement, SkillsSectionProps>((props: Ski
                 className={`${styles.skills_body}`}
                 key={`skills-category-${skills.category}-${index}`}
             >
-                <Typography key={`skills_category_header_${skills.category}`} variant={"h2"} className={styles.skills_body_category_header}>
+                <Typography key={`skills_category_header_${skills.category}`}
+                            variant={mq_xs ? "h4" : "h2"}
+                            className={styles.skills_body_category_header}
+                            sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem'}}>
                     {skills.icon} {skills.category.toString()}
                 </Typography>
 
