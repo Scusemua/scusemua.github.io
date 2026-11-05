@@ -44,15 +44,7 @@ const GreetingText: React.FunctionComponent = () => {
     }
 
     const getWidth = () => {
-        if (mq_xl || mq_lg) {
-            return "100%";
-        }
-
-        if (mq_md) {
-            return "100%";
-        }
-
-        return "350px";
+        return "100%";
     }
 
     const getShortDescTextSize = () => {
