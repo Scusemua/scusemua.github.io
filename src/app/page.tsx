@@ -2,17 +2,18 @@
 
 import React from "react";
 import Headshot from "@src/components/Headshot/Headshot";
-import Projects from "@src/components/Projects/Projects";
-import SkillsSection from "@src/components/Skills/SkillsSection";
-import EducationSection from "@src/components/Education/EducationSection";
-import CopyrightNotice from "@src/components/Copyright/Copyright";
 import Navbar from "@src/components/HomepageNavbar/HomepageNavbar";
-import EmploymentHistory from "@src/components/EmploymentHistory/EmploymentHistory";
-import AwardsSection from "@src/components/Awards/AwardsSection";
-import Clouds from "@src/components/Effects/Clouds";
 import {useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
-import AboutSection from "@src/components/About/About";
+
+const AboutSection = React.lazy(() => import("@src/components/About/About"));
+const Projects = React.lazy(() => import("@src/components/Projects/Projects"));
+const AwardsSection = React.lazy(() => import("@src/components/Awards/AwardsSection"));
+const EducationSection = React.lazy(() => import("@src/components/Education/EducationSection"));
+const EmploymentHistory = React.lazy(() => import("@src/components/EmploymentHistory/EmploymentHistory"));
+const SkillsSection = React.lazy(() => import("@src/components/Skills/SkillsSection"));
+const CopyrightNotice = React.lazy(() => import("@src/components/Copyright/Copyright"));
+const Clouds = React.lazy(() => import("@src/components/Effects/Clouds"));
 
 const rootStyle: React.CSSProperties = {position: 'relative'};
 const skillsWrapperStyle: React.CSSProperties = {position: "relative"};
@@ -69,28 +70,30 @@ export default function Home() {
             <div className={s(2)}>
                 <Headshot ref={headshotRef} key={"headshot_section"}/>
             </div>
-            <div className={s(3)}>
-                <AboutSection ref={aboutRef} key={"about_section"} projectSectionRef={projectRef}/>
-            </div>
-            <div className={s(4)}>
-                <Projects ref={projectRef} key={"projects_section"}/>
-            </div>
-            <div className={s(5)}>
-                <AwardsSection ref={awardRef} key={"awardsSection"}/>
-            </div>
-            <div className={s(6)}>
-                <EducationSection ref={educationRef} key={"education_section"}/>
-            </div>
-            <div className={s(7)}>
-                <EmploymentHistory ref={employmentRef} key={"employment_section"}/>
-            </div>
-            <div className={s(8)} style={skillsWrapperStyle}>
-                <SkillsSection ref={skillsRef} key={"skills_section"} is_xs={mq_xs}/>
-            </div>
-            <div className={s(9)}>
-                <CopyrightNotice key={"copyright_section"}/>
-            </div>
-            <Clouds flipped style={cloudsStyle}/>
+            <React.Suspense fallback={<div style={{minHeight: '400vh'}} />}>
+                <div className={s(3)}>
+                    <AboutSection ref={aboutRef} key={"about_section"} projectSectionRef={projectRef}/>
+                </div>
+                <div className={s(4)}>
+                    <Projects ref={projectRef} key={"projects_section"}/>
+                </div>
+                <div className={s(5)}>
+                    <AwardsSection ref={awardRef} key={"awardsSection"}/>
+                </div>
+                <div className={s(6)}>
+                    <EducationSection ref={educationRef} key={"education_section"}/>
+                </div>
+                <div className={s(7)}>
+                    <EmploymentHistory ref={employmentRef} key={"employment_section"}/>
+                </div>
+                <div className={s(8)} style={skillsWrapperStyle}>
+                    <SkillsSection ref={skillsRef} key={"skills_section"} is_xs={mq_xs}/>
+                </div>
+                <div className={s(9)}>
+                    <CopyrightNotice key={"copyright_section"}/>
+                </div>
+                <Clouds flipped style={cloudsStyle}/>
+            </React.Suspense>
         </div>
     );
 }
