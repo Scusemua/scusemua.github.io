@@ -238,7 +238,7 @@ export const destinations = [
   },
   {
     id: "crimson",
-    name: "Meta — GPU Collectives",
+    name: "Meta: GPU Collectives",
     number: "05",
     kind: "planet",
     type: "crimson",

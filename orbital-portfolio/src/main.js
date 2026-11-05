@@ -1,6 +1,25 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { destinations } from "./content.js";
+
+function upperKeepLambda(str) {
+  return str.replace(/[^λ]/g, c => c.toUpperCase());
+}
+
+function setTextKeepLambda(el, str) {
+  el.textContent = "";
+  for (const part of str.split(/(λ)/)) {
+    if (part === "λ") {
+      const span = document.createElement("span");
+      span.style.textTransform = "none";
+      span.textContent = "λ";
+      el.append(span);
+    } else {
+      el.append(part);
+    }
+  }
+}
+
 import {
   createWorld,
   rotateWorld,
@@ -54,7 +73,7 @@ $("flight-count").textContent = `${destinations.length} destinations`;
 for (const destination of destinations) {
   const label = element("button", "destination-label");
   label.append(
-    element("strong", "", destination.name.toUpperCase()),
+    element("strong", "", upperKeepLambda(destination.name)),
     element("small", "", destination.category.toUpperCase()),
   );
   label.setAttribute(
@@ -111,7 +130,7 @@ function visit(id) {
   } else {
     $("detail").hidden = false;
   }
-  $("detail-title").textContent = destination.name;
+  setTextKeepLambda($("detail-title"), destination.name);
   $("detail-kicker").textContent =
     `${destination.kind} ${destination.number} / ${destination.category}`;
   $("detail-subtitle").textContent = destination.subtitle;
@@ -166,8 +185,10 @@ function visit(id) {
     labels.get(item.id).classList.toggle("selected", item.id === id);
   }
   cards.get(id).scrollIntoView({ block: "nearest", inline: "nearest" });
-  $("scene-status").textContent =
-    `NOW EXPLORING / ${destination.name.toUpperCase()}`;
+  setTextKeepLambda(
+    $("scene-status"),
+    `NOW EXPLORING / ${upperKeepLambda(destination.name)}`,
+  );
   $("announcer").textContent =
     `Exploring ${destination.name}, ${destination.category}. /.`;
   if (initialized) flyTo(destination);
