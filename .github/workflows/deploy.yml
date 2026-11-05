@@ -73,6 +73,14 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
+      - name: Build orbital portfolio
+        run: |
+          cd orbital-portfolio
+          npm ci
+          node build.mjs
+          mkdir -p ../public/orbital
+          cp dist/index.html ../public/orbital/index.html
+
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
 

@@ -25,8 +25,9 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
+    "build:orbital": "cd orbital-portfolio && node build.mjs && cd .. && node -e \"const fs=require('fs');fs.mkdirSync('public/orbital',{recursive:true});fs.copyFileSync('orbital-portfolio/dist/index.html','public/orbital/index.html')\" && echo Orbital portfolio built.",
     "dev": "next dev -p 3001",
-    "build": "next build",
+    "build": "npm run build:orbital && next build",
     "start": "next start",
     "lint": "next lint"
   },

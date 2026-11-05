@@ -1,0 +1,1953 @@
+<!doctype html>
+<html lang="en" data-astryx-theme="neutral">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#080c18" />
+    <meta
+      name="description"
+      content="Ben Carver — Research Scientist at Meta. Explore my research, projects, and career in an interactive space-themed portfolio."
+    />
+    <title>Ben Carver — Portfolio</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23080c18'/%3E%3Ccircle cx='20' cy='20' r='10' fill='none' stroke='%23b6cce8'/%3E%3Cellipse cx='20' cy='20' rx='17' ry='5' transform='rotate(-35 20 20)' fill='none' stroke='%23b6cce8'/%3E%3C/svg%3E"
+    />
+    <link rel="prefetch" href="/" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --ink: #f0f1ed;
+        --muted: #949dae;
+        --line: rgba(172, 189, 225, 0.17);
+        --blue: #a6c8ff;
+        --panel: rgba(12, 19, 34, 0.91);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background: #080c18;
+        color: var(--ink);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+      button:focus-visible,
+      a:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 5px;
+      }
+      button {
+        border: 0;
+      }
+      button:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      #universe {
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(ellipse at 68% 42%, #10203555, transparent 57%),
+          radial-gradient(ellipse at 78% 11%, #231b3944, transparent 38%),
+          #080c18;
+        touch-action: none;
+      }
+      #universe canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        outline: none;
+      }
+      .vignette {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(90deg, #080c18b0 0%, transparent 40%),
+          linear-gradient(0deg, #080c18ee 0%, transparent 27%);
+        z-index: 1;
+      }
+      .grain {
+        position: fixed;
+        inset: 0;
+        opacity: 0.01;
+        pointer-events: none;
+        z-index: 9;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+      }
+      header {
+        position: fixed;
+        z-index: 6;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 104px;
+        padding: 0 44px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+      header:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 44px;
+        right: 44px;
+        border-bottom: 1px solid var(--line);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        background: none;
+        padding: 0;
+        text-align: left;
+      }
+      .brand-icon {
+        width: 36px;
+        height: 36px;
+        border: 1px solid #9caecc6b;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        position: relative;
+      }
+      .brand-icon:before {
+        content: "";
+        width: 48px;
+        height: 16px;
+        border: 1px solid #bacdefa0;
+        border-radius: 50%;
+        transform: rotate(-35deg);
+        position: absolute;
+      }
+      .brand-icon:after {
+        content: "";
+        width: 7px;
+        height: 7px;
+        background: #d1e2ff;
+        border-radius: 50%;
+      }
+      .brand strong {
+        font-size: 16px;
+        letter-spacing: 0.22em;
+        font-weight: 550;
+        display: block;
+      }
+      .brand small {
+        display: block;
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 31px;
+      }
+      nav button {
+        background: transparent;
+        padding: 10px 0;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      nav button.active {
+        color: var(--ink);
+        position: relative;
+      }
+      nav button.active:after {
+        content: "";
+        position: absolute;
+        bottom: -27px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--blue);
+      }
+      .internal {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        white-space: nowrap;
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        padding: 10px 14px;
+        background: #10172766;
+      }
+      .internal i {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #a8ccae;
+        box-shadow: 0 0 9px #a8ccae55;
+      }
+      .hero {
+        position: fixed;
+        z-index: 3;
+        top: 27%;
+        left: 5.2%;
+        max-width: 440px;
+        pointer-events: none;
+        transition:
+          opacity 0.35s,
+          transform 0.35s;
+      }
+      .hero button {
+        pointer-events: auto;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        color: #b4c0d6;
+      }
+      .eyebrow span {
+        width: 24px;
+        height: 1px;
+        background: #849abb;
+      }
+      h1 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(58px, 6.1vw, 96px);
+        font-weight: 400;
+        line-height: 1.01;
+        letter-spacing: -0.055em;
+        margin: 28px 0 25px;
+      }
+      h1 em {
+        font-weight: 400;
+        color: #b6cce8;
+      }
+      .intro {
+        font-size: 14px;
+        line-height: 1.9;
+        color: #a7afbd;
+        margin: 0;
+        max-width: 290px;
+      }
+      .primary {
+        display: inline-flex;
+        gap: 30px;
+        align-items: center;
+        padding: 16px 20px;
+        background: #dce6f0;
+        color: #111a2c;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+      }
+      .primary:hover {
+        background: #f1f6ff;
+        transform: translateY(-2px);
+      }
+      .hero .primary {
+        margin-top: 28px;
+      }
+      .hero-note {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-top: 22px;
+        color: #71819b;
+        font-size: 10px;
+      }
+      .hero-note svg {
+        width: 13px;
+        height: 13px;
+      }
+      body.detail-open .hero {
+        opacity: 0;
+        transform: translateX(-18px);
+        visibility: hidden;
+      }
+      .scene-labels {
+        position: fixed;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .destination-label {
+        position: absolute;
+        left: 0;
+        top: 0;
+        pointer-events: auto;
+        transform: translate(-50%, 0);
+        background: transparent;
+        text-align: center;
+        padding: 8px 14px;
+        border-radius: 4px;
+        min-width: 90px;
+        transition:
+          opacity 0.2s,
+          background 0.2s;
+        white-space: nowrap;
+      }
+      .destination-label:before {
+        content: "";
+        display: block;
+        width: 1px;
+        height: 14px;
+        background: #b0c4e45e;
+        margin: -22px auto 8px;
+      }
+      .destination-label strong {
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+        display: block;
+      }
+      .destination-label small {
+        display: block;
+        color: #98a8bf;
+        font-size: 8px;
+        letter-spacing: 0.09em;
+        margin-top: 5px;
+      }
+      .destination-label:hover,
+      .destination-label:focus-visible {
+        background: #152035b5;
+      }
+      .destination-label.selected strong {
+        color: var(--blue);
+      }
+      .coordinates {
+        position: fixed;
+        right: 42px;
+        top: 146px;
+        z-index: 2;
+        color: #647790;
+        text-align: right;
+        font-size: 9px;
+        line-height: 2.1;
+        letter-spacing: 0.12em;
+        pointer-events: none;
+      }
+      .coordinates b {
+        color: #b0bed2;
+        font-weight: 400;
+      }
+      .scene-caption {
+        position: fixed;
+        z-index: 3;
+        right: 44px;
+        bottom: 202px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #6e829e;
+        font-size: 9px;
+        letter-spacing: 0.11em;
+      }
+      .scene-caption .dot {
+        width: 4px;
+        height: 4px;
+        background: #91adc8;
+        border-radius: 50%;
+      }
+      .bottom {
+        position: fixed;
+        z-index: 5;
+        left: 44px;
+        right: 44px;
+        bottom: 24px;
+      }
+      .destination-bar {
+        display: flex;
+        align-items: stretch;
+        border: 1px solid var(--line);
+        background: linear-gradient(135deg, #101b2adc, #0c1420a0);
+        border-radius: 8px;
+        backdrop-filter: blur(14px);
+        overflow: hidden;
+      }
+      .bar-heading {
+        width: 147px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 9px;
+        padding: 22px;
+        color: #788ca6;
+        border-right: 1px solid var(--line);
+      }
+      .bar-heading b {
+        color: #c8d4e4;
+        font-size: 10px;
+        font-weight: 400;
+      }
+      .dest-card {
+        position: relative;
+        min-width: 0;
+        flex: 1;
+        background: transparent;
+        text-align: left;
+        padding: 22px 17px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        border-right: 1px solid var(--line);
+        transition: background 0.2s;
+      }
+      .dest-card:last-child {
+        border-right: 0;
+      }
+      .dest-card:hover,
+      .dest-card.selected {
+        background: #bacbff0b;
+      }
+      .dest-card.selected:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--blue);
+      }
+      .dest-card .orb {
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        box-shadow:
+          inset -5px -4px 8px #0008,
+          0 0 16px #718db111;
+      }
+      .dest-card strong {
+        display: block;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.02em;
+      }
+      .dest-card small {
+        font-size: 9px;
+        color: #8395ae;
+        display: block;
+        margin-top: 5px;
+        white-space: nowrap;
+      }
+      .dest-card .num {
+        font-size: 8px;
+        color: #5d738e;
+        position: absolute;
+        top: 9px;
+        right: 10px;
+      }
+      .orb.atlas {
+        background: radial-gradient(at 28% 30%, #91ad9e, #315878 43%, #0d2c49);
+      }
+      .orb.nova {
+        background: repeating-linear-gradient(
+          16deg,
+          #9f8dbc 0 4px,
+          #6f6493 4px 6px
+        );
+        position: relative;
+      }
+      .orb.nova:after {
+        content: "";
+        position: absolute;
+        inset: 6px -8px;
+        border: 2px solid #9c8bad8c;
+        border-radius: 50%;
+        transform: rotate(-30deg);
+      }
+      .orb.ember {
+        background: radial-gradient(at 25% 25%, #d4a587, #9f654f 45%, #442939);
+      }
+      .orb.relay {
+        border-radius: 3px;
+        background: linear-gradient(
+          90deg,
+          #416b96 0 27%,
+          #b2aba0 28% 69%,
+          #416b96 70%
+        );
+        transform: rotate(-15deg);
+        height: 17px;
+      }
+      .orb.station {
+        border: 3px solid #8ba7bd;
+        box-shadow: inset 0 0 0 4px #12263a;
+        position: relative;
+        background: #bfd0db;
+      }
+      .orb.station:after {
+        content: "";
+        width: 36px;
+        height: 3px;
+        background: #6b8aa5;
+        position: absolute;
+        left: -7px;
+        top: 10px;
+        transform: rotate(-25deg);
+      }
+      .utility {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 19px;
+        gap: 20px;
+      }
+      .utility-left {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        color: #7d8da4;
+        font-size: 9px;
+      }
+      .utility-left span:first-child {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .status-dot {
+        width: 5px;
+        height: 5px;
+        background: #adc7b1;
+        border-radius: 50%;
+      }
+      .prototype-tag {
+        letter-spacing: 0.07em;
+        color: #6f819d;
+        font-size: 8px;
+      }
+      .tools {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tool {
+        background: #101a2d88;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        min-width: 30px;
+        height: 30px;
+        display: grid;
+        place-items: center;
+        font-size: 15px;
+        color: #a1b5d0;
+        transition: background 0.2s;
+      }
+      .tool:hover {
+        background: #24365088;
+      }
+      .tool.text {
+        display: flex;
+        gap: 7px;
+        padding: 0 11px;
+        font-size: 9px;
+      }
+      .tool svg {
+        width: 13px;
+        height: 13px;
+      }
+      .tool-group {
+        display: flex;
+        margin-right: 8px;
+        gap: 4px;
+      }
+      .detail-panel {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        z-index: 5;
+        left: 44px;
+        top: 140px;
+        bottom: 200px;
+        width: 385px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: linear-gradient(145deg, #101b2aed, #0a1220ed);
+        backdrop-filter: blur(20px);
+        overflow: hidden;
+        padding: 28px;
+        box-shadow: 0 20px 80px #0004;
+      }
+      .detail-scroll {
+        overflow-y: auto;
+        min-height: 0;
+        flex: 1;
+        padding-right: 5px;
+      }
+      .detail-panel[hidden] {
+        display: none;
+      }
+      .panel-top {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #8ca1be;
+      }
+      .close {
+        background: #ffffff06;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        font-size: 19px;
+        color: #bdcbe0;
+      }
+      .detail-panel h2 {
+        font-family: Georgia, serif;
+        letter-spacing: -0.04em;
+        font-size: 48px;
+        font-weight: 400;
+        margin: 25px 0 10px;
+      }
+      .panel-subtitle {
+        font-size: 13px;
+        color: #a6b8d0;
+        line-height: 1.65;
+      }
+      .tags {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+        margin: 18px 0 24px;
+      }
+      .tag {
+        font-size: 9px;
+        padding: 6px 8px;
+        border-radius: 3px;
+        border: 1px solid var(--line);
+        color: #9db0ce;
+      }
+      .sample {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 10px 11px;
+        border: 1px solid #d4ad7433;
+        background: #d4ad7407;
+        font-size: 10px;
+        color: #b8a88d;
+        line-height: 1.5;
+        border-radius: 4px;
+      }
+      .panel-section {
+        margin-top: 22px;
+      }
+      .panel-section h3 {
+        font-family: ui-monospace, monospace;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        color: #90a5c1;
+        font-weight: 400;
+      }
+      .panel-section p {
+        font-size: 12px;
+        line-height: 1.8;
+        color: #a4afbf;
+        margin: 8px 0 0;
+      }
+      .field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        padding: 16px 0;
+        margin-top: 18px;
+        border-block: 1px solid var(--line);
+      }
+      .field-row small {
+        font-size: 8px;
+        display: block;
+        letter-spacing: 0.12em;
+        color: #7085a3;
+      }
+      .field-row span {
+        font-size: 11px;
+        display: block;
+        margin-top: 7px;
+        color: #b1bed2;
+      }
+      .resources {
+        margin-top: 18px;
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+      }
+      .resource {
+        font-size: 11px;
+        color: #bad5fa;
+        border: 1px solid var(--line);
+        padding: 8px 10px;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+      .panel-footer {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid var(--line);
+        padding-top: 18px;
+        margin-top: 26px;
+      }
+      .panel-footer span {
+        font-size: 9px;
+        color: #8ba0bc;
+      }
+      .panel-footer button {
+        font-size: 11px;
+        background: none;
+        padding: 8px;
+        color: #c1d3ea;
+      }
+      dialog {
+        color: var(--ink);
+        background: #0d1728;
+        border: 1px solid #70819e44;
+        border-radius: 12px;
+        padding: 30px;
+        width: min(690px, calc(100% - 32px));
+        max-height: 82dvh;
+        box-shadow: 0 30px 100px #0009;
+      }
+      dialog::backdrop {
+        background: #030711bb;
+        backdrop-filter: blur(8px);
+      }
+      .dialog-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .dialog-head h2 {
+        font:
+          400 36px Georgia,
+          serif;
+        margin: 6px 0 20px;
+        letter-spacing: -0.03em;
+      }
+      .dialog-head .close {
+        align-self: flex-start;
+      }
+      .dialog-copy {
+        font-size: 12px;
+        color: #91a4bf;
+        line-height: 1.8;
+        margin: 0 0 22px;
+      }
+      .index-row {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        padding: 17px 13px;
+        background: none;
+        border-top: 1px solid var(--line);
+        text-align: left;
+      }
+      .index-row:hover {
+        background: #bacbff09;
+      }
+      .index-row .row-num {
+        color: #7991b0;
+        font-size: 10px;
+      }
+      .index-row strong {
+        font-size: 14px;
+        font-weight: 400;
+        display: block;
+      }
+      .index-row small {
+        font-size: 11px;
+        color: #8a9fbb;
+        display: block;
+        margin-top: 5px;
+      }
+      .index-row .arrow {
+        margin-left: auto;
+        color: #a2b9d7;
+      }
+      .key-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 13px 0;
+        border-top: 1px solid var(--line);
+        font-size: 12px;
+        color: #a6b8ce;
+      }
+      .key-row kbd {
+        font-size: 10px;
+        background: #1c2a3d;
+        padding: 4px 7px;
+        border: 1px solid #586b8944;
+        border-radius: 4px;
+      }
+      .dialog-bottom {
+        font-size: 10px;
+        line-height: 1.7;
+        color: #7088a7;
+        margin: 20px 0 0;
+      }
+      .fallback-orb {
+        display: none;
+        position: fixed;
+        left: 53%;
+        top: 29%;
+        width: 28vw;
+        height: 28vw;
+        border-radius: 50%;
+        background: radial-gradient(
+          at 28% 27%,
+          #779caa,
+          #27455b 40%,
+          #0a172d 75%
+        );
+        box-shadow: 0 0 70px #7799bb22;
+      }
+      .no-webgl .fallback-orb {
+        display: block;
+      }
+      .no-webgl .scene-labels {
+        display: none;
+      }
+      .no-webgl .scene-caption {
+        color: #b6cce8;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      /* Graphic ink treatment; solid surfaces avoid per-frame backdrop filtering. */
+      :root {
+        --ink: #f3e7c9;
+        --blue: #edb853;
+        --muted: #a5adb1;
+        --line: rgba(193, 186, 157, 0.22);
+      }
+      h1 {
+        font-size: clamp(56px, 4.6vw, 74px);
+        font-family: Impact, "Arial Narrow", ui-sans-serif, sans-serif;
+        font-weight: 900;
+        letter-spacing: -0.035em;
+        line-height: 0.94;
+        text-transform: uppercase;
+        font-style: italic;
+        text-shadow: 3px 4px 0 #03070f;
+      }
+      h1 em {
+        color: #73bbcb;
+        font-style: inherit;
+      }
+      .detail-panel h2,
+      .dialog-head h2 {
+        font-family: Impact, "Arial Narrow", ui-sans-serif, sans-serif;
+        font-weight: 800;
+        text-transform: uppercase;
+        font-style: italic;
+        letter-spacing: 0.015em;
+      }
+      .primary {
+        background: #efbd56;
+        color: #10151f;
+        border: 2px solid #060a12;
+        border-radius: 2px;
+        box-shadow: 4px 4px 0 #040810;
+      }
+      .primary:hover {
+        background: #ffce6b;
+        transform: translate(-1px, -2px);
+      }
+      .destination-bar {
+        background: #111b28;
+        border: 2px solid #050914;
+        box-shadow: 0 0 0 1px #425262;
+        border-radius: 3px;
+        backdrop-filter: none;
+      }
+      .detail-panel {
+        background: #121d2c;
+        border: 2px solid #050914;
+        box-shadow:
+          0 0 0 1px #677175,
+          6px 6px 0 #03071077;
+        border-radius: 3px;
+        backdrop-filter: none;
+      }
+      .destination-label {
+        background: #0d1521e8;
+        border: 1px solid #040710;
+        box-shadow: 2px 2px 0 #03070c99;
+        border-radius: 2px;
+        padding: 7px 11px;
+      }
+      .destination-label strong {
+        font-weight: 800;
+        color: #dfdcc8;
+      }
+      .destination-label:before {
+        background: #8f9ea5;
+      }
+      .destination-label.selected strong {
+        color: #efbd56;
+      }
+      .dest-card .orb {
+        box-shadow: inset -6px -4px 0 #09141d88;
+        border: 2px solid #080d16;
+      }
+      .orb.atlas {
+        background: #5fa1ab;
+      }
+      .orb.ember {
+        background: #bc8053;
+      }
+      .orb.nova {
+        background: repeating-linear-gradient(
+          16deg,
+          #b996b4 0 4px,
+          #65517e 4px 6px
+        );
+      }
+      .dest-card strong {
+        font-weight: 650;
+      }
+      .tool {
+        border-color: #65717b66;
+        background: #131f2d;
+      }
+      .tool:hover {
+        background: #2a394b;
+      }
+      .tag {
+        border-radius: 2px;
+        border-color: #68736e66;
+        color: #c6c9b9;
+      }
+      .tag-visual {
+        color: #b8a0d6;
+        border-color: #8b74a866;
+        font-style: italic;
+      }
+      .sample {
+        color: #d4bd89;
+      }
+      .panel-section h3 {
+        color: #d9b96f;
+      }
+      .panel-subtitle {
+        color: #bccad0;
+      }
+      .panel-section p {
+        color: #bbc2c7;
+      }
+      .intro {
+        color: #b8c0c4;
+      }
+      .eyebrow {
+        color: #c7b67f;
+      }
+      .eyebrow span {
+        background: #d5b463;
+      }
+      .coordinates {
+        color: #839098;
+      }
+      .grain {
+        opacity: 0.025;
+        background-image: radial-gradient(#9db4bf 1px, transparent 1px);
+        background-size: 6px 6px;
+      }
+      .internal {
+        border-radius: 3px;
+        background: #111b28;
+      }
+      .fallback-orb {
+        background: linear-gradient(
+          140deg,
+          #78b6b4 0 33%,
+          #397e91 33% 65%,
+          #172c46 65%
+        );
+        border: 5px solid #050912;
+        box-shadow: none;
+      }
+      dialog {
+        background: #14202d;
+        border: 2px solid #050914;
+        border-radius: 4px;
+      }
+      dialog::backdrop {
+        background: #030711d9;
+        backdrop-filter: none;
+      }
+      /* Expanded star map keeps every destination reachable at narrow widths. */
+      .destination-bar {
+        overflow-x: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #5f7385 #101926;
+      }
+      .bar-heading {
+        display: none;
+      }
+      .dest-card {
+        flex: 1 0 135px;
+        padding: 22px 11px;
+        gap: 9px;
+      }
+      .dest-card small {
+        font-size: 8px;
+      }
+      .dest-card strong {
+        font-size: 11px;
+      }
+      .orb.aurora {
+        background: linear-gradient(
+          25deg,
+          #72c6d7 40%,
+          #c4eade 40% 55%,
+          #7bb4db 55%
+        );
+        position: relative;
+      }
+      .orb.aurora:after,
+      .orb.solstice:after {
+        content: "";
+        position: absolute;
+        inset: 4px -7px;
+        border: 2px solid #99dbd6;
+        border-radius: 50%;
+        transform: rotate(-50deg);
+      }
+      .orb.verdant {
+        background: linear-gradient(
+          145deg,
+          #b5ca73 30%,
+          #5f9d70 30% 65%,
+          #286865 65%
+        );
+      }
+      .orb.solstice {
+        background: repeating-linear-gradient(
+          10deg,
+          #d9ad63 0 5px,
+          #b88b50 5px 8px
+        );
+        position: relative;
+      }
+      .orb.solstice:after {
+        border-color: #c6ad7a;
+        transform: rotate(-15deg);
+      }
+      .orb.crimson {
+        background: linear-gradient(
+          135deg,
+          #d59187 30%,
+          #b56382 30% 65%,
+          #683359 65%
+        );
+      }
+      #universe {
+        background-color: #080c18;
+        background-image:
+          linear-gradient(90deg, #080c18e6, #080c188c 44%), /* NEBULA_IMAGE */,
+          radial-gradient(ellipse at 80% 24%, #452065, transparent 62%);
+        background-size: auto, cover, auto;
+        background-position: center, center, center;
+        background-repeat: no-repeat;
+      }
+      .scene-caption {
+        right: 44px;
+        bottom: 182px;
+        font-size: 8px;
+      }
+      .coordinates span {
+        font-size: 8px;
+      }
+      @media (min-width: 1700px) {
+        .hero {
+          left: 7%;
+        }
+        .detail-panel {
+          left: 5%;
+          width: 410px;
+        }
+        .bottom,
+        header:after {
+          left: 5%;
+          right: 5%;
+        }
+        header {
+          padding-inline: 5%;
+        }
+      }
+      @media (max-height: 750px) and (min-width: 761px) {
+        header {
+          height: 82px;
+        }
+        .hero {
+          top: 24%;
+        }
+        h1 {
+          font-size: 58px;
+          margin: 20px 0;
+        }
+        .hero .primary {
+          margin-top: 18px;
+        }
+        .hero-note {
+          margin-top: 15px;
+        }
+        .detail-panel {
+          top: 105px;
+          bottom: 170px;
+          padding: 22px;
+        }
+        .detail-panel h2 {
+          font-size: 40px;
+          margin-top: 16px;
+        }
+        .dest-card {
+          padding-block: 17px;
+        }
+        .scene-caption {
+          bottom: 170px;
+        }
+        .coordinates {
+          top: 112px;
+        }
+      }
+      @media (max-width: 1100px) {
+        header {
+          padding-inline: 26px;
+        }
+        header:after {
+          left: 26px;
+          right: 26px;
+        }
+        nav {
+          gap: 22px;
+        }
+        .internal {
+          font-size: 8px;
+        }
+        .hero {
+          left: 4%;
+          max-width: 350px;
+        }
+        .intro {
+          font-size: 13px;
+        }
+        h1 {
+          font-size: 58px;
+        }
+        .bottom {
+          left: 26px;
+          right: 26px;
+        }
+        .bar-heading {
+          display: none;
+        }
+        .dest-card {
+          padding: 20px 13px;
+          gap: 11px;
+        }
+        .dest-card small {
+          font-size: 8px;
+        }
+        .detail-panel {
+          left: 26px;
+          width: 345px;
+        }
+        .coordinates {
+          right: 26px;
+        }
+        .scene-caption {
+          right: 26px;
+        }
+      }
+      @media (max-width: 760px) {
+        header {
+          height: 78px;
+          padding: 0 22px;
+          gap: 16px;
+        }
+        header:after {
+          left: 22px;
+          right: 22px;
+        }
+        .brand-icon {
+          width: 27px;
+          height: 27px;
+        }
+        .brand-icon:before {
+          width: 37px;
+          height: 13px;
+        }
+        .brand strong {
+          font-size: 13px;
+        }
+        .brand small {
+          font-size: 7px;
+          letter-spacing: 0.13em;
+        }
+        .brand {
+          gap: 10px;
+        }
+        .internal {
+          display: none;
+        }
+        nav {
+          gap: 18px;
+        }
+        nav button {
+          font-size: 10px;
+        }
+        nav button.active:after {
+          bottom: -22px;
+        }
+        .hero {
+          top: 110px;
+          left: 26px;
+          right: 26px;
+          max-width: none;
+        }
+        .eyebrow {
+          font-size: 8px;
+        }
+        h1 {
+          font-size: clamp(36px, 10.3vw, 48px);
+          margin: 17px 0 15px;
+          max-width: 340px;
+          line-height: 1.02;
+        }
+        .intro {
+          font-size: 12px;
+          line-height: 1.7;
+          max-width: 260px;
+        }
+        .hero .primary {
+          margin-top: 17px;
+          padding: 12px 15px;
+          font-size: 11px;
+          gap: 24px;
+        }
+        .hero-note {
+          display: none;
+        }
+        .coordinates {
+          top: 99px;
+          right: 22px;
+          font-size: 7px;
+        }
+        .coordinates span {
+          display: none;
+        }
+        .bottom {
+          left: 18px;
+          right: 18px;
+          bottom: 17px;
+        }
+        .destination-bar {
+          overflow-x: auto;
+          scrollbar-width: none;
+        }
+        .destination-bar::-webkit-scrollbar {
+          display: none;
+        }
+        .dest-card {
+          flex: 1 0 110px;
+          padding: 9px 10px;
+          gap: 6px;
+        }
+        .dest-card .orb {
+          width: 23px;
+          height: 23px;
+        }
+        .dest-card strong {
+          font-size: 10px;
+        }
+        .dest-card small {
+          font-size: 7px;
+        }
+        .dest-card .num {
+          font-size: 7px;
+          top: 6px;
+          right: 7px;
+        }
+        .utility {
+          margin-top: 12px;
+          gap: 8px;
+        }
+        .utility-left {
+          gap: 8px;
+          font-size: 8px;
+        }
+        .prototype-tag {
+          display: none;
+        }
+        .tool {
+          width: 27px;
+          min-width: 27px;
+          height: 28px;
+          font-size: 13px;
+        }
+        .tool.text {
+          width: auto;
+          font-size: 8px;
+          padding: 0 7px;
+        }
+        .tools {
+          gap: 5px;
+        }
+        .tool-group {
+          gap: 3px;
+          margin-right: 1px;
+        }
+        .scene-caption {
+          bottom: 144px;
+          right: 24px;
+          font-size: 7px;
+        }
+        .destination-label strong {
+          font-size: 8px;
+        }
+        .destination-label small {
+          font-size: 7px;
+        }
+        .destination-label {
+          padding: 5px 8px;
+          min-width: 70px;
+        }
+        .detail-panel {
+          left: 18px;
+          right: 18px;
+          width: auto;
+          top: auto;
+          bottom: 140px;
+          max-height: 45dvh;
+          padding: 21px;
+          background: #121d2c;
+          transform: translateY(20px);
+          opacity: 0;
+          transition: none;
+        }
+        .detail-panel.slide-in {
+          transform: translateY(0);
+          opacity: 1;
+          transition: transform .35s ease-out, opacity .35s ease-out;
+        }
+        .detail-panel h2 {
+          font-size: 36px;
+          margin: 14px 0 6px;
+        }
+        .panel-subtitle {
+          font-size: 12px;
+        }
+        .tags {
+          margin: 12px 0 15px;
+        }
+        .panel-section {
+          margin-top: 17px;
+        }
+        .sample {
+          font-size: 9px;
+        }
+        .panel-section p {
+          font-size: 11px;
+        }
+        .panel-footer {
+          margin-top: 18px;
+          padding-top: 10px;
+        }
+        .scene-labels {
+          transition: opacity 0.2s;
+        }
+        body.detail-open .scene-labels {
+          opacity: 0;
+          visibility: hidden;
+        }
+        .fallback-orb {
+          left: 37%;
+          top: 42%;
+          width: 55vw;
+          height: 55vw;
+        }
+        .vignette {
+          background:
+            linear-gradient(0deg, #080c18ed, transparent 32%),
+            linear-gradient(180deg, #080c1877, transparent 55%);
+        }
+        dialog {
+          padding: 23px;
+        }
+        .dialog-head h2 {
+          font-size: 30px;
+        }
+      }
+      @media (max-width: 360px) {
+        nav {
+          gap: 12px;
+        }
+        .brand small {
+          display: none;
+        }
+        h1 {
+          font-size: 36px;
+        }
+        .utility-left {
+          display: none;
+        }
+        .tools {
+          margin-left: auto;
+        }
+      }
+      #detail,
+      #detail h2,
+      #detail h3,
+      #detail p,
+      #detail span,
+      #detail small,
+      #detail button,
+      #detail a,
+      #detail .panel-subtitle,
+      #detail .sample,
+      #detail .panel-top {
+        color: #fff;
+      }
+      .destination-label.selected strong,
+      .destination-label.selected small,
+      .dest-card.selected strong,
+      .dest-card.selected small {
+        color: #fff;
+      }
+      @media (max-width: 760px) {
+        .hero h1 {
+          font-size: calc(
+            clamp(36px, 10.3vw, 48px) - var(--shrink, 0) *
+              (clamp(36px, 10.3vw, 48px) - clamp(24px, 7vw, 32px))
+          );
+          margin-top: calc(17px - var(--shrink, 0) * 7px);
+          margin-bottom: calc(15px - var(--shrink, 0) * 5px);
+        }
+        .hero {
+          top: calc(110px - var(--shrink, 0) * 22px);
+        }
+        .hero .intro {
+          opacity: calc(1 - var(--shrink, 0) * 2.5);
+          max-height: calc(60px * (1 - var(--shrink, 0)));
+          overflow: hidden;
+        }
+        .hero .eyebrow {
+          opacity: calc(1 - var(--shrink, 0) * 3);
+          max-height: calc(30px * (1 - var(--shrink, 0)));
+          overflow: hidden;
+        }
+        .hero .primary {
+          font-size: calc(11px - var(--shrink, 0) * 1px);
+          padding: calc(12px - var(--shrink, 0) * 4px) calc(15px - var(--shrink, 0) * 3px);
+          margin-top: calc(17px - var(--shrink, 0) * 7px);
+        }
+      }
+      .back-mobile {
+        display: none;
+      }
+      @media (max-width: 760px) {
+        .back-mobile {
+          display: grid;
+          place-items: center;
+          width: 27px;
+          min-width: 27px;
+          height: 28px;
+          background: #131f2d;
+          border: 1px solid #65717b66;
+          border-radius: 4px;
+          font-size: 15px;
+          color: #a1b5d0;
+          text-decoration: none;
+          transition: background 0.2s;
+        }
+        .back-mobile:hover {
+          background: #2a394b;
+        }
+        .bottom {
+          transition: opacity 1.5s ease;
+        }
+        .bottom.idle {
+          opacity: 0.35;
+        }
+        .bottom.idle:hover,
+        .bottom.idle:active {
+          opacity: 1;
+          transition: opacity 0.2s ease;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *:before,
+        *:after {
+          scroll-behavior: auto !important;
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+      /* Global font-size bump */
+      .mono {
+        font-size: 11px;
+      }
+      .brand strong {
+        font-size: 18px;
+      }
+      .brand small {
+        font-size: 10px;
+      }
+      nav button {
+        font-size: 14px;
+      }
+      .internal {
+        font-size: 11px;
+      }
+      .intro {
+        font-size: 16px;
+      }
+      .primary {
+        font-size: 14px;
+      }
+      .hero-note {
+        font-size: 12px;
+      }
+      .destination-label strong {
+        font-size: 12px;
+      }
+      .destination-label small {
+        font-size: 10px;
+      }
+      .coordinates {
+        font-size: 10px;
+      }
+      .coordinates span {
+        font-size: 10px;
+      }
+      .scene-caption {
+        font-size: 10px;
+      }
+      .bar-heading b {
+        font-size: 12px;
+      }
+      .dest-card strong {
+        font-size: 14px;
+      }
+      .dest-card small {
+        font-size: 11px;
+      }
+      .dest-card .num {
+        font-size: 10px;
+      }
+      .utility-left {
+        font-size: 11px;
+      }
+      .tool.text {
+        font-size: 11px;
+      }
+      .detail-panel h2 {
+        font-size: 52px;
+      }
+      .panel-subtitle {
+        font-size: 15px;
+      }
+      .tag {
+        font-size: 11px;
+      }
+      .panel-section h3 {
+        font-size: 11px;
+      }
+      .panel-section p {
+        font-size: 14px;
+      }
+      .field-row small {
+        font-size: 10px;
+      }
+      .field-row span {
+        font-size: 13px;
+      }
+      .resource {
+        font-size: 13px;
+      }
+      .panel-footer span {
+        font-size: 11px;
+      }
+      .panel-footer button {
+        font-size: 13px;
+      }
+      .dialog-head h2 {
+        font-size: 40px;
+      }
+      .dialog-copy {
+        font-size: 14px;
+      }
+      .index-row .row-num {
+        font-size: 12px;
+      }
+      .index-row strong {
+        font-size: 16px;
+      }
+      .index-row small {
+        font-size: 13px;
+      }
+      .key-row {
+        font-size: 14px;
+      }
+      .key-row kbd {
+        font-size: 12px;
+      }
+      .dialog-bottom {
+        font-size: 12px;
+      }
+      .sample {
+        font-size: 12px;
+      }
+      .close {
+        font-size: 22px;
+      }
+      /* Mobile overrides for bumped sizes */
+      @media (max-width: 760px) {
+        .brand strong {
+          font-size: 15px;
+        }
+        .brand small {
+          font-size: 8px;
+        }
+        nav button {
+          font-size: 12px;
+        }
+        .intro {
+          font-size: 14px;
+        }
+        .hero .primary {
+          font-size: 13px;
+        }
+        .destination-label strong {
+          font-size: 10px;
+        }
+        .destination-label small {
+          font-size: 8px;
+        }
+        .dest-card strong {
+          font-size: 11px;
+        }
+        .dest-card small {
+          font-size: 8px;
+          white-space: normal;
+          line-height: 1.3;
+        }
+        .dest-card .num {
+          font-size: 8px;
+        }
+        .dest-card {
+          flex: 1 0 120px;
+          min-width: 0;
+        }
+        .detail-panel h2 {
+          font-size: 40px;
+        }
+        .panel-subtitle {
+          font-size: 14px;
+        }
+        .panel-section p {
+          font-size: 13px;
+        }
+        .utility-left {
+          font-size: 10px;
+        }
+        .tool.text {
+          font-size: 10px;
+        }
+        .scene-caption {
+          font-size: 9px;
+        }
+        .coordinates {
+          font-size: 9px;
+        }
+        .dialog-head h2 {
+          font-size: 34px;
+        }
+        .sample {
+          font-size: 11px;
+        }
+      }
+      @media (max-height: 750px) and (min-width: 761px) {
+        .detail-panel h2 {
+          font-size: 44px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="universe" aria-hidden="true"></div>
+    <div class="fallback-orb" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+    <header>
+      <button
+        class="brand"
+        id="home"
+        aria-label="Orbital, return to solar system"
+      >
+        <span class="brand-icon" aria-hidden="true"></span
+        ><span><strong>ORBITAL</strong><small>EXPLORE MY WORK</small></span>
+      </button>
+      <nav aria-label="Main navigation">
+        <button class="active" id="explore">Explore</button
+        ><button id="index">All work</button><button id="about">About</button>
+      </nav>
+      <a class="internal" href="/" style="text-decoration: none"
+        ><i aria-hidden="true"></i>← BACK TO MAIN PORTFOLIO</a
+      >
+    </header>
+    <main>
+      <section class="hero" aria-label="Introduction">
+        <div class="eyebrow mono"><span></span>WELCOME TO MY ORBIT</div>
+        <h1>A universe<br />of <em>work.</em></h1>
+        <p class="intro">
+          Ideas, systems, and the things I build.<br />Explore the worlds behind
+          my work.
+        </p>
+        <button class="primary" id="begin">
+          Begin exploration <span aria-hidden="true">↗</span>
+        </button>
+        <div class="hero-note">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect
+              x="4.5"
+              y="1.5"
+              width="7"
+              height="12"
+              rx="3.5"
+              stroke="currentColor"
+            />
+            <path d="M8 4v3" stroke="currentColor" /></svg
+          >Drag to orbit · scroll to zoom · select a world
+        </div>
+      </section>
+      <div
+        class="scene-labels"
+        id="labels"
+        aria-label="Destinations in the solar system"
+      ></div>
+      <div class="coordinates mono" aria-hidden="true">
+        <b>THE PORTFOLIO SYSTEM</b><br /><span
+          >SECTOR 01 / PERSONAL SPACE<br /></span
+        ><span id="coord">05 DESTINATIONS</span>
+      </div>
+      <div class="scene-caption mono" id="scene-caption">
+        <span class="dot" aria-hidden="true"></span
+        ><span id="scene-status">EVERY WORLD HAS A STORY</span>
+      </div>
+      <section
+        class="detail-panel"
+        id="detail"
+        hidden
+        aria-labelledby="detail-title"
+        tabindex="-1"
+      >
+        <div class="panel-top">
+          <span class="mono" id="detail-kicker"></span
+          ><button
+            class="close"
+            id="close-detail"
+            aria-label="Close destination"
+          >
+            ×
+          </button>
+        </div>
+        <div class="detail-scroll" id="detail-scroll">
+          <h2 id="detail-title"></h2>
+          <div class="panel-subtitle" id="detail-subtitle"></div>
+          <div class="tags" id="detail-tags"></div>
+
+          <div id="detail-content"></div>
+          <div class="resources" id="detail-resources"></div>
+        </div>
+        <div class="panel-footer">
+          <button id="prev" aria-label="Previous destination">← Previous</button
+          ><span id="tour-position" class="mono"></span
+          ><button id="next" aria-label="Next destination">Next →</button>
+        </div>
+      </section>
+    </main>
+    <footer class="bottom">
+      <div class="destination-bar" aria-label="Destination shortcuts">
+        <div class="bar-heading mono">
+          <span>YOUR STAR MAP</span><b>CHOOSE A WORLD ↗</b>
+        </div>
+        <div id="cards" style="display: contents"></div>
+      </div>
+      <div class="utility">
+        <div class="utility-left">
+          <span
+            ><i class="status-dot" aria-hidden="true"></i>OPEN FOR
+            EXPLORATION</span
+          >
+        </div>
+        <div class="tools">
+          <button
+            class="tool text"
+            id="motion"
+            aria-pressed="true"
+            title="Pause ambient motion"
+          >
+            <span id="motion-icon" aria-hidden="true">Ⅱ</span
+            ><span id="motion-label">Motion on</span>
+          </button>
+          <div class="tool-group">
+            <button class="tool" id="zoom-out" aria-label="Zoom out">−</button
+            ><button class="tool" id="zoom-in" aria-label="Zoom in">+</button
+            ><button
+              class="tool"
+              id="reset"
+              aria-label="Reset camera"
+              title="Reset camera"
+            >
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path
+                  d="M3 5A5.5 5.5 0 1 1 2.5 10M3 2v3h3"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                />
+              </svg>
+            </button>
+          </div>
+          <button class="tool" id="help" aria-label="Navigation help">?</button
+          ><a
+            class="back-mobile tool"
+            href="/"
+            aria-label="Back to main portfolio"
+            title="Back to main portfolio"
+            ><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8.5V13a1 1 0 001 1h3v-3.5h3V14h3a1 1 0 001-1V8.5M1 8l7-6 7 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a
+          >
+        </div>
+      </div>
+    </footer>
+    <dialog id="index-dialog" aria-labelledby="index-title">
+      <div class="dialog-head">
+        <div>
+          <div class="mono muted">THE COMPLETE STAR MAP</div>
+          <h2 id="index-title">Find your destination.</h2>
+        </div>
+        <button class="close" data-close-dialog aria-label="Close all work">
+          ×
+        </button>
+      </div>
+      <p class="dialog-copy">
+        A straightforward way to browse the same worlds. Browse all
+        <span id="flight-count">9 destinations</span> in my portfolio.
+      </p>
+      <div id="index-list"></div>
+    </dialog>
+    <dialog id="help-dialog" aria-labelledby="help-title">
+      <div class="dialog-head">
+        <div>
+          <div class="mono muted">FLIGHT MANUAL</div>
+          <h2 id="help-title">A few flight controls.</h2>
+        </div>
+        <button
+          class="close"
+          data-close-dialog
+          aria-label="Close navigation help"
+        >
+          ×
+        </button>
+      </div>
+      <div class="key-row">
+        <span>Orbit the solar system</span><kbd>Drag / one finger</kbd>
+      </div>
+      <div class="key-row">
+        <span>Pan the view</span><kbd>Right-drag / two fingers</kbd>
+      </div>
+      <div class="key-row">
+        <span>Get a closer look</span><kbd>Scroll / pinch / + −</kbd>
+      </div>
+      <div class="key-row">
+        <span>Visit a destination</span><kbd>Click / tap / Enter</kbd>
+      </div>
+      <div class="key-row">
+        <span>Close a destination</span><kbd>Escape</kbd>
+      </div>
+      <div class="key-row">
+        <span>Return to the overview</span><kbd>Home icon / Reset</kbd>
+      </div>
+      <p class="dialog-bottom">
+        Pause moons, star twinkle, drifting dust, asteroid motion, space-car
+        traffic, shooting stars, and ship/UFO flybys using the footer motion
+        control. Reduced-motion preferences are respected automatically. All
+        destinations are keyboard accessible and available in “All work”. No
+        audio, tracking, or external requests.
+      </p>
+    </dialog>
+    <div class="sr-only" aria-live="polite" id="announcer"></div>
+    <noscript
+      ><style>
+        .hero {
+          display: none;
+        }
+        body {
+          overflow: auto;
+        }
+        .bottom {
+          display: none;
+        }
+      </style>
+      <section
+        style="
+          position: relative;
+          z-index: 10;
+          padding: 140px 30px;
+          max-width: 650px;
+        "
+      >
+        <h1>Ben Carver</h1>
+        <p>
+          This interactive portfolio requires JavaScript for the 3D solar
+          system. Projects include Wukong, InfiniStore, λFS, NotebookOS, and
+          more.
+        </p>
+        <p><a href="/" style="color: #b6cce8">Return to main portfolio →</a></p>
+      </section></noscript
+    >
+    <!-- APP_SCRIPT -->
+  </body>
+</html>

@@ -1,0 +1,4 @@
+*.md
+tests/
+previews/
+dist/
