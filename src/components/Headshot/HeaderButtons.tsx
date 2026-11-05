@@ -6,6 +6,7 @@ import {PersonalData} from "@data/PersonalData";
 import Typography from "@mui/material/Typography";
 import DownloadIcon from "@mui/icons-material/Download";
 import MailIcon from "@mui/icons-material/Mail";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 
 const HeaderButtons: React.FunctionComponent = React.memo(() => {
     const viewResume = React.useCallback(() => {
@@ -35,6 +36,17 @@ const HeaderButtons: React.FunctionComponent = React.memo(() => {
                         aria-label={"Contact Me Button"}>
                     <Typography variant={"button"} align={"center"} style={{fontSize: "1rem", color: "white"}}>
                         Contact Me
+                    </Typography>
+                </Button>
+            </Tooltip>
+            <Tooltip title={"Explore my interactive 3D portfolio"} arrow>
+                <Button variant={"outlined"} href={"/orbital/index.html"} target="_blank"
+                        rel="noopener noreferrer"
+                        startIcon={<RocketLaunchIcon style={{color: "#b6cce8"}}/>}
+                        style={{height: 45, width: "16rem", borderColor: "#b6cce8"}}
+                        aria-label={"Explore 3D Portfolio"}>
+                    <Typography variant={"button"} align={"center"} style={{fontSize: "1rem", color: "#b6cce8"}}>
+                        3D Portfolio
                     </Typography>
                 </Button>
             </Tooltip>

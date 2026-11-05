@@ -5,11 +5,10 @@ import React, {forwardRef} from "react";
 import Image from "next/image";
 
 import {PersonalData} from '@data/PersonalData';
-import {Stack, useMediaQuery} from "@mui/material";
+import {Stack} from "@mui/material";
 
 import Typography from '@mui/material/Typography';
 
-import theme from "@src/app/theme";
 import SettingsModal from "@src/components/Modals/SettingsModal";
 import {TypeAnimation} from "react-type-animation";
 import HeaderButtons from "@src/components/Headshot/HeaderButtons";
@@ -22,77 +21,23 @@ interface HeaderLayoutProps {
 const headerText: string = "Research Scientist at Meta working on AI Network Infrastructure";
 
 const GreetingText: React.FunctionComponent = () => {
-    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
-    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
-    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
-
-    const getGreetingTextSize = () => {
-        if (mq_xl) {
-            return "7rem";
-        }
-
-        if (mq_lg) {
-            return "5rem";
-        }
-
-        if (mq_md) {
-            return "3.5rem";
-        }
-
-        return "3rem";
-    }
-
-    const getWidth = () => {
-        return "100%";
-    }
-
-    const getShortDescTextSize = () => {
-        if (mq_xl || mq_lg) {
-            return "2rem";
-        }
-
-        return "1.25rem";
-    }
-
-    return (<div style={{width: getWidth()}}>
+    return (<div className={styles.greeting_wrapper}>
         <Stack className={styles.headshot_header_text_greeting} direction={"column"} spacing={1}>
-            <div style={{height: mq_xs ? "100px" : "auto"}}>
+            <div className={styles.greeting_container}>
                 <TypeAnimation
+                    className={styles.greeting_text_size}
                     sequence={[`Hello, I'm ${PersonalData.name}`]}
                     speed={25}
-                    style={{fontSize: getGreetingTextSize(), lineHeight: "1"}}
                     repeat={0}
                 />
             </div>
-            <Typography variant={"h5"} style={{fontSize: getShortDescTextSize()}}>{headerText}</Typography>
+            <Typography variant={"h5"} className={styles.short_desc_text}>{headerText}</Typography>
         </Stack>
         <HeaderButtons/>
     </div>);
 }
 
 const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
-    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
-    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
-    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
-
-    const getSpacing = () => {
-        if (mq_xs) {
-            return 0;
-        }
-
-        return 4;
-    }
-
-    const getImageWidth = () => {
-        if (mq_xl || mq_lg) {
-            return "24rem";
-        }
-
-        return "16rem";
-    }
-
     return (
         <div key={"xl_layout_headshot"}
              style={{
@@ -103,60 +48,39 @@ const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props
                  justifyContent: "center",
                  margin: "0 auto",
              }}>
-            <Stack
-                className={styles.headshot_container}
-                direction={mq_xl || mq_lg || mq_md ? 'row' : 'column'}
-                justifyContent={'center'}
-                alignContent={"center"}
-                alignItems={'center'}
-                spacing={getSpacing()}
-                sx={{margin: "0 auto"}}
+            <div
+                className={`${styles.headshot_container} ${styles.headshot_stack} ${styles.headshot_stack_spacing}`}
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                    alignItems: "center",
+                    margin: "0 auto",
+                }}
             >
                 <Stack direction={"column"}>
                     <Image
                         src={PersonalData.image}
                         alt={"Ben's Headshot"}
-                        className={styles.headshot_container_image}
-                        style={{width: getImageWidth(), height: "auto", marginBottom: "1rem"}}
+                        className={`${styles.headshot_container_image} ${styles.headshot_image}`}
                         priority={true}
                     />
                     <SocialLinks onClickSettingsButton={props.onClickSettingsButton}/>
                 </Stack>
                 <GreetingText/>
-            </Stack>
+            </div>
         </div>
     );
 }
 
 const Headshot = forwardRef<HTMLDivElement>((_props, ref) => {
-    const mq_sm = useMediaQuery(theme.breakpoints.only('sm'));
-    const mq_md = useMediaQuery(theme.breakpoints.only('md'));
-    const mq_lg = useMediaQuery(theme.breakpoints.only('lg'));
-    const mq_xl = useMediaQuery(theme.breakpoints.only('xl'));
-
     const [settingsModalOpen, setSettingsModalOpen] = React.useState<boolean>(false);
     const openSettingsModal = React.useCallback(() => setSettingsModalOpen(true), []);
     const closeSettingsModal = React.useCallback(() => setSettingsModalOpen(false), []);
 
-    const getTopMargin = () => {
-        if (mq_xl || mq_lg) {
-            return "1.5rem";
-        }
-
-        if (mq_md) {
-            return "1.5rem";
-        }
-
-        if (mq_sm) {
-            return "2.5rem";
-        }
-
-        return "3rem"
-    };
-
     return (
-        <div className={styles.headshot} ref={ref} key={"headshot_layout_wrapper"}
-             style={{marginTop: getTopMargin(), marginLeft: 'auto', marginRight: 'auto'}}>
+        <div className={`${styles.headshot} ${styles.headshot_margin}`} ref={ref} key={"headshot_layout_wrapper"}
+             style={{marginLeft: 'auto', marginRight: 'auto'}}>
             <UnifiedHeadshotLayout onClickSettingsButton={openSettingsModal}/>
             <SettingsModal open={settingsModalOpen} onClose={closeSettingsModal}/>
         </div>
