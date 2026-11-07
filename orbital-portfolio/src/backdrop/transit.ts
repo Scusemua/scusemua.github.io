@@ -60,12 +60,7 @@ interface TransitBatch {
 }
 
 export interface Transit {
-  routes: TransitRoute[];
-  vehicles: Vehicle[];
-  batches: TransitBatch[];
   update(elapsed: number): void;
-  carCount: number;
-  group: THREE.Group;
 }
 
 const transitRoutes: TransitRouteConfig[] = [
@@ -431,12 +426,5 @@ export function createTransit(scene: THREE.Scene): Transit {
     }
   };
   update(0);
-  return {
-    routes,
-    vehicles,
-    batches,
-    update,
-    carCount: vehicles.length,
-    group: highway,
-  };
+  return { update };
 }
