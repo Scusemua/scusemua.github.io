@@ -477,38 +477,58 @@ function initialize(): void {
   document.body.appendChild(warpCanvas);
   const wctx = warpCanvas.getContext("2d")!;
   const cx = warpCanvas.width / 2, cy = warpCanvas.height / 2;
-  const warpStars: { x: number; y: number; r: number; speed: number }[] = [];
+  const warpStars: { x: number; y: number; r: number; speed: number; persist: boolean }[] = [];
   for (let i = 0; i < 100; i++) {
     warpStars.push({
       x: Math.random() * warpCanvas.width,
       y: Math.random() * warpCanvas.height,
       r: 0.5 + Math.random() * 1.5,
       speed: 0.5 + Math.random() * 0.5,
+      persist: true, // Math.random() < 0.4,
     });
   }
   const warpStart = performance.now();
   const warpDuration = 1400;
+  const lingerDuration = 1200;
+  let lingerStart = 0;
   function animateWarp(): void {
     const elapsed = performance.now() - warpStart;
     const t = Math.min(elapsed / warpDuration, 1);
     const warpSpeed = Math.max(0, 1 - t * t);
-    const globalOpacity = t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3;
+    const warpDone = t >= 1;
+    if (warpDone && lingerStart === 0) lingerStart = performance.now();
+    const lingerT = lingerStart > 0 ? Math.min((performance.now() - lingerStart) / lingerDuration, 1) : 0;
+    const fadeOpacity = t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3;
     wctx.clearRect(0, 0, warpCanvas.width, warpCanvas.height);
-    if (globalOpacity <= 0) { warpCanvas.remove(); return; }
-    wctx.globalAlpha = globalOpacity;
+    const ambientAlpha = 0.15;
+    let anyVisible = false;
     for (const star of warpStars) {
+      let alpha: number;
+      if (star.persist) {
+        const target = warpDone ? ambientAlpha : 1;
+        alpha = warpDone ? ambientAlpha * (1 - lingerT) : Math.max(ambientAlpha, fadeOpacity);
+        if (warpDone) alpha = ambientAlpha * (1 - lingerT);
+        else alpha = Math.max(ambientAlpha, fadeOpacity);
+      } else {
+        alpha = fadeOpacity;
+        if (warpDone) alpha = 0;
+      }
+      if (alpha <= 0.001) continue;
+      anyVisible = true;
       const angle = Math.atan2(star.y - cy, star.x - cx);
-      const move = warpSpeed * 18 * star.speed;
-      star.x += move * Math.cos(angle);
-      star.y += move * Math.sin(angle);
-      if (star.x > warpCanvas.width || star.x < 0 || star.y > warpCanvas.height || star.y < 0) {
-        star.x = cx + (Math.random() - 0.5) * 100;
-        star.y = cy + (Math.random() - 0.5) * 100;
+      if (!warpDone) {
+        const move = warpSpeed * 18 * star.speed;
+        star.x += move * Math.cos(angle);
+        star.y += move * Math.sin(angle);
+        if (star.x > warpCanvas.width || star.x < 0 || star.y > warpCanvas.height || star.y < 0) {
+          star.x = cx + (Math.random() - 0.5) * 100;
+          star.y = cy + (Math.random() - 0.5) * 100;
+        }
       }
       const dist = Math.sqrt((star.x - cx) ** 2 + (star.y - cy) ** 2);
       const lineLen = warpSpeed * 40 * star.speed * (dist / (warpCanvas.width * 0.5));
       const brightness = Math.min(1, 0.4 + dist / (warpCanvas.width * 0.4));
-      const col = `rgba(${180 + Math.round(75 * brightness)},${200 + Math.round(55 * brightness)},255,${brightness})`;
+      const col = `rgba(${180 + Math.round(75 * brightness)},${200 + Math.round(55 * brightness)},255,${brightness * alpha})`;
       if (lineLen > star.r * 1.5) {
         const tailX = star.x - lineLen * Math.cos(angle);
         const tailY = star.y - lineLen * Math.sin(angle);
@@ -525,7 +545,7 @@ function initialize(): void {
         wctx.fill();
       }
     }
-    wctx.globalAlpha = 1;
+    if (!anyVisible) { warpCanvas.remove(); return; }
     requestAnimationFrame(animateWarp);
   }
   requestAnimationFrame(animateWarp);
