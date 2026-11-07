@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { toSRGB } from "../utils.js";
+import { toSRGB, seededRandom } from "../utils.js";
 
 export interface AsteroidBelt {
   update(elapsed: number): void;
@@ -16,11 +16,7 @@ export function createAsteroidBelt(scene: THREE.Scene): AsteroidBelt {
   rocks.name = "asteroid-belt";
   rocks.userData.effect = "asteroids";
   const object = new THREE.Object3D();
-  let seed = 621;
-  const random = () => {
-    seed = (1664525 * seed + 1013904223) >>> 0;
-    return seed / 4294967296;
-  };
+  const random = seededRandom(621);
   const palette = ["#8b829f", "#b89a94", "#647c92", "#a097bd"];
   for (let i = 0; i < count; i++) {
     const angle = (i / count) * Math.PI * 2 + random() * 0.045,

@@ -1,6 +1,14 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
+export function seededRandom(seed: number): () => number {
+  let s = seed;
+  return () => {
+    s = (1664525 * s + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+}
+
 export function toSRGB(color: THREE.Color): THREE.Color {
   return (color as any).convertLinearToSRGB();
 }

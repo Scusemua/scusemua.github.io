@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { toSRGB } from "../utils.js";
+import { toSRGB, seededRandom } from "../utils.js";
 import { createAsteroidBelt } from "./asteroids.js";
 import { createFlybys } from "./flybys.js";
 import { createTransit } from "./transit.js";
@@ -23,12 +23,8 @@ export function addBackdrop(
   invalidate?: () => void,
   onImpact?: OnImpactCallback,
 ): Backdrop {
-  let seed = 319,
-    elapsed = 0;
-  const random = () => {
-    seed = (1664525 * seed + 1013904223) >>> 0;
-    return seed / 4294967296;
-  };
+  let elapsed = 0;
+  const random = seededRandom(319);
   const time = { value: 0 },
     meteorsEnabled = { value: 1 },
     aspect = { value: innerWidth / innerHeight };
