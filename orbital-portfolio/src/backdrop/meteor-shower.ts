@@ -34,6 +34,9 @@ export interface MeteorShower {
 
 export type OnImpactCallback = (targetId: string, intensity: number) => void;
 
+const _up = new THREE.Vector3(0, 1, 0);
+const _quat = new THREE.Quaternion();
+
 const TRAIL_LENGTH = 18;
 const MAX_TRAIL_AGE = 0.6;
 const METEOR_SPEED_MIN = 28;
@@ -527,9 +530,8 @@ export function createMeteorShower(
         const ringScale = impact.maxRadius * 1.8 * expandEase;
         ring.scale.setScalar(ringScale);
         // Orient ring perpendicular to impact normal
-        const up = new THREE.Vector3(0, 1, 0);
-        const quat = new THREE.Quaternion().setFromUnitVectors(up, impact.normal);
-        ring.quaternion.copy(quat);
+        _quat.setFromUnitVectors(_up, impact.normal);
+        ring.quaternion.copy(_quat);
         (ring.material as THREE.ShaderMaterial).uniforms.uProgress.value = Math.min(progress * 1.5, 1);
       }
       // Hide unused meshes
