@@ -12,6 +12,7 @@ import {
 } from "./world/rendering.js";
 import { addBackdrop } from "./backdrop/index.js";
 import { app, $, mobile } from "./state.js";
+import { startWarpFlyIn } from "./warp-flyin.js";
 import { buildDOM } from "./ui/dom.js";
 import { visit, closeDestination, initDetail } from "./ui/detail.js";
 import { bindControls, initControls } from "./ui/controls.js";
@@ -522,117 +523,17 @@ function initialize(): void {
   app.initialized = true;
   resizeInk(innerWidth, innerHeight);
 
-  // ── Warp fly-in configuration ──
-  const isMobile = mobile();
-  const warpConfig = {
-    cameraOffset:    new THREE.Vector3(0, 55, isMobile ? 300 : 250),
-    targetOffset:    new THREE.Vector3(0, 30, isMobile ? 140 : 110),
-    tweenDuration:   isMobile ? 1800 : 1600,
-    starCount:       isMobile ? 40 : 100,
-    starMinRadius:   0.5,
-    starMaxRadius:   isMobile ? 1.5 : 2.0,
-    starMinSpeed:    0.5,
-    starMaxSpeed:    1.0,
-    persistChance:   1.0,
-    warpDuration:    isMobile ? 1200 : 1400,
-    lingerDuration:  1200,
-    moveMultiplier:  isMobile ? 12 : 18,
-    streakLength:    isMobile ? 25 : 40,
-    fadeStart:        0.7,
-    ambientAlpha:     0.15,
-    respawnSpread:   isMobile ? 60 : 100,
-    brightnessBase:   0.4,
-  };
-
-  // Light-speed fly-in: start camera far behind the scene and tween to overview
-  const flyInFrom = app.initialCamera.clone().add(warpConfig.cameraOffset);
-  app.camera.position.copy(flyInFrom);
-  app.controls.update();
-  app.cameraDirty = true;
-  app.tween = {
-    started: performance.now(),
-    fromCamera: flyInFrom,
-    fromTarget: app.controls.target.clone().add(warpConfig.targetOffset),
-    toCamera: app.initialCamera.clone(),
-    toTarget: app.initialTarget.clone(),
-    duration: warpConfig.tweenDuration,
-    ease: (t: number) => 1 - Math.pow(1 - t, 3),
-  };
-
-  // Warp-drive star streak canvas
-  const warpCanvas = document.createElement("canvas");
-  warpCanvas.style.cssText = "position:fixed;inset:0;z-index:1000;pointer-events:none;";
-  warpCanvas.width = innerWidth;
-  warpCanvas.height = innerHeight;
-  document.body.appendChild(warpCanvas);
-  const wctx = warpCanvas.getContext("2d")!;
-  const cx = warpCanvas.width / 2, cy = warpCanvas.height / 2;
-  const warpStars: { x: number; y: number; r: number; speed: number; persist: boolean }[] = [];
-  for (let i = 0; i < warpConfig.starCount; i++) {
-    warpStars.push({
-      x: Math.random() * warpCanvas.width,
-      y: Math.random() * warpCanvas.height,
-      r: warpConfig.starMinRadius + Math.random() * (warpConfig.starMaxRadius - warpConfig.starMinRadius),
-      speed: warpConfig.starMinSpeed + Math.random() * (warpConfig.starMaxSpeed - warpConfig.starMinSpeed),
-      persist: Math.random() < warpConfig.persistChance,
-    });
-  }
-  const warpStart = performance.now();
-  let lingerStart = 0;
-  function animateWarp(): void {
-    const elapsed = performance.now() - warpStart;
-    const t = Math.min(elapsed / warpConfig.warpDuration, 1);
-    const warpSpeed = Math.max(0, 1 - t * t);
-    const warpDone = t >= 1;
-    if (warpDone && lingerStart === 0) lingerStart = performance.now();
-    const lingerT = lingerStart > 0 ? Math.min((performance.now() - lingerStart) / warpConfig.lingerDuration, 1) : 0;
-    const fadeOpacity = t < warpConfig.fadeStart ? 1 : 1 - (t - warpConfig.fadeStart) / (1 - warpConfig.fadeStart);
-    wctx.clearRect(0, 0, warpCanvas.width, warpCanvas.height);
-    let anyVisible = false;
-    for (const star of warpStars) {
-      let alpha: number;
-      if (star.persist) {
-        if (warpDone) alpha = warpConfig.ambientAlpha * (1 - lingerT);
-        else alpha = Math.max(warpConfig.ambientAlpha, fadeOpacity);
-      } else {
-        alpha = warpDone ? 0 : fadeOpacity;
-      }
-      if (alpha <= 0.001) continue;
-      anyVisible = true;
-      const angle = Math.atan2(star.y - cy, star.x - cx);
-      if (!warpDone) {
-        const move = warpSpeed * warpConfig.moveMultiplier * star.speed;
-        star.x += move * Math.cos(angle);
-        star.y += move * Math.sin(angle);
-        if (star.x > warpCanvas.width || star.x < 0 || star.y > warpCanvas.height || star.y < 0) {
-          star.x = cx + (Math.random() - 0.5) * warpConfig.respawnSpread;
-          star.y = cy + (Math.random() - 0.5) * warpConfig.respawnSpread;
-        }
-      }
-      const dist = Math.sqrt((star.x - cx) ** 2 + (star.y - cy) ** 2);
-      const lineLen = warpSpeed * warpConfig.streakLength * star.speed * (dist / (warpCanvas.width * 0.5));
-      const brightness = Math.min(1, warpConfig.brightnessBase + dist / (warpCanvas.width * warpConfig.brightnessBase));
-      const col = `rgba(${180 + Math.round(75 * brightness)},${200 + Math.round(55 * brightness)},255,${brightness * alpha})`;
-      if (lineLen > star.r * 1.5) {
-        const tailX = star.x - lineLen * Math.cos(angle);
-        const tailY = star.y - lineLen * Math.sin(angle);
-        wctx.beginPath();
-        wctx.moveTo(tailX, tailY);
-        wctx.lineTo(star.x, star.y);
-        wctx.strokeStyle = col;
-        wctx.lineWidth = star.r * (1 + warpSpeed);
-        wctx.stroke();
-      } else {
-        wctx.beginPath();
-        wctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        wctx.fillStyle = col;
-        wctx.fill();
-      }
-    }
-    if (!anyVisible) { warpCanvas.remove(); return; }
-    requestAnimationFrame(animateWarp);
-  }
-  requestAnimationFrame(animateWarp);
+  startWarpFlyIn({
+    camera: app.camera,
+    controls: app.controls,
+    initialCamera: app.initialCamera,
+    initialTarget: app.initialTarget,
+    isMobile: mobile(),
+    setTween(tween) {
+      app.tween = tween;
+      app.cameraDirty = true;
+    },
+  });
 
   invalidate();
 }
