@@ -345,7 +345,17 @@ export function createMeteorShower(
       maxRadius: IMPACT_MAX_RADIUS * (radius / 3.5),
     });
 
-    // Spawn embers — mix of bright sparks, medium fire chunks, and dim smoke
+    const emberTiers: {
+      threshold: number;
+      life: [number, number];
+      speed: [number, number];
+      r: [number, number]; g: [number, number]; b: [number, number];
+      size: [number, number];
+    }[] = [
+      { threshold: 0.4,  life: [0.6, 0.4],  speed: [12, 14], r: [1.0, 0], g: [0.85, 0.15], b: [0.5, 0.4],   size: [0.2, 0.3] },
+      { threshold: 0.75, life: [0.8, 0.6],  speed: [6, 8],   r: [1.0, 0], g: [0.3, 0.3],   b: [0.02, 0.08], size: [0.4, 0.4] },
+      { threshold: 1.0,  life: [1.2, 0.8],  speed: [2, 4],   r: [0.5, 0.3], g: [0.1, 0.1], b: [0.02, 0],    size: [0.5, 0.6] },
+    ];
     const spawnCount = 24;
     let spawned = 0;
     for (let i = 0; i < EMBER_COUNT && spawned < spawnCount; i++) {
@@ -353,14 +363,11 @@ export function createMeteorShower(
       emberActive[i] = 1;
       emberAges[i] = 0;
       const kind = Math.random();
-      // Lifetime varies: sparks are brief, smoke lingers
-      emberMaxAges[i] = kind < 0.4 ? 0.6 + Math.random() * 0.4  // fast sparks
-                       : kind < 0.75 ? 0.8 + Math.random() * 0.6  // fire chunks
-                       : 1.2 + Math.random() * 0.8;               // smoke/debris
+      const tier = emberTiers.find((t) => kind < t.threshold)!;
+      emberMaxAges[i] = tier.life[0] + Math.random() * tier.life[1];
       emberPositions[i * 3] = position.x;
       emberPositions[i * 3 + 1] = position.y;
       emberPositions[i * 3 + 2] = position.z;
-      // Direction: biased outward from planet surface
       const outward = normal.clone().multiplyScalar(0.5 + Math.random() * 0.5);
       const scatter = new THREE.Vector3(
         (Math.random() - 0.5) * 2,
@@ -368,28 +375,12 @@ export function createMeteorShower(
         (Math.random() - 0.5) * 2,
       );
       const v = outward.add(scatter).normalize();
-      const speed = kind < 0.4 ? 12 + Math.random() * 14   // sparks fly fast
-                  : kind < 0.75 ? 6 + Math.random() * 8    // fire chunks
-                  : 2 + Math.random() * 4;                  // smoke drifts
-      v.multiplyScalar(speed);
+      v.multiplyScalar(tier.speed[0] + Math.random() * tier.speed[1]);
       emberVelocities[i].copy(v);
-      // Color: sparks are white-yellow, fire is orange, smoke is dim red
-      if (kind < 0.4) {
-        emberColorArray[i * 3] = 1.0;
-        emberColorArray[i * 3 + 1] = 0.85 + Math.random() * 0.15;
-        emberColorArray[i * 3 + 2] = 0.5 + Math.random() * 0.4;
-      } else if (kind < 0.75) {
-        emberColorArray[i * 3] = 1.0;
-        emberColorArray[i * 3 + 1] = 0.3 + Math.random() * 0.3;
-        emberColorArray[i * 3 + 2] = 0.02 + Math.random() * 0.08;
-      } else {
-        emberColorArray[i * 3] = 0.5 + Math.random() * 0.3;
-        emberColorArray[i * 3 + 1] = 0.1 + Math.random() * 0.1;
-        emberColorArray[i * 3 + 2] = 0.02;
-      }
-      emberSizeArray[i] = kind < 0.4 ? 0.2 + Math.random() * 0.3
-                        : kind < 0.75 ? 0.4 + Math.random() * 0.4
-                        : 0.5 + Math.random() * 0.6;
+      emberColorArray[i * 3] = tier.r[0] + Math.random() * tier.r[1];
+      emberColorArray[i * 3 + 1] = tier.g[0] + Math.random() * tier.g[1];
+      emberColorArray[i * 3 + 2] = tier.b[0] + Math.random() * tier.b[1];
+      emberSizeArray[i] = tier.size[0] + Math.random() * tier.size[1];
       spawned++;
     }
     (emberGeometry.getAttribute("color") as THREE.BufferAttribute).needsUpdate = true;
