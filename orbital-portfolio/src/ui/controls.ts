@@ -92,6 +92,15 @@ export function bindControls(): void {
       !document.querySelector("dialog[open]")
     )
       closeDestination();
+    if (
+      (event.key === "m" || event.key === "M") &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !document.querySelector("dialog[open]")
+    ) {
+      app.backdrop?.triggerMeteorShower();
+      invalidateFn();
+    }
   });
 
   updateMotion();

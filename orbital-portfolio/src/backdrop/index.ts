@@ -3,16 +3,25 @@ import { toSRGB } from "../utils.js";
 import { createAsteroidBelt } from "./asteroids.js";
 import { createFlybys } from "./flybys.js";
 import { createTransit } from "./transit.js";
+import { createMeteorShower } from "./meteor-shower.js";
+import type { OnImpactCallback } from "./meteor-shower.js";
+
+export type { OnImpactCallback };
 
 export interface Backdrop {
   update(delta: number): void;
   setMotion(value: boolean): void;
   resize(width: number, height: number): void;
+  triggerMeteorShower(): void;
+  updateMeteorShower(delta: number): void;
+  meteorShowerActive(): boolean;
 }
 
 export function addBackdrop(
   scene: THREE.Scene,
   camera: THREE.PerspectiveCamera,
+  invalidate?: () => void,
+  onImpact?: OnImpactCallback,
 ): Backdrop {
   let seed = 319,
     elapsed = 0;
@@ -213,7 +222,8 @@ export function addBackdrop(
   );
   const asteroids = createAsteroidBelt(scene),
     flybys = createFlybys(scene, camera),
-    transit = createTransit(scene);
+    transit = createTransit(scene),
+    meteorShower = createMeteorShower(scene, camera, invalidate ?? (() => {}), onImpact);
   return {
     update(delta: number) {
       elapsed += delta;
@@ -222,6 +232,7 @@ export function addBackdrop(
       asteroids.update(elapsed);
       flybys.update(elapsed);
       transit.update(elapsed);
+      meteorShower.update(delta);
     },
     setMotion(value: boolean) {
       meteorsEnabled.value = value ? 1 : 0;
@@ -230,6 +241,15 @@ export function addBackdrop(
     resize(width: number, height: number) {
       aspect.value = width / height;
       flybys.resize();
+    },
+    triggerMeteorShower() {
+      meteorShower.trigger();
+    },
+    updateMeteorShower(delta: number) {
+      meteorShower.update(delta);
+    },
+    meteorShowerActive() {
+      return meteorShower.active();
     },
   };
 }

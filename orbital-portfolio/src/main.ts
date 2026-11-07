@@ -23,6 +23,63 @@ interface Bounds {
   bottom: number;
 }
 
+interface ShakeState {
+  age: number;
+  duration: number;
+  intensity: number;
+  basePosition: THREE.Vector3;
+}
+
+const shakes = new Map<string, ShakeState>();
+const SHAKE_DURATION = 0.25;
+const SHAKE_INTENSITY = 0.6;
+
+function onMeteorImpact(targetId: string, meteorSize: number): void {
+  const group = app.worlds.get(targetId);
+  if (!group) return;
+  const existing = shakes.get(targetId);
+  const intensity = SHAKE_INTENSITY * meteorSize;
+  if (existing) {
+    existing.age = 0;
+    existing.intensity = Math.min(existing.intensity + intensity * 0.5, 1.5);
+  } else {
+    const dest = destinations.find((d) => d.id === targetId)!;
+    shakes.set(targetId, {
+      age: 0,
+      duration: SHAKE_DURATION,
+      intensity,
+      basePosition: new THREE.Vector3(...dest.position),
+    });
+  }
+}
+
+function updateShakes(delta: number): boolean {
+  let anyActive = false;
+  for (const [id, shake] of shakes) {
+    shake.age += delta;
+    if (shake.age >= shake.duration) {
+      const group = app.worlds.get(id);
+      if (group) group.position.copy(shake.basePosition);
+      shakes.delete(id);
+      continue;
+    }
+    anyActive = true;
+    const progress = shake.age / shake.duration;
+    const decay = 1 - progress;
+    const freq = 35;
+    const amp = shake.intensity * decay * decay;
+    const group = app.worlds.get(id);
+    if (group) {
+      group.position.set(
+        shake.basePosition.x + Math.sin(shake.age * freq) * amp,
+        shake.basePosition.y + Math.sin(shake.age * freq * 1.3 + 1.0) * amp * 0.7,
+        shake.basePosition.z + Math.sin(shake.age * freq * 0.9 + 2.0) * amp * 0.5,
+      );
+    }
+  }
+  return anyActive;
+}
+
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 const projection = new THREE.Vector3();
@@ -260,6 +317,17 @@ function updateFrame(now: number): void {
     app.lastAmbient = now;
     changed = true;
   }
+  if (app.backdrop.meteorShowerActive()) {
+    const showerDelta = app.lastAmbient ? Math.min((now - app.lastAmbient) / 1000, 0.1) : 0.016;
+    if (!animate) {
+      app.backdrop.updateMeteorShower(showerDelta);
+      changed = true;
+    }
+  }
+  if (shakes.size > 0) {
+    const shakeDelta = app.lastAmbient ? Math.min((now - app.lastAmbient) / 1000, 0.1) : 0.016;
+    changed = updateShakes(shakeDelta) || changed;
+  }
   if (app.cameraDirty) {
     for (const world of app.worlds.values())
       updateWorldDetail(world, app.camera, innerHeight);
@@ -280,7 +348,7 @@ function updateFrame(now: number): void {
     app.frameDirty = false;
   }
   app.inFrame = false;
-  if (app.interacting || app.damping || app.tween) scheduleFrame();
+  if (app.interacting || app.damping || app.tween || app.backdrop.meteorShowerActive() || shakes.size > 0) scheduleFrame();
   else if (app.motion)
     app.timer = setTimeout(
       () => {
@@ -391,7 +459,7 @@ function initialize(): void {
     invalidate();
   });
   setOverview();
-  app.backdrop = addBackdrop(app.scene, app.camera);
+  app.backdrop = addBackdrop(app.scene, app.camera, invalidate, onMeteorImpact);
   app.backdrop.setMotion(app.motion);
   for (const destination of destinations) {
     const group = createWorld(destination, invalidate);

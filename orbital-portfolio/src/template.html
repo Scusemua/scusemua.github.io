@@ -602,7 +602,8 @@
         overflow-y: auto;
         min-height: 0;
         flex: 1;
-        padding-right: 5px;
+        padding-right: 12px;
+        margin-right: -12px;
       }
       .detail-panel[hidden] {
         display: none;
@@ -622,6 +623,11 @@
         height: 28px;
         font-size: 19px;
         color: #bdcbe0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        padding: 0;
       }
       .detail-panel h2 {
         font-family: Georgia, serif;
@@ -1909,6 +1915,9 @@
       </div>
       <div class="key-row">
         <span>Return to the overview</span><kbd>Home icon / Reset</kbd>
+      </div>
+      <div class="key-row">
+        <span>Meteor shower 🌠</span><kbd>M</kbd>
       </div>
       <p class="dialog-bottom">
         Pause moons, star twinkle, drifting dust, asteroid motion, space-car
