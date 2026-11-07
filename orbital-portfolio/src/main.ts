@@ -6,11 +6,11 @@ import type { WorldUserData } from "./world/rendering.js";
 import {
   createWorld,
   rotateWorld,
-  addBackdrop,
   resizeInk,
   updateWorldDetail,
   disposeDetailGeometry,
 } from "./world/rendering.js";
+import { addBackdrop } from "./backdrop/index.js";
 import { app, $, mobile } from "./state.js";
 import { buildDOM } from "./ui/dom.js";
 import { visit, closeDestination, initDetail } from "./ui/detail.js";

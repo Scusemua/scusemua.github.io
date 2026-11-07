@@ -380,4 +380,3 @@ export function rotateWorld(group: THREE.Group, delta: number): void {
     data.moon.rotation.y += delta * 0.05;
   }
 }
-export { addBackdrop } from "../backdrop/index.js";

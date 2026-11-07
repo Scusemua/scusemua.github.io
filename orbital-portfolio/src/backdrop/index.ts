@@ -6,7 +6,6 @@ import { createTransit } from "./transit.js";
 import { createMeteorShower } from "./meteor-shower.js";
 import type { OnImpactCallback } from "./meteor-shower.js";
 
-export type { OnImpactCallback };
 
 export interface Backdrop {
   update(delta: number): void;
