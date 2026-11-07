@@ -19,6 +19,7 @@ interface Meteor {
 
 interface Impact {
   position: THREE.Vector3;
+  normal: THREE.Vector3;
   age: number;
   maxAge: number;
   radius: number;
@@ -117,15 +118,17 @@ export function createMeteorShower(
   trailMesh.geometry.setAttribute("instanceSize", new THREE.InstancedBufferAttribute(instanceSizes, 1));
   scene.add(trailMesh);
 
-  // ── Impact flash rendering ──
-  const impactGeometry = new THREE.SphereGeometry(1, 16, 12);
+  // ── Impact fireball rendering ──
+  const impactGeometry = new THREE.SphereGeometry(1, 20, 14);
   const impactMaterial = new THREE.ShaderMaterial({
     vertexShader: `
       varying vec3 vNormal;
       varying vec3 vWorldPos;
+      varying vec3 vLocalPos;
       void main() {
         vNormal = normalize(normalMatrix * normal);
         vWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
+        vLocalPos = position;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }
     `,
@@ -133,16 +136,65 @@ export function createMeteorShower(
       uniform float uProgress;
       varying vec3 vNormal;
       varying vec3 vWorldPos;
+      varying vec3 vLocalPos;
+
+      // Simple 3D noise for fire turbulence
+      float hash(vec3 p) {
+        p = fract(p * vec3(443.897, 441.423, 437.195));
+        p += dot(p, p.yzx + 19.19);
+        return fract((p.x + p.y) * p.z);
+      }
+      float noise(vec3 p) {
+        vec3 i = floor(p);
+        vec3 f = fract(p);
+        f = f * f * (3.0 - 2.0 * f);
+        return mix(
+          mix(mix(hash(i), hash(i + vec3(1,0,0)), f.x),
+              mix(hash(i + vec3(0,1,0)), hash(i + vec3(1,1,0)), f.x), f.y),
+          mix(mix(hash(i + vec3(0,0,1)), hash(i + vec3(1,0,1)), f.x),
+              mix(hash(i + vec3(0,1,1)), hash(i + vec3(1,1,1)), f.x), f.y), f.z);
+      }
+      float fbm(vec3 p) {
+        float v = 0.0;
+        v += 0.5 * noise(p); p *= 2.1;
+        v += 0.25 * noise(p); p *= 2.3;
+        v += 0.125 * noise(p);
+        return v;
+      }
+
       void main() {
         float rim = 1.0 - abs(dot(vNormal, normalize(cameraPosition - vWorldPos)));
-        float alpha = (1.0 - uProgress) * (0.4 + rim * 0.6);
-        vec3 hot = vec3(1.0, 0.85, 0.4);
-        vec3 cool = vec3(1.0, 0.25, 0.05);
-        vec3 color = mix(hot, cool, uProgress);
-        // Add sparks at edges
-        float spark = step(0.92, fract(atan(vNormal.x, vNormal.z) * 5.0 + uProgress * 20.0));
-        color += spark * vec3(1.0, 0.9, 0.5) * (1.0 - uProgress);
-        gl_FragColor = vec4(color, alpha);
+        // Animated fire noise
+        float n = fbm(vLocalPos * 4.0 + uProgress * 8.0);
+        float fireShape = n * (1.0 - uProgress);
+
+        // Bright white flash in first 10%
+        float flash = smoothstep(0.1, 0.0, uProgress);
+        // Core glow that fades
+        float core = (1.0 - uProgress * uProgress) * (0.6 + fireShape * 0.4);
+        // Rim fire
+        float rimFire = rim * rim * (1.0 - uProgress) * 0.8;
+
+        // Color: white → yellow → orange → red → dark
+        vec3 white = vec3(1.0, 1.0, 0.95);
+        vec3 yellow = vec3(1.0, 0.85, 0.3);
+        vec3 orange = vec3(1.0, 0.4, 0.05);
+        vec3 red = vec3(0.6, 0.1, 0.02);
+        vec3 color;
+        if (uProgress < 0.15) {
+          color = mix(white, yellow, uProgress / 0.15);
+        } else if (uProgress < 0.45) {
+          color = mix(yellow, orange, (uProgress - 0.15) / 0.3);
+        } else {
+          color = mix(orange, red, (uProgress - 0.45) / 0.55);
+        }
+        // Add bright noise-driven hotspots
+        color += vec3(1.0, 0.7, 0.2) * fireShape * (1.0 - uProgress) * 0.5;
+
+        float alpha = max(flash * 1.5, core + rimFire);
+        alpha *= smoothstep(1.0, 0.7, uProgress);
+
+        gl_FragColor = vec4(color, clamp(alpha, 0.0, 1.0));
       }
     `,
     uniforms: {
@@ -155,7 +207,7 @@ export function createMeteorShower(
   });
 
   const impactMeshes: THREE.Mesh[] = [];
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 8; i++) {
     const mesh = new THREE.Mesh(impactGeometry, impactMaterial.clone());
     mesh.visible = false;
     mesh.frustumCulled = false;
@@ -164,19 +216,82 @@ export function createMeteorShower(
     impactMeshes.push(mesh);
   }
 
-  // ── Ember particle system for impacts ──
-  const EMBER_COUNT = 80;
+  // ── Shockwave ring rendering ──
+  const ringGeometry = new THREE.TorusGeometry(1, 0.06, 8, 48);
+  const ringMaterial = new THREE.ShaderMaterial({
+    vertexShader: `
+      varying vec3 vWorldPos;
+      varying vec3 vNormal;
+      void main() {
+        vWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
+        vNormal = normalize(normalMatrix * normal);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform float uProgress;
+      varying vec3 vWorldPos;
+      varying vec3 vNormal;
+      void main() {
+        float fade = 1.0 - uProgress;
+        float rim = pow(1.0 - abs(dot(vNormal, normalize(cameraPosition - vWorldPos))), 2.0);
+        vec3 color = mix(vec3(1.0, 0.7, 0.2), vec3(1.0, 0.3, 0.05), uProgress);
+        float alpha = fade * fade * (0.5 + rim * 0.5);
+        gl_FragColor = vec4(color, alpha);
+      }
+    `,
+    uniforms: { uProgress: { value: 0 } },
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    side: THREE.DoubleSide,
+  });
+
+  const ringMeshes: THREE.Mesh[] = [];
+  for (let i = 0; i < 8; i++) {
+    const mesh = new THREE.Mesh(ringGeometry, ringMaterial.clone());
+    mesh.visible = false;
+    mesh.frustumCulled = false;
+    mesh.raycast = () => {};
+    scene.add(mesh);
+    ringMeshes.push(mesh);
+  }
+
+  // ── Ember / spark particle system ──
+  const EMBER_COUNT = 200;
   const emberGeometry = new THREE.BufferGeometry();
   const emberPositions = new Float32Array(EMBER_COUNT * 3);
   const emberVelocities: THREE.Vector3[] = [];
   const emberAges = new Float32Array(EMBER_COUNT);
+  const emberMaxAges = new Float32Array(EMBER_COUNT);
   const emberActive = new Uint8Array(EMBER_COUNT);
+  const emberColorArray = new Float32Array(EMBER_COUNT * 3);
+  const emberSizeArray = new Float32Array(EMBER_COUNT);
   emberGeometry.setAttribute("position", new THREE.BufferAttribute(emberPositions, 3));
-  const emberMaterial = new THREE.PointsMaterial({
-    color: "#ff8820",
-    size: 0.4,
+  emberGeometry.setAttribute("color", new THREE.BufferAttribute(emberColorArray, 3));
+  emberGeometry.setAttribute("aSize", new THREE.BufferAttribute(emberSizeArray, 1));
+  const emberMaterial = new THREE.ShaderMaterial({
+    vertexShader: `
+      attribute float aSize;
+      attribute vec3 color;
+      varying vec3 vColor;
+      varying float vAlpha;
+      void main() {
+        vColor = color;
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        gl_PointSize = clamp(aSize * 180.0 / (-mv.z), 1.0, 8.0);
+        gl_Position = projectionMatrix * mv;
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vColor;
+      void main() {
+        float d = length(gl_PointCoord - 0.5);
+        float glow = 1.0 - smoothstep(0.0, 0.5, d);
+        gl_FragColor = vec4(vColor, glow * glow);
+      }
+    `,
     transparent: true,
-    opacity: 0.9,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
   });
@@ -221,32 +336,65 @@ export function createMeteorShower(
     });
   }
 
-  function spawnImpact(position: THREE.Vector3, radius: number): void {
+  function spawnImpact(position: THREE.Vector3, radius: number, normal: THREE.Vector3): void {
     impacts.push({
       position: position.clone(),
+      normal: normal.clone(),
       age: 0,
       maxAge: IMPACT_DURATION,
       radius: 0.1,
       maxRadius: IMPACT_MAX_RADIUS * (radius / 3.5),
     });
 
-    // Spawn embers
+    // Spawn embers — mix of bright sparks, medium fire chunks, and dim smoke
+    const spawnCount = 24;
     let spawned = 0;
-    for (let i = 0; i < EMBER_COUNT && spawned < 12; i++) {
+    for (let i = 0; i < EMBER_COUNT && spawned < spawnCount; i++) {
       if (emberActive[i]) continue;
       emberActive[i] = 1;
       emberAges[i] = 0;
+      const kind = Math.random();
+      // Lifetime varies: sparks are brief, smoke lingers
+      emberMaxAges[i] = kind < 0.4 ? 0.6 + Math.random() * 0.4  // fast sparks
+                       : kind < 0.75 ? 0.8 + Math.random() * 0.6  // fire chunks
+                       : 1.2 + Math.random() * 0.8;               // smoke/debris
       emberPositions[i * 3] = position.x;
       emberPositions[i * 3 + 1] = position.y;
       emberPositions[i * 3 + 2] = position.z;
-      const v = new THREE.Vector3(
+      // Direction: biased outward from planet surface
+      const outward = normal.clone().multiplyScalar(0.5 + Math.random() * 0.5);
+      const scatter = new THREE.Vector3(
         (Math.random() - 0.5) * 2,
         (Math.random() - 0.5) * 2,
         (Math.random() - 0.5) * 2,
-      ).normalize().multiplyScalar(6 + Math.random() * 10);
+      );
+      const v = outward.add(scatter).normalize();
+      const speed = kind < 0.4 ? 12 + Math.random() * 14   // sparks fly fast
+                  : kind < 0.75 ? 6 + Math.random() * 8    // fire chunks
+                  : 2 + Math.random() * 4;                  // smoke drifts
+      v.multiplyScalar(speed);
       emberVelocities[i].copy(v);
+      // Color: sparks are white-yellow, fire is orange, smoke is dim red
+      if (kind < 0.4) {
+        emberColorArray[i * 3] = 1.0;
+        emberColorArray[i * 3 + 1] = 0.85 + Math.random() * 0.15;
+        emberColorArray[i * 3 + 2] = 0.5 + Math.random() * 0.4;
+      } else if (kind < 0.75) {
+        emberColorArray[i * 3] = 1.0;
+        emberColorArray[i * 3 + 1] = 0.3 + Math.random() * 0.3;
+        emberColorArray[i * 3 + 2] = 0.02 + Math.random() * 0.08;
+      } else {
+        emberColorArray[i * 3] = 0.5 + Math.random() * 0.3;
+        emberColorArray[i * 3 + 1] = 0.1 + Math.random() * 0.1;
+        emberColorArray[i * 3 + 2] = 0.02;
+      }
+      emberSizeArray[i] = kind < 0.4 ? 0.2 + Math.random() * 0.3
+                        : kind < 0.75 ? 0.4 + Math.random() * 0.4
+                        : 0.5 + Math.random() * 0.6;
       spawned++;
     }
+    (emberGeometry.getAttribute("color") as THREE.BufferAttribute).needsUpdate = true;
+    (emberGeometry.getAttribute("aSize") as THREE.BufferAttribute).needsUpdate = true;
     embers.visible = true;
   }
 
@@ -348,10 +496,11 @@ export function createMeteorShower(
         if (dist <= meteor.targetRadius * 1.1) {
           meteor.alive = false;
           meteor.impacted = true;
+          const surfaceNormal = meteor.position.clone().sub(meteor.targetPos).normalize();
           const surfacePoint = meteor.targetPos.clone().add(
-            meteor.position.clone().sub(meteor.targetPos).normalize().multiplyScalar(meteor.targetRadius),
+            surfaceNormal.clone().multiplyScalar(meteor.targetRadius),
           );
-          spawnImpact(surfacePoint, meteor.targetRadius);
+          spawnImpact(surfacePoint, meteor.targetRadius, surfaceNormal);
           onImpact?.(meteor.targetId, meteor.size);
         }
 
@@ -359,7 +508,7 @@ export function createMeteorShower(
         if (meteor.age > 6) meteor.alive = false;
       }
 
-      // Update impacts
+      // Update impacts (fireball + shockwave ring)
       for (let i = impacts.length - 1; i >= 0; i--) {
         const impact = impacts[i];
         impact.age += delta;
@@ -368,41 +517,67 @@ export function createMeteorShower(
           impacts.splice(i, 1);
           continue;
         }
-        impact.radius = impact.maxRadius * Math.sqrt(progress);
+        // Fireball: fast expansion then slow
+        const expandEase = 1 - Math.pow(1 - progress, 3);
+        impact.radius = impact.maxRadius * expandEase;
 
-        // Find an available impact mesh
-        const mesh = impactMeshes[i % impactMeshes.length];
+        // Fireball mesh
+        const fireIdx = i % impactMeshes.length;
+        const mesh = impactMeshes[fireIdx];
         mesh.visible = true;
         mesh.position.copy(impact.position);
         mesh.scale.setScalar(impact.radius);
         (mesh.material as THREE.ShaderMaterial).uniforms.uProgress.value = progress;
+
+        // Shockwave ring: expands faster, fades quickly
+        const ringIdx = i % ringMeshes.length;
+        const ring = ringMeshes[ringIdx];
+        ring.visible = true;
+        ring.position.copy(impact.position);
+        const ringScale = impact.maxRadius * 1.8 * expandEase;
+        ring.scale.setScalar(ringScale);
+        // Orient ring perpendicular to impact normal
+        const up = new THREE.Vector3(0, 1, 0);
+        const quat = new THREE.Quaternion().setFromUnitVectors(up, impact.normal);
+        ring.quaternion.copy(quat);
+        (ring.material as THREE.ShaderMaterial).uniforms.uProgress.value = Math.min(progress * 1.5, 1);
       }
-      // Hide unused impact meshes
+      // Hide unused meshes
       for (let i = impacts.length; i < impactMeshes.length; i++) {
         impactMeshes[i].visible = false;
       }
+      for (let i = impacts.length; i < ringMeshes.length; i++) {
+        ringMeshes[i].visible = false;
+      }
 
-      // Update ember particles
+      // Update ember / spark / smoke particles
       let anyEmberActive = false;
       for (let i = 0; i < EMBER_COUNT; i++) {
         if (!emberActive[i]) continue;
         emberAges[i] += delta;
-        if (emberAges[i] > 1.2) {
+        if (emberAges[i] >= emberMaxAges[i]) {
           emberActive[i] = 0;
           emberPositions[i * 3 + 1] = -9999;
+          emberSizeArray[i] = 0;
           continue;
         }
         anyEmberActive = true;
         emberPositions[i * 3] += emberVelocities[i].x * delta;
         emberPositions[i * 3 + 1] += emberVelocities[i].y * delta;
         emberPositions[i * 3 + 2] += emberVelocities[i].z * delta;
-        // Gravity
-        emberVelocities[i].y -= 6 * delta;
+        // Gravity (light — we're in space but near planet)
+        emberVelocities[i].y -= 3 * delta;
         // Drag
-        emberVelocities[i].multiplyScalar(1 - 1.5 * delta);
+        emberVelocities[i].multiplyScalar(1 - 1.2 * delta);
+        emberColorArray[i * 3] *= (1 - delta * 1.5);
+        emberColorArray[i * 3 + 1] *= (1 - delta * 2.5);
+        emberColorArray[i * 3 + 2] *= (1 - delta * 3.0);
+        // Shrink over time
+        emberSizeArray[i] *= (1 - delta * 0.8);
       }
       (emberGeometry.getAttribute("position") as THREE.BufferAttribute).needsUpdate = true;
-      emberMaterial.opacity = 0.9;
+      (emberGeometry.getAttribute("color") as THREE.BufferAttribute).needsUpdate = true;
+      (emberGeometry.getAttribute("aSize") as THREE.BufferAttribute).needsUpdate = true;
       if (!anyEmberActive && impacts.length === 0) embers.visible = false;
 
       updateInstances();
