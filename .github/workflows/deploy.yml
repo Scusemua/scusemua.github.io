@@ -76,7 +76,7 @@ jobs:
       - name: Build orbital portfolio
         run: |
           cd orbital-portfolio
-          npm ci
+          npm install
           node build.mjs
           mkdir -p ../public/orbital
           cp dist/index.html ../public/orbital/index.html
