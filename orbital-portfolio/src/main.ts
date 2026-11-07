@@ -465,16 +465,70 @@ function initialize(): void {
     fromTarget: app.controls.target.clone().add(new THREE.Vector3(0, 30, 110)),
     toCamera: app.initialCamera.clone(),
     toTarget: app.initialTarget.clone(),
-    duration: 2200,
+    duration: 1600,
     ease: (t: number) => 1 - Math.pow(1 - t, 3),
   };
 
-  // Star-streak overlay
-  const streaks = document.createElement("div");
-  streaks.className = "lightspeed-overlay";
-  document.body.appendChild(streaks);
-  setTimeout(() => streaks.classList.add("fade-out"), 100);
-  setTimeout(() => streaks.remove(), 2400);
+  // Warp-drive star streak canvas
+  const warpCanvas = document.createElement("canvas");
+  warpCanvas.style.cssText = "position:fixed;inset:0;z-index:1000;pointer-events:none;";
+  warpCanvas.width = innerWidth;
+  warpCanvas.height = innerHeight;
+  document.body.appendChild(warpCanvas);
+  const wctx = warpCanvas.getContext("2d")!;
+  const cx = warpCanvas.width / 2, cy = warpCanvas.height / 2;
+  const warpStars: { x: number; y: number; r: number; speed: number }[] = [];
+  for (let i = 0; i < 100; i++) {
+    warpStars.push({
+      x: Math.random() * warpCanvas.width,
+      y: Math.random() * warpCanvas.height,
+      r: 0.5 + Math.random() * 1.5,
+      speed: 0.5 + Math.random() * 0.5,
+    });
+  }
+  const warpStart = performance.now();
+  const warpDuration = 1400;
+  function animateWarp(): void {
+    const elapsed = performance.now() - warpStart;
+    const t = Math.min(elapsed / warpDuration, 1);
+    const warpSpeed = Math.max(0, 1 - t * t);
+    const globalOpacity = t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3;
+    wctx.clearRect(0, 0, warpCanvas.width, warpCanvas.height);
+    if (globalOpacity <= 0) { warpCanvas.remove(); return; }
+    wctx.globalAlpha = globalOpacity;
+    for (const star of warpStars) {
+      const angle = Math.atan2(star.y - cy, star.x - cx);
+      const move = warpSpeed * 18 * star.speed;
+      star.x += move * Math.cos(angle);
+      star.y += move * Math.sin(angle);
+      if (star.x > warpCanvas.width || star.x < 0 || star.y > warpCanvas.height || star.y < 0) {
+        star.x = cx + (Math.random() - 0.5) * 100;
+        star.y = cy + (Math.random() - 0.5) * 100;
+      }
+      const dist = Math.sqrt((star.x - cx) ** 2 + (star.y - cy) ** 2);
+      const lineLen = warpSpeed * 40 * star.speed * (dist / (warpCanvas.width * 0.5));
+      const brightness = Math.min(1, 0.4 + dist / (warpCanvas.width * 0.4));
+      const col = `rgba(${180 + Math.round(75 * brightness)},${200 + Math.round(55 * brightness)},255,${brightness})`;
+      if (lineLen > star.r * 1.5) {
+        const tailX = star.x - lineLen * Math.cos(angle);
+        const tailY = star.y - lineLen * Math.sin(angle);
+        wctx.beginPath();
+        wctx.moveTo(tailX, tailY);
+        wctx.lineTo(star.x, star.y);
+        wctx.strokeStyle = col;
+        wctx.lineWidth = star.r * (1 + warpSpeed);
+        wctx.stroke();
+      } else {
+        wctx.beginPath();
+        wctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        wctx.fillStyle = col;
+        wctx.fill();
+      }
+    }
+    wctx.globalAlpha = 1;
+    requestAnimationFrame(animateWarp);
+  }
+  requestAnimationFrame(animateWarp);
 
   invalidate();
 }
