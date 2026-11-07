@@ -1,4 +1,4 @@
-import { destinations } from "../data/content.js";
+import { destinations, destinationById } from "../data/content.js";
 import type { Destination } from "../types.js";
 import {
   app, $, mobile, element,
@@ -23,7 +23,7 @@ export function initDetail(
 }
 
 export function visit(id: string): void {
-  const destination = destinations.find((item) => item.id === id);
+  const destination = destinationById.get(id);
   if (!destination) return;
   if (!app.selected) app.returnFocus = document.activeElement;
   app.selected = id;

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { destinations } from "./data/content.js";
+import { destinations, destinationById } from "./data/content.js";
 import type { Destination } from "./types.js";
 import type { WorldUserData } from "./world/rendering.js";
 import {
@@ -43,7 +43,7 @@ function onMeteorImpact(targetId: string, meteorSize: number): void {
     existing.age = 0;
     existing.intensity = Math.min(existing.intensity + intensity * 0.5, 1.5);
   } else {
-    const dest = destinations.find((d) => d.id === targetId)!;
+    const dest = destinationById.get(targetId)!;
     shakes.set(targetId, {
       age: 0,
       duration: SHAKE_DURATION,
@@ -657,11 +657,7 @@ window.addEventListener("resize", () => {
     clearDamping();
     setOverview();
     if (app.selected)
-      flyTo(
-        destinations.find(
-          (destination) => destination.id === app.selected,
-        )!,
-      );
+      flyTo(destinationById.get(app.selected!)!);
   }
   app.camera.updateProjectionMatrix();
   app.cameraDirty = true;

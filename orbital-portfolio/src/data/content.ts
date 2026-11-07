@@ -625,3 +625,7 @@ export const destinations: Destination[] = [
     ],
   },
 ];
+
+export const destinationById = new Map<string, Destination>(
+  destinations.map((d) => [d.id, d]),
+);

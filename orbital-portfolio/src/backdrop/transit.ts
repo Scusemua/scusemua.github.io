@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
-import { destinations } from "../data/content.js";
+import { destinationById } from "../data/content.js";
 import type { Destination, Vec3 } from "../types.js";
 import { toSRGB } from "../utils.js";
 
@@ -143,8 +143,8 @@ function hash(id: number, cycle: number) {
 
 function buildTransitRoutes(): TransitRoute[] {
   return transitRoutes.map((config) => {
-    const from = destinations.find((world) => world.id === config.from)!;
-    const to = destinations.find((world) => world.id === config.to)!;
+    const from = destinationById.get(config.from)!;
+    const to = destinationById.get(config.to)!;
     const a = new THREE.Vector3(...from.position),
       b = new THREE.Vector3(...to.position);
     const direction = b.clone().sub(a).normalize();
