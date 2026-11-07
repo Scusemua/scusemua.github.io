@@ -223,7 +223,7 @@ export function addBackdrop(
   const asteroids = createAsteroidBelt(scene),
     flybys = createFlybys(scene, camera),
     transit = createTransit(scene),
-    meteorShower = createMeteorShower(scene, camera, invalidate ?? (() => {}), onImpact);
+    meteorShower = createMeteorShower(scene, invalidate ?? (() => {}), onImpact);
   return {
     update(delta: number) {
       elapsed += delta;

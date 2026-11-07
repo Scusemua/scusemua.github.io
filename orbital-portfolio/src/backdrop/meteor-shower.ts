@@ -45,7 +45,6 @@ const WAVE_INTERVAL = 0.06;
 
 export function createMeteorShower(
   scene: THREE.Scene,
-  _camera: THREE.PerspectiveCamera,
   invalidate: () => void,
   onImpact?: OnImpactCallback,
 ): MeteorShower {
