@@ -3,6 +3,8 @@
   align-items: center;
   margin: 0 auto;
   max-width: 2560px;
+  position: relative;
+  z-index: 2;
 
   &_container {
     margin: 0 auto;
@@ -64,6 +66,8 @@
 
 .headshot_cv_button_stack {
   margin-top: 2rem;
+  padding-bottom: 2rem;
+  @media (min-width: 900px) { padding-bottom: 0; }
 }
 
 .greeting_text_size {
@@ -95,9 +99,10 @@
 }
 
 .headshot_image {
-  width: 16rem;
+  width: 12rem;
   height: auto;
   margin-bottom: 1rem;
+  @media (min-width: 600px) { width: 16rem; }
   @media (min-width: 1290px) { width: 24rem; }
 }
 
@@ -109,6 +114,23 @@
 .headshot_stack_spacing {
   gap: 0;
   @media (min-width: 600px) { gap: 32px; }
+}
+
+.headshot_viewport {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding-top: 56px;
+  padding-bottom: 2rem;
+  min-height: auto;
+  @media (min-width: 600px) {
+    min-height: 100vh;
+    padding-top: 48px;
+    padding-bottom: 60px;
+  }
 }
 
 .headshot_margin {

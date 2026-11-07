@@ -40,14 +40,7 @@ const GreetingText: React.FunctionComponent = () => {
 const UnifiedHeadshotLayout: React.FunctionComponent<HeaderLayoutProps> = (props: HeaderLayoutProps) => {
     return (
         <div key={"xl_layout_headshot"}
-             style={{
-                 height: "100vh",
-                 width: "100%",
-                 display: "flex",
-                 alignItems: "center",
-                 justifyContent: "center",
-                 margin: "0 auto",
-             }}>
+             className={styles.headshot_viewport}>
             <div
                 className={`${styles.headshot_container} ${styles.headshot_stack} ${styles.headshot_stack_spacing}`}
                 style={{

@@ -28,8 +28,8 @@ interface NavButtonProps {
     label: string;
 }
 
-const navButtonSx = {my: 2, color: 'white', display: 'block', whiteSpace: 'nowrap', minWidth: 'auto', px: {xs: 1, sm: 2}} as const;
-const navButtonTypographySx = {typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}} as const;
+const navButtonSx = {my: {xs: 1, sm: 2}, color: 'white', display: 'block', whiteSpace: 'nowrap', minWidth: 'auto', px: {xs: 0.5, sm: 2}} as const;
+const navButtonTypographySx = {typography: {xs: 'caption', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}} as const;
 const hideOnXsSx = {display: {xs: 'none', sm: 'block'}} as const;
 
 const NavButton: React.FunctionComponent<NavButtonProps> = ({sectionRef, label}) => (
@@ -61,8 +61,9 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
                            sx={{margin: "0 auto", width: "100%", flexWrap: 'wrap'}}>
                         <IconButton
                             aria-label="Go to top"
-                            onClick={() => scrollToRef(props.headshotRef)}>
-                            <Avatar style={{width: 50, height: 50}}>
+                            onClick={() => scrollToRef(props.headshotRef)}
+                            sx={{p: {xs: 0.5, sm: 1}}}>
+                            <Avatar sx={{width: {xs: 36, sm: 50}, height: {xs: 36, sm: 50}}}>
                                 <Image
                                     className={styles.headshot_container_image}
                                     src={headshot}
