@@ -10,8 +10,7 @@ import Button from '@mui/material/Button';
 import headshot from '@images/headshot_solid.webp'
 import Image from "next/image";
 import styles from "@src/styles/components/Headshot.module.scss";
-import {Stack, useMediaQuery} from "@mui/material";
-import theme from "@src/app/theme";
+import {Stack} from "@mui/material";
 import {SectionRef} from "@src/types";
 import {scrollToRef} from "@src/utils/scrollToRef";
 
@@ -29,8 +28,9 @@ interface NavButtonProps {
     label: string;
 }
 
-const navButtonSx = {my: 2, color: 'white', display: 'block'} as const;
+const navButtonSx = {my: 2, color: 'white', display: 'block', whiteSpace: 'nowrap', minWidth: 'auto', px: {xs: 1, sm: 2}} as const;
 const navButtonTypographySx = {typography: {xs: 'body2', sm: 'body1', md: "body1", lg: "body1", xl: "body1"}} as const;
+const hideOnXsSx = {display: {xs: 'none', sm: 'block'}} as const;
 
 const NavButton: React.FunctionComponent<NavButtonProps> = ({sectionRef, label}) => (
     <Button
@@ -45,8 +45,6 @@ const NavButton: React.FunctionComponent<NavButtonProps> = ({sectionRef, label})
 );
 
 const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
-    const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
-
     return (
         <AppBar
             position="fixed"
@@ -58,9 +56,9 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
         >
             <Container>
                 <Toolbar disableGutters>
-                    <Stack direction={'row'} spacing={{'xs': 0, 'sm': 2, 'md': 6, 'lg': 8, 'xl': 10}}
+                    <Stack direction={'row'} spacing={{xs: 0.5, sm: 1, md: 4, lg: 8, xl: 10}}
                            alignItems={'center'} justifyContent={'center'}
-                           sx={{margin: "0 auto", width: "100%", overflow: "hidden"}}>
+                           sx={{margin: "0 auto", width: "100%", flexWrap: 'wrap'}}>
                         <IconButton
                             aria-label="Go to top"
                             onClick={() => scrollToRef(props.headshotRef)}>
@@ -76,10 +74,22 @@ const HomepageNavbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps
                             </Avatar>
                         </IconButton>
                         <NavButton sectionRef={props.projectRef} label="Research"/>
-                        {!mq_xs && <NavButton sectionRef={props.awardRef} label="Awards"/>}
-                        <NavButton sectionRef={props.educationRef} label={mq_xs ? "School" : "Education"}/>
-                        <NavButton sectionRef={props.employmentHistoryRef} label={mq_xs ? "Work" : "Employment"}/>
-                        {!mq_xs && <NavButton sectionRef={props.skillsRef} label="Skills"/>}
+                        <Button
+                            aria-label="Go to Awards Section"
+                            onClick={() => scrollToRef(props.awardRef)}
+                            sx={{...navButtonSx, ...hideOnXsSx}}
+                        >
+                            <Typography sx={navButtonTypographySx}><b>Awards</b></Typography>
+                        </Button>
+                        <NavButton sectionRef={props.educationRef} label="Education"/>
+                        <NavButton sectionRef={props.employmentHistoryRef} label="Employment"/>
+                        <Button
+                            aria-label="Go to Skills Section"
+                            onClick={() => scrollToRef(props.skillsRef)}
+                            sx={{...navButtonSx, ...hideOnXsSx}}
+                        >
+                            <Typography sx={navButtonTypographySx}><b>Skills</b></Typography>
+                        </Button>
                     </Stack>
                 </Toolbar>
             </Container>

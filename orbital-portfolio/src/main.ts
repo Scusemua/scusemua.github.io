@@ -215,8 +215,10 @@ function updateFrame(now: number): void {
   app.inFrame = true;
   let changed = false;
   if (app.tween) {
-    const progress = Math.min((now - app.tween.started) / 600, 1),
-      ease = progress * progress * (3 - 2 * progress);
+    const tweenDuration = app.tween.duration ?? 600;
+    const tweenEase = app.tween.ease ?? ((t: number) => t * t * (3 - 2 * t));
+    const progress = Math.min((now - app.tween.started) / tweenDuration, 1),
+      ease = tweenEase(progress);
     app.camera.position.lerpVectors(
       app.tween.fromCamera,
       app.tween.toCamera,
@@ -451,6 +453,29 @@ function initialize(): void {
   });
   app.initialized = true;
   resizeInk(innerWidth, innerHeight);
+
+  // Light-speed fly-in: start camera far behind the scene and tween to overview
+  const flyInFrom = app.initialCamera.clone().add(new THREE.Vector3(0, 55, 250));
+  app.camera.position.copy(flyInFrom);
+  app.controls.update();
+  app.cameraDirty = true;
+  app.tween = {
+    started: performance.now(),
+    fromCamera: flyInFrom,
+    fromTarget: app.controls.target.clone().add(new THREE.Vector3(0, 30, 110)),
+    toCamera: app.initialCamera.clone(),
+    toTarget: app.initialTarget.clone(),
+    duration: 2200,
+    ease: (t: number) => 1 - Math.pow(1 - t, 3),
+  };
+
+  // Star-streak overlay
+  const streaks = document.createElement("div");
+  streaks.className = "lightspeed-overlay";
+  document.body.appendChild(streaks);
+  setTimeout(() => streaks.classList.add("fade-out"), 100);
+  setTimeout(() => streaks.remove(), 2400);
+
   invalidate();
 }
 

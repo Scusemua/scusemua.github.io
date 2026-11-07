@@ -8,6 +8,8 @@ export interface TweenState {
   fromTarget: THREE.Vector3;
   toCamera: THREE.Vector3;
   toTarget: THREE.Vector3;
+  duration?: number;
+  ease?: (t: number) => number;
 }
 
 export interface PointerDown {
