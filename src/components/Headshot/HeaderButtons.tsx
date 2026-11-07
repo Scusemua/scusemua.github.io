@@ -14,7 +14,7 @@ const HeaderButtons: React.FunctionComponent = React.memo(() => {
     }, []);
 
     return (
-        <Stack className={styles.headshot_cv_button_stack} spacing={{xs: 1, sm: 2}} key={"headshot_header_buttons"}
+        <Stack className={styles.headshot_cv_button_stack} spacing={2} key={"headshot_header_buttons"}
                direction={{'xs': 'column', 'sm': 'row', 'md': 'row', 'lg': 'row', 'xl': 'row'}}
                sx={{
                    justifyContent: "center",
