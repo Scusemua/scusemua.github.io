@@ -10,7 +10,7 @@ export function seededRandom(seed: number): () => number {
 }
 
 export function toSRGB(color: THREE.Color): THREE.Color {
-  return (color as any).convertLinearToSRGB();
+  return color.convertLinearToSRGB();
 }
 
 export interface BatchOptions {
