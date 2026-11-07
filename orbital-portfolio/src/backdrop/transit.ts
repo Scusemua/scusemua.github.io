@@ -1,8 +1,74 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
-import { destinations } from "./content.js";
+import { destinations } from "../data/content.js";
+import type { Destination, Vec3 } from "../types.js";
+import { toSRGB } from "../utils.js";
 
-export const transitRoutes = [
+interface TransitRouteConfig {
+  from: string;
+  to: string;
+  bend: number;
+  rise: number;
+  color: string;
+  duration: number;
+  capacity: number;
+  wait: number;
+}
+
+interface LaneTable {
+  positions: THREE.Vector3[];
+  rotations: THREE.Quaternion[];
+}
+
+interface TransitRoute extends TransitRouteConfig {
+  curve: THREE.CubicBezierCurve3;
+  tables: Map<number, LaneTable>;
+}
+
+interface VehicleType {
+  id: string;
+  speed: number;
+  scale: number;
+  color: string;
+}
+
+interface Vehicle {
+  id: number;
+  route: TransitRoute;
+  lane: number;
+  type: number;
+  duration: number;
+  period: number;
+  phase: number;
+  batchIndex: number;
+  tint?: THREE.Color;
+}
+
+interface TrafficTarget {
+  active: boolean;
+  progress: number;
+  duration: number;
+  delay: number;
+}
+
+interface TransitBatch {
+  type: string;
+  body: THREE.InstancedMesh;
+  ink: THREE.InstancedMesh;
+  members: Vehicle[];
+  currentIds: Int32Array;
+}
+
+export interface Transit {
+  routes: TransitRoute[];
+  vehicles: Vehicle[];
+  batches: TransitBatch[];
+  update(elapsed: number): void;
+  carCount: number;
+  group: THREE.Group;
+}
+
+const transitRoutes: TransitRouteConfig[] = [
   {
     from: "atlas",
     to: "nova",
@@ -54,26 +120,31 @@ export const transitRoutes = [
     wait: 16,
   },
 ];
-export const vehicleTypes = [
+
+const vehicleTypes: VehicleType[] = [
   { id: "shuttle", speed: 1, scale: 1, color: "#bfc9d4" },
   { id: "freighter", speed: 1.34, scale: 1.04, color: "#d6bd9a" },
   { id: "speeder", speed: 0.66, scale: 0.9, color: "#a8cfdd" },
 ];
+
 const laneWidth = 0.22,
   samples = 128;
 const up = new THREE.Vector3(0, 1, 0);
-function worldExtent(world) {
+
+function worldExtent(world: Destination) {
   return world.radius * (world.rings?.outer || 1);
 }
-function hash(id, cycle) {
+
+function hash(id: number, cycle: number) {
   let n = Math.imul(id + 17, 374761393) ^ Math.imul(cycle + 31, 668265263);
   n = Math.imul(n ^ (n >>> 13), 1274126177);
   return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
 }
-export function buildTransitRoutes() {
+
+function buildTransitRoutes(): TransitRoute[] {
   return transitRoutes.map((config) => {
-    const from = destinations.find((world) => world.id === config.from),
-      to = destinations.find((world) => world.id === config.to);
+    const from = destinations.find((world) => world.id === config.from)!;
+    const to = destinations.find((world) => world.id === config.to)!;
     const a = new THREE.Vector3(...from.position),
       b = new THREE.Vector3(...to.position);
     const direction = b.clone().sub(a).normalize();
@@ -97,11 +168,10 @@ export function buildTransitRoutes() {
     const curve = new THREE.CubicBezierCurve3(start, p1, p2, end);
     curve.arcLengthDivisions = 160;
     curve.updateArcLengths();
-    // Arc-length position and orientation are sampled once, not recalculated for every vehicle/frame.
-    const tables = new Map();
+    const tables = new Map<number, LaneTable>();
     for (const lane of [-1, 1]) {
-      const positions = [],
-        rotations = [];
+      const positions: THREE.Vector3[] = [];
+      const rotations: THREE.Quaternion[] = [];
       const point = new THREE.Vector3(),
         tangent = new THREE.Vector3(),
         side = new THREE.Vector3(),
@@ -137,13 +207,14 @@ export function buildTransitRoutes() {
     return { ...config, curve, tables };
   });
 }
-function carGeometry(type) {
-  const parts = [];
-  const box = (size, position, color) => {
+
+function carGeometry(type: VehicleType) {
+  const parts: THREE.BufferGeometry[] = [];
+  const box = (size: Vec3, position: Vec3, color: string) => {
     const geometry = new THREE.BoxGeometry(...size);
     geometry.translate(...position);
-    const rgb = new THREE.Color(color).convertLinearToSRGB();
-    const colors = [];
+    const rgb = toSRGB(new THREE.Color(color));
+    const colors: number[] = [];
     for (let i = 0; i < geometry.attributes.position.count; i++)
       colors.push(rgb.r, rgb.g, rgb.b);
     geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
@@ -174,7 +245,8 @@ function carGeometry(type) {
   parts.forEach((part) => part.dispose());
   return geometry;
 }
-export function trafficState(vehicle, elapsed, target = {}) {
+
+function trafficState(vehicle: Vehicle, elapsed: number, target: Partial<TrafficTarget> = {}): TrafficTarget {
   const shifted = elapsed + vehicle.phase;
   const cycle = Math.floor(shifted / vehicle.period),
     clock = shifted - cycle * vehicle.period;
@@ -186,20 +258,21 @@ export function trafficState(vehicle, elapsed, target = {}) {
   target.progress = THREE.MathUtils.clamp(progress, 0, 1);
   target.duration = duration;
   target.delay = delay;
-  return target;
+  return target as TrafficTarget;
 }
-export function createTransit(scene) {
+
+export function createTransit(scene: THREE.Scene): Transit {
   const routes = buildTransitRoutes();
   const highway = new THREE.Group();
   highway.name = "interplanetary-highways";
   scene.add(highway);
-  const positions = [],
-    colors = [],
-    point = new THREE.Vector3(),
+  const positions: number[] = [];
+  const colors: number[] = [];
+  const point = new THREE.Vector3(),
     tangent = new THREE.Vector3(),
     side = new THREE.Vector3();
   for (const route of routes) {
-    const color = new THREE.Color(route.color).convertLinearToSRGB();
+    const color = toSRGB(new THREE.Color(route.color));
     for (const lane of [-1, 1])
       for (let i = 0; i < 72; i++) {
         if (i % 4 === 3) continue;
@@ -233,7 +306,7 @@ export function createTransit(scene) {
   );
   lanes.name = "transit-lanes";
   highway.add(lanes);
-  const vehicles = [];
+  const vehicles: Vehicle[] = [];
   for (let r = 0; r < routes.length; r++)
     for (const lane of [-1, 1])
       for (let i = 0; i < routes[r].capacity; i++) {
@@ -269,11 +342,11 @@ export function createTransit(scene) {
   const bounds = new THREE.Box3();
   for (const route of routes)
     for (const table of route.tables.values())
-      for (const point of table.positions) bounds.expandByPoint(point);
+      for (const pt of table.positions) bounds.expandByPoint(pt);
   bounds.expandByScalar(0.85);
   const sphere = bounds.getBoundingSphere(new THREE.Sphere());
   const palette = ["#d6bd9a", "#a8cfdd", "#c2add9", "#a5cdb6", "#d6a8b3"];
-  const batches = vehicleTypes.map((type, index) => {
+  const batches: TransitBatch[] = vehicleTypes.map((type, index) => {
     const members = vehicles.filter((vehicle) => vehicle.type === index),
       geometry = carGeometry(type);
     const body = new THREE.InstancedMesh(
@@ -292,9 +365,9 @@ export function createTransit(scene) {
     ink.raycast = () => {};
     members.forEach((vehicle, i) => {
       vehicle.batchIndex = i;
-      vehicle.tint = new THREE.Color(
+      vehicle.tint = toSRGB(new THREE.Color(
         palette[vehicle.id % palette.length],
-      ).convertLinearToSRGB();
+      ));
       body.setColorAt(i, vehicle.tint);
     });
     const currentIds = new Int32Array(members.length);
@@ -302,17 +375,17 @@ export function createTransit(scene) {
     highway.add(body, ink);
     return { type: type.id, body, ink, members, currentIds };
   });
-  const object = new THREE.Object3D(),
-    state = {};
-  const update = (elapsed) => {
+  const object = new THREE.Object3D();
+  const state: Partial<TrafficTarget> = {};
+  const update = (elapsed: number) => {
     for (const batch of batches) {
       let activeCount = 0,
         colorDirty = false;
       for (const vehicle of batch.members) {
         trafficState(vehicle, elapsed, state);
         if (!state.active) continue;
-        const table = vehicle.route.tables.get(vehicle.lane),
-          sample = state.progress * samples,
+        const table = vehicle.route.tables.get(vehicle.lane)!;
+        const sample = state.progress! * samples,
           index = Math.min(samples - 1, Math.floor(sample)),
           blend = sample - index;
         object.position.lerpVectors(
@@ -327,8 +400,8 @@ export function createTransit(scene) {
         );
         const fade = Math.min(
           1,
-          state.progress / 0.045,
-          (1 - state.progress) / 0.045,
+          state.progress! / 0.045,
+          (1 - state.progress!) / 0.045,
         );
         object.scale.setScalar(
           Math.max(0.001, fade * vehicleTypes[vehicle.type].scale),
@@ -337,7 +410,7 @@ export function createTransit(scene) {
         batch.body.setMatrixAt(activeCount, object.matrix);
         if (batch.currentIds[activeCount] !== vehicle.id) {
           batch.currentIds[activeCount] = vehicle.id;
-          batch.body.setColorAt(activeCount, vehicle.tint);
+          batch.body.setColorAt(activeCount, vehicle.tint!);
           colorDirty = true;
         }
         activeCount++;
@@ -352,8 +425,8 @@ export function createTransit(scene) {
         batch.body.instanceMatrix.needsUpdate = true;
       }
       if (colorDirty) {
-        batch.body.instanceColor.clearUpdateRanges();
-        batch.body.instanceColor.needsUpdate = true;
+        batch.body.instanceColor!.clearUpdateRanges();
+        batch.body.instanceColor!.needsUpdate = true;
       }
     }
   };

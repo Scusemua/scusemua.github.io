@@ -1,6 +1,11 @@
 import * as THREE from "three";
+import { toSRGB } from "../utils.js";
 
-export function createAsteroidBelt(scene) {
+export interface AsteroidBelt {
+  update(elapsed: number): void;
+}
+
+export function createAsteroidBelt(scene: THREE.Scene): AsteroidBelt {
   const count = 72;
   const geometry = new THREE.IcosahedronGeometry(1, 0);
   const material = new THREE.ShaderMaterial({
@@ -40,14 +45,14 @@ export function createAsteroidBelt(scene) {
     rocks.setMatrixAt(i, object.matrix);
     rocks.setColorAt(
       i,
-      new THREE.Color(palette[i % palette.length]).convertLinearToSRGB(),
+      toSRGB(new THREE.Color(palette[i % palette.length])),
     );
   }
   rocks.instanceMatrix.needsUpdate = true;
-  rocks.instanceColor.needsUpdate = true;
+  rocks.instanceColor!.needsUpdate = true;
   scene.add(rocks);
   return {
-    update(elapsed) {
+    update(elapsed: number) {
       rocks.rotation.y = elapsed * 0.003;
     },
   };

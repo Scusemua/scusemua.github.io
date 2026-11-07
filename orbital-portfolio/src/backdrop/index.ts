@@ -1,9 +1,19 @@
 import * as THREE from "three";
+import { toSRGB } from "../utils.js";
 import { createAsteroidBelt } from "./asteroids.js";
 import { createFlybys } from "./flybys.js";
 import { createTransit } from "./transit.js";
 
-export function addBackdrop(scene, camera) {
+export interface Backdrop {
+  update(delta: number): void;
+  setMotion(value: boolean): void;
+  resize(width: number, height: number): void;
+}
+
+export function addBackdrop(
+  scene: THREE.Scene,
+  camera: THREE.PerspectiveCamera,
+): Backdrop {
   let seed = 319,
     elapsed = 0;
   const random = () => {
@@ -13,9 +23,9 @@ export function addBackdrop(scene, camera) {
   const time = { value: 0 },
     meteorsEnabled = { value: 1 },
     aspect = { value: innerWidth / innerHeight };
-  const stars = [],
-    sizes = [],
-    phases = [];
+  const stars: number[] = [],
+    sizes: number[] = [],
+    phases: number[] = [];
   for (let i = 0; i < 2600; i++) {
     const theta = random() * Math.PI * 2,
       cosine = random() * 2 - 1,
@@ -51,18 +61,16 @@ export function addBackdrop(scene, camera) {
   });
   scene.add(new THREE.Points(starGeometry, starMaterial));
 
-  const dust = [],
-    dustSizes = [],
-    dustColors = [];
+  const dust: number[] = [],
+    dustSizes: number[] = [],
+    dustColors: number[] = [];
   const palette = ["#ac63ed", "#dd73ba", "#638cda", "#51a3b6", "#c792df"];
   for (let i = 0; i < 1150; i++) {
     const x = (random() - 0.5) * 210,
       spread = (random() + random() + random() - 1.5) * 16;
     dust.push(x, -8 + x * 0.2 + spread, -95 + (random() - 0.5) * 35);
     dustSizes.push(2 + random() * 13);
-    const color = new THREE.Color(
-      palette[i % palette.length],
-    ).convertLinearToSRGB();
+    const color = toSRGB(new THREE.Color(palette[i % palette.length]));
     dustColors.push(color.r, color.g, color.b);
   }
   const dustGeometry = new THREE.BufferGeometry();
@@ -90,9 +98,9 @@ export function addBackdrop(scene, camera) {
   );
   scene.add(dustCloud);
 
-  const linePositions = [],
-    constellationStars = [];
-  const paths = [
+  const linePositions: number[] = [],
+    constellationStars: number[] = [];
+  const paths: number[][][] = [
     [
       [-58, 38, -100],
       [-47, 44, -100],
@@ -176,7 +184,7 @@ export function addBackdrop(scene, camera) {
   meteor.raycast = () => {};
   scene.add(meteor);
 
-  const orbitPositions = [];
+  const orbitPositions: number[] = [];
   for (const radius of [10.5, 16, 25])
     for (let i = 0; i < 144; i++) {
       for (const step of [i, i + 1]) {
@@ -207,7 +215,7 @@ export function addBackdrop(scene, camera) {
     flybys = createFlybys(scene, camera),
     transit = createTransit(scene);
   return {
-    update(delta) {
+    update(delta: number) {
       elapsed += delta;
       time.value = elapsed;
       dustCloud.rotation.z = Math.sin(elapsed * 0.025) * 0.009;
@@ -215,11 +223,11 @@ export function addBackdrop(scene, camera) {
       flybys.update(elapsed);
       transit.update(elapsed);
     },
-    setMotion(value) {
+    setMotion(value: boolean) {
       meteorsEnabled.value = value ? 1 : 0;
       flybys.setMotion(value);
     },
-    resize(width, height) {
+    resize(width: number, height: number) {
       aspect.value = width / height;
       flybys.resize();
     },

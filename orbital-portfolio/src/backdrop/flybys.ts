@@ -1,12 +1,13 @@
 import * as THREE from "three";
-import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import type { Vec3 } from "../types.js";
+import { toSRGB, batchMeshes } from "../utils.js";
 
-function paint(color) {
+function paint(color: string) {
   return new THREE.ShaderMaterial({
     vertexShader: `varying vec3 vNormal;void main(){vNormal=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
     fragmentShader: `uniform vec3 uColor;varying vec3 vNormal;void main(){float d=dot(normalize(vNormal),normalize(vec3(-.5,.8,1.)));float band=d>.55?1.:d>.05?.72:.38;gl_FragColor=vec4(uColor*band,1.);}`,
     uniforms: {
-      uColor: { value: new THREE.Color(color).convertLinearToSRGB() },
+      uColor: { value: toSRGB(new THREE.Color(color)) },
     },
   });
 }
@@ -16,12 +17,13 @@ const hullPaint = paint("#b8a0cd"),
 const cockpitPaint = new THREE.MeshBasicMaterial({ color: "#7bcbd4" });
 const drivePaint = new THREE.MeshBasicMaterial({ color: "#83dcea" });
 const ink = new THREE.LineBasicMaterial({ color: "#080b14" });
+
 function add(
-  group,
-  geometry,
-  material,
-  position = [0, 0, 0],
-  rotation = [0, 0, 0],
+  group: THREE.Group,
+  geometry: THREE.BufferGeometry,
+  material: THREE.Material,
+  position: Vec3 = [0, 0, 0],
+  rotation: Vec3 = [0, 0, 0],
 ) {
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.set(...position);
@@ -29,29 +31,15 @@ function add(
   group.add(mesh);
   return mesh;
 }
-function batch(group) {
-  group.updateMatrixWorld();
-  const buckets = new Map();
-  for (const child of [...group.children]) {
-    const geometry = child.geometry.clone().applyMatrix4(child.matrix);
-    child.geometry.dispose();
-    group.remove(child);
-    if (!buckets.has(child.material)) buckets.set(child.material, []);
-    buckets.get(child.material).push(geometry);
-  }
-  const outlines = [];
-  for (const [material, parts] of buckets) {
-    const geometry = mergeGeometries(parts, false);
-    parts.forEach((part) => part.dispose());
-    group.add(new THREE.Mesh(geometry, material));
-    if (material !== drivePaint)
-      outlines.push(new THREE.EdgesGeometry(geometry, 30));
-  }
-  const edgeGeometry = mergeGeometries(outlines, false);
-  outlines.forEach((part) => part.dispose());
-  group.add(new THREE.LineSegments(edgeGeometry, ink));
-  return group;
+
+function batch(group: THREE.Group) {
+  return batchMeshes(group, {
+    edgeMaterial: ink,
+    edgeAngle: 30,
+    skipEdges: (material) => material === drivePaint,
+  });
 }
+
 function spaceship() {
   const group = new THREE.Group();
   add(
@@ -94,6 +82,7 @@ function spaceship() {
   group.userData.effect = "ship";
   return group;
 }
+
 function saucer() {
   const group = new THREE.Group();
   add(
@@ -124,7 +113,13 @@ function saucer() {
   return group;
 }
 
-export function createFlybys(scene, camera) {
+export interface Flybys {
+  update(elapsed: number): void;
+  setMotion(value: boolean): void;
+  resize(): void;
+}
+
+export function createFlybys(scene: THREE.Scene, camera: THREE.PerspectiveCamera): Flybys {
   const fleet = new THREE.Group();
   fleet.name = "background-flybys";
   camera.add(fleet);
@@ -142,7 +137,7 @@ export function createFlybys(scene, camera) {
     height = 2 * Math.tan((camera.fov * Math.PI) / 360) * depth;
     width = height * camera.aspect;
   };
-  const update = (elapsed) => {
+  const update = (elapsed: number) => {
     resize();
     const shipAge = (elapsed % 37) - 2,
       shipActive = shipAge >= 0 && shipAge < 9;
@@ -166,7 +161,7 @@ export function createFlybys(scene, camera) {
   };
   return {
     update,
-    setMotion(value) {
+    setMotion(value: boolean) {
       enabled = value;
       if (!enabled) {
         ship.visible = false;

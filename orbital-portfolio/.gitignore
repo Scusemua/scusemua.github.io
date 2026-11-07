@@ -2,3 +2,5 @@
 tests/
 previews/
 dist/
+node_modules/
+src/generated-textures.js

@@ -423,7 +423,7 @@ export const destinations = [
     number: "05",
     kind: "planet",
     type: "crimson",
-    category: "Large=Scale Distributed Training",
+    category: "Large-Scale Distributed Training",
     subtitle:
       "Designing the communication layer that synchronizes GPUs during large-scale AI training.",
     position: [-4.08, 1, -22.4],

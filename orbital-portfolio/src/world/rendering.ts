@@ -1,14 +1,50 @@
 import * as THREE from "three";
-import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader.js";
-import textureData from "./generated-textures.js";
+import textureData from "../generated-textures.js";
+import type { Destination, Vec3 } from "../types.js";
+import { batchMeshes } from "../utils.js";
 
-const sphereLevels = [
+export interface LodEntry {
+  root: THREE.Group;
+  globe: THREE.Mesh;
+  ink: THREE.Mesh;
+  radius: number;
+  level: number;
+  moon: boolean;
+}
+
+export interface LambdaOrbitData {
+  wrapper: THREE.Group;
+  angle: number;
+  distance: number;
+  speed: number;
+  tumble: number;
+}
+
+export interface MoonOrbitData {
+  moon: THREE.Group;
+  angle: number;
+  distance: number;
+  speed: number;
+}
+
+export interface WorldUserData {
+  destination?: string;
+  globe?: THREE.Mesh;
+  ink?: THREE.Mesh;
+  detail?: LodEntry[];
+  lambdas?: LambdaOrbitData[];
+  moons?: MoonOrbitData[];
+  moon?: boolean;
+  effect?: string;
+}
+
+const sphereLevels: THREE.SphereGeometry[] = [
   new THREE.SphereGeometry(1, 24, 16),
   new THREE.SphereGeometry(1, 32, 20),
   new THREE.SphereGeometry(1, 40, 28),
 ];
-const moonLevels = [
+const moonLevels: THREE.SphereGeometry[] = [
   new THREE.SphereGeometry(1, 12, 8),
   new THREE.SphereGeometry(1, 16, 12),
 ];
@@ -38,7 +74,7 @@ void main(){
   gl_FragColor=vec4(color,1.);
 }
 `;
-function toon(color, map = null) {
+function toon(color: string, map: THREE.Texture | null = null): THREE.ShaderMaterial {
   return new THREE.ShaderMaterial({
     vertexShader: vertex,
     fragmentShader: fragment,
@@ -58,26 +94,26 @@ const outlineMaterial = new THREE.ShaderMaterial({
   },
   side: THREE.BackSide,
 });
-function outline(geometry, parent, scale = 1) {
+function outline(geometry: THREE.BufferGeometry, parent: THREE.Group, scale = 1): THREE.Mesh {
   const mesh = new THREE.Mesh(geometry, outlineMaterial);
   mesh.scale.setScalar(scale);
   mesh.raycast = () => {};
   parent.add(mesh);
   return mesh;
 }
-export function resizeInk(width, height) {
-  outlineMaterial.uniforms.uViewport.value.set(width, height);
+export function resizeInk(width: number, height: number): void {
+  (outlineMaterial.uniforms.uViewport.value as THREE.Vector2).set(width, height);
 }
 const metal = toon("#c7ddd6"),
   darkMetal = toon("#384963"),
   gold = toon("#e9b956");
 const edgeMaterial = new THREE.LineBasicMaterial({ color: "#10131d" });
 
-function solarTexture() {
+function solarTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
   canvas.width = 128;
   canvas.height = 96;
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d")!;
   ctx.fillStyle = "#417ca8";
   ctx.fillRect(0, 0, 128, 96);
   ctx.fillStyle = "#253347";
@@ -93,48 +129,30 @@ function solarTexture() {
   return texture;
 }
 const panelMaterial = toon("#ffffff", solarTexture());
-function addMesh(group, geometry, material, position = [0, 0, 0]) {
+function addMesh(
+  group: THREE.Group,
+  geometry: THREE.BufferGeometry,
+  material: THREE.Material,
+  position: Vec3 = [0, 0, 0],
+): THREE.Mesh {
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.set(...position);
   group.add(mesh);
   return mesh;
 }
-function box(group, size, position, material) {
+function box(group: THREE.Group, size: Vec3, position: Vec3, material: THREE.Material): THREE.Mesh {
   return addMesh(group, new THREE.BoxGeometry(...size), material, position);
 }
-function solarArray(group, x, width = 1.55, depth = 1.1) {
+function solarArray(group: THREE.Group, x: number, width = 1.55, depth = 1.1): void {
   box(group, [width, 0.045, depth], [x, 0.05, 0], panelMaterial);
 }
-function batchCraft(group) {
-  group.updateMatrixWorld(true);
-  const buckets = new Map();
-  for (const child of [...group.children]) {
-    const geometry = child.geometry.clone().applyMatrix4(child.matrix);
-    if (!buckets.has(child.material)) buckets.set(child.material, []);
-    buckets.get(child.material).push(geometry);
-    group.remove(child);
-    child.geometry.dispose();
-  }
-  const inkParts = [],
-    edgeParts = [];
-  for (const [material, parts] of buckets) {
-    const geometry = mergeGeometries(parts, false);
-    parts.forEach((part) => part.dispose());
-    group.add(new THREE.Mesh(geometry, material));
-    inkParts.push(geometry);
-    edgeParts.push(new THREE.EdgesGeometry(geometry, 35));
-  }
-  outline(mergeGeometries(inkParts, false), group);
-  const edges = new THREE.LineSegments(
-    mergeGeometries(edgeParts, false),
+function batchCraft(group: THREE.Group): THREE.Group {
+  return batchMeshes(group, {
+    outline: { material: outlineMaterial },
     edgeMaterial,
-  );
-  edges.raycast = () => {};
-  group.add(edges);
-  edgeParts.forEach((geometry) => geometry.dispose());
-  return group;
+  });
 }
-function satellite() {
+function satellite(): THREE.Group {
   const group = new THREE.Group();
   box(group, [0.72, 0.85, 0.72], [0, 0, 0], gold);
   box(group, [3.8, 0.06, 0.06], [0, 0, 0], metal);
@@ -156,7 +174,7 @@ function satellite() {
   group.rotation.set(0.4, -0.5, 0.25);
   return group;
 }
-function station() {
+function station(): THREE.Group {
   const group = new THREE.Group();
   const hub = addMesh(
     group,
@@ -186,10 +204,11 @@ function station() {
   group.rotation.set(0.2, 0.4, -0.3);
   return group;
 }
-function planet(destination, invalidate) {
+function planet(destination: Destination, invalidate: () => void): THREE.Group {
   const group = new THREE.Group();
+  const ud = group.userData as WorldUserData;
   const map = new THREE.TextureLoader().load(
-    textureData[destination.type],
+    textureData[destination.type!],
     invalidate,
     undefined,
     () => {},
@@ -202,9 +221,9 @@ function planet(destination, invalidate) {
   group.add(globe);
   const ink = outline(sphere, group, destination.radius);
   ink.rotation.copy(globe.rotation);
-  group.userData.globe = globe;
-  group.userData.ink = ink;
-  group.userData.detail = [
+  ud.globe = globe;
+  ud.ink = ink;
+  ud.detail = [
     {
       root: group,
       globe,
@@ -236,7 +255,7 @@ function planet(destination, invalidate) {
     ring.rotation.set(...config.tilt);
     group.add(ring);
   }
-  group.userData.lambdas = [];
+  ud.lambdas = [];
   if (destination.lambdas) {
     const svgData = `<path d="M7.983 8.37c-.053.073-.098.133-.141.194L5.775 11.5c-.64.91-1.282 1.82-1.924 2.73a.128.128 0 01-.092.051c-.906-.007-1.813-.017-2.719-.028-.01 0-.02-.003-.04-.006a.455.455 0 01.025-.053 13977.496 13977.496 0 015.446-8.146c.092-.138.188-.273.275-.413a.165.165 0 00.018-.124c-.167-.515-.338-1.03-.508-1.543-.073-.22-.15-.44-.218-.66-.022-.072-.059-.094-.134-.093-.57.002-1.136.001-1.704.001-.108 0-.108 0-.108-.103 0-.674 0-1.347-.002-2.021 0-.075.026-.092.099-.092 1.143.002 2.286.002 3.43 0a.113.113 0 01.076.017.107.107 0 01.045.061 18266.184 18266.184 0 003.92 9.51c.218.53.438 1.059.654 1.59.026.064.053.076.12.056.6-.178 1.2-.352 1.8-.531.075-.023.102-.008.126.064.204.62.412 1.239.62 1.858l.02.073c-.043.015-.083.032-.124.043l-4.085 1.25c-.065.02-.085 0-.106-.054l-1.25-3.048-1.226-2.984-.183-.449c-.01-.026-.023-.048-.043-.087z"/>`;
     const loader = new SVGLoader();
@@ -252,58 +271,58 @@ function planet(destination, invalidate) {
       const wrapper = new THREE.Group();
       pivot.add(wrapper);
       const lambdaGroup = new THREE.Group();
-      const s = (config.scale || 0.5) * 0.13;
+      const s = (config.scale ?? 0.5) * 0.13;
       const mat = toon(config.color);
       const inkMat = new THREE.MeshBasicMaterial({ color: 0x0a0b10, side: THREE.BackSide });
-      const ink = new THREE.Mesh(lambdaGeometry, inkMat);
-      ink.scale.setScalar(s * 1.12);
-      ink.raycast = () => {};
-      lambdaGroup.add(ink);
+      const lambdaInk = new THREE.Mesh(lambdaGeometry, inkMat);
+      lambdaInk.scale.setScalar(s * 1.12);
+      lambdaInk.raycast = () => {};
+      lambdaGroup.add(lambdaInk);
       const mesh = new THREE.Mesh(lambdaGeometry, mat);
       mesh.scale.setScalar(s);
       lambdaGroup.add(mesh);
       wrapper.add(lambdaGroup);
-      const data = { wrapper, angle: config.angle, distance: config.distance, speed: config.speed, tumble: config.tumble || 0.4 };
+      const data: LambdaOrbitData = { wrapper, angle: config.angle, distance: config.distance, speed: config.speed, tumble: config.tumble ?? 0.4 };
       wrapper.position.set(Math.cos(data.angle) * data.distance, 0, Math.sin(data.angle) * data.distance);
-      group.userData.lambdas.push(data);
+      ud.lambdas!.push(data);
     }
   }
-  group.userData.moons = [];
-  for (const config of destination.moons || []) {
+  ud.moons = [];
+  for (const config of destination.moons ?? []) {
     const pivot = new THREE.Group();
     pivot.rotation.z = config.tilt;
     group.add(pivot);
-    const moon = new THREE.Group();
-    pivot.add(moon);
-    const globe = new THREE.Mesh(moonSphere, toon(config.color));
-    globe.scale.setScalar(config.radius);
-    moon.add(globe);
-    const moonInk = outline(moonSphere, moon, config.radius);
-    group.userData.detail.push({
-      root: moon,
-      globe,
+    const moonGroup = new THREE.Group();
+    pivot.add(moonGroup);
+    const moonGlobe = new THREE.Mesh(moonSphere, toon(config.color));
+    moonGlobe.scale.setScalar(config.radius);
+    moonGroup.add(moonGlobe);
+    const moonInk = outline(moonSphere, moonGroup, config.radius);
+    ud.detail!.push({
+      root: moonGroup,
+      globe: moonGlobe,
       ink: moonInk,
       radius: config.radius,
       level: 1,
       moon: true,
     });
-    const data = {
-      moon,
+    const data: MoonOrbitData = {
+      moon: moonGroup,
       angle: config.angle,
       distance: config.distance,
       speed: config.speed,
     };
-    moon.position.set(
+    moonGroup.position.set(
       Math.cos(data.angle) * data.distance,
       0,
       Math.sin(data.angle) * data.distance,
     );
-    moon.userData.moon = true;
-    group.userData.moons.push(data);
+    (moonGroup.userData as WorldUserData).moon = true;
+    ud.moons!.push(data);
   }
   return group;
 }
-export function createWorld(destination, invalidate) {
+export function createWorld(destination: Destination, invalidate: () => void): THREE.Group {
   const group =
     destination.kind === "planet"
       ? planet(destination, invalidate)
@@ -311,14 +330,15 @@ export function createWorld(destination, invalidate) {
         ? satellite()
         : station();
   group.position.set(...destination.position);
-  group.userData.destination = destination.id;
+  (group.userData as WorldUserData).destination = destination.id;
   return group;
 }
-export function updateWorldDetail(group, camera, height) {
-  if (!group.userData.detail) return;
+export function updateWorldDetail(group: THREE.Group, camera: THREE.PerspectiveCamera, height: number): void {
+  const ud = group.userData as WorldUserData;
+  if (!ud.detail) return;
   const focal = height / (2 * Math.tan((camera.fov * Math.PI) / 360));
   group.updateWorldMatrix(true, true);
-  for (const item of group.userData.detail) {
+  for (const item of ud.detail) {
     item.root.getWorldPosition(lodPosition);
     const pixels =
       (item.radius / Math.max(0.1, camera.position.distanceTo(lodPosition))) *
@@ -335,21 +355,22 @@ export function updateWorldDetail(group, camera, height) {
     item.ink.geometry = geometry;
   }
 }
-export function disposeDetailGeometry() {
+export function disposeDetailGeometry(): void {
   for (const geometry of [...sphereLevels, ...moonLevels]) geometry.dispose();
 }
-export function rotateWorld(group, delta) {
-  if (group.userData.globe) {
-    group.userData.globe.rotation.y += delta * 0.025;
-    group.userData.ink.rotation.y = group.userData.globe.rotation.y;
+export function rotateWorld(group: THREE.Group, delta: number): void {
+  const ud = group.userData as WorldUserData;
+  if (ud.globe) {
+    ud.globe.rotation.y += delta * 0.025;
+    ud.ink!.rotation.y = ud.globe.rotation.y;
   } else group.rotation.y += delta * 0.045;
-  for (const data of group.userData.lambdas || []) {
+  for (const data of ud.lambdas ?? []) {
     data.angle += delta * data.speed;
     data.wrapper.position.set(Math.cos(data.angle) * data.distance, 0, Math.sin(data.angle) * data.distance);
     data.wrapper.rotation.x += delta * data.tumble;
     data.wrapper.rotation.y += delta * data.tumble * 1.3;
   }
-  for (const data of group.userData.moons || []) {
+  for (const data of ud.moons ?? []) {
     data.angle += delta * data.speed;
     data.moon.position.set(
       Math.cos(data.angle) * data.distance,
@@ -359,4 +380,4 @@ export function rotateWorld(group, delta) {
     data.moon.rotation.y += delta * 0.05;
   }
 }
-export { addBackdrop } from "./backdrop.js";
+export { addBackdrop } from "../backdrop/index.js";
