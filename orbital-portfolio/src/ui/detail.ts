@@ -23,6 +23,7 @@ export function initDetail(
 }
 
 export function visit(id: string): void {
+  if (app.flyingIn) return;
   const destination = destinationById.get(id);
   if (!destination) return;
   if (!app.selected) app.returnFocus = document.activeElement;

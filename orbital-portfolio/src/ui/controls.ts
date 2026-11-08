@@ -2,6 +2,11 @@ import { destinations } from "../data/content.js";
 import { app, $, mobile, reducedMotion } from "../state.js";
 import { visit, closeDestination, tour } from "./detail.js";
 
+// TODO: replace locked() with direct app.flyingIn reads for consistency with other app.* flag checks
+function locked(): boolean {
+  return app.flyingIn;
+}
+
 let invalidateFn: () => void;
 let suspendFn: () => void;
 let zoomFn: (factor: number) => void;
@@ -32,6 +37,10 @@ export function setMotion(value: boolean): void {
     app.controls.target.copy(app.tween.toTarget);
     app.tween = null;
     app.cameraDirty = true;
+    if (app.flyingIn) {
+      app.flyingIn = false;
+      app.controls.enabled = true;
+    }
   }
   app.lastAmbient = 0;
   invalidateFn();
@@ -44,24 +53,24 @@ function openDialog(dialog: HTMLDialogElement): void {
 }
 
 export function bindControls(): void {
-  $("begin").addEventListener("click", () => visit(destinations[0].id));
-  $("about").addEventListener("click", () => visit("station"));
-  $("close-detail").addEventListener("click", () => closeDestination());
-  $("home").addEventListener("click", () => closeDestination(false));
-  $("explore").addEventListener("click", () => closeDestination(false));
-  $("reset").addEventListener("click", () => closeDestination(false));
-  $("prev").addEventListener("click", () => tour(-1));
-  $("next").addEventListener("click", () => tour(1));
-  $("index").addEventListener("click", () =>
-    openDialog($("index-dialog") as HTMLDialogElement),
-  );
-  $("help").addEventListener("click", () =>
-    openDialog($("help-dialog") as HTMLDialogElement),
-  );
-  $("motion").addEventListener("click", () => setMotion(!app.motion));
+  $("begin").addEventListener("click", () => { if (!locked()) visit(destinations[0].id); });
+  $("about").addEventListener("click", () => { if (!locked()) visit("station"); });
+  $("close-detail").addEventListener("click", () => { if (!locked()) closeDestination(); });
+  $("home").addEventListener("click", () => { if (!locked()) closeDestination(false); });
+  $("explore").addEventListener("click", () => { if (!locked()) closeDestination(false); });
+  $("reset").addEventListener("click", () => { if (!locked()) closeDestination(false); });
+  $("prev").addEventListener("click", () => { if (!locked()) tour(-1); });
+  $("next").addEventListener("click", () => { if (!locked()) tour(1); });
+  $("index").addEventListener("click", () => {
+    if (!locked()) openDialog($("index-dialog") as HTMLDialogElement);
+  });
+  $("help").addEventListener("click", () => {
+    if (!locked()) openDialog($("help-dialog") as HTMLDialogElement);
+  });
+  $("motion").addEventListener("click", () => { if (!locked()) setMotion(!app.motion); });
   reducedMotion.addEventListener("change", (event) => setMotion(!event.matches));
-  $("zoom-in").addEventListener("click", () => zoomFn(0.85));
-  $("zoom-out").addEventListener("click", () => zoomFn(1.18));
+  $("zoom-in").addEventListener("click", () => { if (!locked()) zoomFn(0.85); });
+  $("zoom-out").addEventListener("click", () => { if (!locked()) zoomFn(1.18); });
 
   for (const dialog of document.querySelectorAll("dialog")) {
     dialog
@@ -86,6 +95,7 @@ export function bindControls(): void {
   }
 
   document.addEventListener("keydown", (event) => {
+    if (locked()) return;
     if (
       event.key === "Escape" &&
       app.selected &&

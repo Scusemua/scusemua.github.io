@@ -41,6 +41,7 @@ export interface AppState {
   lastAmbient: number;
   interacting: boolean;
   modalOpen: boolean;
+  flyingIn: boolean;
   damping: boolean;
   dampingDeadline: number;
   shrinkProgress: number;
@@ -80,6 +81,7 @@ export const app: AppState = {
   lastAmbient: 0,
   interacting: false,
   modalOpen: false,
+  flyingIn: false,
   damping: false,
   dampingDeadline: 0,
   shrinkProgress: 0,

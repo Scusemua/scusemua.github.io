@@ -85,6 +85,12 @@ const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 const projection = new THREE.Vector3();
 
+function endFlyIn(): void {
+  if (!app.flyingIn) return;
+  app.flyingIn = false;
+  app.controls.enabled = true;
+}
+
 function clearDamping(): void {
   const enabled = app.controls.enableDamping;
   app.controls.enableDamping = false;
@@ -131,7 +137,7 @@ function flyTo(destination: Destination): void {
 }
 
 function zoom(factor: number): void {
-  if (!app.initialized) return;
+  if (!app.initialized || app.flyingIn) return;
   app.tween = null;
   clearDamping();
   const delta = app.camera.position.clone().sub(app.controls.target);
@@ -289,7 +295,10 @@ function updateFrame(now: number): void {
     );
     app.cameraDirty = true;
     changed = true;
-    if (progress === 1) app.tween = null;
+    if (progress === 1) {
+      app.tween = null;
+      endFlyIn();
+    }
   }
   if (app.damping && !app.interacting && now >= app.dampingDeadline)
     clearDamping();
@@ -498,6 +507,7 @@ function initialize(): void {
     const start = app.down;
     if (app.activePointers.size === 0) app.down = null;
     if (
+      app.flyingIn ||
       !start ||
       start.id !== event.pointerId ||
       start.dragged ||
@@ -523,6 +533,8 @@ function initialize(): void {
   app.initialized = true;
   resizeInk(innerWidth, innerHeight);
 
+  app.flyingIn = true;
+  app.controls.enabled = false;
   startWarpFlyIn({
     camera: app.camera,
     controls: app.controls,
@@ -555,6 +567,7 @@ window.addEventListener("resize", () => {
   if (previousMobile !== mobile()) {
     previousMobile = mobile();
     app.tween = null;
+    endFlyIn();
     clearDamping();
     setOverview();
     if (app.selected)
