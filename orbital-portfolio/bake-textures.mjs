@@ -37,6 +37,9 @@ function png(pixels) {
   const header=Buffer.alloc(13);header.writeUInt32BE(width);header.writeUInt32BE(height,4);header[8]=8;header[9]=2;
   return 'data:image/png;base64,'+Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',header),chunk('IDAT',deflateSync(rows,{level:9})),chunk('IEND',Buffer.alloc(0))]).toString('base64');
 }
+/** Generate planet textures at build time and embed them as data-URI PNGs,
+ *  so the production build is a single self-contained HTML file with zero
+ *  network requests for assets. */
 export function bakeTextures() {
   const textures={};
   for(const type of ['ocean','gas','rock','ice','verdant','golden','crimson']){

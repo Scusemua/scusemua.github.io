@@ -29,6 +29,8 @@ export function visit(id: string): void {
   if (!app.selected) app.returnFocus = document.activeElement;
   app.selected = id;
   document.body.classList.add("detail-open");
+  // On mobile, delay showing the detail panel by 550ms so the camera
+  // fly-in animation has time to settle before the panel slides up.
   if (mobile() && app.initialized) {
     ($("detail") as HTMLElement).hidden = true;
     clearTimeout(app.mobileDelay);
@@ -75,6 +77,8 @@ export function visit(id: string): void {
   $("detail-content").replaceChildren(...sections, fields);
   $("detail-resources").replaceChildren();
   for (const link of destination.links) {
+    // Only render https: links — reject data:, javascript:, etc. to prevent
+    // XSS if destination content were ever injected or tampered with.
     try {
       const url = new URL(link.url);
       if (url.protocol !== "https:" || url.username || url.password) continue;

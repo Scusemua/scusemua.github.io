@@ -5,6 +5,8 @@ export interface AsteroidBelt {
   update(elapsed: number): void;
 }
 
+// Icosahedron subdivision 0 gives a faceted look that reads well with the
+// toon shading — smooth spheres would lose the hand-drawn aesthetic.
 export function createAsteroidBelt(scene: THREE.Scene): AsteroidBelt {
   const count = 72;
   const geometry = new THREE.IcosahedronGeometry(1, 0);

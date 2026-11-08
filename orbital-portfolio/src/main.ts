@@ -91,6 +91,9 @@ function endFlyIn(): void {
   app.controls.enabled = true;
 }
 
+// OrbitControls' damping applies residual momentum after interaction ends.
+// We must flush one update() with damping disabled, then re-enable it;
+// otherwise the next tween or snap would fight the leftover inertia.
 function clearDamping(): void {
   const enabled = app.controls.enableDamping;
   app.controls.enableDamping = false;
@@ -118,6 +121,10 @@ function startTween(position: THREE.Vector3, target: THREE.Vector3): void {
   invalidate();
 }
 
+// Compute camera placement that frames a destination nicely.
+// On mobile the camera looks down from above (portrait-friendly);
+// on desktop it sits to the side so the detail panel doesn't overlap the world.
+// Satellites/stations ("small") get a tighter framing than planets.
 function flyTo(destination: Destination): void {
   const position = new THREE.Vector3(...destination.position),
     small = destination.kind !== "planet";
@@ -151,6 +158,10 @@ function zoom(factor: number): void {
   invalidate();
 }
 
+// Cap the render buffer resolution to balance sharpness against GPU cost.
+// On high-DPI screens or large viewports, rendering at full devicePixelRatio
+// would push millions of fragments per frame. The square-root formula targets
+// roughly 1.8M pixels regardless of viewport size.
 function bufferRatio(): number {
   return Math.min(
     devicePixelRatio,
@@ -159,6 +170,9 @@ function bufferRatio(): number {
   );
 }
 
+// Raycast from screen coordinates to find which destination the user clicked.
+// We walk up the scene graph from the hit mesh because sub-meshes (globes,
+// rings, ink outlines) don't carry the destination id — only the root group does.
 function pick(x: number, y: number): string | undefined {
   pointer.set((x / innerWidth) * 2 - 1, (-y / innerHeight) * 2 + 1);
   app.camera.updateMatrixWorld();
@@ -188,6 +202,8 @@ function setOverview(): void {
   app.cameraDirty = true;
 }
 
+// Pause the render loop when the tab is hidden or a modal is open to
+// avoid burning CPU/GPU while the user can't see the scene.
 function blocked(): boolean {
   return !app.initialized || document.hidden || app.modalOpen;
 }
@@ -211,6 +227,9 @@ function invalidate(): void {
   if (!app.inFrame) scheduleFrame();
 }
 
+// Project each destination's 3D position onto the screen and position its
+// HTML label. Labels that would overlap the detail panel, the hero section,
+// or another label are hidden to prevent clutter.
 function updateLabels(): void {
   if (mobile() && app.selected) return;
   const width = innerWidth,
@@ -226,6 +245,8 @@ function updateLabels(): void {
       ? $("detail")
       : document.querySelector(".hero");
   if (overlay) occupied.push(overlay.getBoundingClientRect());
+  // Sort so the selected destination and larger worlds claim label space
+  // first, preventing small peripheral labels from occluding them.
   const ordered = [...destinations].sort(
     (a, b) =>
       Number(b.id === app.selected) - Number(a.id === app.selected) ||
@@ -264,6 +285,8 @@ function updateLabels(): void {
       y < height - (mobile() ? 154 : 185) &&
       !overlaps;
     if (visible) occupied.push(bounds);
+    // Skip DOM writes when the label hasn't moved — avoids layout thrashing
+    // during idle ambient rotation frames.
     const value = `${x},${y},${visible}`,
       label = app.labels.get(destination.id)!;
     if (app.labelCache.get(destination.id) === value) continue;
@@ -311,6 +334,10 @@ function updateFrame(now: number): void {
     changed ||= controlsChanged;
     if (!app.interacting && app.damping) app.damping = controlsChanged;
   }
+  // Only run ambient animation (planet rotation, transit vehicles, backdrop)
+  // when the user is interacting, a tween is active, or ~30ms have elapsed
+  // since the last update. This throttles idle animation to ~30fps to save
+  // power while keeping interactions smooth at native refresh rate.
   const animate =
     app.motion &&
     (app.interacting ||
@@ -358,6 +385,9 @@ function updateFrame(now: number): void {
     app.frameDirty = false;
   }
   app.inFrame = false;
+  // During active interaction/animation, keep requesting frames immediately.
+  // Otherwise, schedule the next ambient tick via setTimeout to target ~30fps
+  // rather than the monitor's native rate, significantly reducing idle GPU load.
   if (app.interacting || app.damping || app.tween || app.backdrop.meteorShowerActive() || shakes.size > 0) scheduleFrame();
   else if (app.motion)
     app.timer = setTimeout(
@@ -369,6 +399,9 @@ function updateFrame(now: number): void {
     );
 }
 
+// Walk the entire scene graph to collect every geometry, material, and texture,
+// then dispose them. Three.js doesn't garbage-collect GPU resources automatically,
+// so skipping this would leak VRAM when navigating away from the 3D page.
 function disposeScene(): void {
   if (!app.scene) return;
   const geometries = new Set<THREE.BufferGeometry>(),
@@ -410,6 +443,8 @@ function disposeScene(): void {
   disposeDetailGeometry();
 }
 
+// Gracefully degrade to a non-3D accessible layout if WebGL fails to
+// initialize or the context is lost at runtime.
 function useFallback(): void {
   app.initialized = false;
   suspend();
@@ -432,6 +467,9 @@ function initialize(): void {
     0.1,
     240,
   );
+  // "low-power" tells the browser to prefer the integrated GPU, which is
+  // enough for this toon-shaded scene and avoids draining laptop batteries
+  // by waking a discrete GPU.
   app.renderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: true,
@@ -462,6 +500,8 @@ function initialize(): void {
     app.interacting = true;
     invalidate();
   });
+  // After the user stops dragging, let OrbitControls damping decay for up to
+  // 900ms so the scene feels "loose" rather than snapping to a stop.
   app.controls.addEventListener("end", () => {
     app.interacting = false;
     app.damping = true;
@@ -502,6 +542,9 @@ function initialize(): void {
     app.hoverPoint = { x: event.clientX, y: event.clientY };
     scheduleFrame();
   });
+  // Distinguish clicks from drags: only fire visit() if the pointer hasn't
+  // moved more than 6px from its down position. This prevents accidental
+  // navigation when the user is orbiting the camera.
   canvas.addEventListener("pointerup", (event: PointerEvent) => {
     app.activePointers.delete(event.pointerId);
     const start = app.down;
@@ -550,7 +593,8 @@ function initialize(): void {
   invalidate();
 }
 
-// Wire up module dependencies
+// detail.ts and controls.ts can't import main.ts (circular dependency), so
+// we inject the functions they need via init calls at module load time.
 initDetail(flyTo, startTween, invalidate);
 initControls({ invalidate, suspend, zoom });
 buildDOM(visit);
@@ -564,6 +608,8 @@ window.addEventListener("resize", () => {
   resizeInk(innerWidth, innerHeight);
   app.backdrop.resize(innerWidth, innerHeight);
   app.camera.aspect = innerWidth / innerHeight;
+  // Crossing the mobile/desktop breakpoint changes camera FOV, position,
+  // and which UI layout is active, so reset the view entirely.
   if (previousMobile !== mobile()) {
     previousMobile = mobile();
     app.tween = null;
@@ -578,6 +624,9 @@ window.addEventListener("resize", () => {
   invalidate();
 });
 
+// Stop the render loop when the tab is backgrounded to save battery.
+// On return, reset lastAmbient so the first frame doesn't apply a huge
+// delta that would teleport planets and vehicles forward in time.
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) suspend();
   else {
@@ -587,6 +636,8 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
+// If the user navigates back to the main portfolio via an in-page link,
+// tear down the WebGL context to free GPU memory before the page transition.
 for (const link of document.querySelectorAll('a[href="/"]')) {
   link.addEventListener("click", () => {
     suspend();

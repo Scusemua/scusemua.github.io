@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
+/** Linear congruential PRNG so backdrop elements (stars, asteroids, dust)
+ *  are placed deterministically and look identical across page loads. */
 export function seededRandom(seed: number): () => number {
   let s = seed;
   return () => {
@@ -23,6 +25,9 @@ export interface BatchOptions {
   skipEdges?: (material: THREE.Material) => boolean;
 }
 
+/** Merge per-material child meshes into single draw calls, add ink outlines
+ *  and edge lines. This is the core of the toon-shading look: fewer meshes
+ *  for the GPU, plus the characteristic thick outlines and hard edges. */
 export function batchMeshes(group: THREE.Group, options: BatchOptions): THREE.Group {
   group.updateMatrixWorld(true);
   const buckets = new Map<THREE.Material, THREE.BufferGeometry[]>();
@@ -51,6 +56,8 @@ export function batchMeshes(group: THREE.Group, options: BatchOptions): THREE.Gr
       options.outline.material,
     );
     if (options.outline.scale) inkMesh.scale.setScalar(options.outline.scale);
+    // Outline and edge meshes are purely visual; exclude them from raycasting
+    // so click-to-visit only picks actual world geometry.
     inkMesh.raycast = () => {};
     group.add(inkMesh);
   }

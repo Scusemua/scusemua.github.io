@@ -348,6 +348,9 @@ export function createMeteorShower(
       maxRadius: IMPACT_MAX_RADIUS * (radius / 3.5),
     });
 
+    // Three-tier ember system: fast bright sparks → medium orange → slow dim
+    // embers. Each tier has different speed, lifetime and color ranges to
+    // create the layered cooling-debris look of a fireball impact.
     const emberTiers: {
       threshold: number;
       life: [number, number];
@@ -557,14 +560,14 @@ export function createMeteorShower(
         emberPositions[i * 3] += emberVelocities[i].x * delta;
         emberPositions[i * 3 + 1] += emberVelocities[i].y * delta;
         emberPositions[i * 3 + 2] += emberVelocities[i].z * delta;
-        // Gravity (light — we're in space but near planet)
+        // Light gravity despite space setting — looks better near planet surfaces.
         emberVelocities[i].y -= 3 * delta;
-        // Drag
         emberVelocities[i].multiplyScalar(1 - 1.2 * delta);
+        // Color channels decay at different rates (blue fastest) to simulate
+        // cooling: white → yellow → orange → red → dark.
         emberColorArray[i * 3] *= (1 - delta * 1.5);
         emberColorArray[i * 3 + 1] *= (1 - delta * 2.5);
         emberColorArray[i * 3 + 2] *= (1 - delta * 3.0);
-        // Shrink over time
         emberSizeArray[i] *= (1 - delta * 0.8);
       }
       (emberGeometry.getAttribute("position") as THREE.BufferAttribute).needsUpdate = true;

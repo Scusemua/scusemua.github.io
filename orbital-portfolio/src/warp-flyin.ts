@@ -11,6 +11,9 @@ export interface WarpFlyInOptions {
   setTween(tween: TweenState): void;
 }
 
+// The fly-in uses a 2D canvas overlay rather than 3D objects because hundreds
+// of individual star streaks would bloat the scene graph and compete with the
+// main toon-shaded render pass for draw calls.
 export function startWarpFlyIn(options: WarpFlyInOptions): void {
   const { camera, controls, initialCamera, initialTarget, isMobile, setTween } = options;
 
@@ -45,6 +48,8 @@ export function startWarpFlyIn(options: WarpFlyInOptions): void {
     toCamera: initialCamera.clone(),
     toTarget: initialTarget.clone(),
     duration: config.tweenDuration,
+    // Cubic ease-out: dramatic deceleration as the camera arrives, giving the
+    // impression of a ship dropping out of warp speed.
     ease: (t: number) => 1 - Math.pow(1 - t, 3),
   });
 
@@ -81,6 +86,9 @@ export function startWarpFlyIn(options: WarpFlyInOptions): void {
     wctx.clearRect(0, 0, warpCanvas.width, warpCanvas.height);
     let anyVisible = false;
     for (const star of warpStars) {
+      // Persistent stars fade slowly after warp ends to create ambient
+      // twinkle during the camera fly-in, bridging the gap between the
+      // warp effect and the 3D starfield appearing underneath.
       let alpha: number;
       if (star.persist) {
         if (warpDone) alpha = config.ambientAlpha * (1 - lingerT);

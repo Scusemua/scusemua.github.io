@@ -51,6 +51,9 @@ const moonLevels: THREE.SphereGeometry[] = [
 const sphere = sphereLevels[2],
   moonSphere = moonLevels[1];
 const lodPosition = new THREE.Vector3();
+// Toon shader: quantizes lighting into 4 bands for a cel-shaded look,
+// adds screen-space cross-hatching on the darkest band, and darkens a
+// rim band at glancing angles to simulate ink outlines from the shader side.
 const vertex = `
 varying vec3 vNormal; varying vec3 vWorld; varying vec2 vUv;
 void main(){vNormal=normalize(mat3(modelMatrix)*normal);vWorld=(modelMatrix*vec4(position,1.)).xyz;vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}
@@ -85,6 +88,9 @@ function toon(color: string, map: THREE.Texture | null = null): THREE.ShaderMate
     },
   });
 }
+// Outline drawn by expanding each vertex along its screen-space normal.
+// Dividing by viewport and multiplying by clip w gives uniform pixel-width
+// outlines regardless of distance from the camera.
 const outlineMaterial = new THREE.ShaderMaterial({
   vertexShader: `uniform vec2 uViewport;uniform float uWidth;void main(){vec4 p=projectionMatrix*modelViewMatrix*vec4(position,1.);vec3 n=normalMatrix*normal;vec2 direction=(projectionMatrix*vec4(n,0.)).xy;float lengthN=length(direction);p.xy+=(lengthN>.0001?direction/lengthN:vec2(0.))*uWidth*2./uViewport*p.w;gl_Position=p;}`,
   fragmentShader: `void main(){gl_FragColor=vec4(.012,.014,.021,1.);}`,
@@ -344,6 +350,9 @@ export function updateWorldDetail(group: THREE.Group, camera: THREE.PerspectiveC
       (item.radius / Math.max(0.1, camera.position.distanceTo(lodPosition))) *
       focal;
     const thresholds = item.moon ? [18] : [45, 75];
+    // Hysteresis: upgrade at 108% of threshold, downgrade at 92%.
+    // Without this gap, objects near a threshold boundary would toggle
+    // LOD levels every frame as small camera movements nudge them back and forth.
     let level = item.level;
     while (level < thresholds.length && pixels > thresholds[level] * 1.08)
       level++;

@@ -130,6 +130,8 @@ function worldExtent(world: Destination) {
   return world.radius * (world.rings?.outer || 1);
 }
 
+// Integer hash for deterministic but varied traffic scheduling: each vehicle
+// gets a different departure time per cycle without needing stored random state.
 function hash(id: number, cycle: number) {
   let n = Math.imul(id + 17, 374761393) ^ Math.imul(cycle + 31, 668265263);
   n = Math.imul(n ^ (n >>> 13), 1274126177);
@@ -172,6 +174,8 @@ function buildTransitRoutes(): TransitRoute[] {
         side = new THREE.Vector3(),
         vertical = new THREE.Vector3(),
         basis = new THREE.Matrix4();
+      // Pre-compute position/rotation lookup tables so the per-frame update
+      // only needs a table index + lerp, avoiding Bezier evaluation per vehicle.
       for (let i = 0; i <= samples; i++) {
         const fraction = lane === 1 ? i / samples : 1 - i / samples;
         curve.getPointAt(fraction, point);
@@ -188,6 +192,8 @@ function buildTransitRoutes(): TransitRoute[] {
         vertical.crossVectors(tangent, side).normalize();
         basis.makeBasis(side, vertical, tangent);
         const quaternion = new THREE.Quaternion().setFromRotationMatrix(basis);
+        // Flip quaternion sign when the dot product goes negative to prevent
+        // slerp taking the long way around (180°+ rotation discontinuity).
         if (i && quaternion.dot(rotations[i - 1]) < 0)
           quaternion.set(
             -quaternion.x,
@@ -393,6 +399,8 @@ export function createTransit(scene: THREE.Scene): Transit {
           table.rotations[index + 1],
           blend,
         );
+        // Fade vehicles in/out over the first/last 4.5% of the route so they
+        // don't pop in at planet surfaces.
         const fade = Math.min(
           1,
           state.progress! / 0.045,

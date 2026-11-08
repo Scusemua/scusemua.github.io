@@ -81,6 +81,8 @@ export function bindControls(): void {
       app.lastAmbient = 0;
       invalidateFn();
     });
+    // Close dialog on backdrop click. <dialog> fills the viewport, so a click
+    // outside the content rect means the user tapped the backdrop overlay.
     dialog.addEventListener("click", (event) => {
       const rect = dialog.getBoundingClientRect();
       if (
@@ -126,6 +128,8 @@ export function bindControls(): void {
   resetBarIdle();
 }
 
+// Hide the mobile bottom bar after 2.5s of inactivity to maximize the
+// viewport for the 3D scene. Any touch or scroll resets the timer.
 let barIdleTimer: ReturnType<typeof setTimeout> | number = 0;
 function resetBarIdle(): void {
   const bottom = document.querySelector(".bottom");

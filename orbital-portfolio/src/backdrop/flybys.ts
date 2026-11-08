@@ -32,6 +32,8 @@ function add(
   return mesh;
 }
 
+// Skip edge detection on the engine glow material (drivePaint) so the
+// glowing exhaust isn't outlined with hard ink edges.
 function batch(group: THREE.Group) {
   return batchMeshes(group, {
     edgeMaterial: ink,
@@ -119,6 +121,8 @@ export interface Flybys {
   resize(): void;
 }
 
+// Fly-bys are children of the camera, not the scene, so they appear at
+// consistent screen positions regardless of where the user has orbited.
 export function createFlybys(scene: THREE.Scene, camera: THREE.PerspectiveCamera): Flybys {
   const fleet = new THREE.Group();
   fleet.name = "background-flybys";

@@ -90,6 +90,8 @@ export function addBackdrop(
     "color",
     new THREE.Float32BufferAttribute(dustColors, 3),
   );
+  // Additive blending lets overlapping dust particles brighten into a
+  // soft nebula glow rather than occluding each other.
   const dustCloud = new THREE.Points(
     dustGeometry,
     new THREE.ShaderMaterial({
@@ -188,6 +190,8 @@ export function addBackdrop(
   meteor.raycast = () => {};
   scene.add(meteor);
 
+  // Orbit rings: centered at x=6 (the solar system offset) with 0.9 z-scale
+  // for a slight elliptical appearance when viewed from the default camera angle.
   const orbitPositions: number[] = [];
   for (const radius of [10.5, 16, 25])
     for (let i = 0; i < 144; i++) {

@@ -59,6 +59,9 @@ export interface AppState {
 
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
+// Singleton mutable state for the entire 3D scene. Fields marked undefined!
+// are populated once during initialize() in main.ts; the non-null assertions
+// keep the rest of the codebase from null-checking on every access.
 export const app: AppState = {
   scene: undefined!,
   camera: undefined!,
@@ -114,6 +117,9 @@ export function element<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
+// CSS text-transform: uppercase would turn the Greek lambda (λ) in "λFS"
+// into Λ, losing the project's visual identity. These helpers uppercase
+// everything except λ characters.
 export function upperKeepLambda(str: string): string {
   return str.replace(/[^λ]/g, (c) => c.toUpperCase());
 }
