@@ -32,6 +32,8 @@ const CarouselProjectsDisplay = ({projects, dark_card_actions}: { projects: Proj
         setExpandedProjects(new Map(projects.map((p) => [p.name, false])));
     }, [projects])
 
+    // Collapse any expanded project card when the carousel scrolls away from it,
+    // so the user doesn't return to a card stuck in an expanded state.
     const onProjectSelectedIndexChanged = React.useCallback((selectedIndex: number) => {
         setExpandedProjects(prev => {
             const next = new Map(prev);

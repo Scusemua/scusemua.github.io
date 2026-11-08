@@ -6,6 +6,8 @@ import Navbar from "@src/components/HomepageNavbar/HomepageNavbar";
 import {useMediaQuery} from "@mui/material";
 import theme from "@src/app/theme";
 
+// Lazy-load below-the-fold sections so the initial bundle stays small
+// and the headshot + navbar paint without waiting on heavier components.
 const AboutSection = React.lazy(() => import("@src/components/About/About"));
 const Projects = React.lazy(() => import("@src/components/Projects/Projects"));
 const AwardsSection = React.lazy(() => import("@src/components/Awards/AwardsSection"));
@@ -30,6 +32,9 @@ export default function Home() {
 
     const mq_xs = useMediaQuery(theme.breakpoints.only('xs'));
 
+    // Gate entrance animations behind a mount flag so SSR-rendered HTML
+    // starts invisible ("pre-mount") and sections stagger in only after
+    // hydration, preventing a flash of unstyled content.
     const [mounted, setMounted] = React.useState(false);
     React.useEffect(() => {
         setMounted(true);
@@ -70,6 +75,7 @@ export default function Home() {
             <div className={s(2)}>
                 <Headshot ref={headshotRef} key={"headshot_section"}/>
             </div>
+            {/* Reserve scroll space while lazy sections load to prevent layout shift */}
             <React.Suspense fallback={<div style={{minHeight: '400vh'}} />}>
                 <div className={s(3)}>
                     <AboutSection ref={aboutRef} key={"about_section"} projectSectionRef={projectRef}/>

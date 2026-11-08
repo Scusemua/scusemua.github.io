@@ -19,6 +19,8 @@ declare module '@mui/material/styles' {
     }
 }
 
+// Two-pass creation: the first pass bootstraps a base theme so we can call
+// palette.augmentColor (which needs a theme instance) inside the second pass.
 let theme = createTheme({});
 theme = createTheme({
     cssVariables: true,

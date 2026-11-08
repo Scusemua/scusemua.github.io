@@ -83,6 +83,8 @@ const FlippableCard: React.FunctionComponent<FlippableCardProps> = (props: Flipp
         </motion.div>
     </div>);
 
+    // Reduce tilt intensity on smaller screens where aggressive rotation
+    // makes the card hard to read and causes touch-interaction issues.
     const getRotationFactor = (): number => {
         if (mq_md_or_less) {
             return 4;

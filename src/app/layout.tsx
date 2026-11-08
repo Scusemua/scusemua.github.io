@@ -33,6 +33,8 @@ export default function RootLayout({
             <meta name="description" content="Portfolio Website"/>
             <title>Ben Carver</title>
         </head>
+        {/* Mobile uses a simpler solid background instead of the animated star-field
+            to avoid GPU drain on low-end devices. */}
         <body
             className={mq_xs ? "solid_background_mobile " + roboto.variable : "solid_background_desktop " + roboto.variable}>
         <AppRouterCacheProvider>
