@@ -34,6 +34,16 @@ export function initSurface(deps: {
   renderer = deps.renderer;
   invalidate = deps.invalidate;
   scheduleFrame = deps.scheduleFrame;
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "p" && state && app.sceneMode === "surface") {
+      const p = state.camera.position;
+      const t = state.controls.target;
+      const fmt = (v: THREE.Vector3) =>
+        `[${v.x.toFixed(1)}, ${v.y.toFixed(1)}, ${v.z.toFixed(1)}]`;
+      console.log(`cameraStart: ${fmt(p)},\ncameraTarget: ${fmt(t)},`);
+    }
+  });
 }
 
 // ---------------------------------------------------------------------------

@@ -5,8 +5,8 @@ export const wukongArchitecture: Architecture = {
   name: "Wukong",
   groundColor: "#2a4a5a",
   skyColor: "#0a1520",
-  cameraStart: [0, 22, 38],
-  cameraTarget: [0, 4, -4],
+  cameraStart: [0.1, 32.1, 53.6],
+  cameraTarget: [0.1, 9.3, -4.9],
   cameraConstraints: {
     minPolarAngle: 0.2,
     maxPolarAngle: 1.2,
