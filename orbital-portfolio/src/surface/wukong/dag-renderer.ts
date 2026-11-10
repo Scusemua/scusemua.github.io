@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { DagBoardConfig } from "../types.js";
-import type { DagSimulator, SimulatorSnapshot } from "./dag-simulator.js";
+import type { SimulatorSnapshot } from "./dag-simulator.js";
 
 // ---------------------------------------------------------------------------
 // Canvas rendering constants
@@ -11,6 +11,7 @@ const NODE_RADIUS = 400;
 const PADDING = 320;
 
 const FONT_NODE_LABEL = "bold 260px monospace";
+const FONT_NODE_VALUE = "bold 200px monospace";
 const FONT_EXECUTOR_LABEL = "bold 180px monospace";
 const FONT_TITLE = "bold 220px monospace";
 const FONT_PROGRESS = "bold 160px monospace";
@@ -228,7 +229,22 @@ function drawNodes(
 
     ctx.font = FONT_NODE_LABEL;
     ctx.fillStyle = style.textColor;
-    ctx.fillText(n.label, pos.px, pos.py);
+    ctx.fillText(n.label, pos.px, pos.py - 60);
+
+    const kvValue = snapshot.kvStore.values.get(n.id);
+    const displayValue = kvValue !== undefined
+      ? kvValue
+      : n.inputValue !== undefined
+        ? n.inputValue
+        : undefined;
+    if (displayValue !== undefined) {
+      ctx.font = FONT_NODE_VALUE;
+      ctx.fillStyle = kvValue !== undefined ? "#90dda0" : "rgba(160,190,220,0.5)";
+      const formatted = Number.isInteger(displayValue)
+        ? String(displayValue)
+        : displayValue.toFixed(2);
+      ctx.fillText(`= ${formatted}`, pos.px, pos.py + 140);
+    }
 
     if (nodeState?.assignedExecutor) {
       ctx.font = FONT_EXECUTOR_LABEL;

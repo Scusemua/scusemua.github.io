@@ -18,8 +18,8 @@ export interface DepCounterBoard {
 // Constants
 // ---------------------------------------------------------------------------
 
-const DEP_BOARD_WIDTH = 2048;
-const DEP_BOARD_HEIGHT = 2048;
+const DEP_BOARD_WIDTH = 4096;
+const DEP_BOARD_HEIGHT = 4096;
 const DEP_BOARD_BG = "rgba(10, 20, 16, 0.92)";
 const DEP_BOARD_HEADER_COLOR = "#82bd6f";
 const DEP_BOARD_TEXT_COLOR = "#b0c8b0";
@@ -45,7 +45,7 @@ export function buildDepCounterBoard(
   texture.magFilter = THREE.LinearFilter;
   texture.generateMipmaps = false;
 
-  const geo = new THREE.PlaneGeometry(6, 6);
+  const geo = new THREE.PlaneGeometry(8, 8);
   const mat = new THREE.MeshBasicMaterial({
     map: texture,
     transparent: true,
@@ -84,20 +84,20 @@ export function renderDepCounterBoard(
   ctx.fillRect(0, 0, w, h);
 
   ctx.strokeStyle = DEP_BOARD_HEADER_COLOR;
-  ctx.lineWidth = 6;
-  ctx.strokeRect(3, 3, w - 6, h - 6);
+  ctx.lineWidth = 12;
+  ctx.strokeRect(6, 6, w - 12, h - 12);
 
-  ctx.font = "bold 120px monospace";
+  ctx.font = "bold 240px monospace";
   ctx.fillStyle = DEP_BOARD_HEADER_COLOR;
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
-  ctx.fillText("DEP COUNTERS", w / 2, 60);
+  ctx.fillText("DEP COUNTERS", w / 2, 120);
 
   ctx.beginPath();
-  ctx.moveTo(80, 210);
-  ctx.lineTo(w - 80, 210);
+  ctx.moveTo(160, 420);
+  ctx.lineTo(w - 160, 420);
   ctx.strokeStyle = "rgba(130,189,111,0.4)";
-  ctx.lineWidth = 4;
+  ctx.lineWidth = 8;
   ctx.stroke();
 
   const depNodes: {
@@ -132,22 +132,22 @@ export function renderDepCounterBoard(
     else board.flashTimers.set(id, next);
   }
 
-  const rowHeight = 170;
-  let y = 260;
+  const rowHeight = 340;
+  let y = 520;
 
   ctx.textAlign = "left";
-  ctx.font = "bold 90px monospace";
+  ctx.font = "bold 180px monospace";
   ctx.fillStyle = "rgba(130,189,111,0.5)";
-  ctx.fillText("TASK", 100, y);
+  ctx.fillText("TASK", 200, y);
   ctx.textAlign = "right";
-  ctx.fillText("DEPS", w - 100, y);
+  ctx.fillText("DEPS", w - 200, y);
   y += rowHeight;
 
   ctx.beginPath();
-  ctx.moveTo(80, y - 40);
-  ctx.lineTo(w - 80, y - 40);
+  ctx.moveTo(160, y - 80);
+  ctx.lineTo(w - 160, y - 80);
   ctx.strokeStyle = "rgba(130,189,111,0.2)";
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 6;
   ctx.stroke();
 
   for (const node of depNodes) {
@@ -158,11 +158,11 @@ export function renderDepCounterBoard(
     if (flash) {
       const alpha = 0.15 * (flash / DEP_BOARD_FLASH_DURATION);
       ctx.fillStyle = `rgba(255, 221, 96, ${alpha})`;
-      ctx.fillRect(80, y - 30, w - 160, rowHeight - 20);
+      ctx.fillRect(160, y - 60, w - 320, rowHeight - 40);
     }
 
     ctx.textAlign = "left";
-    ctx.font = "bold 100px monospace";
+    ctx.font = "bold 200px monospace";
     ctx.fillStyle = isCompleted
       ? "rgba(96,204,128,0.5)"
       : isSatisfied
@@ -170,7 +170,7 @@ export function renderDepCounterBoard(
         : flash
           ? DEP_BOARD_FLASH_COLOR
           : DEP_BOARD_TEXT_COLOR;
-    ctx.fillText(node.label, 100, y);
+    ctx.fillText(node.label, 200, y);
 
     ctx.textAlign = "right";
     const counterText = `${node.counter}/${node.total}`;
@@ -181,14 +181,14 @@ export function renderDepCounterBoard(
         : flash
           ? DEP_BOARD_FLASH_COLOR
           : DEP_BOARD_TEXT_COLOR;
-    ctx.font = "bold 110px monospace";
-    ctx.fillText(counterText, w - 100, y);
+    ctx.font = "bold 220px monospace";
+    ctx.fillText(counterText, w - 200, y);
 
     if (isSatisfied && !isCompleted) {
-      ctx.font = "bold 80px monospace";
+      ctx.font = "bold 160px monospace";
       ctx.fillStyle = DEP_BOARD_READY_COLOR;
       ctx.textAlign = "center";
-      ctx.fillText("✓", w - 380, y);
+      ctx.fillText("✓", w - 760, y);
     }
 
     y += rowHeight;

@@ -1,4 +1,6 @@
 import type { DagBoardConfig } from "../types.js";
+import { createKvStore, computeNodeValue } from "./dag-ops.js";
+import type { KvStore } from "./dag-ops.js";
 
 // ---------------------------------------------------------------------------
 // Public types — the simulator's observable state
@@ -38,6 +40,7 @@ export interface SimulatorSnapshot {
   readonly completedFraction: number;
   readonly phase: SimPhase;
   readonly events: readonly SimEvent[];
+  readonly kvStore: KvStore;
 }
 
 export type SimPhase =
@@ -140,6 +143,7 @@ export class DagSimulator {
   private readonly executorList: Executor[];
   private readonly activeEdgeSet: Set<string>;
   private readonly eventQueue: SimEvent[];
+  private readonly kv = createKvStore();
 
   private simPhase: SimPhase = "partitioning";
   private phaseTimer = 0;
@@ -169,6 +173,7 @@ export class DagSimulator {
       completedFraction: completed / this.totalNodes,
       phase: this.simPhase,
       events: this.eventQueue,
+      kvStore: this.kv,
     };
   }
 
@@ -189,6 +194,7 @@ export class DagSimulator {
     this.executorList.length = 0;
     this.activeEdgeSet.clear();
     this.eventQueue.length = 0;
+    this.kv.clear();
     this.executorIdCounter = 0;
     this.simPhase = "partitioning";
     this.phaseTimer = 0;
@@ -335,6 +341,9 @@ export class DagSimulator {
     const node = this.nodeStates.get(taskId)!;
     node.status = "completed";
     node.assignedExecutor = null;
+
+    const value = computeNodeValue(taskId, this.config, this.kv);
+    this.kv.set(taskId, value);
 
     const children = this.graph.adj.get(taskId) ?? [];
     this.satisfyDependencies(executor.id, taskId, children);

@@ -23,6 +23,11 @@ import {
   buildTaskFunnels,
   updateTaskFunnels,
 } from "./task-funnels.js";
+import {
+  type KvStoreBoard,
+  buildKvStoreBoard,
+  renderKvStoreBoard,
+} from "./kv-store-board.js";
 
 // ---------------------------------------------------------------------------
 // Wukong-specific state
@@ -37,6 +42,7 @@ interface WukongState {
   taskFunnels: TaskFunnel[];
   executorToLambda: Map<string, number>;
   depCounterBoard: DepCounterBoard | null;
+  kvStoreBoard: KvStoreBoard | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -71,6 +77,15 @@ export function createWukongHooks(): SurfaceHooks {
         }
       }
 
+      let kvStoreBoard: KvStoreBoard | null = null;
+      if (dagSimulator && arch.dagBoard) {
+        const kvComp = arch.components.find((c) => c.id === "kv-store");
+        if (kvComp) {
+          kvStoreBoard = buildKvStoreBoard(kvComp.position, ctx.scene);
+          renderKvStoreBoard(kvStoreBoard, arch.dagBoard, dagSimulator.snapshot.kvStore, 0);
+        }
+      }
+
       ws = {
         dagBoard,
         dagSimulator,
@@ -80,6 +95,7 @@ export function createWukongHooks(): SurfaceHooks {
         taskFunnels,
         executorToLambda: new Map(),
         depCounterBoard,
+        kvStoreBoard,
       };
     },
 
@@ -112,6 +128,9 @@ export function createWukongHooks(): SurfaceHooks {
         renderDagCanvas(ws.dagBoard, snapshot);
         if (ws.depCounterBoard) {
           renderDepCounterBoard(ws.depCounterBoard, snapshot, delta);
+        }
+        if (ws.kvStoreBoard && ws.dagBoard) {
+          renderKvStoreBoard(ws.kvStoreBoard, ws.dagBoard.config, snapshot.kvStore, delta);
         }
       } else {
         updateLambdaLifecyclesStandalone(

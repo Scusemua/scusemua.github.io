@@ -37,12 +37,25 @@ export interface ArchAnnotation {
   color?: string;
 }
 
+export type UnaryOp = "INCR" | "DECR" | "ABS";
+export type BinaryOp = "ADD" | "SUB" | "MULT" | "DIV";
+export type DagOp = UnaryOp | BinaryOp;
+
+export interface DagNodeConfig {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+  op?: DagOp;
+  inputValue?: number;
+}
+
 export interface DagBoardConfig {
   position: Vec3;
   rotation?: Vec3;
   width: number;
   height: number;
-  nodes: { id: string; label: string; x: number; y: number }[];
+  nodes: DagNodeConfig[];
   edges: { from: string; to: string }[];
   cycleDuration: number;
 }
