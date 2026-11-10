@@ -1,6 +1,7 @@
 import type { DagBoardConfig } from "../types.js";
 import { createKvStore, computeNodeValue } from "./dag-ops.js";
 import type { KvStore } from "./dag-ops.js";
+import { STORAGE_WRITE_DURATION } from "./timing.js";
 
 // ---------------------------------------------------------------------------
 // Public types — the simulator's observable state
@@ -133,6 +134,17 @@ function computeStaticSchedule(leafId: string, graph: DagGraph): string[] {
 }
 
 // ---------------------------------------------------------------------------
+// Deferred storage writes
+// ---------------------------------------------------------------------------
+
+interface PendingWrite {
+  kind: "kv" | "dep";
+  taskId: string;
+  targetTaskId?: string;
+  timer: number;
+}
+
+// ---------------------------------------------------------------------------
 // Simulator
 // ---------------------------------------------------------------------------
 
@@ -144,6 +156,7 @@ export class DagSimulator {
   private readonly activeEdgeSet: Set<string>;
   private readonly eventQueue: SimEvent[];
   private readonly kv = createKvStore();
+  private readonly pendingWrites: PendingWrite[] = [];
 
   private simPhase: SimPhase = "partitioning";
   private phaseTimer = 0;
@@ -194,6 +207,7 @@ export class DagSimulator {
     this.executorList.length = 0;
     this.activeEdgeSet.clear();
     this.eventQueue.length = 0;
+    this.pendingWrites.length = 0;
     this.kv.clear();
     this.executorIdCounter = 0;
     this.simPhase = "partitioning";
@@ -202,6 +216,7 @@ export class DagSimulator {
 
   update(delta: number): void {
     this.eventQueue.length = 0;
+    this.drainPendingWrites(delta);
     this.phaseTimer += delta;
 
     switch (this.simPhase) {
@@ -221,6 +236,39 @@ export class DagSimulator {
         this.updateResetting();
         break;
     }
+  }
+
+  // --- Deferred storage writes ---
+
+  private drainPendingWrites(delta: number): void {
+    for (let i = this.pendingWrites.length - 1; i >= 0; i--) {
+      const pw = this.pendingWrites[i];
+      pw.timer -= delta;
+      if (pw.timer > 0) continue;
+      this.pendingWrites.splice(i, 1);
+
+      if (pw.kind === "kv") {
+        const value = computeNodeValue(pw.taskId, this.config, this.kv);
+        this.kv.set(pw.taskId, value);
+      } else {
+        const child = this.nodeStates.get(pw.taskId);
+        if (!child) continue;
+        child.depCounter++;
+        if (child.depCounter >= child.depsTotal && child.status === "pending") {
+          child.status = "ready";
+          this.spawnExecutorIfNeeded(pw.taskId);
+        }
+      }
+    }
+  }
+
+  private spawnExecutorIfNeeded(nodeId: string): void {
+    for (const executor of this.executorList) {
+      if (executor.phase === "terminated") continue;
+      if (executor.schedule.includes(nodeId)) return;
+    }
+    const schedule = computeStaticSchedule(nodeId, this.graph);
+    this.spawnExecutor(schedule, null);
   }
 
   // --- Phase: Partitioning ---
@@ -342,8 +390,11 @@ export class DagSimulator {
     node.status = "completed";
     node.assignedExecutor = null;
 
-    const value = computeNodeValue(taskId, this.config, this.kv);
-    this.kv.set(taskId, value);
+    this.pendingWrites.push({
+      kind: "kv",
+      taskId,
+      timer: STORAGE_WRITE_DURATION,
+    });
 
     const children = this.graph.adj.get(taskId) ?? [];
     this.satisfyDependencies(executor.id, taskId, children);
@@ -467,21 +518,22 @@ export class DagSimulator {
   private satisfyDependencies(
     executorId: string,
     completedId: string,
-    _children: string[],
+    children: string[],
   ): void {
-    for (const childId of _children) {
+    for (const childId of children) {
       const child = this.nodeStates.get(childId);
       if (!child) continue;
-      child.depCounter++;
       this.eventQueue.push({
         kind: "increment-dep",
         executorId,
         taskId: completedId,
         targetTaskId: childId,
       });
-      if (child.depCounter >= child.depsTotal && child.status === "pending") {
-        child.status = "ready";
-      }
+      this.pendingWrites.push({
+        kind: "dep",
+        taskId: childId,
+        timer: STORAGE_WRITE_DURATION,
+      });
     }
   }
 

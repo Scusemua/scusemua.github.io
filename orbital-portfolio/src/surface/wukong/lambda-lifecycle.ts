@@ -5,6 +5,7 @@ import type { Architecture } from "../types.js";
 import type { SurfaceContext } from "../hooks.js";
 import type { Executor, SimulatorSnapshot } from "./dag-simulator.js";
 import type { DagBoard } from "./dag-renderer.js";
+import { STORAGE_PULSE_SPEED } from "./timing.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -176,7 +177,7 @@ export function spawnStoragePulse(
   mesh.position.copy(from);
   scene.add(mesh);
 
-  return { curve, mesh, t: 0, speed: 1.2 };
+  return { curve, mesh, t: 0, speed: STORAGE_PULSE_SPEED };
 }
 
 export function updatePulses(
