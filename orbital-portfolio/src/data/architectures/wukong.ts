@@ -263,11 +263,11 @@ export const wukongArchitecture: Architecture = {
     },
   ],
   dagBoard: {
-    position: [2, 12, -24],
-    rotation: [0.2, 0, 0],
-    width: 32,
-    height: 18,
-    cycleDuration: 60,
+    position: [2, 14, -16],
+    rotation: [0.15, 0, 0],
+    width: 40,
+    height: 22,
+    cycleDuration: 90,
     nodes: [
       { id: "A", label: "load", x: 0.08, y: 0.2 },
       { id: "B", label: "parse", x: 0.08, y: 0.55 },

@@ -14,8 +14,11 @@ import type {
   ArchComponent,
   ArchConnection,
   ArchAnnotation,
-  DagBoardConfig,
 } from "./types.js";
+import { DagSimulator } from "./dag-simulator.js";
+import type { Executor, SimulatorSnapshot } from "./dag-simulator.js";
+import { buildDagBoard, renderDagCanvas } from "./dag-renderer.js";
+import type { DagBoard } from "./dag-renderer.js";
 
 // ---------------------------------------------------------------------------
 // Dependency injection — populated by initSurface()
@@ -65,7 +68,13 @@ interface TaskFunnel {
 interface LambdaLifecycle {
   compId: string;
   group: THREE.Group;
-  phase: "spawning" | "idle" | "executing" | "invoking" | "despawning";
+  phase:
+    | "spawning"
+    | "waiting-for-pulse"
+    | "idle"
+    | "executing"
+    | "invoking"
+    | "despawning";
   phaseTimer: number;
   taskIndicator: THREE.Mesh | null;
   taskNodeId: string | null;
@@ -73,6 +82,7 @@ interface LambdaLifecycle {
   executionDuration: number;
   idleDuration: number;
   spawnScale: number;
+  spawnPulse: InvocationPulse | null;
 }
 
 interface InvocationPulse {
@@ -82,21 +92,6 @@ interface InvocationPulse {
   speed: number;
 }
 
-interface DagBoard {
-  mesh: THREE.Mesh;
-  canvas: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D;
-  texture: THREE.CanvasTexture;
-  config: DagBoardConfig;
-  activeNodes: Set<string>;
-  completedNodes: Set<string>;
-  activeEdges: Set<string>;
-  assignedNodes: Map<string, string>;
-  cycleTime: number;
-  executionOrder: string[];
-  nodeDepths: Map<string, number>;
-  frameMesh: THREE.LineSegments;
-}
 
 interface SurfaceState {
   scene: THREE.Scene;
@@ -111,6 +106,7 @@ interface SurfaceState {
   lambdaLifecycles: LambdaLifecycle[];
   invocationPulses: InvocationPulse[];
   dagBoard: DagBoard | null;
+  dagSimulator: DagSimulator | null;
   pickable: THREE.Object3D[];
   elapsed: number;
   lastFrame: number;
@@ -320,278 +316,6 @@ function buildParticleSystem(
   return { mesh, curve, offsets, speed: conn.speed, count };
 }
 
-// ---------------------------------------------------------------------------
-// DAG board builder
-// ---------------------------------------------------------------------------
-
-function computeExecutionOrder(config: DagBoardConfig): {
-  order: string[];
-  depths: Map<string, number>;
-} {
-  const adj = new Map<string, string[]>();
-  const inDeg = new Map<string, number>();
-  for (const n of config.nodes) {
-    adj.set(n.id, []);
-    inDeg.set(n.id, 0);
-  }
-  for (const e of config.edges) {
-    adj.get(e.from)!.push(e.to);
-    inDeg.set(e.to, (inDeg.get(e.to) ?? 0) + 1);
-  }
-
-  const depths = new Map<string, number>();
-  const queue: string[] = [];
-  for (const [id, deg] of inDeg)
-    if (deg === 0) {
-      queue.push(id);
-      depths.set(id, 0);
-    }
-
-  const order: string[] = [];
-  while (queue.length) {
-    const id = queue.shift()!;
-    order.push(id);
-    const d = depths.get(id)!;
-    for (const next of adj.get(id)!) {
-      const nd = (inDeg.get(next) ?? 1) - 1;
-      inDeg.set(next, nd);
-      depths.set(next, Math.max(depths.get(next) ?? 0, d + 1));
-      if (nd === 0) queue.push(next);
-    }
-  }
-  return { order, depths };
-}
-
-const DAG_RES = 8192;
-
-function buildDagBoard(config: DagBoardConfig, scene: THREE.Scene): DagBoard {
-  const canvas = document.createElement("canvas");
-  canvas.width = DAG_RES;
-  canvas.height = Math.round(DAG_RES * (config.height / config.width));
-  const ctx = canvas.getContext("2d")!;
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.minFilter = THREE.LinearFilter;
-  texture.magFilter = THREE.LinearFilter;
-
-  const geo = new THREE.PlaneGeometry(config.width, config.height);
-  const mat = new THREE.MeshBasicMaterial({
-    map: texture,
-    transparent: true,
-    opacity: 0.92,
-    side: THREE.DoubleSide,
-  });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(...config.position);
-  if (config.rotation) mesh.rotation.set(...config.rotation);
-  scene.add(mesh);
-
-  const frameGeo = new THREE.EdgesGeometry(geo);
-  const frameMat = new THREE.LineBasicMaterial({
-    color: "#4a7090",
-    transparent: true,
-    opacity: 0.6,
-  });
-  const frameMesh = new THREE.LineSegments(frameGeo, frameMat);
-  frameMesh.position.copy(mesh.position);
-  frameMesh.rotation.copy(mesh.rotation);
-  scene.add(frameMesh);
-
-  const { order, depths } = computeExecutionOrder(config);
-
-  return {
-    mesh,
-    canvas,
-    ctx,
-    texture,
-    config,
-    activeNodes: new Set(),
-    completedNodes: new Set(),
-    activeEdges: new Set(),
-    assignedNodes: new Map(),
-    cycleTime: 0,
-    executionOrder: order,
-    nodeDepths: depths,
-    frameMesh,
-  };
-}
-
-function renderDagCanvas(board: DagBoard): void {
-  const { ctx, canvas, config } = board;
-  const w = canvas.width;
-  const h = canvas.height;
-
-  ctx.fillStyle = "rgba(8, 14, 28, 0.95)";
-  ctx.fillRect(0, 0, w, h);
-
-  const pad = 160;
-  const innerW = w - pad * 2;
-  const innerH = h - pad * 2;
-
-  const nodePos = new Map<string, { px: number; py: number }>();
-  for (const n of config.nodes) {
-    nodePos.set(n.id, { px: pad + n.x * innerW, py: pad + n.y * innerH });
-  }
-
-  // Edges
-  for (const e of config.edges) {
-    const from = nodePos.get(e.from)!;
-    const to = nodePos.get(e.to)!;
-    const edgeKey = `${e.from}->${e.to}`;
-    const isActive = board.activeEdges.has(edgeKey);
-    const fromDone = board.completedNodes.has(e.from);
-
-    ctx.beginPath();
-    ctx.moveTo(from.px, from.py);
-    ctx.lineTo(to.px, to.py);
-    ctx.strokeStyle = isActive
-      ? "#60d8ff"
-      : fromDone
-        ? "rgba(100,200,255,0.35)"
-        : "rgba(80,120,160,0.25)";
-    ctx.lineWidth = isActive ? 64 : 32;
-    ctx.stroke();
-
-    if (isActive) {
-      const mx = (from.px + to.px) / 2;
-      const my = (from.py + to.py) / 2;
-      ctx.beginPath();
-      ctx.arc(mx, my, 10, 0, Math.PI * 2);
-      ctx.fillStyle = "#60d8ff";
-      ctx.fill();
-    }
-  }
-
-  // Nodes
-  const nodeRadius = 260;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  for (const n of config.nodes) {
-    const pos = nodePos.get(n.id)!;
-    const isActive = board.activeNodes.has(n.id);
-    const isDone = board.completedNodes.has(n.id);
-    const isAssigned = board.assignedNodes.has(n.id);
-
-    ctx.beginPath();
-    ctx.arc(pos.px, pos.py, nodeRadius, 0, Math.PI * 2);
-    if (isActive && isAssigned) {
-      ctx.fillStyle = "#1a3860";
-      ctx.fill();
-      ctx.strokeStyle = "#ff9040";
-      ctx.lineWidth = 32;
-      ctx.stroke();
-      ctx.shadowColor = "#ff9040";
-      ctx.shadowBlur = 30;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-    } else if (isActive) {
-      ctx.fillStyle = "#184868";
-      ctx.fill();
-      ctx.strokeStyle = "#60d8ff";
-      ctx.lineWidth = 32;
-      ctx.stroke();
-      ctx.shadowColor = "#60d8ff";
-      ctx.shadowBlur = 30;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-    } else if (isDone) {
-      ctx.fillStyle = "#1a4030";
-      ctx.fill();
-      ctx.strokeStyle = "#60cc80";
-      ctx.lineWidth = 24;
-      ctx.stroke();
-    } else {
-      ctx.fillStyle = "#101828";
-      ctx.fill();
-      ctx.strokeStyle = "rgba(80,120,160,0.4)";
-      ctx.lineWidth = 16;
-      ctx.stroke();
-    }
-
-    ctx.font = "bold 128px monospace";
-    ctx.fillStyle = isActive
-      ? "#b0e8ff"
-      : isDone
-        ? "#90dda0"
-        : "rgba(160,190,220,0.6)";
-    ctx.fillText(n.label, pos.px, pos.py);
-
-    if (isAssigned) {
-      const lambdaId = board.assignedNodes.get(n.id)!;
-      ctx.font = "bold 96px monospace";
-      ctx.fillStyle = "#ff9040";
-      ctx.fillText(`← ${lambdaId}`, pos.px, pos.py + nodeRadius + 28);
-    }
-  }
-
-  // Title
-  ctx.font = "bold 128px monospace";
-  ctx.fillStyle = "rgba(160,190,220,0.6)";
-  ctx.textAlign = "left";
-  ctx.fillText("DAG EXECUTION", pad, pad - 60);
-
-  // Progress bar
-  const pct = board.completedNodes.size / config.nodes.length;
-  const barW = 400;
-  const barH = 22;
-  ctx.fillStyle = "rgba(40,60,80,0.5)";
-  ctx.fillRect(w - pad - barW, pad - 72, barW, barH);
-  ctx.fillStyle = "#60cc80";
-  ctx.fillRect(w - pad - barW, pad - 72, barW * pct, barH);
-
-  ctx.font = "bold 48px monospace";
-  ctx.textAlign = "right";
-  ctx.fillStyle = "rgba(160,190,220,0.5)";
-  ctx.fillText(`${Math.round(pct * 100)}%`, w - pad, pad - 78);
-
-  board.texture.needsUpdate = true;
-}
-
-function updateDagBoard(board: DagBoard, delta: number): void {
-  board.cycleTime += delta;
-  const cycle = board.config.cycleDuration;
-  if (board.cycleTime > cycle) {
-    board.cycleTime -= cycle;
-    board.activeNodes.clear();
-    board.completedNodes.clear();
-    board.activeEdges.clear();
-    board.assignedNodes.clear();
-  }
-
-  const maxDepth = Math.max(...board.nodeDepths.values(), 1);
-  const timePerDepth = (cycle * 0.85) / (maxDepth + 1);
-  const executeTime = timePerDepth * 0.6;
-
-  let dirty = false;
-  for (const nodeId of board.executionOrder) {
-    const depth = board.nodeDepths.get(nodeId) ?? 0;
-    const startTime = depth * timePerDepth + 0.5;
-    const endTime = startTime + executeTime;
-
-    if (
-      board.cycleTime >= startTime &&
-      board.cycleTime < endTime &&
-      !board.activeNodes.has(nodeId) &&
-      !board.completedNodes.has(nodeId)
-    ) {
-      board.activeNodes.add(nodeId);
-      for (const e of board.config.edges) {
-        if (e.to === nodeId && board.completedNodes.has(e.from))
-          board.activeEdges.add(`${e.from}->${e.to}`);
-      }
-      dirty = true;
-    } else if (board.cycleTime >= endTime && board.activeNodes.has(nodeId)) {
-      board.activeNodes.delete(nodeId);
-      board.completedNodes.add(nodeId);
-      board.activeEdges.delete(`${nodeId}->*`);
-      for (const e of board.config.edges) {
-        if (e.from === nodeId) board.activeEdges.delete(`${e.from}->${e.to}`);
-      }
-      dirty = true;
-    }
-  }
-
-  if (dirty || board.activeNodes.size > 0) renderDagCanvas(board);
-}
 
 // ---------------------------------------------------------------------------
 // Lambda lifecycle helpers
@@ -632,7 +356,392 @@ function spawnInvocationPulse(
   mesh.position.copy(from);
   scene.add(mesh);
 
-  return { curve, mesh, t: 0, speed: 1.8 };
+  return { curve, mesh, t: 0, speed: 0.8 };
+}
+
+// ---------------------------------------------------------------------------
+// Simulator-driven Lambda sync — maps executor state to 3D Lambda visuals
+// ---------------------------------------------------------------------------
+
+const LAMBDA_SCALE = 0.18;
+const SPAWN_DURATION = 0.5;
+const DESPAWN_DURATION = 0.4;
+const INVOKING_DURATION = 0.4;
+
+// Maps executor IDs to Lambda indices for stable visual assignment
+let executorToLambda = new Map<string, number>();
+
+function syncLambdasToSimulator(
+  s: SurfaceState,
+  snapshot: SimulatorSnapshot,
+  delta: number,
+): void {
+  const activeExecutors = snapshot.executors.filter(
+    (e) => e.phase !== "terminated",
+  );
+  const lambdas = s.lambdaLifecycles;
+
+  // Reset mapping when sim cycles back to pre-execution phases
+  if (snapshot.phase === "partitioning" || snapshot.phase === "resetting") {
+    executorToLambda.clear();
+  }
+
+  // Build set of executor IDs that are still active
+  const activeIds = new Set(activeExecutors.map((e) => e.id));
+
+  // Remove stale mappings for terminated executors
+  for (const [eid, li] of executorToLambda) {
+    if (!activeIds.has(eid)) {
+      executorToLambda.delete(eid);
+      const lc = lambdas[li];
+      if (lc && lc.group.scale.x > 0) {
+        clearTaskVisuals(lc, s);
+        resetLambdaColor(lc, s);
+        lc.phase = "despawning";
+        lc.phaseTimer = 0;
+      }
+    }
+  }
+
+  // Assign unassigned active executors to free Lambda slots
+  const usedSlots = new Set(executorToLambda.values());
+  for (const executor of activeExecutors) {
+    if (executorToLambda.has(executor.id)) continue;
+    for (let i = 0; i < lambdas.length; i++) {
+      if (!usedSlots.has(i)) {
+        executorToLambda.set(executor.id, i);
+        usedSlots.add(i);
+        const lc = lambdas[i];
+
+        // Fire invocation pulse; Lambda waits for it to arrive before spawning
+        const sourcePos = findInvocationSource(executor, s);
+        if (sourcePos) {
+          const pulse = spawnInvocationPulse(
+            sourcePos,
+            lc.group.position,
+            s.scene,
+          );
+          s.invocationPulses.push(pulse);
+          lc.spawnPulse = pulse;
+          lc.phase = "waiting-for-pulse";
+        } else if (lc.group.scale.x === 0) {
+          lc.phase = "spawning";
+          lc.phaseTimer = 0;
+          lc.spawnScale = 0;
+        }
+        break;
+      }
+    }
+  }
+
+  // Update each Lambda based on its assigned executor
+  for (let i = 0; i < lambdas.length; i++) {
+    const lc = lambdas[i];
+    lc.phaseTimer += delta;
+
+    // Find assigned executor for this Lambda slot
+    let executor: Executor | undefined;
+    for (const [eid, li] of executorToLambda) {
+      if (li === i) {
+        executor = activeExecutors.find((e) => e.id === eid);
+        break;
+      }
+    }
+
+    if (!executor) {
+      // No executor assigned — finish despawn, then stay hidden
+      if (lc.phase === "despawning") {
+        const shrink = 1 - Math.min(lc.phaseTimer / DESPAWN_DURATION, 1);
+        lc.group.scale.setScalar(shrink * LAMBDA_SCALE);
+        if (shrink <= 0) lc.group.scale.setScalar(0);
+      }
+      // Keep waiting-for-pulse alive even without executor (pulse in flight)
+      if (lc.phase === "waiting-for-pulse" && lc.spawnPulse) {
+        if (lc.spawnPulse.t >= 1) {
+          lc.spawnPulse = null;
+          lc.phase = "spawning";
+          lc.phaseTimer = 0;
+          lc.spawnScale = 0;
+        }
+      }
+      continue;
+    }
+
+    switch (lc.phase) {
+      case "waiting-for-pulse": {
+        if (!lc.spawnPulse || lc.spawnPulse.t >= 1) {
+          lc.spawnPulse = null;
+          lc.phase = "spawning";
+          lc.phaseTimer = 0;
+          lc.spawnScale = 0;
+        }
+        break;
+      }
+      case "spawning": {
+        lc.spawnScale = Math.min(lc.phaseTimer / SPAWN_DURATION, 1);
+        const ease = lc.spawnScale * (2 - lc.spawnScale);
+        lc.group.scale.setScalar(ease * LAMBDA_SCALE);
+        if (lc.spawnScale >= 1) {
+          lc.phase = "idle";
+          lc.phaseTimer = 0;
+          const comp = s.architecture.components.find(
+            (c) => c.id === lc.compId,
+          );
+          if (comp) lc.group.scale.set(...comp.scale);
+        }
+        break;
+      }
+      case "idle":
+      case "despawning": {
+        if (lc.group.scale.x === 0) {
+          lc.phase = "spawning";
+          lc.phaseTimer = 0;
+          lc.spawnScale = 0;
+          break;
+        }
+        if (executor.phase === "executing" && executor.currentTask) {
+          lc.phase = "executing";
+          lc.phaseTimer = 0;
+          lc.taskNodeId = executor.currentTask;
+          lc.taskIndicator = createTaskIndicator(lc.group.position, s.scene);
+          const node = s.dagBoard?.config.nodes.find(
+            (n) => n.id === executor.currentTask,
+          );
+          if (node) {
+            const el = document.createElement("div");
+            el.className = "surface-task-label";
+            el.textContent = `⚡ ${node.label}()`;
+            $("surface-labels").appendChild(el);
+            lc.taskLabelEl = el;
+          }
+        }
+        break;
+      }
+      case "executing": {
+        updateTaskIndicatorVisuals(lc, s);
+        updateExecutingColor(lc, s);
+
+        if (executor.phase !== "executing") {
+          clearTaskVisuals(lc, s);
+          resetLambdaColor(lc, s);
+
+          if (executor.phase === "invoking") {
+            lc.phase = "invoking";
+            lc.phaseTimer = 0;
+            const target = pickInvocationTarget(lc, s);
+            if (target) {
+              s.invocationPulses.push(
+                spawnInvocationPulse(
+                  lc.group.position,
+                  target.group.position,
+                  s.scene,
+                ),
+              );
+            }
+          } else {
+            lc.phase = "idle";
+            lc.phaseTimer = 0;
+          }
+        }
+        break;
+      }
+      case "invoking": {
+        if (lc.phaseTimer >= INVOKING_DURATION) {
+          lc.phase = "idle";
+          lc.phaseTimer = 0;
+        }
+        break;
+      }
+    }
+  }
+}
+
+function clearTaskVisuals(lc: LambdaLifecycle, s: SurfaceState): void {
+  if (lc.taskIndicator) {
+    s.scene.remove(lc.taskIndicator);
+    lc.taskIndicator = null;
+  }
+  if (lc.taskLabelEl) {
+    lc.taskLabelEl.remove();
+    lc.taskLabelEl = null;
+  }
+  lc.taskNodeId = null;
+}
+
+function updateTaskIndicatorVisuals(
+  lc: LambdaLifecycle,
+  s: SurfaceState,
+): void {
+  if (!lc.taskIndicator) return;
+  const elapsed = s.elapsed;
+  lc.taskIndicator.rotation.y += 0.016 * 4;
+  lc.taskIndicator.rotation.x += 0.016 * 2;
+  lc.taskIndicator.position.y =
+    lc.group.position.y + 3.5 + 0.15 * Math.sin(elapsed * 4);
+  const brightness = 0.8 + 0.2 * Math.sin(elapsed * 6);
+  lc.taskIndicator.scale.setScalar(brightness);
+
+  if (lc.taskLabelEl) {
+    _v3.copy(lc.group.position);
+    _v3.y += 4.5;
+    _v3.project(s.camera);
+    const lx = (_v3.x * 0.5 + 0.5) * innerWidth;
+    const ly = (-_v3.y * 0.5 + 0.5) * innerHeight;
+    lc.taskLabelEl.style.transform = `translate3d(${lx}px,${ly}px,0) translateX(-50%)`;
+    lc.taskLabelEl.style.visibility =
+      _v3.z > -1 && _v3.z < 1 ? "visible" : "hidden";
+  }
+}
+
+function updateExecutingColor(lc: LambdaLifecycle, s: SurfaceState): void {
+  const mat = (lc.group.children[0] as THREE.Mesh)
+    .material as THREE.ShaderMaterial;
+  if (mat.uniforms?.uColor) {
+    const base = new THREE.Color("#60d8ff");
+    base.lerp(
+      new THREE.Color("#f0c050"),
+      0.3 + 0.3 * Math.sin(s.elapsed * 5),
+    );
+    mat.uniforms.uColor.value.copy(base);
+  }
+}
+
+function resetLambdaColor(lc: LambdaLifecycle, s: SurfaceState): void {
+  const comp = s.architecture.components.find((c) => c.id === lc.compId);
+  const mat = (lc.group.children[0] as THREE.Mesh)
+    .material as THREE.ShaderMaterial;
+  if (comp && mat.uniforms?.uColor) {
+    mat.uniforms.uColor.value.set(comp.color);
+  }
+}
+
+function findInvocationSource(
+  executor: Executor,
+  s: SurfaceState,
+): THREE.Vector3 | null {
+  if (!executor.invokedBy) {
+    // Leaf executor — invoked by the factory/invokers component
+    const invokerGroup = s.components.get("invokers");
+    if (invokerGroup) return invokerGroup.position;
+    return null;
+  }
+  // Fan-out — invoked by another executor's Lambda
+  const parentLambdaIdx = executorToLambda.get(executor.invokedBy);
+  if (parentLambdaIdx !== undefined) {
+    const parentLc = s.lambdaLifecycles[parentLambdaIdx];
+    if (parentLc) return parentLc.group.position;
+  }
+  return null;
+}
+
+function pickInvocationTarget(
+  lc: LambdaLifecycle,
+  s: SurfaceState,
+): LambdaLifecycle | null {
+  const others = s.lambdaLifecycles.filter((l) => l.compId !== lc.compId);
+  if (others.length === 0) return null;
+  return others[Math.floor(Math.random() * others.length)];
+}
+
+function updateInvocationPulses(s: SurfaceState, delta: number): void {
+  for (let i = s.invocationPulses.length - 1; i >= 0; i--) {
+    const pulse = s.invocationPulses[i];
+    pulse.t += delta * pulse.speed;
+    if (pulse.t >= 1) {
+      s.scene.remove(pulse.mesh);
+      s.invocationPulses.splice(i, 1);
+    } else {
+      const pt = pulse.curve.getPoint(pulse.t);
+      pulse.mesh.position.copy(pt);
+      const glow = 1 + 0.3 * Math.sin(pulse.t * Math.PI);
+      pulse.mesh.scale.setScalar(glow);
+    }
+  }
+}
+
+function updateLambdaLifecyclesStandalone(
+  s: SurfaceState,
+  delta: number,
+): void {
+  for (const lc of s.lambdaLifecycles) {
+    lc.phaseTimer += delta;
+    switch (lc.phase) {
+      case "spawning": {
+        lc.spawnScale = Math.min(lc.phaseTimer / SPAWN_DURATION, 1);
+        const ease = lc.spawnScale * (2 - lc.spawnScale);
+        lc.group.scale.setScalar(ease * LAMBDA_SCALE);
+        if (lc.spawnScale >= 1) {
+          lc.phase = "idle";
+          lc.phaseTimer = 0;
+          const comp = s.architecture.components.find(
+            (c) => c.id === lc.compId,
+          );
+          if (comp) lc.group.scale.set(...comp.scale);
+        }
+        break;
+      }
+      case "idle": {
+        if (lc.phaseTimer >= lc.idleDuration) {
+          lc.phase = "executing";
+          lc.phaseTimer = 0;
+          lc.executionDuration = 1.5 + Math.random() * 2;
+          lc.taskIndicator = createTaskIndicator(lc.group.position, s.scene);
+        }
+        break;
+      }
+      case "executing": {
+        updateTaskIndicatorVisuals(lc, s);
+        updateExecutingColor(lc, s);
+        if (lc.phaseTimer >= lc.executionDuration) {
+          clearTaskVisuals(lc, s);
+          resetLambdaColor(lc, s);
+          lc.phase = "invoking";
+          lc.phaseTimer = 0;
+          const target = pickInvocationTarget(lc, s);
+          if (target) {
+            s.invocationPulses.push(
+              spawnInvocationPulse(
+                lc.group.position,
+                target.group.position,
+                s.scene,
+              ),
+            );
+          }
+        }
+        break;
+      }
+      case "invoking": {
+        if (lc.phaseTimer >= INVOKING_DURATION) {
+          lc.phase = "despawning";
+          lc.phaseTimer = 0;
+        }
+        break;
+      }
+      case "despawning": {
+        const shrink = 1 - Math.min(lc.phaseTimer / DESPAWN_DURATION, 1);
+        lc.group.scale.setScalar(shrink * LAMBDA_SCALE);
+        if (shrink <= 0) {
+          lc.phase = "spawning";
+          lc.phaseTimer = 0;
+          lc.spawnScale = 0;
+          lc.idleDuration = 1 + Math.random() * 1.5;
+          const comp = s.architecture.components.find(
+            (c) => c.id === lc.compId,
+          );
+          if (comp) {
+            const dx = (Math.random() - 0.5) * 3;
+            const dz = (Math.random() - 0.5) * 3;
+            lc.group.position.set(
+              comp.position[0] + dx,
+              comp.position[1],
+              comp.position[2] + dz,
+            );
+          }
+        }
+        break;
+      }
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -723,15 +832,19 @@ function buildScene(arch: Architecture): SurfaceState {
   }
 
   // Lambda lifecycle — for each lambda component, create a lifecycle tracker
+  const hasDag = !!arch.dagBoard;
   const lambdaLifecycles: LambdaLifecycle[] = [];
   for (const comp of arch.components) {
     if (comp.shape !== "lambda") continue;
     const group = components.get(comp.id);
     if (!group) continue;
+    if (hasDag) {
+      group.scale.setScalar(0);
+    }
     lambdaLifecycles.push({
       compId: comp.id,
       group,
-      phase: "spawning",
+      phase: hasDag ? "idle" : "spawning",
       phaseTimer: 0,
       taskIndicator: null,
       taskNodeId: null,
@@ -739,14 +852,17 @@ function buildScene(arch: Architecture): SurfaceState {
       executionDuration: 2 + Math.random() * 2,
       idleDuration: 1.5 + Math.random() * 1.5,
       spawnScale: 0,
+      spawnPulse: null,
     });
   }
 
-  // DAG board
+  // DAG board + simulator
   let dagBoard: DagBoard | null = null;
+  let dagSimulator: DagSimulator | null = null;
   if (arch.dagBoard) {
     dagBoard = buildDagBoard(arch.dagBoard, scene);
-    renderDagCanvas(dagBoard);
+    dagSimulator = new DagSimulator(arch.dagBoard);
+    renderDagCanvas(dagBoard, dagSimulator.snapshot);
   }
 
   const labels = new Map<string, HTMLElement>();
@@ -772,6 +888,7 @@ function buildScene(arch: Architecture): SurfaceState {
     lambdaLifecycles,
     invocationPulses: [],
     dagBoard,
+    dagSimulator,
     pickable,
     elapsed: 0,
     lastFrame: 0,
@@ -1057,187 +1174,17 @@ export function updateSurfaceFrame(now: number): void {
       }
     }
 
-    // Lambda lifecycle — spawn, execute tasks from DAG, invoke other Lambdas, despawn
-    for (const lc of state.lambdaLifecycles) {
-      lc.phaseTimer += delta;
+    // Advance the DAG simulator and sync Lambda visuals to it
+    if (state.dagSimulator && state.dagBoard) {
+      state.dagSimulator.update(delta);
+      const snapshot = state.dagSimulator.snapshot;
 
-      switch (lc.phase) {
-        case "spawning": {
-          lc.spawnScale = Math.min(lc.phaseTimer / 0.5, 1);
-          const ease = lc.spawnScale * (2 - lc.spawnScale);
-          lc.group.scale.setScalar(ease * 0.18);
-          if (lc.spawnScale >= 1) {
-            lc.phase = "idle";
-            lc.phaseTimer = 0;
-            const comp = state.architecture.components.find(
-              (c) => c.id === lc.compId,
-            );
-            if (comp) lc.group.scale.set(...comp.scale);
-          }
-          break;
-        }
-        case "idle": {
-          if (lc.phaseTimer >= lc.idleDuration) {
-            lc.phase = "executing";
-            lc.phaseTimer = 0;
-            lc.executionDuration = 1.5 + Math.random() * 2;
-            lc.taskIndicator = createTaskIndicator(
-              lc.group.position,
-              state.scene,
-            );
-
-            // Pick an active DAG node to "execute"
-            lc.taskNodeId = null;
-            if (state.dagBoard) {
-              const available = [...state.dagBoard.activeNodes].filter(
-                (nid) => !state.dagBoard!.assignedNodes.has(nid),
-              );
-              if (available.length > 0) {
-                const picked =
-                  available[Math.floor(Math.random() * available.length)];
-                lc.taskNodeId = picked;
-                state.dagBoard.assignedNodes.set(picked, lc.compId);
-              } else if (state.dagBoard.activeNodes.size > 0) {
-                lc.taskNodeId = [...state.dagBoard.activeNodes][0];
-              }
-            }
-
-            // Create floating task label
-            if (lc.taskNodeId && state.dagBoard) {
-              const node = state.dagBoard.config.nodes.find(
-                (n) => n.id === lc.taskNodeId,
-              );
-              if (node) {
-                const el = document.createElement("div");
-                el.className = "surface-task-label";
-                el.textContent = `⚡ ${node.label}()`;
-                $("surface-labels").appendChild(el);
-                lc.taskLabelEl = el;
-              }
-            }
-          }
-          break;
-        }
-        case "executing": {
-          if (lc.taskIndicator) {
-            lc.taskIndicator.rotation.y += delta * 4;
-            lc.taskIndicator.rotation.x += delta * 2;
-            lc.taskIndicator.position.y =
-              lc.group.position.y + 3.5 + 0.15 * Math.sin(state.elapsed * 4);
-            const brightness = 0.8 + 0.2 * Math.sin(state.elapsed * 6);
-            lc.taskIndicator.scale.setScalar(brightness);
-          }
-
-          // Project task label position
-          if (lc.taskLabelEl) {
-            _v3.copy(lc.group.position);
-            _v3.y += 4.5;
-            _v3.project(state.camera);
-            const lx = (_v3.x * 0.5 + 0.5) * innerWidth;
-            const ly = (-_v3.y * 0.5 + 0.5) * innerHeight;
-            lc.taskLabelEl.style.transform = `translate3d(${lx}px,${ly}px,0) translateX(-50%)`;
-            lc.taskLabelEl.style.visibility =
-              _v3.z > -1 && _v3.z < 1 ? "visible" : "hidden";
-          }
-
-          const mat = (lc.group.children[0] as THREE.Mesh)
-            .material as THREE.ShaderMaterial;
-          if (mat.uniforms?.uColor) {
-            const base = new THREE.Color("#60d8ff");
-            base.lerp(
-              new THREE.Color("#f0c050"),
-              0.3 + 0.3 * Math.sin(state.elapsed * 5),
-            );
-            mat.uniforms.uColor.value.copy(base);
-          }
-          if (lc.phaseTimer >= lc.executionDuration) {
-            lc.phase = "invoking";
-            lc.phaseTimer = 0;
-            if (lc.taskIndicator) {
-              state.scene.remove(lc.taskIndicator);
-              lc.taskIndicator = null;
-            }
-            if (lc.taskLabelEl) {
-              lc.taskLabelEl.remove();
-              lc.taskLabelEl = null;
-            }
-            if (lc.taskNodeId && state.dagBoard) {
-              state.dagBoard.assignedNodes.delete(lc.taskNodeId);
-              lc.taskNodeId = null;
-            }
-            const comp = state.architecture.components.find(
-              (c) => c.id === lc.compId,
-            );
-            if (comp && mat.uniforms?.uColor)
-              mat.uniforms.uColor.value.set(comp.color);
-            const otherLambdas = state.lambdaLifecycles.filter(
-              (l) => l.compId !== lc.compId,
-            );
-            if (otherLambdas.length > 0) {
-              const target =
-                otherLambdas[Math.floor(Math.random() * otherLambdas.length)];
-              state.invocationPulses.push(
-                spawnInvocationPulse(
-                  lc.group.position,
-                  target.group.position,
-                  state.scene,
-                ),
-              );
-            }
-          }
-          break;
-        }
-        case "invoking": {
-          if (lc.phaseTimer >= 0.4) {
-            lc.phase = "despawning";
-            lc.phaseTimer = 0;
-          }
-          break;
-        }
-        case "despawning": {
-          const shrink = 1 - Math.min(lc.phaseTimer / 0.4, 1);
-          lc.group.scale.setScalar(shrink * 0.18);
-          if (shrink <= 0) {
-            lc.phase = "spawning";
-            lc.phaseTimer = 0;
-            lc.spawnScale = 0;
-            lc.idleDuration = 1 + Math.random() * 1.5;
-            const comp = state.architecture.components.find(
-              (c) => c.id === lc.compId,
-            );
-            if (comp) {
-              const dx = (Math.random() - 0.5) * 3;
-              const dz = (Math.random() - 0.5) * 3;
-              lc.group.position.set(
-                comp.position[0] + dx,
-                comp.position[1],
-                comp.position[2] + dz,
-              );
-            }
-          }
-          break;
-        }
-      }
-    }
-
-    // Invocation pulses — bright spheres arcing between Lambdas
-    for (let i = state.invocationPulses.length - 1; i >= 0; i--) {
-      const pulse = state.invocationPulses[i];
-      pulse.t += delta * pulse.speed;
-      if (pulse.t >= 1) {
-        state.scene.remove(pulse.mesh);
-        state.invocationPulses.splice(i, 1);
-      } else {
-        const pt = pulse.curve.getPoint(pulse.t);
-        pulse.mesh.position.copy(pt);
-        const glow = 1 + 0.3 * Math.sin(pulse.t * Math.PI);
-        pulse.mesh.scale.setScalar(glow);
-      }
-    }
-
-    // DAG board animation
-    if (state.dagBoard) {
-      updateDagBoard(state.dagBoard, delta);
+      syncLambdasToSimulator(state, snapshot, delta);
+      updateInvocationPulses(state, delta);
+      renderDagCanvas(state.dagBoard, snapshot);
+    } else {
+      updateLambdaLifecyclesStandalone(state, delta);
+      updateInvocationPulses(state, delta);
     }
   }
 
@@ -1250,10 +1197,38 @@ export function updateSurfaceFrame(now: number): void {
 function updateSurfaceLabels(): void {
   if (!state) return;
   state.camera.updateMatrixWorld();
+
+  // Build a map of compId → executor ID for Lambda labeling
+  const lambdaExecutorIds = new Map<string, string>();
+  if (state.dagSimulator) {
+    const snapshot = state.dagSimulator.snapshot;
+    for (const [eid, li] of executorToLambda) {
+      const lc = state.lambdaLifecycles[li];
+      const executor = snapshot.executors.find((e) => e.id === eid);
+      if (lc && executor && executor.phase !== "terminated") {
+        lambdaExecutorIds.set(lc.compId, eid);
+      }
+    }
+  }
+
   for (const comp of state.architecture.components) {
     const group = state.components.get(comp.id);
     const label = state.labels.get(comp.id);
     if (!group || !label) continue;
+
+    // Hide label if mesh is scaled to zero (hidden Lambda)
+    if (group.scale.x < 0.01) {
+      label.style.visibility = "hidden";
+      continue;
+    }
+
+    // Update Lambda label to show executor ID
+    if (comp.shape === "lambda") {
+      const eid = lambdaExecutorIds.get(comp.id);
+      label.innerHTML = eid
+        ? `<strong>λ ${eid}</strong>`
+        : `<strong>${comp.label}</strong>`;
+    }
 
     _v3.copy(group.position);
     _v3.y += comp.scale[1] * 0.6 + 0.5;
