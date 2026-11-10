@@ -44,9 +44,9 @@ const HeaderButtons: React.FunctionComponent = React.memo(() => {
                 <Button variant={"outlined"} href={"/orbital/index.html"} target="_blank"
                         rel="noopener noreferrer"
                         startIcon={<RocketLaunchIcon style={{color: "#b6cce8"}}/>}
-                        sx={{height: {xs: 40, sm: 45}, width: {xs: "14rem", sm: "16rem"}, maxWidth: "90vw", borderColor: "#b6cce8"}}
+                        sx={{height: {xs: 40, sm: 45}, width: {xs: "14rem", sm: "16rem"}, maxWidth: "90vw", borderColor: "#ffffff"}}
                         aria-label={"Explore 3D Portfolio"}>
-                    <Typography variant={"button"} align={"center"} sx={{fontSize: {xs: "0.85rem", sm: "1rem"}, color: "#b6cce8"}}>
+                    <Typography variant={"button"} align={"center"} sx={{fontSize: {xs: "0.85rem", sm: "1rem"}, color: "#ffffff"}}>
                         3D Portfolio
                     </Typography>
                 </Button>
