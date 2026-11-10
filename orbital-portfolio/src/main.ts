@@ -459,6 +459,64 @@ function useFallback(): void {
     ($(id) as HTMLButtonElement).disabled = true;
 }
 
+function bindCanvasEvents(canvas: HTMLCanvasElement): void {
+  canvas.addEventListener("pointerdown", (event: PointerEvent) => {
+    app.activePointers.add(event.pointerId);
+    if (app.activePointers.size === 1)
+      app.down = {
+        x: event.clientX,
+        y: event.clientY,
+        id: event.pointerId,
+        dragged: false,
+      };
+    else if (app.down) app.down.dragged = true;
+    app.hoverPoint = null;
+  });
+  canvas.addEventListener("pointermove", (event: PointerEvent) => {
+    if (app.down) {
+      if (
+        Math.hypot(event.clientX - app.down.x, event.clientY - app.down.y) > 6
+      )
+        app.down.dragged = true;
+      return;
+    }
+    if (event.pointerType === "touch") return;
+    app.hoverPoint = { x: event.clientX, y: event.clientY };
+    scheduleFrame();
+  });
+  // Distinguish clicks from drags: only fire visit() if the pointer hasn't
+  // moved more than 6px from its down position. This prevents accidental
+  // navigation when the user is orbiting the camera.
+  canvas.addEventListener("pointerup", (event: PointerEvent) => {
+    app.activePointers.delete(event.pointerId);
+    const start = app.down;
+    if (app.activePointers.size === 0) app.down = null;
+    if (
+      app.flyingIn ||
+      !start ||
+      start.id !== event.pointerId ||
+      start.dragged ||
+      Math.hypot(event.clientX - start.x, event.clientY - start.y) > 6 ||
+      event.button !== 0
+    )
+      return;
+    const id = pick(event.clientX, event.clientY);
+    if (id) visit(id);
+  });
+  canvas.addEventListener("pointercancel", (event: PointerEvent) => {
+    app.activePointers.delete(event.pointerId);
+    app.down = null;
+  });
+  canvas.addEventListener("pointerleave", () => {
+    app.hoverPoint = null;
+    canvas.style.cursor = "grab";
+  });
+  canvas.addEventListener("webglcontextlost", (event: Event) => {
+    event.preventDefault();
+    useFallback();
+  });
+}
+
 function initialize(): void {
   app.scene = new THREE.Scene();
   app.camera = new THREE.PerspectiveCamera(
@@ -517,62 +575,7 @@ function initialize(): void {
     app.worlds.set(destination.id, group);
     app.pickable.push(group);
   }
-  const canvas = app.renderer.domElement;
-  canvas.addEventListener("pointerdown", (event: PointerEvent) => {
-    app.activePointers.add(event.pointerId);
-    if (app.activePointers.size === 1)
-      app.down = {
-        x: event.clientX,
-        y: event.clientY,
-        id: event.pointerId,
-        dragged: false,
-      };
-    else if (app.down) app.down.dragged = true;
-    app.hoverPoint = null;
-  });
-  canvas.addEventListener("pointermove", (event: PointerEvent) => {
-    if (app.down) {
-      if (
-        Math.hypot(event.clientX - app.down.x, event.clientY - app.down.y) > 6
-      )
-        app.down.dragged = true;
-      return;
-    }
-    if (event.pointerType === "touch") return;
-    app.hoverPoint = { x: event.clientX, y: event.clientY };
-    scheduleFrame();
-  });
-  // Distinguish clicks from drags: only fire visit() if the pointer hasn't
-  // moved more than 6px from its down position. This prevents accidental
-  // navigation when the user is orbiting the camera.
-  canvas.addEventListener("pointerup", (event: PointerEvent) => {
-    app.activePointers.delete(event.pointerId);
-    const start = app.down;
-    if (app.activePointers.size === 0) app.down = null;
-    if (
-      app.flyingIn ||
-      !start ||
-      start.id !== event.pointerId ||
-      start.dragged ||
-      Math.hypot(event.clientX - start.x, event.clientY - start.y) > 6 ||
-      event.button !== 0
-    )
-      return;
-    const id = pick(event.clientX, event.clientY);
-    if (id) visit(id);
-  });
-  canvas.addEventListener("pointercancel", (event: PointerEvent) => {
-    app.activePointers.delete(event.pointerId);
-    app.down = null;
-  });
-  canvas.addEventListener("pointerleave", () => {
-    app.hoverPoint = null;
-    canvas.style.cursor = "grab";
-  });
-  canvas.addEventListener("webglcontextlost", (event: Event) => {
-    event.preventDefault();
-    useFallback();
-  });
+  bindCanvasEvents(app.renderer.domElement);
   app.initialized = true;
   resizeInk(innerWidth, innerHeight);
 

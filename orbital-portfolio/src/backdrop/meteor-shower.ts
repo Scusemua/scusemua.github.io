@@ -277,7 +277,6 @@ export function createMeteorShower(
       attribute float aSize;
       attribute vec3 color;
       varying vec3 vColor;
-      varying float vAlpha;
       void main() {
         vColor = color;
         vec4 mv = modelViewMatrix * vec4(position, 1.0);

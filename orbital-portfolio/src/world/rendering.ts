@@ -92,8 +92,22 @@ function toon(color: string, map: THREE.Texture | null = null): THREE.ShaderMate
 // Dividing by viewport and multiplying by clip w gives uniform pixel-width
 // outlines regardless of distance from the camera.
 const outlineMaterial = new THREE.ShaderMaterial({
-  vertexShader: `uniform vec2 uViewport;uniform float uWidth;void main(){vec4 p=projectionMatrix*modelViewMatrix*vec4(position,1.);vec3 n=normalMatrix*normal;vec2 direction=(projectionMatrix*vec4(n,0.)).xy;float lengthN=length(direction);p.xy+=(lengthN>.0001?direction/lengthN:vec2(0.))*uWidth*2./uViewport*p.w;gl_Position=p;}`,
-  fragmentShader: `void main(){gl_FragColor=vec4(.012,.014,.021,1.);}`,
+  vertexShader: `
+    uniform vec2 uViewport;
+    uniform float uWidth;
+    void main() {
+      vec4 p = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+      vec3 n = normalMatrix * normal;
+      vec2 direction = (projectionMatrix * vec4(n, 0.)).xy;
+      float lengthN = length(direction);
+      p.xy += (lengthN > .0001 ? direction / lengthN : vec2(0.))
+            * uWidth * 2. / uViewport * p.w;
+      gl_Position = p;
+    }`,
+  fragmentShader: `
+    void main() {
+      gl_FragColor = vec4(.012, .014, .021, 1.);
+    }`,
   uniforms: {
     uViewport: { value: new THREE.Vector2(innerWidth, innerHeight) },
     uWidth: { value: 3 },
@@ -210,90 +224,43 @@ function station(): THREE.Group {
   group.rotation.set(0.2, 0.4, -0.3);
   return group;
 }
-function planet(destination: Destination, invalidate: () => void): THREE.Group {
-  const group = new THREE.Group();
-  const ud = group.userData as WorldUserData;
-  const map = new THREE.TextureLoader().load(
-    textureData[destination.type!],
-    invalidate,
-    undefined,
-    () => {},
-  );
-  map.colorSpace = THREE.NoColorSpace;
-  map.anisotropy = 1;
-  const globe = new THREE.Mesh(sphere, toon("#ffffff", map));
-  globe.scale.setScalar(destination.radius);
-  globe.rotation.z = destination.id === "atlas" ? 0.15 : -0.2;
-  group.add(globe);
-  const ink = outline(sphere, group, destination.radius);
-  ink.rotation.copy(globe.rotation);
-  ud.globe = globe;
-  ud.ink = ink;
-  ud.detail = [
-    {
-      root: group,
-      globe,
-      ink,
-      radius: destination.radius,
-      level: 2,
-      moon: false,
-    },
-  ];
-  if (destination.rings) {
-    const config = destination.rings;
-    const ringMaterial = new THREE.ShaderMaterial({
-      vertexShader: `varying float vR;void main(){vR=length(position.xy);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
-      fragmentShader: `uniform float uInner;uniform float uOuter;uniform float uGap;uniform vec3 uColor;uniform vec3 uDark;varying float vR;void main(){float r=(vR-uInner)/(uOuter-uInner);if(abs(r-uGap)<.032)discard;float band=mod(floor(r*24.),4.);vec3 c=band<1.?uDark*.5:band<2.?uColor:uDark;if(r<.025||r>.975)c=vec3(.02,.02,.03);gl_FragColor=vec4(c,1.);}`,
-      uniforms: {
-        uInner: { value: config.inner },
-        uOuter: { value: config.outer },
-        uGap: { value: config.gap },
-        uColor: { value: new THREE.Color(config.color) },
-        uDark: { value: new THREE.Color(config.dark) },
-      },
-      side: THREE.DoubleSide,
-    });
-    const ring = new THREE.Mesh(
-      new THREE.RingGeometry(config.inner, config.outer, 96),
-      ringMaterial,
-    );
-    ring.scale.setScalar(destination.radius);
-    ring.rotation.set(...config.tilt);
-    group.add(ring);
+const LAMBDA_SVG = `<path d="M7.983 8.37c-.053.073-.098.133-.141.194L5.775 11.5c-.64.91-1.282 1.82-1.924 2.73a.128.128 0 01-.092.051c-.906-.007-1.813-.017-2.719-.028-.01 0-.02-.003-.04-.006a.455.455 0 01.025-.053 13977.496 13977.496 0 015.446-8.146c.092-.138.188-.273.275-.413a.165.165 0 00.018-.124c-.167-.515-.338-1.03-.508-1.543-.073-.22-.15-.44-.218-.66-.022-.072-.059-.094-.134-.093-.57.002-1.136.001-1.704.001-.108 0-.108 0-.108-.103 0-.674 0-1.347-.002-2.021 0-.075.026-.092.099-.092 1.143.002 2.286.002 3.43 0a.113.113 0 01.076.017.107.107 0 01.045.061 18266.184 18266.184 0 003.92 9.51c.218.53.438 1.059.654 1.59.026.064.053.076.12.056.6-.178 1.2-.352 1.8-.531.075-.023.102-.008.126.064.204.62.412 1.239.62 1.858l.02.073c-.043.015-.083.032-.124.043l-4.085 1.25c-.065.02-.085 0-.106-.054l-1.25-3.048-1.226-2.984-.183-.449c-.01-.026-.023-.048-.043-.087z"/>`;
+
+function addLambdas(group: THREE.Group, destination: Destination, ud: WorldUserData): LambdaOrbitData[] {
+  const lambdas: LambdaOrbitData[] = [];
+  if (!destination.lambdas) return lambdas;
+  const loader = new SVGLoader();
+  const svgDoc = loader.parse(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">${LAMBDA_SVG}</svg>`);
+  const lambdaShapes = SVGLoader.createShapes(svgDoc.paths[0]);
+  const lambdaGeometry = new THREE.ExtrudeGeometry(lambdaShapes, { depth: 3.0, bevelEnabled: false, curveSegments: 4 });
+  lambdaGeometry.center();
+  lambdaGeometry.computeVertexNormals();
+  for (const config of destination.lambdas) {
+    const pivot = new THREE.Group();
+    pivot.rotation.z = config.tilt;
+    group.add(pivot);
+    const wrapper = new THREE.Group();
+    pivot.add(wrapper);
+    const lambdaGroup = new THREE.Group();
+    const s = (config.scale ?? 0.5) * 0.13;
+    const mat = toon(config.color);
+    const inkMat = new THREE.MeshBasicMaterial({ color: 0x0a0b10, side: THREE.BackSide });
+    const lambdaInk = new THREE.Mesh(lambdaGeometry, inkMat);
+    lambdaInk.scale.setScalar(s * 1.12);
+    lambdaInk.raycast = () => {};
+    lambdaGroup.add(lambdaInk);
+    const mesh = new THREE.Mesh(lambdaGeometry, mat);
+    mesh.scale.setScalar(s);
+    lambdaGroup.add(mesh);
+    wrapper.add(lambdaGroup);
+    const data: LambdaOrbitData = { wrapper, angle: config.angle, distance: config.distance, speed: config.speed, tumble: config.tumble ?? 0.4 };
+    wrapper.position.set(Math.cos(data.angle) * data.distance, 0, Math.sin(data.angle) * data.distance);
+    lambdas.push(data);
   }
-  ud.lambdas = [];
-  if (destination.lambdas) {
-    const svgData = `<path d="M7.983 8.37c-.053.073-.098.133-.141.194L5.775 11.5c-.64.91-1.282 1.82-1.924 2.73a.128.128 0 01-.092.051c-.906-.007-1.813-.017-2.719-.028-.01 0-.02-.003-.04-.006a.455.455 0 01.025-.053 13977.496 13977.496 0 015.446-8.146c.092-.138.188-.273.275-.413a.165.165 0 00.018-.124c-.167-.515-.338-1.03-.508-1.543-.073-.22-.15-.44-.218-.66-.022-.072-.059-.094-.134-.093-.57.002-1.136.001-1.704.001-.108 0-.108 0-.108-.103 0-.674 0-1.347-.002-2.021 0-.075.026-.092.099-.092 1.143.002 2.286.002 3.43 0a.113.113 0 01.076.017.107.107 0 01.045.061 18266.184 18266.184 0 003.92 9.51c.218.53.438 1.059.654 1.59.026.064.053.076.12.056.6-.178 1.2-.352 1.8-.531.075-.023.102-.008.126.064.204.62.412 1.239.62 1.858l.02.073c-.043.015-.083.032-.124.043l-4.085 1.25c-.065.02-.085 0-.106-.054l-1.25-3.048-1.226-2.984-.183-.449c-.01-.026-.023-.048-.043-.087z"/>`;
-    const loader = new SVGLoader();
-    const svgDoc = loader.parse(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">${svgData}</svg>`);
-    const lambdaShapes = SVGLoader.createShapes(svgDoc.paths[0]);
-    const lambdaGeometry = new THREE.ExtrudeGeometry(lambdaShapes, { depth: 3.0, bevelEnabled: false, curveSegments: 4 });
-    lambdaGeometry.center();
-    lambdaGeometry.computeVertexNormals();
-    for (const config of destination.lambdas) {
-      const pivot = new THREE.Group();
-      pivot.rotation.z = config.tilt;
-      group.add(pivot);
-      const wrapper = new THREE.Group();
-      pivot.add(wrapper);
-      const lambdaGroup = new THREE.Group();
-      const s = (config.scale ?? 0.5) * 0.13;
-      const mat = toon(config.color);
-      const inkMat = new THREE.MeshBasicMaterial({ color: 0x0a0b10, side: THREE.BackSide });
-      const lambdaInk = new THREE.Mesh(lambdaGeometry, inkMat);
-      lambdaInk.scale.setScalar(s * 1.12);
-      lambdaInk.raycast = () => {};
-      lambdaGroup.add(lambdaInk);
-      const mesh = new THREE.Mesh(lambdaGeometry, mat);
-      mesh.scale.setScalar(s);
-      lambdaGroup.add(mesh);
-      wrapper.add(lambdaGroup);
-      const data: LambdaOrbitData = { wrapper, angle: config.angle, distance: config.distance, speed: config.speed, tumble: config.tumble ?? 0.4 };
-      wrapper.position.set(Math.cos(data.angle) * data.distance, 0, Math.sin(data.angle) * data.distance);
-      ud.lambdas!.push(data);
-    }
-  }
-  ud.moons = [];
+  return lambdas;
+}
+
+function addMoons(group: THREE.Group, destination: Destination, ud: WorldUserData): void {
   for (const config of destination.moons ?? []) {
     const pivot = new THREE.Group();
     pivot.rotation.z = config.tilt;
@@ -326,6 +293,81 @@ function planet(destination: Destination, invalidate: () => void): THREE.Group {
     (moonGroup.userData as WorldUserData).moon = true;
     ud.moons!.push(data);
   }
+}
+
+function planet(destination: Destination, invalidate: () => void): THREE.Group {
+  const group = new THREE.Group();
+  const ud = group.userData as WorldUserData;
+  const map = new THREE.TextureLoader().load(
+    textureData[destination.type!],
+    invalidate,
+    undefined,
+    () => {},
+  );
+  map.colorSpace = THREE.NoColorSpace;
+  map.anisotropy = 1;
+  const globe = new THREE.Mesh(sphere, toon("#ffffff", map));
+  globe.scale.setScalar(destination.radius);
+  globe.rotation.z = destination.id === "atlas" ? 0.15 : -0.2;
+  group.add(globe);
+  const ink = outline(sphere, group, destination.radius);
+  ink.rotation.copy(globe.rotation);
+  ud.globe = globe;
+  ud.ink = ink;
+  ud.detail = [
+    {
+      root: group,
+      globe,
+      ink,
+      radius: destination.radius,
+      level: 2,
+      moon: false,
+    },
+  ];
+  if (destination.rings) {
+    const config = destination.rings;
+    const ringMaterial = new THREE.ShaderMaterial({
+      vertexShader: `
+        varying float vR;
+        void main() {
+          vR = length(position.xy);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+        }`,
+      fragmentShader: `
+        uniform float uInner;
+        uniform float uOuter;
+        uniform float uGap;
+        uniform vec3 uColor;
+        uniform vec3 uDark;
+        varying float vR;
+        void main() {
+          float r = (vR - uInner) / (uOuter - uInner);
+          if (abs(r - uGap) < .032) discard;
+          float band = mod(floor(r * 24.), 4.);
+          vec3 c = band < 1. ? uDark * .5 : band < 2. ? uColor : uDark;
+          if (r < .025 || r > .975) c = vec3(.02, .02, .03);
+          gl_FragColor = vec4(c, 1.);
+        }`,
+      uniforms: {
+        uInner: { value: config.inner },
+        uOuter: { value: config.outer },
+        uGap: { value: config.gap },
+        uColor: { value: new THREE.Color(config.color) },
+        uDark: { value: new THREE.Color(config.dark) },
+      },
+      side: THREE.DoubleSide,
+    });
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(config.inner, config.outer, 96),
+      ringMaterial,
+    );
+    ring.scale.setScalar(destination.radius);
+    ring.rotation.set(...config.tilt);
+    group.add(ring);
+  }
+  ud.lambdas = addLambdas(group, destination, ud);
+  ud.moons = [];
+  addMoons(group, destination, ud);
   return group;
 }
 export function createWorld(destination: Destination, invalidate: () => void): THREE.Group {

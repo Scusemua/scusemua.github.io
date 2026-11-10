@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { toSRGB, seededRandom } from "../utils.js";
+import { SCENE_CENTER_X, ORBIT_Z_SCALE } from "../scene-layout.js";
 import { createAsteroidBelt } from "./asteroids.js";
 import { createFlybys } from "./flybys.js";
 import { createTransit } from "./transit.js";
@@ -16,26 +17,24 @@ export interface Backdrop {
   meteorShowerActive(): boolean;
 }
 
-export function addBackdrop(
-  scene: THREE.Scene,
-  camera: THREE.PerspectiveCamera,
-  invalidate?: () => void,
-  onImpact?: OnImpactCallback,
-): Backdrop {
-  let elapsed = 0;
-  const random = seededRandom(319);
-  const time = { value: 0 },
-    meteorsEnabled = { value: 1 },
-    aspect = { value: innerWidth / innerHeight };
-  const stars: number[] = [],
+const STAR_COUNT = 2600;
+const STAR_RADIUS_MIN = 85;
+const STAR_RADIUS_RANGE = 90;
+const DUST_COUNT = 1150;
+const DUST_SPREAD = 210;
+const ORBIT_RADII = [10.5, 16, 25];
+const ORBIT_SEGMENTS = 144;
+
+function createStarField(random: () => number, time: { value: number }): THREE.Points {
+  const positions: number[] = [],
     sizes: number[] = [],
     phases: number[] = [];
-  for (let i = 0; i < 2600; i++) {
+  for (let i = 0; i < STAR_COUNT; i++) {
     const theta = random() * Math.PI * 2,
       cosine = random() * 2 - 1,
-      radius = 85 + random() * 90,
+      radius = STAR_RADIUS_MIN + random() * STAR_RADIUS_RANGE,
       sine = Math.sqrt(1 - cosine * cosine);
-    stars.push(
+    positions.push(
       radius * sine * Math.cos(theta),
       radius * cosine,
       radius * sine * Math.sin(theta),
@@ -43,67 +42,82 @@ export function addBackdrop(
     sizes.push(0.7 + random() * 3);
     phases.push(random() * Math.PI * 2);
   }
-  const starGeometry = new THREE.BufferGeometry();
-  starGeometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(stars, 3),
-  );
-  starGeometry.setAttribute(
-    "aSize",
-    new THREE.Float32BufferAttribute(sizes, 1),
-  );
-  starGeometry.setAttribute(
-    "aPhase",
-    new THREE.Float32BufferAttribute(phases, 1),
-  );
-  const starMaterial = new THREE.ShaderMaterial({
-    vertexShader: `uniform float uTime;attribute float aSize;attribute float aPhase;varying float vGlow;void main(){vec4 mv=modelViewMatrix*vec4(position,1.);gl_PointSize=clamp(aSize*210./(-mv.z),.7,4.);vGlow=.67+.16*sin(uTime*(.6+aPhase*.05)+aPhase);gl_Position=projectionMatrix*mv;}`,
-    fragmentShader: `varying float vGlow;void main(){float d=length(gl_PointCoord-.5);gl_FragColor=vec4(.73,.81,.89,(1.-smoothstep(.03,.5,d))*vGlow);}`,
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute("aSize", new THREE.Float32BufferAttribute(sizes, 1));
+  geometry.setAttribute("aPhase", new THREE.Float32BufferAttribute(phases, 1));
+  const material = new THREE.ShaderMaterial({
+    vertexShader: `
+      uniform float uTime;
+      attribute float aSize;
+      attribute float aPhase;
+      varying float vGlow;
+      void main() {
+        vec4 mv = modelViewMatrix * vec4(position, 1.);
+        gl_PointSize = clamp(aSize * 210. / (-mv.z), .7, 4.);
+        vGlow = .67 + .16 * sin(uTime * (.6 + aPhase * .05) + aPhase);
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader: `
+      varying float vGlow;
+      void main() {
+        float d = length(gl_PointCoord - .5);
+        gl_FragColor = vec4(.73, .81, .89, (1. - smoothstep(.03, .5, d)) * vGlow);
+      }`,
     uniforms: { uTime: time },
     transparent: true,
     depthWrite: false,
   });
-  scene.add(new THREE.Points(starGeometry, starMaterial));
+  return new THREE.Points(geometry, material);
+}
 
-  const dust: number[] = [],
-    dustSizes: number[] = [],
-    dustColors: number[] = [];
+function createDustCloud(random: () => number): THREE.Points {
+  const positions: number[] = [],
+    sizes: number[] = [],
+    colors: number[] = [];
   const palette = ["#ac63ed", "#dd73ba", "#638cda", "#51a3b6", "#c792df"];
-  for (let i = 0; i < 1150; i++) {
-    const x = (random() - 0.5) * 210,
+  for (let i = 0; i < DUST_COUNT; i++) {
+    const x = (random() - 0.5) * DUST_SPREAD,
       spread = (random() + random() + random() - 1.5) * 16;
-    dust.push(x, -8 + x * 0.2 + spread, -95 + (random() - 0.5) * 35);
-    dustSizes.push(2 + random() * 13);
+    positions.push(x, -8 + x * 0.2 + spread, -95 + (random() - 0.5) * 35);
+    sizes.push(2 + random() * 13);
     const color = toSRGB(new THREE.Color(palette[i % palette.length]));
-    dustColors.push(color.r, color.g, color.b);
+    colors.push(color.r, color.g, color.b);
   }
-  const dustGeometry = new THREE.BufferGeometry();
-  dustGeometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(dust, 3),
-  );
-  dustGeometry.setAttribute(
-    "aSize",
-    new THREE.Float32BufferAttribute(dustSizes, 1),
-  );
-  dustGeometry.setAttribute(
-    "color",
-    new THREE.Float32BufferAttribute(dustColors, 3),
-  );
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute("aSize", new THREE.Float32BufferAttribute(sizes, 1));
+  geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
   // Additive blending lets overlapping dust particles brighten into a
   // soft nebula glow rather than occluding each other.
-  const dustCloud = new THREE.Points(
-    dustGeometry,
+  return new THREE.Points(
+    geometry,
     new THREE.ShaderMaterial({
-      vertexShader: `attribute float aSize;attribute vec3 color;varying vec3 vColor;void main(){vColor=color;vec4 mv=modelViewMatrix*vec4(position,1.);gl_PointSize=clamp(aSize*240./(-mv.z),1.,24.);gl_Position=projectionMatrix*mv;}`,
-      fragmentShader: `varying vec3 vColor;void main(){float d=length(gl_PointCoord-.5);float glow=pow(1.-smoothstep(0.,.5,d),2.);gl_FragColor=vec4(vColor,glow*.32);}`,
+      vertexShader: `
+        attribute float aSize;
+        attribute vec3 color;
+        varying vec3 vColor;
+        void main() {
+          vColor = color;
+          vec4 mv = modelViewMatrix * vec4(position, 1.);
+          gl_PointSize = clamp(aSize * 240. / (-mv.z), 1., 24.);
+          gl_Position = projectionMatrix * mv;
+        }`,
+      fragmentShader: `
+        varying vec3 vColor;
+        void main() {
+          float d = length(gl_PointCoord - .5);
+          float glow = pow(1. - smoothstep(0., .5, d), 2.);
+          gl_FragColor = vec4(vColor, glow * .32);
+        }`,
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     }),
   );
-  scene.add(dustCloud);
+}
 
+function createConstellations(scene: THREE.Scene): void {
   const linePositions: number[] = [],
     constellationStars: number[] = [];
   const paths: number[][][] = [
@@ -173,12 +187,49 @@ export function addBackdrop(
       }),
     ),
   );
+}
 
+function createMeteorStreak(
+  scene: THREE.Scene,
+  time: { value: number },
+  aspect: { value: number },
+  meteorsEnabled: { value: number },
+): void {
   const meteor = new THREE.Mesh(
     new THREE.PlaneGeometry(1, 1),
     new THREE.ShaderMaterial({
-      vertexShader: `uniform float uTime;uniform float uAspect;uniform float uEnabled;varying vec2 vUv;varying float vLife;void main(){vUv=uv;float cycle=floor(uTime/13.);float age=mod(uTime,13.)-4.;vLife=step(0.,age)*step(age,1.5)*uEnabled;float p=clamp(age/1.5,0.,1.);vec2 direction=normalize(vec2(.85,-.5));vec2 across=vec2(-direction.y,direction.x);vec2 start=vec2(-.65+mod(cycle,3.)*.42,.74-mod(cycle,2.)*.2);vec2 point=start+direction*(p*.95+(uv.x-1.)*.38)+across*((uv.y-.5)*.013);point.x/=uAspect;gl_Position=vec4(point*vLife,.99999,1.);}`,
-      fragmentShader: `varying vec2 vUv;varying float vLife;void main(){float edge=1.-smoothstep(.05,.5,abs(vUv.y-.5));float tail=pow(vUv.x,2.);float head=smoothstep(.88,1.,vUv.x);gl_FragColor=vec4(mix(vec3(.35,.68,.83),vec3(.95,.91,.71),head),edge*tail*vLife*.85);}`,
+      vertexShader: `
+        uniform float uTime;
+        uniform float uAspect;
+        uniform float uEnabled;
+        varying vec2 vUv;
+        varying float vLife;
+        void main() {
+          vUv = uv;
+          float cycle = floor(uTime / 13.);
+          float age = mod(uTime, 13.) - 4.;
+          vLife = step(0., age) * step(age, 1.5) * uEnabled;
+          float p = clamp(age / 1.5, 0., 1.);
+          vec2 direction = normalize(vec2(.85, -.5));
+          vec2 across = vec2(-direction.y, direction.x);
+          vec2 start = vec2(-.65 + mod(cycle, 3.) * .42, .74 - mod(cycle, 2.) * .2);
+          vec2 point = start + direction * (p * .95 + (uv.x - 1.) * .38)
+                     + across * ((uv.y - .5) * .013);
+          point.x /= uAspect;
+          gl_Position = vec4(point * vLife, .99999, 1.);
+        }`,
+      fragmentShader: `
+        varying vec2 vUv;
+        varying float vLife;
+        void main() {
+          float edge = 1. - smoothstep(.05, .5, abs(vUv.y - .5));
+          float tail = pow(vUv.x, 2.);
+          float head = smoothstep(.88, 1., vUv.x);
+          gl_FragColor = vec4(
+            mix(vec3(.35, .68, .83), vec3(.95, .91, .71), head),
+            edge * tail * vLife * .85
+          );
+        }`,
       uniforms: { uTime: time, uAspect: aspect, uEnabled: meteorsEnabled },
       transparent: true,
       depthWrite: false,
@@ -189,29 +240,31 @@ export function addBackdrop(
   meteor.frustumCulled = false;
   meteor.raycast = () => {};
   scene.add(meteor);
+}
 
-  // Orbit rings: centered at x=6 (the solar system offset) with 0.9 z-scale
-  // for a slight elliptical appearance when viewed from the default camera angle.
-  const orbitPositions: number[] = [];
-  for (const radius of [10.5, 16, 25])
-    for (let i = 0; i < 144; i++) {
+function createOrbitRings(scene: THREE.Scene): void {
+  // Orbit rings: centered at SCENE_CENTER_X (the solar system offset) with
+  // ORBIT_Z_SCALE for a slight elliptical appearance from the default camera angle.
+  const positions: number[] = [];
+  for (const radius of ORBIT_RADII)
+    for (let i = 0; i < ORBIT_SEGMENTS; i++) {
       for (const step of [i, i + 1]) {
-        const angle = (step / 144) * Math.PI * 2;
-        orbitPositions.push(
-          6 + Math.cos(angle) * radius,
+        const angle = (step / ORBIT_SEGMENTS) * Math.PI * 2;
+        positions.push(
+          SCENE_CENTER_X + Math.cos(angle) * radius,
           -0.1,
-          Math.sin(angle) * radius * 0.9,
+          Math.sin(angle) * radius * ORBIT_Z_SCALE,
         );
       }
     }
-  const orbits = new THREE.BufferGeometry();
-  orbits.setAttribute(
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute(
     "position",
-    new THREE.Float32BufferAttribute(orbitPositions, 3),
+    new THREE.Float32BufferAttribute(positions, 3),
   );
   scene.add(
     new THREE.LineSegments(
-      orbits,
+      geometry,
       new THREE.LineBasicMaterial({
         color: "#526572",
         transparent: true,
@@ -219,6 +272,27 @@ export function addBackdrop(
       }),
     ),
   );
+}
+
+export function addBackdrop(
+  scene: THREE.Scene,
+  camera: THREE.PerspectiveCamera,
+  invalidate?: () => void,
+  onImpact?: OnImpactCallback,
+): Backdrop {
+  let elapsed = 0;
+  const random = seededRandom(319);
+  const time = { value: 0 },
+    meteorsEnabled = { value: 1 },
+    aspect = { value: innerWidth / innerHeight };
+
+  scene.add(createStarField(random, time));
+  const dustCloud = createDustCloud(random);
+  scene.add(dustCloud);
+  createConstellations(scene);
+  createMeteorStreak(scene, time, aspect, meteorsEnabled);
+  createOrbitRings(scene);
+
   const asteroids = createAsteroidBelt(scene),
     flybys = createFlybys(scene, camera),
     transit = createTransit(scene),

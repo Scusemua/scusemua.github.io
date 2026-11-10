@@ -4,8 +4,20 @@ import { toSRGB, batchMeshes } from "../utils.js";
 
 function paint(color: string) {
   return new THREE.ShaderMaterial({
-    vertexShader: `varying vec3 vNormal;void main(){vNormal=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
-    fragmentShader: `uniform vec3 uColor;varying vec3 vNormal;void main(){float d=dot(normalize(vNormal),normalize(vec3(-.5,.8,1.)));float band=d>.55?1.:d>.05?.72:.38;gl_FragColor=vec4(uColor*band,1.);}`,
+    vertexShader: `
+      varying vec3 vNormal;
+      void main() {
+        vNormal = normalize(normalMatrix * normal);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+      }`,
+    fragmentShader: `
+      uniform vec3 uColor;
+      varying vec3 vNormal;
+      void main() {
+        float d = dot(normalize(vNormal), normalize(vec3(-.5, .8, 1.)));
+        float band = d > .55 ? 1. : d > .05 ? .72 : .38;
+        gl_FragColor = vec4(uColor * band, 1.);
+      }`,
     uniforms: {
       uColor: { value: toSRGB(new THREE.Color(color)) },
     },
@@ -121,6 +133,12 @@ export interface Flybys {
   resize(): void;
 }
 
+const FLYBY_DEPTH = 90;
+const FLYBY_CYCLE = 37;
+const FLYBY_DURATION = 9;
+const SHIP_PHASE_OFFSET = 2;
+const UFO_PHASE_OFFSET = 14;
+
 // Fly-bys are children of the camera, not the scene, so they appear at
 // consistent screen positions regardless of where the user has orbited.
 export function createFlybys(scene: THREE.Scene, camera: THREE.PerspectiveCamera): Flybys {
@@ -133,33 +151,32 @@ export function createFlybys(scene: THREE.Scene, camera: THREE.PerspectiveCamera
   fleet.add(ship, ufo);
   ship.visible = false;
   ufo.visible = false;
-  const depth = 90;
   let width = 0,
     height = 0,
     enabled = true;
   const resize = () => {
-    height = 2 * Math.tan((camera.fov * Math.PI) / 360) * depth;
+    height = 2 * Math.tan((camera.fov * Math.PI) / 360) * FLYBY_DEPTH;
     width = height * camera.aspect;
   };
   const update = (elapsed: number) => {
     resize();
-    const shipAge = (elapsed % 37) - 2,
-      shipActive = shipAge >= 0 && shipAge < 9;
-    const ufoAge = (elapsed % 37) - 14,
-      ufoActive = ufoAge >= 0 && ufoAge < 9;
+    const shipAge = (elapsed % FLYBY_CYCLE) - SHIP_PHASE_OFFSET,
+      shipActive = shipAge >= 0 && shipAge < FLYBY_DURATION;
+    const ufoAge = (elapsed % FLYBY_CYCLE) - UFO_PHASE_OFFSET,
+      ufoActive = ufoAge >= 0 && ufoAge < FLYBY_DURATION;
     ship.visible = enabled && shipActive;
     ufo.visible = enabled && ufoActive;
-    const sp = THREE.MathUtils.clamp(shipAge / 9, 0, 1),
-      up = THREE.MathUtils.clamp(ufoAge / 9, 0, 1);
+    const sp = THREE.MathUtils.clamp(shipAge / FLYBY_DURATION, 0, 1),
+      up = THREE.MathUtils.clamp(ufoAge / FLYBY_DURATION, 0, 1);
     ship.position.set(
       (-0.72 + sp * 1.44) * width,
       height * (0.32 + Math.sin(sp * Math.PI) * 0.018),
-      -depth,
+      -FLYBY_DEPTH,
     );
     ufo.position.set(
       (0.72 - up * 1.44) * width,
       height * (0.28 + Math.sin(up * Math.PI) * 0.022),
-      -depth,
+      -FLYBY_DEPTH,
     );
     ufo.rotation.z = 0.08 + Math.sin(elapsed * 0.65) * 0.055;
   };

@@ -262,11 +262,7 @@ function trafficState(vehicle: Vehicle, elapsed: number, target: Partial<Traffic
   return target as TrafficTarget;
 }
 
-export function createTransit(scene: THREE.Scene): Transit {
-  const routes = buildTransitRoutes();
-  const highway = new THREE.Group();
-  highway.name = "interplanetary-highways";
-  scene.add(highway);
+function buildLaneGeometry(routes: TransitRoute[]): THREE.LineSegments {
   const positions: number[] = [];
   const colors: number[] = [];
   const point = new THREE.Vector3(),
@@ -287,17 +283,11 @@ export function createTransit(scene: THREE.Scene): Transit {
         }
       }
   }
-  const laneGeometry = new THREE.BufferGeometry();
-  laneGeometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(positions, 3),
-  );
-  laneGeometry.setAttribute(
-    "color",
-    new THREE.Float32BufferAttribute(colors, 3),
-  );
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
   const lanes = new THREE.LineSegments(
-    laneGeometry,
+    geometry,
     new THREE.LineBasicMaterial({
       vertexColors: true,
       transparent: true,
@@ -306,7 +296,15 @@ export function createTransit(scene: THREE.Scene): Transit {
     }),
   );
   lanes.name = "transit-lanes";
-  highway.add(lanes);
+  return lanes;
+}
+
+export function createTransit(scene: THREE.Scene): Transit {
+  const routes = buildTransitRoutes();
+  const highway = new THREE.Group();
+  highway.name = "interplanetary-highways";
+  scene.add(highway);
+  highway.add(buildLaneGeometry(routes));
   const vehicles: Vehicle[] = [];
   for (let r = 0; r < routes.length; r++)
     for (const lane of [-1, 1])
@@ -331,13 +329,35 @@ export function createTransit(scene: THREE.Scene): Transit {
         });
       }
   const bodyMaterial = new THREE.ShaderMaterial({
-    vertexShader: `varying vec3 vColor;varying vec3 vNormal;void main(){vColor=color*instanceColor;vNormal=normalize(mat3(modelMatrix*instanceMatrix)*normal);gl_Position=projectionMatrix*viewMatrix*modelMatrix*instanceMatrix*vec4(position,1.);}`,
-    fragmentShader: `varying vec3 vColor;varying vec3 vNormal;void main(){float light=dot(normalize(vNormal),normalize(vec3(-.5,.8,1.)));float shade=light>.5?1.:light>0.?.78:.48;gl_FragColor=vec4(vColor*shade,1.);}`,
+    vertexShader: `
+      varying vec3 vColor;
+      varying vec3 vNormal;
+      void main() {
+        vColor = color * instanceColor;
+        vNormal = normalize(mat3(modelMatrix * instanceMatrix) * normal);
+        gl_Position = projectionMatrix * viewMatrix * modelMatrix
+                    * instanceMatrix * vec4(position, 1.);
+      }`,
+    fragmentShader: `
+      varying vec3 vColor;
+      varying vec3 vNormal;
+      void main() {
+        float light = dot(normalize(vNormal), normalize(vec3(-.5, .8, 1.)));
+        float shade = light > .5 ? 1. : light > 0. ? .78 : .48;
+        gl_FragColor = vec4(vColor * shade, 1.);
+      }`,
     vertexColors: true,
   });
   const inkMaterial = new THREE.ShaderMaterial({
-    vertexShader: `void main(){gl_Position=projectionMatrix*viewMatrix*modelMatrix*instanceMatrix*vec4(position+normal*.025,1.);}`,
-    fragmentShader: `void main(){gl_FragColor=vec4(.015,.02,.035,1.);}`,
+    vertexShader: `
+      void main() {
+        gl_Position = projectionMatrix * viewMatrix * modelMatrix
+                    * instanceMatrix * vec4(position + normal * .025, 1.);
+      }`,
+    fragmentShader: `
+      void main() {
+        gl_FragColor = vec4(.015, .02, .035, 1.);
+      }`,
     side: THREE.BackSide,
   });
   const bounds = new THREE.Box3();
