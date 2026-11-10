@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { DagBoardConfig } from "./types.js";
+import type { DagBoardConfig } from "../types.js";
 import type { DagSimulator, SimulatorSnapshot } from "./dag-simulator.js";
 
 // ---------------------------------------------------------------------------
@@ -83,9 +83,7 @@ export function buildDagBoard(
 ): DagBoard {
   const canvas = document.createElement("canvas");
   canvas.width = DAG_RESOLUTION;
-  canvas.height = Math.round(
-    DAG_RESOLUTION * (config.height / config.width),
-  );
+  canvas.height = Math.round(DAG_RESOLUTION * (config.height / config.width));
   const ctx = canvas.getContext("2d")!;
   const texture = new THREE.CanvasTexture(canvas);
   texture.minFilter = THREE.LinearFilter;
@@ -252,10 +250,7 @@ interface NodeVisualStyle {
   textColor: string;
 }
 
-function nodeStyle(
-  status: string,
-  hasExecutor: boolean,
-): NodeVisualStyle {
+function nodeStyle(status: string, hasExecutor: boolean): NodeVisualStyle {
   if (status === "executing" && hasExecutor) {
     return {
       fill: COLOR_NODE_EXECUTING_FILL,
@@ -312,7 +307,7 @@ function drawTitle(
   ctx.fillText(
     `${executorCount} active executor${executorCount !== 1 ? "s" : ""}`,
     PADDING,
-    PADDING - 20,
+    PADDING + 60,
   );
 
   void canvasWidth;
@@ -325,18 +320,14 @@ function drawProgressBar(
 ): void {
   const pct = snapshot.completedFraction;
   const barX = canvasWidth - PADDING - PROGRESS_BAR_WIDTH;
-  const barY = PADDING - PROGRESS_BAR_HEIGHT - 30;
+  const barY = PADDING - PROGRESS_BAR_HEIGHT;
 
   // Percentage label above the bar
   ctx.font = FONT_PROGRESS;
   ctx.textAlign = "right";
   ctx.textBaseline = "alphabetic";
   ctx.fillStyle = "rgba(160,190,220,0.6)";
-  ctx.fillText(
-    `${Math.round(pct * 100)}%`,
-    canvasWidth - PADDING,
-    barY - 20,
-  );
+  ctx.fillText(`${Math.round(pct * 100)}%`, canvasWidth - PADDING, barY - 30);
 
   // Background bar
   ctx.fillStyle = COLOR_PROGRESS_BG;
@@ -356,8 +347,7 @@ function drawPhaseLabel(
   if (!label) return;
 
   const isPreExecution =
-    snapshot.phase === "partitioning" ||
-    snapshot.phase === "invoking-leaves";
+    snapshot.phase === "partitioning" || snapshot.phase === "invoking-leaves";
 
   ctx.font = FONT_PHASE;
   ctx.textAlign = "center";

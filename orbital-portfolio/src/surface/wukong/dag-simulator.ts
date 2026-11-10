@@ -1,4 +1,4 @@
-import type { DagBoardConfig } from "./types.js";
+import type { DagBoardConfig } from "../types.js";
 
 // ---------------------------------------------------------------------------
 // Public types — the simulator's observable state
@@ -37,6 +37,7 @@ export interface SimulatorSnapshot {
   readonly activeEdges: ReadonlySet<string>;
   readonly completedFraction: number;
   readonly phase: SimPhase;
+  readonly events: readonly SimEvent[];
 }
 
 export type SimPhase =
@@ -46,17 +47,26 @@ export type SimPhase =
   | "completed"
   | "resetting";
 
+export type SimEventKind = "write-kv" | "increment-dep" | "check-dep";
+
+export interface SimEvent {
+  kind: SimEventKind;
+  executorId: string;
+  taskId: string;
+  targetTaskId?: string;
+}
+
 // ---------------------------------------------------------------------------
 // Timing constants (seconds)
 // ---------------------------------------------------------------------------
 
 const PARTITION_DURATION = 3.5;
-const INVOKE_DURATION = 2.5;
-const TASK_EXECUTE_DURATION_MIN = 3.0;
-const TASK_EXECUTE_DURATION_RANGE = 2.0;
-const WRITE_OUTPUT_DURATION = 1.0;
-const DEP_CHECK_DURATION = 0.8;
-const INVOKE_CHILD_DURATION = 1.0;
+const INVOKE_DURATION = 3.5;
+const TASK_EXECUTE_DURATION_MIN = 5.0;
+const TASK_EXECUTE_DURATION_RANGE = 3.0;
+const WRITE_OUTPUT_DURATION = 3.0;
+const DEP_CHECK_DURATION = 2;
+const INVOKE_CHILD_DURATION = 2.0;
 const RESET_PAUSE = 3.0;
 
 // ---------------------------------------------------------------------------
@@ -101,10 +111,7 @@ function findLeafNodes(graph: DagGraph): string[] {
   return leaves;
 }
 
-function computeStaticSchedule(
-  leafId: string,
-  graph: DagGraph,
-): string[] {
+function computeStaticSchedule(leafId: string, graph: DagGraph): string[] {
   const schedule: string[] = [];
   const visited = new Set<string>();
 
@@ -132,6 +139,7 @@ export class DagSimulator {
   private readonly nodeStates: Map<string, DagNodeState>;
   private readonly executorList: Executor[];
   private readonly activeEdgeSet: Set<string>;
+  private readonly eventQueue: SimEvent[];
 
   private simPhase: SimPhase = "partitioning";
   private phaseTimer = 0;
@@ -144,6 +152,7 @@ export class DagSimulator {
     this.nodeStates = new Map();
     this.executorList = [];
     this.activeEdgeSet = new Set();
+    this.eventQueue = [];
     this.totalNodes = config.nodes.length;
 
     this.reset();
@@ -159,6 +168,7 @@ export class DagSimulator {
       activeEdges: this.activeEdgeSet,
       completedFraction: completed / this.totalNodes,
       phase: this.simPhase,
+      events: this.eventQueue,
     };
   }
 
@@ -178,12 +188,14 @@ export class DagSimulator {
 
     this.executorList.length = 0;
     this.activeEdgeSet.clear();
+    this.eventQueue.length = 0;
     this.executorIdCounter = 0;
     this.simPhase = "partitioning";
     this.phaseTimer = 0;
   }
 
   update(delta: number): void {
+    this.eventQueue.length = 0;
     this.phaseTimer += delta;
 
     switch (this.simPhase) {
@@ -306,6 +318,13 @@ export class DagSimulator {
     if (executor.phaseTimer >= duration) {
       executor.phase = "writing-output";
       executor.phaseTimer = 0;
+      if (executor.currentTask) {
+        this.eventQueue.push({
+          kind: "write-kv",
+          executorId: executor.id,
+          taskId: executor.currentTask,
+        });
+      }
     }
   }
 
@@ -318,7 +337,7 @@ export class DagSimulator {
     node.assignedExecutor = null;
 
     const children = this.graph.adj.get(taskId) ?? [];
-    this.satisfyDependencies(taskId, children);
+    this.satisfyDependencies(executor.id, taskId, children);
 
     if (children.length === 0) {
       executor.cursor++;
@@ -354,6 +373,12 @@ export class DagSimulator {
       } else {
         executor.phase = "checking-deps";
         executor.phaseTimer = 0;
+        this.eventQueue.push({
+          kind: "check-dep",
+          executorId: executor.id,
+          taskId: fromId,
+          targetTaskId: toId,
+        });
       }
     } else {
       executor.cursor++;
@@ -431,6 +456,7 @@ export class DagSimulator {
   // --- Dependency management ---
 
   private satisfyDependencies(
+    executorId: string,
     completedId: string,
     _children: string[],
   ): void {
@@ -438,6 +464,12 @@ export class DagSimulator {
       const child = this.nodeStates.get(childId);
       if (!child) continue;
       child.depCounter++;
+      this.eventQueue.push({
+        kind: "increment-dep",
+        executorId,
+        taskId: completedId,
+        targetTaskId: childId,
+      });
       if (child.depCounter >= child.depsTotal && child.status === "pending") {
         child.status = "ready";
       }

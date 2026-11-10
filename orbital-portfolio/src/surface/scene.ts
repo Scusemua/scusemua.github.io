@@ -15,10 +15,8 @@ import type {
   ArchConnection,
   ArchAnnotation,
 } from "./types.js";
-import { DagSimulator } from "./dag-simulator.js";
-import type { Executor, SimulatorSnapshot } from "./dag-simulator.js";
-import { buildDagBoard, renderDagCanvas } from "./dag-renderer.js";
-import type { DagBoard } from "./dag-renderer.js";
+import type { SurfaceHooks, SurfaceContext } from "./hooks.js";
+import { createWukongHooks } from "./wukong/index.js";
 
 // ---------------------------------------------------------------------------
 // Dependency injection — populated by initSurface()
@@ -39,6 +37,14 @@ export function initSurface(deps: {
 }
 
 // ---------------------------------------------------------------------------
+// Hook registry — maps architecture IDs to hook factories
+// ---------------------------------------------------------------------------
+
+const hookFactories = new Map<string, () => SurfaceHooks>([
+  ["atlas", createWukongHooks],
+]);
+
+// ---------------------------------------------------------------------------
 // Surface state
 // ---------------------------------------------------------------------------
 
@@ -50,49 +56,6 @@ interface ParticleSystem {
   count: number;
 }
 
-interface TaskCube {
-  mesh: THREE.Mesh;
-  t: number;
-  speed: number;
-}
-
-interface TaskFunnel {
-  target: THREE.Vector3;
-  cubes: TaskCube[];
-  interval: number;
-  timer: number;
-  material: THREE.ShaderMaterial;
-  edgeMat: THREE.LineBasicMaterial;
-}
-
-interface LambdaLifecycle {
-  compId: string;
-  group: THREE.Group;
-  phase:
-    | "spawning"
-    | "waiting-for-pulse"
-    | "idle"
-    | "executing"
-    | "invoking"
-    | "despawning";
-  phaseTimer: number;
-  taskIndicator: THREE.Mesh | null;
-  taskNodeId: string | null;
-  taskLabelEl: HTMLElement | null;
-  executionDuration: number;
-  idleDuration: number;
-  spawnScale: number;
-  spawnPulse: InvocationPulse | null;
-}
-
-interface InvocationPulse {
-  curve: THREE.CubicBezierCurve3;
-  mesh: THREE.Mesh;
-  t: number;
-  speed: number;
-}
-
-
 interface SurfaceState {
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
@@ -102,16 +65,12 @@ interface SurfaceState {
   annotations: Map<string, THREE.Mesh>;
   annotationList: string[];
   particleSystems: ParticleSystem[];
-  taskFunnels: TaskFunnel[];
-  lambdaLifecycles: LambdaLifecycle[];
-  invocationPulses: InvocationPulse[];
-  dagBoard: DagBoard | null;
-  dagSimulator: DagSimulator | null;
   pickable: THREE.Object3D[];
   elapsed: number;
   lastFrame: number;
   activeAnnotation: string | null;
   labels: Map<string, HTMLElement>;
+  hooks: SurfaceHooks | null;
   tween: {
     started: number;
     from: THREE.Vector3;
@@ -126,7 +85,6 @@ let state: SurfaceState | null = null;
 // Reusable objects for per-frame work
 const _mat4 = new THREE.Matrix4();
 const _v3 = new THREE.Vector3();
-const _projection = new THREE.Vector3();
 const _raycaster = new THREE.Raycaster();
 const _pointer = new THREE.Vector2();
 
@@ -157,14 +115,11 @@ function buildFactory(comp: ArchComponent): THREE.Group {
   group.userData = { componentId: comp.id };
   const c = comp.color;
 
-  // Main body — wide rectangular building
   addToonPart(new THREE.BoxGeometry(4, 2.4, 3), c, group, [0, 1.2, 0]);
 
-  // Hopper/funnel on top — tapered cylinder
   const hopperGeo = new THREE.CylinderGeometry(0.6, 1.4, 1.2, 8);
   addToonPart(hopperGeo, "#d09030", group, [0, 3.0, 0]);
 
-  // Chimney on the side
   addToonPart(
     new THREE.CylinderGeometry(0.3, 0.3, 2.0, 8),
     "#c07828",
@@ -172,7 +127,6 @@ function buildFactory(comp: ArchComponent): THREE.Group {
     [1.5, 3.4, -0.8],
   );
 
-  // Small loading dock on the front
   addToonPart(
     new THREE.BoxGeometry(1.2, 0.8, 0.6),
     "#c88530",
@@ -316,434 +270,6 @@ function buildParticleSystem(
   return { mesh, curve, offsets, speed: conn.speed, count };
 }
 
-
-// ---------------------------------------------------------------------------
-// Lambda lifecycle helpers
-// ---------------------------------------------------------------------------
-
-function createTaskIndicator(
-  position: THREE.Vector3,
-  scene: THREE.Scene,
-): THREE.Mesh {
-  const geo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
-  const mat = toon("#60d8ff");
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.copy(position);
-  mesh.position.y += 3.5;
-  const edges = new THREE.EdgesGeometry(geo, 30);
-  const edgeLine = new THREE.LineSegments(edges, edgeMaterial);
-  mesh.add(edgeLine);
-  scene.add(mesh);
-  return mesh;
-}
-
-function spawnInvocationPulse(
-  from: THREE.Vector3,
-  to: THREE.Vector3,
-  scene: THREE.Scene,
-): InvocationPulse {
-  const mid = from.clone().lerp(to, 0.5);
-  mid.y += 2.5;
-  const cp1 = from.clone().lerp(mid, 0.5);
-  cp1.y += 1.5;
-  const cp2 = mid.clone().lerp(to, 0.5);
-  cp2.y += 1.5;
-  const curve = new THREE.CubicBezierCurve3(from.clone(), cp1, cp2, to.clone());
-
-  const geo = new THREE.SphereGeometry(0.2, 8, 6);
-  const mat = toon("#ff9040");
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.copy(from);
-  scene.add(mesh);
-
-  return { curve, mesh, t: 0, speed: 0.8 };
-}
-
-// ---------------------------------------------------------------------------
-// Simulator-driven Lambda sync — maps executor state to 3D Lambda visuals
-// ---------------------------------------------------------------------------
-
-const LAMBDA_SCALE = 0.18;
-const SPAWN_DURATION = 0.5;
-const DESPAWN_DURATION = 0.4;
-const INVOKING_DURATION = 0.4;
-
-// Maps executor IDs to Lambda indices for stable visual assignment
-let executorToLambda = new Map<string, number>();
-
-function syncLambdasToSimulator(
-  s: SurfaceState,
-  snapshot: SimulatorSnapshot,
-  delta: number,
-): void {
-  const activeExecutors = snapshot.executors.filter(
-    (e) => e.phase !== "terminated",
-  );
-  const lambdas = s.lambdaLifecycles;
-
-  // Reset mapping when sim cycles back to pre-execution phases
-  if (snapshot.phase === "partitioning" || snapshot.phase === "resetting") {
-    executorToLambda.clear();
-  }
-
-  // Build set of executor IDs that are still active
-  const activeIds = new Set(activeExecutors.map((e) => e.id));
-
-  // Remove stale mappings for terminated executors
-  for (const [eid, li] of executorToLambda) {
-    if (!activeIds.has(eid)) {
-      executorToLambda.delete(eid);
-      const lc = lambdas[li];
-      if (lc && lc.group.scale.x > 0) {
-        clearTaskVisuals(lc, s);
-        resetLambdaColor(lc, s);
-        lc.phase = "despawning";
-        lc.phaseTimer = 0;
-      }
-    }
-  }
-
-  // Assign unassigned active executors to free Lambda slots
-  const usedSlots = new Set(executorToLambda.values());
-  for (const executor of activeExecutors) {
-    if (executorToLambda.has(executor.id)) continue;
-    for (let i = 0; i < lambdas.length; i++) {
-      if (!usedSlots.has(i)) {
-        executorToLambda.set(executor.id, i);
-        usedSlots.add(i);
-        const lc = lambdas[i];
-
-        // Fire invocation pulse; Lambda waits for it to arrive before spawning
-        const sourcePos = findInvocationSource(executor, s);
-        if (sourcePos) {
-          const pulse = spawnInvocationPulse(
-            sourcePos,
-            lc.group.position,
-            s.scene,
-          );
-          s.invocationPulses.push(pulse);
-          lc.spawnPulse = pulse;
-          lc.phase = "waiting-for-pulse";
-        } else if (lc.group.scale.x === 0) {
-          lc.phase = "spawning";
-          lc.phaseTimer = 0;
-          lc.spawnScale = 0;
-        }
-        break;
-      }
-    }
-  }
-
-  // Update each Lambda based on its assigned executor
-  for (let i = 0; i < lambdas.length; i++) {
-    const lc = lambdas[i];
-    lc.phaseTimer += delta;
-
-    // Find assigned executor for this Lambda slot
-    let executor: Executor | undefined;
-    for (const [eid, li] of executorToLambda) {
-      if (li === i) {
-        executor = activeExecutors.find((e) => e.id === eid);
-        break;
-      }
-    }
-
-    if (!executor) {
-      // No executor assigned — finish despawn, then stay hidden
-      if (lc.phase === "despawning") {
-        const shrink = 1 - Math.min(lc.phaseTimer / DESPAWN_DURATION, 1);
-        lc.group.scale.setScalar(shrink * LAMBDA_SCALE);
-        if (shrink <= 0) lc.group.scale.setScalar(0);
-      }
-      // Keep waiting-for-pulse alive even without executor (pulse in flight)
-      if (lc.phase === "waiting-for-pulse" && lc.spawnPulse) {
-        if (lc.spawnPulse.t >= 1) {
-          lc.spawnPulse = null;
-          lc.phase = "spawning";
-          lc.phaseTimer = 0;
-          lc.spawnScale = 0;
-        }
-      }
-      continue;
-    }
-
-    switch (lc.phase) {
-      case "waiting-for-pulse": {
-        if (!lc.spawnPulse || lc.spawnPulse.t >= 1) {
-          lc.spawnPulse = null;
-          lc.phase = "spawning";
-          lc.phaseTimer = 0;
-          lc.spawnScale = 0;
-        }
-        break;
-      }
-      case "spawning": {
-        lc.spawnScale = Math.min(lc.phaseTimer / SPAWN_DURATION, 1);
-        const ease = lc.spawnScale * (2 - lc.spawnScale);
-        lc.group.scale.setScalar(ease * LAMBDA_SCALE);
-        if (lc.spawnScale >= 1) {
-          lc.phase = "idle";
-          lc.phaseTimer = 0;
-          const comp = s.architecture.components.find(
-            (c) => c.id === lc.compId,
-          );
-          if (comp) lc.group.scale.set(...comp.scale);
-        }
-        break;
-      }
-      case "idle":
-      case "despawning": {
-        if (lc.group.scale.x === 0) {
-          lc.phase = "spawning";
-          lc.phaseTimer = 0;
-          lc.spawnScale = 0;
-          break;
-        }
-        if (executor.phase === "executing" && executor.currentTask) {
-          lc.phase = "executing";
-          lc.phaseTimer = 0;
-          lc.taskNodeId = executor.currentTask;
-          lc.taskIndicator = createTaskIndicator(lc.group.position, s.scene);
-          const node = s.dagBoard?.config.nodes.find(
-            (n) => n.id === executor.currentTask,
-          );
-          if (node) {
-            const el = document.createElement("div");
-            el.className = "surface-task-label";
-            el.textContent = `⚡ ${node.label}()`;
-            $("surface-labels").appendChild(el);
-            lc.taskLabelEl = el;
-          }
-        }
-        break;
-      }
-      case "executing": {
-        updateTaskIndicatorVisuals(lc, s);
-        updateExecutingColor(lc, s);
-
-        if (executor.phase !== "executing") {
-          clearTaskVisuals(lc, s);
-          resetLambdaColor(lc, s);
-
-          if (executor.phase === "invoking") {
-            lc.phase = "invoking";
-            lc.phaseTimer = 0;
-            const target = pickInvocationTarget(lc, s);
-            if (target) {
-              s.invocationPulses.push(
-                spawnInvocationPulse(
-                  lc.group.position,
-                  target.group.position,
-                  s.scene,
-                ),
-              );
-            }
-          } else {
-            lc.phase = "idle";
-            lc.phaseTimer = 0;
-          }
-        }
-        break;
-      }
-      case "invoking": {
-        if (lc.phaseTimer >= INVOKING_DURATION) {
-          lc.phase = "idle";
-          lc.phaseTimer = 0;
-        }
-        break;
-      }
-    }
-  }
-}
-
-function clearTaskVisuals(lc: LambdaLifecycle, s: SurfaceState): void {
-  if (lc.taskIndicator) {
-    s.scene.remove(lc.taskIndicator);
-    lc.taskIndicator = null;
-  }
-  if (lc.taskLabelEl) {
-    lc.taskLabelEl.remove();
-    lc.taskLabelEl = null;
-  }
-  lc.taskNodeId = null;
-}
-
-function updateTaskIndicatorVisuals(
-  lc: LambdaLifecycle,
-  s: SurfaceState,
-): void {
-  if (!lc.taskIndicator) return;
-  const elapsed = s.elapsed;
-  lc.taskIndicator.rotation.y += 0.016 * 4;
-  lc.taskIndicator.rotation.x += 0.016 * 2;
-  lc.taskIndicator.position.y =
-    lc.group.position.y + 3.5 + 0.15 * Math.sin(elapsed * 4);
-  const brightness = 0.8 + 0.2 * Math.sin(elapsed * 6);
-  lc.taskIndicator.scale.setScalar(brightness);
-
-  if (lc.taskLabelEl) {
-    _v3.copy(lc.group.position);
-    _v3.y += 4.5;
-    _v3.project(s.camera);
-    const lx = (_v3.x * 0.5 + 0.5) * innerWidth;
-    const ly = (-_v3.y * 0.5 + 0.5) * innerHeight;
-    lc.taskLabelEl.style.transform = `translate3d(${lx}px,${ly}px,0) translateX(-50%)`;
-    lc.taskLabelEl.style.visibility =
-      _v3.z > -1 && _v3.z < 1 ? "visible" : "hidden";
-  }
-}
-
-function updateExecutingColor(lc: LambdaLifecycle, s: SurfaceState): void {
-  const mat = (lc.group.children[0] as THREE.Mesh)
-    .material as THREE.ShaderMaterial;
-  if (mat.uniforms?.uColor) {
-    const base = new THREE.Color("#60d8ff");
-    base.lerp(
-      new THREE.Color("#f0c050"),
-      0.3 + 0.3 * Math.sin(s.elapsed * 5),
-    );
-    mat.uniforms.uColor.value.copy(base);
-  }
-}
-
-function resetLambdaColor(lc: LambdaLifecycle, s: SurfaceState): void {
-  const comp = s.architecture.components.find((c) => c.id === lc.compId);
-  const mat = (lc.group.children[0] as THREE.Mesh)
-    .material as THREE.ShaderMaterial;
-  if (comp && mat.uniforms?.uColor) {
-    mat.uniforms.uColor.value.set(comp.color);
-  }
-}
-
-function findInvocationSource(
-  executor: Executor,
-  s: SurfaceState,
-): THREE.Vector3 | null {
-  if (!executor.invokedBy) {
-    // Leaf executor — invoked by the factory/invokers component
-    const invokerGroup = s.components.get("invokers");
-    if (invokerGroup) return invokerGroup.position;
-    return null;
-  }
-  // Fan-out — invoked by another executor's Lambda
-  const parentLambdaIdx = executorToLambda.get(executor.invokedBy);
-  if (parentLambdaIdx !== undefined) {
-    const parentLc = s.lambdaLifecycles[parentLambdaIdx];
-    if (parentLc) return parentLc.group.position;
-  }
-  return null;
-}
-
-function pickInvocationTarget(
-  lc: LambdaLifecycle,
-  s: SurfaceState,
-): LambdaLifecycle | null {
-  const others = s.lambdaLifecycles.filter((l) => l.compId !== lc.compId);
-  if (others.length === 0) return null;
-  return others[Math.floor(Math.random() * others.length)];
-}
-
-function updateInvocationPulses(s: SurfaceState, delta: number): void {
-  for (let i = s.invocationPulses.length - 1; i >= 0; i--) {
-    const pulse = s.invocationPulses[i];
-    pulse.t += delta * pulse.speed;
-    if (pulse.t >= 1) {
-      s.scene.remove(pulse.mesh);
-      s.invocationPulses.splice(i, 1);
-    } else {
-      const pt = pulse.curve.getPoint(pulse.t);
-      pulse.mesh.position.copy(pt);
-      const glow = 1 + 0.3 * Math.sin(pulse.t * Math.PI);
-      pulse.mesh.scale.setScalar(glow);
-    }
-  }
-}
-
-function updateLambdaLifecyclesStandalone(
-  s: SurfaceState,
-  delta: number,
-): void {
-  for (const lc of s.lambdaLifecycles) {
-    lc.phaseTimer += delta;
-    switch (lc.phase) {
-      case "spawning": {
-        lc.spawnScale = Math.min(lc.phaseTimer / SPAWN_DURATION, 1);
-        const ease = lc.spawnScale * (2 - lc.spawnScale);
-        lc.group.scale.setScalar(ease * LAMBDA_SCALE);
-        if (lc.spawnScale >= 1) {
-          lc.phase = "idle";
-          lc.phaseTimer = 0;
-          const comp = s.architecture.components.find(
-            (c) => c.id === lc.compId,
-          );
-          if (comp) lc.group.scale.set(...comp.scale);
-        }
-        break;
-      }
-      case "idle": {
-        if (lc.phaseTimer >= lc.idleDuration) {
-          lc.phase = "executing";
-          lc.phaseTimer = 0;
-          lc.executionDuration = 1.5 + Math.random() * 2;
-          lc.taskIndicator = createTaskIndicator(lc.group.position, s.scene);
-        }
-        break;
-      }
-      case "executing": {
-        updateTaskIndicatorVisuals(lc, s);
-        updateExecutingColor(lc, s);
-        if (lc.phaseTimer >= lc.executionDuration) {
-          clearTaskVisuals(lc, s);
-          resetLambdaColor(lc, s);
-          lc.phase = "invoking";
-          lc.phaseTimer = 0;
-          const target = pickInvocationTarget(lc, s);
-          if (target) {
-            s.invocationPulses.push(
-              spawnInvocationPulse(
-                lc.group.position,
-                target.group.position,
-                s.scene,
-              ),
-            );
-          }
-        }
-        break;
-      }
-      case "invoking": {
-        if (lc.phaseTimer >= INVOKING_DURATION) {
-          lc.phase = "despawning";
-          lc.phaseTimer = 0;
-        }
-        break;
-      }
-      case "despawning": {
-        const shrink = 1 - Math.min(lc.phaseTimer / DESPAWN_DURATION, 1);
-        lc.group.scale.setScalar(shrink * LAMBDA_SCALE);
-        if (shrink <= 0) {
-          lc.phase = "spawning";
-          lc.phaseTimer = 0;
-          lc.spawnScale = 0;
-          lc.idleDuration = 1 + Math.random() * 1.5;
-          const comp = s.architecture.components.find(
-            (c) => c.id === lc.compId,
-          );
-          if (comp) {
-            const dx = (Math.random() - 0.5) * 3;
-            const dz = (Math.random() - 0.5) * 3;
-            lc.group.position.set(
-              comp.position[0] + dx,
-              comp.position[1],
-              comp.position[2] + dz,
-            );
-          }
-        }
-        break;
-      }
-    }
-  }
-}
-
 // ---------------------------------------------------------------------------
 // Scene construction / destruction
 // ---------------------------------------------------------------------------
@@ -815,56 +341,6 @@ function buildScene(arch: Architecture): SurfaceState {
     particleSystems.push(ps);
   }
 
-  const taskFunnels: TaskFunnel[] = [];
-  for (const comp of arch.components) {
-    if (comp.shape !== "factory") continue;
-    const pos = new THREE.Vector3(...comp.position);
-    const funnelMat = toon("#f5d060");
-    const funnelEdgeMat = new THREE.LineBasicMaterial({ color: "#10131d" });
-    taskFunnels.push({
-      target: pos.clone().add(new THREE.Vector3(0, 3.6, 0)),
-      cubes: [],
-      interval: 0.8,
-      timer: 0,
-      material: funnelMat,
-      edgeMat: funnelEdgeMat,
-    });
-  }
-
-  // Lambda lifecycle — for each lambda component, create a lifecycle tracker
-  const hasDag = !!arch.dagBoard;
-  const lambdaLifecycles: LambdaLifecycle[] = [];
-  for (const comp of arch.components) {
-    if (comp.shape !== "lambda") continue;
-    const group = components.get(comp.id);
-    if (!group) continue;
-    if (hasDag) {
-      group.scale.setScalar(0);
-    }
-    lambdaLifecycles.push({
-      compId: comp.id,
-      group,
-      phase: hasDag ? "idle" : "spawning",
-      phaseTimer: 0,
-      taskIndicator: null,
-      taskNodeId: null,
-      taskLabelEl: null,
-      executionDuration: 2 + Math.random() * 2,
-      idleDuration: 1.5 + Math.random() * 1.5,
-      spawnScale: 0,
-      spawnPulse: null,
-    });
-  }
-
-  // DAG board + simulator
-  let dagBoard: DagBoard | null = null;
-  let dagSimulator: DagSimulator | null = null;
-  if (arch.dagBoard) {
-    dagBoard = buildDagBoard(arch.dagBoard, scene);
-    dagSimulator = new DagSimulator(arch.dagBoard);
-    renderDagCanvas(dagBoard, dagSimulator.snapshot);
-  }
-
   const labels = new Map<string, HTMLElement>();
   const labelsContainer = $("surface-labels");
   for (const comp of arch.components) {
@@ -875,7 +351,11 @@ function buildScene(arch: Architecture): SurfaceState {
     labels.set(comp.id, el);
   }
 
-  return {
+  // Architecture-specific hooks
+  const factory = hookFactories.get(arch.id);
+  const hooks = factory ? factory() : null;
+
+  const s: SurfaceState = {
     scene,
     camera,
     controls,
@@ -884,16 +364,12 @@ function buildScene(arch: Architecture): SurfaceState {
     annotations,
     annotationList,
     particleSystems,
-    taskFunnels,
-    lambdaLifecycles,
-    invocationPulses: [],
-    dagBoard,
-    dagSimulator,
     pickable,
     elapsed: 0,
     lastFrame: 0,
     activeAnnotation: null,
     labels,
+    hooks,
     tween: {
       started: performance.now(),
       from: camera.position.clone(),
@@ -901,6 +377,23 @@ function buildScene(arch: Architecture): SurfaceState {
       to: new THREE.Vector3(...arch.cameraStart),
       toTarget: new THREE.Vector3(...arch.cameraTarget),
     },
+  };
+
+  if (hooks) {
+    hooks.onBuild(surfaceContext(s));
+  }
+
+  return s;
+}
+
+function surfaceContext(s: SurfaceState): SurfaceContext {
+  return {
+    scene: s.scene,
+    camera: s.camera,
+    architecture: s.architecture,
+    components: s.components,
+    labels: s.labels,
+    elapsed: s.elapsed,
   };
 }
 
@@ -954,12 +447,8 @@ function disposeState(s: SurfaceState): void {
 
   s.controls.dispose();
 
-  for (const lc of s.lambdaLifecycles) {
-    if (lc.taskIndicator) s.scene.remove(lc.taskIndicator);
-    if (lc.taskLabelEl) lc.taskLabelEl.remove();
-  }
-  for (const pulse of s.invocationPulses) {
-    s.scene.remove(pulse.mesh);
+  if (s.hooks) {
+    s.hooks.onDispose(surfaceContext(s));
   }
 
   for (const el of s.labels.values()) el.remove();
@@ -1138,53 +627,9 @@ export function updateSurfaceFrame(now: number): void {
       }
     }
 
-    // Task funnel — spawn cubes that fall into the factory hopper
-    const cubeGeo = new THREE.BoxGeometry(0.25, 0.25, 0.25);
-    const cubeEdges = new THREE.EdgesGeometry(cubeGeo, 30);
-    for (const funnel of state.taskFunnels) {
-      funnel.timer += delta;
-      if (funnel.timer >= funnel.interval) {
-        funnel.timer -= funnel.interval;
-        const cube = new THREE.Mesh(cubeGeo, funnel.material);
-        const spawnX = funnel.target.x + (Math.random() - 0.5) * 1.6;
-        const spawnZ = funnel.target.z + (Math.random() - 0.5) * 1.6;
-        cube.position.set(spawnX, funnel.target.y + 4, spawnZ);
-        cube.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
-        const edgeLine = new THREE.LineSegments(cubeEdges, funnel.edgeMat);
-        cube.add(edgeLine);
-        state.scene.add(cube);
-        funnel.cubes.push({
-          mesh: cube,
-          t: 0,
-          speed: 1.5 + Math.random() * 0.5,
-        });
-      }
-      for (let i = funnel.cubes.length - 1; i >= 0; i--) {
-        const tc = funnel.cubes[i];
-        tc.t += delta * tc.speed;
-        tc.mesh.position.y = funnel.target.y + 4 - tc.t * 4;
-        tc.mesh.rotation.x += delta * 2;
-        tc.mesh.rotation.z += delta * 1.5;
-        const scale = tc.t > 0.85 ? Math.max(0, 1 - (tc.t - 0.85) / 0.15) : 1;
-        tc.mesh.scale.setScalar(scale);
-        if (tc.t >= 1) {
-          state.scene.remove(tc.mesh);
-          funnel.cubes.splice(i, 1);
-        }
-      }
-    }
-
-    // Advance the DAG simulator and sync Lambda visuals to it
-    if (state.dagSimulator && state.dagBoard) {
-      state.dagSimulator.update(delta);
-      const snapshot = state.dagSimulator.snapshot;
-
-      syncLambdasToSimulator(state, snapshot, delta);
-      updateInvocationPulses(state, delta);
-      renderDagCanvas(state.dagBoard, snapshot);
-    } else {
-      updateLambdaLifecyclesStandalone(state, delta);
-      updateInvocationPulses(state, delta);
+    // Architecture-specific update
+    if (state.hooks) {
+      state.hooks.onUpdate(surfaceContext(state), delta);
     }
   }
 
@@ -1198,17 +643,9 @@ function updateSurfaceLabels(): void {
   if (!state) return;
   state.camera.updateMatrixWorld();
 
-  // Build a map of compId → executor ID for Lambda labeling
-  const lambdaExecutorIds = new Map<string, string>();
-  if (state.dagSimulator) {
-    const snapshot = state.dagSimulator.snapshot;
-    for (const [eid, li] of executorToLambda) {
-      const lc = state.lambdaLifecycles[li];
-      const executor = snapshot.executors.find((e) => e.id === eid);
-      if (lc && executor && executor.phase !== "terminated") {
-        lambdaExecutorIds.set(lc.compId, eid);
-      }
-    }
+  // Let architecture-specific hooks augment labels
+  if (state.hooks) {
+    state.hooks.onUpdateLabels(surfaceContext(state));
   }
 
   for (const comp of state.architecture.components) {
@@ -1216,18 +653,9 @@ function updateSurfaceLabels(): void {
     const label = state.labels.get(comp.id);
     if (!group || !label) continue;
 
-    // Hide label if mesh is scaled to zero (hidden Lambda)
     if (group.scale.x < 0.01) {
       label.style.visibility = "hidden";
       continue;
-    }
-
-    // Update Lambda label to show executor ID
-    if (comp.shape === "lambda") {
-      const eid = lambdaExecutorIds.get(comp.id);
-      label.innerHTML = eid
-        ? `<strong>λ ${eid}</strong>`
-        : `<strong>${comp.label}</strong>`;
     }
 
     _v3.copy(group.position);
