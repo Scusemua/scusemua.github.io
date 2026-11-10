@@ -43,7 +43,7 @@ const HeaderButtons: React.FunctionComponent = React.memo(() => {
             <Tooltip title={"Explore my interactive 3D portfolio"} arrow>
                 <Button variant={"outlined"} href={"/orbital/index.html"} target="_blank"
                         rel="noopener noreferrer"
-                        startIcon={<RocketLaunchIcon style={{color: "#b6cce8"}}/>}
+                        startIcon={<RocketLaunchIcon style={{color: "#ffffff"}}/>}
                         sx={{height: {xs: 40, sm: 45}, width: {xs: "14rem", sm: "16rem"}, maxWidth: "90vw", borderColor: "#ffffff"}}
                         aria-label={"Explore 3D Portfolio"}>
                     <Typography variant={"button"} align={"center"} sx={{fontSize: {xs: "0.85rem", sm: "1rem"}, color: "#ffffff"}}>
