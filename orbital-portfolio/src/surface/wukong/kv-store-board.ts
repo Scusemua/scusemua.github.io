@@ -54,8 +54,8 @@ export function buildKvStoreBoard(
     side: THREE.DoubleSide,
   });
   const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(kvStorePos[0], kvStorePos[1] + 7, kvStorePos[2]);
-  mesh.rotation.y = -0.3;
+  mesh.position.set(kvStorePos[0], kvStorePos[1] + 6.5, kvStorePos[2]);
+  mesh.rotation.y = 0.3;
   scene.add(mesh);
 
   return {
