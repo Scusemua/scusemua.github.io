@@ -16,6 +16,20 @@ import { startWarpFlyIn } from "./warp-flyin.js";
 import { buildDOM } from "./ui/dom.js";
 import { visit, closeDestination, initDetail } from "./ui/detail.js";
 import { bindControls, initControls } from "./ui/controls.js";
+import {
+  initSurface,
+  enterSurface,
+  exitSurface,
+  disposeSurface,
+  updateSurfaceFrame,
+  resizeSurface,
+  resetSurfaceElapsed,
+  pickAnnotation,
+  showAnnotation,
+  dismissAnnotation,
+  hasActiveAnnotation,
+  cycleSurfaceAnnotation,
+} from "./surface/scene.js";
 
 interface Bounds {
   left: number;
@@ -296,10 +310,29 @@ function updateLabels(): void {
   }
 }
 
+function needsNextFrame(): boolean {
+  return app.interacting || app.damping || !!app.tween || app.sceneMode === "surface" || app.backdrop.meteorShowerActive() || shakes.size > 0;
+}
+
 function updateFrame(now: number): void {
   app.raf = 0;
   if (blocked()) return;
   app.inFrame = true;
+
+  if (app.sceneMode === "surface") {
+    if (app.hoverPoint && !app.interacting) {
+      app.renderer.domElement.style.cursor = pickAnnotation(app.hoverPoint.x, app.hoverPoint.y) ? "pointer" : "grab";
+      app.hoverPoint = null;
+    }
+    updateSurfaceFrame(now);
+    app.inFrame = false;
+    if (needsNextFrame()) scheduleFrame();
+    else if (app.motion)
+      app.timer = setTimeout(() => { app.timer = 0; scheduleFrame(); },
+        Math.max(0, 33 - (performance.now() - now)));
+    return;
+  }
+
   let changed = false;
   if (app.tween) {
     const tweenDuration = app.tween.duration ?? 600;
@@ -372,12 +405,7 @@ function updateFrame(now: number): void {
     app.cameraDirty = false;
   }
   if (app.hoverPoint && !app.interacting) {
-    app.renderer.domElement.style.cursor = pick(
-      app.hoverPoint.x,
-      app.hoverPoint.y,
-    )
-      ? "pointer"
-      : "grab";
+    app.renderer.domElement.style.cursor = pick(app.hoverPoint.x, app.hoverPoint.y) ? "pointer" : "grab";
     app.hoverPoint = null;
   }
   if (app.frameDirty || changed) {
@@ -388,7 +416,7 @@ function updateFrame(now: number): void {
   // During active interaction/animation, keep requesting frames immediately.
   // Otherwise, schedule the next ambient tick via setTimeout to target ~30fps
   // rather than the monitor's native rate, significantly reducing idle GPU load.
-  if (app.interacting || app.damping || app.tween || app.backdrop.meteorShowerActive() || shakes.size > 0) scheduleFrame();
+  if (needsNextFrame()) scheduleFrame();
   else if (app.motion)
     app.timer = setTimeout(
       () => {
@@ -500,6 +528,12 @@ function bindCanvasEvents(canvas: HTMLCanvasElement): void {
       event.button !== 0
     )
       return;
+    if (app.sceneMode === "surface") {
+      const annotationId = pickAnnotation(event.clientX, event.clientY);
+      if (annotationId) showAnnotation(annotationId);
+      else dismissAnnotation();
+      return;
+    }
     const id = pick(event.clientX, event.clientY);
     if (id) visit(id);
   });
@@ -578,6 +612,7 @@ function initialize(): void {
   bindCanvasEvents(app.renderer.domElement);
   app.initialized = true;
   resizeInk(innerWidth, innerHeight);
+  initSurface({ renderer: app.renderer, invalidate, scheduleFrame });
 
   app.flyingIn = true;
   app.controls.enabled = false;
@@ -598,8 +633,11 @@ function initialize(): void {
 
 // detail.ts and controls.ts can't import main.ts (circular dependency), so
 // we inject the functions they need via init calls at module load time.
-initDetail(flyTo, startTween, invalidate);
-initControls({ invalidate, suspend, zoom });
+initDetail(flyTo, startTween, invalidate, enterSurface);
+initControls({
+  invalidate, suspend, zoom,
+  exitSurface, hasActiveAnnotation, dismissAnnotation, cycleSurfaceAnnotation,
+});
 buildDOM(visit);
 bindControls();
 
@@ -610,6 +648,12 @@ window.addEventListener("resize", () => {
   app.renderer.setSize(innerWidth, innerHeight);
   resizeInk(innerWidth, innerHeight);
   app.backdrop.resize(innerWidth, innerHeight);
+
+  if (app.sceneMode === "surface") {
+    resizeSurface(innerWidth, innerHeight);
+    return;
+  }
+
   app.camera.aspect = innerWidth / innerHeight;
   // Crossing the mobile/desktop breakpoint changes camera FOV, position,
   // and which UI layout is active, so reset the view entirely.
@@ -634,6 +678,7 @@ document.addEventListener("visibilitychange", () => {
   if (document.hidden) suspend();
   else {
     app.lastAmbient = 0;
+    resetSurfaceElapsed();
     app.cameraDirty = true;
     invalidate();
   }
@@ -643,6 +688,7 @@ document.addEventListener("visibilitychange", () => {
 // tear down the WebGL context to free GPU memory before the page transition.
 for (const link of document.querySelectorAll('a[href="/"]')) {
   link.addEventListener("click", () => {
+    if (app.sceneMode === "surface") disposeSurface();
     suspend();
     disposeScene();
     app.renderer?.dispose();

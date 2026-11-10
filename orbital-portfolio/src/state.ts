@@ -29,6 +29,8 @@ export interface AppState {
   initialTarget: THREE.Vector3;
 
   motion: boolean;
+  sceneMode: "orbit" | "surface";
+  surfaceTarget: string | null;
   selected: string | null;
   returnFocus: Element | null;
   tween: TweenState | null;
@@ -72,6 +74,8 @@ export const app: AppState = {
   initialTarget: undefined!,
 
   motion: !reducedMotion.matches,
+  sceneMode: "orbit",
+  surfaceTarget: null,
   selected: null,
   returnFocus: null,
   tween: null,

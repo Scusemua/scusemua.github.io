@@ -1,25 +1,36 @@
 import { destinations, destinationById } from "../data/content.js";
 import type { Destination } from "../types.js";
 import {
-  app, $, mobile, element,
-  upperKeepLambda, setTextKeepLambda,
+  app,
+  $,
+  mobile,
+  element,
+  upperKeepLambda,
+  setTextKeepLambda,
 } from "../state.js";
+import { architectureById } from "../data/architectures/index.js";
 
 export type FlyToFn = (destination: Destination) => void;
-export type StartTweenFn = (position: import("three").Vector3, target: import("three").Vector3) => void;
+export type StartTweenFn = (
+  position: import("three").Vector3,
+  target: import("three").Vector3,
+) => void;
 
 let flyTo: FlyToFn;
 let startTween: StartTweenFn;
 let invalidate: () => void;
+let enterSurfaceFn: ((id: string) => void) | null = null;
 
 export function initDetail(
   flyToFn: FlyToFn,
   startTweenFn: StartTweenFn,
   invalidateFn: () => void,
+  enterSurface?: (id: string) => void,
 ): void {
   flyTo = flyToFn;
   startTween = startTweenFn;
   invalidate = invalidateFn;
+  if (enterSurface) enterSurfaceFn = enterSurface;
 }
 
 export function visit(id: string): void {
@@ -75,6 +86,25 @@ export function visit(id: string): void {
     fields.append(field);
   }
   $("detail-content").replaceChildren(...sections, fields);
+  if (
+    app.initialized &&
+    enterSurfaceFn &&
+    architectureById.has(destination.id)
+  ) {
+    const btn = element(
+      "button",
+      "primary visit-surface",
+      "Visit the surface ↗",
+    );
+    btn.style.marginTop = "20px";
+    btn.style.color = "#111a2c";
+    const destId = destination.id;
+    btn.addEventListener("click", () => {
+      closeDestination(false);
+      enterSurfaceFn!(destId);
+    });
+    $("detail-content").append(btn);
+  }
   $("detail-resources").replaceChildren();
   for (const link of destination.links) {
     // Only render https: links — reject data:, javascript:, etc. to prevent
@@ -95,7 +125,9 @@ export function visit(id: string): void {
     `${destination.number} / ${String(destinations.length).padStart(2, "0")}`;
   for (const item of destinations) {
     app.cards.get(item.id)!.classList.toggle("selected", item.id === id);
-    app.cards.get(item.id)!.setAttribute("aria-pressed", String(item.id === id));
+    app.cards
+      .get(item.id)!
+      .setAttribute("aria-pressed", String(item.id === id));
     app.labels.get(item.id)!.classList.toggle("selected", item.id === id);
   }
   app.cards.get(id)!.scrollIntoView({ block: "nearest", inline: "nearest" });

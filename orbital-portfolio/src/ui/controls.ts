@@ -5,15 +5,27 @@ import { visit, closeDestination, tour } from "./detail.js";
 let invalidateFn: () => void;
 let suspendFn: () => void;
 let zoomFn: (factor: number) => void;
+let exitSurfaceFn: () => void;
+let hasActiveAnnotationFn: () => boolean;
+let dismissAnnotationFn: () => void;
+let cycleSurfaceAnnotationFn: (dir: number) => void;
 
 export function initControls(deps: {
   invalidate: () => void;
   suspend: () => void;
   zoom: (factor: number) => void;
+  exitSurface: () => void;
+  hasActiveAnnotation: () => boolean;
+  dismissAnnotation: () => void;
+  cycleSurfaceAnnotation: (dir: number) => void;
 }): void {
   invalidateFn = deps.invalidate;
   suspendFn = deps.suspend;
   zoomFn = deps.zoom;
+  exitSurfaceFn = deps.exitSurface;
+  hasActiveAnnotationFn = deps.hasActiveAnnotation;
+  dismissAnnotationFn = deps.dismissAnnotation;
+  cycleSurfaceAnnotationFn = deps.cycleSurfaceAnnotation;
 }
 
 function updateMotion(): void {
@@ -91,20 +103,35 @@ export function bindControls(): void {
     });
   }
 
+  $("surface-back").addEventListener("click", () => {
+    if (app.sceneMode === "surface") exitSurfaceFn();
+  });
+  $("annotation-close").addEventListener("click", () => {
+    dismissAnnotationFn();
+  });
+
   document.addEventListener("keydown", (event) => {
     if (app.flyingIn) return;
-    if (
-      event.key === "Escape" &&
-      app.selected &&
-      !document.querySelector("dialog[open]")
-    )
-      closeDestination();
+    if (event.key === "Escape" && !document.querySelector("dialog[open]")) {
+      if (app.sceneMode === "surface") {
+        if (hasActiveAnnotationFn()) dismissAnnotationFn();
+        else exitSurfaceFn();
+        return;
+      }
+      if (app.selected) closeDestination();
+      return;
+    }
+    if (app.sceneMode === "surface" && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+      cycleSurfaceAnnotationFn(event.key === "ArrowRight" ? 1 : -1);
+      return;
+    }
     if (
       (event.key === "m" || event.key === "M") &&
       !event.ctrlKey &&
       !event.metaKey &&
       !document.querySelector("dialog[open]")
     ) {
+      if (app.sceneMode === "surface") return;
       app.backdrop?.triggerMeteorShower();
       invalidateFn();
     }
