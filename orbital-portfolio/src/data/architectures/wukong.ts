@@ -23,7 +23,7 @@ export const wukongArchitecture: Architecture = {
         "Users submit parallel computation graphs through Wukong's client interface. It accepts Dask-compatible task graphs, making Wukong a drop-in replacement for existing frameworks.",
       shape: "box",
       color: "#b0b8c0",
-      position: [-12, 1.5, -8],
+      position: [-4, 1.5, -12],
       scale: [3, 3, 2.5],
       idle: "pulse",
     },

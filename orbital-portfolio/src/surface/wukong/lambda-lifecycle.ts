@@ -99,7 +99,7 @@ function updateTaskIndicatorVisuals(
 
   if (lc.taskLabelEl) {
     _v3.copy(lc.group.position);
-    _v3.y += 4.5;
+    _v3.y += 3.8;
     _v3.project(camera);
     const lx = (_v3.x * 0.5 + 0.5) * innerWidth;
     const ly = (-_v3.y * 0.5 + 0.5) * innerHeight;
