@@ -602,7 +602,6 @@ const ProjectDisplay: React.FunctionComponent<ProjectProps> = (props: ProjectPro
             >
                 <CardActionArea onClick={() => onClickCardActionArea()} sx={{
                     width: "100%",
-                    background: "#ffffff",
                 }}>
                     <CardMedia className={styles.project_media_background} onClick={() => onClickCard()}>
                         <div style={{
