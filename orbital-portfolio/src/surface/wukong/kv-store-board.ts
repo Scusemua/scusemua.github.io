@@ -46,7 +46,7 @@ export function buildKvStoreBoard(
   texture.magFilter = THREE.LinearFilter;
   texture.generateMipmaps = false;
 
-  const geo = new THREE.PlaneGeometry(8, 8);
+  const geo = new THREE.PlaneGeometry(11, 11);
   const mat = new THREE.MeshBasicMaterial({
     map: texture,
     transparent: true,
@@ -99,7 +99,7 @@ export function renderKvStoreBoard(
   ctx.moveTo(160, 420);
   ctx.lineTo(w - 160, 420);
   ctx.strokeStyle = "rgba(200,149,106,0.4)";
-  ctx.lineWidth = 8;
+  ctx.lineWidth = 16;
   ctx.stroke();
 
   // Update flash timers for newly-added keys
@@ -135,7 +135,7 @@ export function renderKvStoreBoard(
   ctx.moveTo(160, y - 60);
   ctx.lineTo(w - 160, y - 60);
   ctx.strokeStyle = "rgba(200,149,106,0.2)";
-  ctx.lineWidth = 6;
+  ctx.lineWidth = 14;
   ctx.stroke();
 
   // Render rows in DAG node order

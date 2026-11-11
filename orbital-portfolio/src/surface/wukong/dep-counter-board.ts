@@ -45,7 +45,7 @@ export function buildDepCounterBoard(
   texture.magFilter = THREE.LinearFilter;
   texture.generateMipmaps = false;
 
-  const geo = new THREE.PlaneGeometry(8, 8);
+  const geo = new THREE.PlaneGeometry(11, 11);
   const mat = new THREE.MeshBasicMaterial({
     map: texture,
     transparent: true,
@@ -97,7 +97,7 @@ export function renderDepCounterBoard(
   ctx.moveTo(160, 420);
   ctx.lineTo(w - 160, 420);
   ctx.strokeStyle = "rgba(130,189,111,0.4)";
-  ctx.lineWidth = 8;
+  ctx.lineWidth = 16;
   ctx.stroke();
 
   const depNodes: {
@@ -147,7 +147,7 @@ export function renderDepCounterBoard(
   ctx.moveTo(160, y - 80);
   ctx.lineTo(w - 160, y - 80);
   ctx.strokeStyle = "rgba(130,189,111,0.2)";
-  ctx.lineWidth = 6;
+  ctx.lineWidth = 14;
   ctx.stroke();
 
   for (const node of depNodes) {

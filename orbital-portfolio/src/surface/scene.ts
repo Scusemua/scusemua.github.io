@@ -58,13 +58,6 @@ const hookFactories = new Map<string, () => SurfaceHooks>([
 // Surface state
 // ---------------------------------------------------------------------------
 
-interface ParticleSystem {
-  mesh: THREE.InstancedMesh;
-  curve: THREE.CubicBezierCurve3;
-  offsets: Float32Array;
-  speed: number;
-  count: number;
-}
 
 interface SurfaceState {
   scene: THREE.Scene;
@@ -74,7 +67,6 @@ interface SurfaceState {
   components: Map<string, THREE.Group>;
   annotations: Map<string, THREE.Mesh>;
   annotationList: string[];
-  particleSystems: ParticleSystem[];
   pickable: THREE.Object3D[];
   elapsed: number;
   lastFrame: number;
@@ -93,7 +85,6 @@ interface SurfaceState {
 let state: SurfaceState | null = null;
 
 // Reusable objects for per-frame work
-const _mat4 = new THREE.Matrix4();
 const _v3 = new THREE.Vector3();
 const _raycaster = new THREE.Raycaster();
 const _pointer = new THREE.Vector2();
@@ -259,26 +250,6 @@ function buildConnectionCurve(
   return { line, curve };
 }
 
-function buildParticleSystem(
-  conn: ArchConnection,
-  curve: THREE.CubicBezierCurve3,
-): ParticleSystem {
-  const count = conn.particleCount;
-  const geometry = new THREE.SphereGeometry(0.12, 6, 4);
-  const material = toon(conn.color);
-  const mesh = new THREE.InstancedMesh(geometry, material, count);
-  const offsets = new Float32Array(count);
-  for (let i = 0; i < count; i++) offsets[i] = i / count;
-
-  for (let i = 0; i < count; i++) {
-    const point = curve.getPoint(offsets[i]);
-    _mat4.makeTranslation(point.x, point.y, point.z);
-    mesh.setMatrixAt(i, _mat4);
-  }
-  mesh.instanceMatrix.needsUpdate = true;
-
-  return { mesh, curve, offsets, speed: conn.speed, count };
-}
 
 // ---------------------------------------------------------------------------
 // Scene construction / destruction
@@ -341,14 +312,10 @@ function buildScene(arch: Architecture): SurfaceState {
     annotationList.push(ann.id);
   }
 
-  const particleSystems: ParticleSystem[] = [];
   for (const conn of arch.connections) {
     const result = buildConnectionCurve(conn, components);
     if (!result) continue;
     scene.add(result.line);
-    const ps = buildParticleSystem(conn, result.curve);
-    scene.add(ps.mesh);
-    particleSystems.push(ps);
   }
 
   const labels = new Map<string, HTMLElement>();
@@ -373,7 +340,6 @@ function buildScene(arch: Architecture): SurfaceState {
     components,
     annotations,
     annotationList,
-    particleSystems,
     pickable,
     elapsed: 0,
     lastFrame: 0,
@@ -615,17 +581,6 @@ export function updateSurfaceFrame(now: number): void {
           break;
         }
       }
-    }
-
-    // Particle advancement
-    for (const ps of state.particleSystems) {
-      for (let i = 0; i < ps.count; i++) {
-        ps.offsets[i] = (ps.offsets[i] + ps.speed * delta * 0.05) % 1;
-        const point = ps.curve.getPoint(ps.offsets[i]);
-        _mat4.makeTranslation(point.x, point.y, point.z);
-        ps.mesh.setMatrixAt(i, _mat4);
-      }
-      ps.mesh.instanceMatrix.needsUpdate = true;
     }
 
     // Annotation orb pulse

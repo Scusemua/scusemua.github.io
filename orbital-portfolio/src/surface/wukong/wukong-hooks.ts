@@ -28,6 +28,7 @@ import {
   buildKvStoreBoard,
   renderKvStoreBoard,
 } from "./kv-store-board.js";
+import { type CodeBoard, buildCodeBoard } from "./code-board.js";
 
 // ---------------------------------------------------------------------------
 // Wukong-specific state
@@ -43,6 +44,7 @@ interface WukongState {
   executorToLambda: Map<string, number>;
   depCounterBoard: DepCounterBoard | null;
   kvStoreBoard: KvStoreBoard | null;
+  codeBoard: CodeBoard | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -91,6 +93,11 @@ export function createWukongHooks(): SurfaceHooks {
         }
       }
 
+      let codeBoard: CodeBoard | null = null;
+      if (arch.dagBoard) {
+        codeBoard = buildCodeBoard(arch.dagBoard.position, ctx.scene);
+      }
+
       ws = {
         dagBoard,
         dagSimulator,
@@ -101,6 +108,7 @@ export function createWukongHooks(): SurfaceHooks {
         executorToLambda: new Map(),
         depCounterBoard,
         kvStoreBoard,
+        codeBoard,
       };
     },
 
