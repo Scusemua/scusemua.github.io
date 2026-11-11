@@ -23,14 +23,6 @@ export function evaluateOp(op: DagOp, inputs: readonly number[]): number {
   return 0;
 }
 
-export function isUnaryOp(op: DagOp): boolean {
-  return op in unaryOps;
-}
-
-export function isBinaryOp(op: DagOp): boolean {
-  return op in binaryOps;
-}
-
 // ---------------------------------------------------------------------------
 // KV store — tracks computed values per node across a simulation cycle
 // ---------------------------------------------------------------------------

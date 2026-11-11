@@ -382,25 +382,23 @@ function updateFrame(now: number): void {
       app.tween ||
       !app.lastAmbient ||
       now - app.lastAmbient >= 32);
+  const ambientDelta = app.lastAmbient
+    ? Math.min((now - app.lastAmbient) / 1000, 0.1)
+    : 0;
   if (animate) {
-    const rotationDelta = app.lastAmbient
-      ? Math.min((now - app.lastAmbient) / 1000, 0.1)
-      : 0;
-    for (const world of app.worlds.values()) rotateWorld(world, rotationDelta);
-    app.backdrop.update(rotationDelta);
+    for (const world of app.worlds.values()) rotateWorld(world, ambientDelta);
+    app.backdrop.update(ambientDelta);
     app.lastAmbient = now;
     changed = true;
   }
   if (app.backdrop.meteorShowerActive()) {
-    const showerDelta = app.lastAmbient ? Math.min((now - app.lastAmbient) / 1000, 0.1) : 0.016;
     if (!animate) {
-      app.backdrop.updateMeteorShower(showerDelta);
+      app.backdrop.updateMeteorShower(ambientDelta);
       changed = true;
     }
   }
   if (shakes.size > 0) {
-    const shakeDelta = app.lastAmbient ? Math.min((now - app.lastAmbient) / 1000, 0.1) : 0.016;
-    changed = updateShakes(shakeDelta) || changed;
+    changed = updateShakes(ambientDelta) || changed;
   }
   if (app.cameraDirty) {
     for (const world of app.worlds.values())
@@ -621,7 +619,7 @@ function initialize(): void {
   bindCanvasEvents(app.renderer.domElement);
   app.initialized = true;
   resizeInk(innerWidth, innerHeight);
-  initSurface({ renderer: app.renderer, invalidate, scheduleFrame });
+  initSurface({ renderer: app.renderer, invalidate });
 
   app.flyingIn = true;
   app.controls.enabled = false;

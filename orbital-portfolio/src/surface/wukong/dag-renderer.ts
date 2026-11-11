@@ -51,7 +51,6 @@ const COLOR_PROGRESS_BG = "rgba(40,60,80,0.5)";
 const COLOR_PROGRESS_FILL = "#60cc80";
 const COLOR_TITLE = "rgba(160,190,220,0.6)";
 const COLOR_PHASE_PARTITIONING = "#f5d060";
-const COLOR_PHASE_INVOKING = "#ff9040";
 const COLOR_FRAME = "#4a7090";
 
 const GLOW_BLUR = 50;
@@ -76,6 +75,7 @@ export interface DagBoard {
   ctx: CanvasRenderingContext2D;
   texture: THREE.CanvasTexture;
   config: DagBoardConfig;
+  nodePos: Map<string, { px: number; py: number }>;
 }
 
 export function buildDagBoard(
@@ -114,7 +114,17 @@ export function buildDagBoard(
   frameMesh.rotation.copy(mesh.rotation);
   scene.add(frameMesh);
 
-  return { mesh, frameMesh, canvas, ctx, texture, config };
+  const innerW = canvas.width - PADDING * 2;
+  const innerH = canvas.height - PADDING * 2;
+  const nodePos = new Map<string, { px: number; py: number }>();
+  for (const n of config.nodes) {
+    nodePos.set(n.id, {
+      px: PADDING + n.x * innerW,
+      py: PADDING + n.y * innerH,
+    });
+  }
+
+  return { mesh, frameMesh, canvas, ctx, texture, config, nodePos };
 }
 
 // ---------------------------------------------------------------------------
@@ -125,27 +135,16 @@ export function renderDagCanvas(
   board: DagBoard,
   snapshot: SimulatorSnapshot,
 ): void {
-  const { ctx, canvas, config } = board;
+  const { ctx, canvas, config, nodePos } = board;
   const w = canvas.width;
   const h = canvas.height;
 
   ctx.fillStyle = COLOR_BG;
   ctx.fillRect(0, 0, w, h);
 
-  const innerW = w - PADDING * 2;
-  const innerH = h - PADDING * 2;
-
-  const nodePos = new Map<string, { px: number; py: number }>();
-  for (const n of config.nodes) {
-    nodePos.set(n.id, {
-      px: PADDING + n.x * innerW,
-      py: PADDING + n.y * innerH,
-    });
-  }
-
   drawEdges(ctx, config, nodePos, snapshot);
   drawNodes(ctx, config, nodePos, snapshot);
-  drawTitle(ctx, w, snapshot);
+  drawTitle(ctx, snapshot);
   drawProgressBar(ctx, w, snapshot);
   drawPhaseLabel(ctx, w, h, snapshot);
 
@@ -307,7 +306,6 @@ function nodeStyle(status: string, hasExecutor: boolean): NodeVisualStyle {
 
 function drawTitle(
   ctx: CanvasRenderingContext2D,
-  canvasWidth: number,
   snapshot: SimulatorSnapshot,
 ): void {
   ctx.font = FONT_TITLE;
@@ -327,8 +325,6 @@ function drawTitle(
     PADDING,
     PADDING + 60,
   );
-
-  void canvasWidth;
 }
 
 function drawProgressBar(

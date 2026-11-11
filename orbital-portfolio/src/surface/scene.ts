@@ -24,26 +24,13 @@ import { createWukongHooks } from "./wukong/index.js";
 
 let renderer: THREE.WebGLRenderer;
 let invalidate: () => void;
-let scheduleFrame: () => void;
 
 export function initSurface(deps: {
   renderer: THREE.WebGLRenderer;
   invalidate: () => void;
-  scheduleFrame: () => void;
 }): void {
   renderer = deps.renderer;
   invalidate = deps.invalidate;
-  scheduleFrame = deps.scheduleFrame;
-
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "p" && state && app.sceneMode === "surface") {
-      const p = state.camera.position;
-      const t = state.controls.target;
-      const fmt = (v: THREE.Vector3) =>
-        `[${v.x.toFixed(1)}, ${v.y.toFixed(1)}, ${v.z.toFixed(1)}]`;
-      console.log(`cameraStart: ${fmt(p)},\ncameraTarget: ${fmt(t)},`);
-    }
-  });
 }
 
 // ---------------------------------------------------------------------------
@@ -91,6 +78,7 @@ let state: SurfaceState | null = null;
 
 // Reusable objects for per-frame work
 const _v3 = new THREE.Vector3();
+const _color = new THREE.Color();
 const _raycaster = new THREE.Raycaster();
 const _pointer = new THREE.Vector2();
 
@@ -224,10 +212,10 @@ function buildAnnotationOrb(ann: ArchAnnotation): THREE.Mesh {
   return mesh;
 }
 
-function buildConnectionCurve(
+function buildConnectionLine(
   conn: ArchConnection,
   components: Map<string, THREE.Group>,
-): { line: THREE.Line; curve: THREE.CubicBezierCurve3 } | null {
+): THREE.Line | null {
   const fromGroup = components.get(conn.from);
   const toGroup = components.get(conn.to);
   if (!fromGroup || !toGroup) return null;
@@ -251,8 +239,7 @@ function buildConnectionCurve(
     transparent: true,
     opacity: 0.25,
   });
-  const line = new THREE.Line(geometry, material);
-  return { line, curve };
+  return new THREE.Line(geometry, material);
 }
 
 // ---------------------------------------------------------------------------
@@ -317,9 +304,8 @@ function buildScene(arch: Architecture): SurfaceState {
   }
 
   for (const conn of arch.connections) {
-    const result = buildConnectionCurve(conn, components);
-    if (!result) continue;
-    scene.add(result.line);
+    const line = buildConnectionLine(conn, components);
+    if (line) scene.add(line);
   }
 
   const labels = new Map<string, HTMLElement>();
@@ -444,7 +430,6 @@ function disposeState(s: SurfaceState): void {
     s.hooks.onDispose(surfaceContext(s));
   }
 
-  for (const el of s.labels.values()) el.remove();
   $("surface-labels").innerHTML = "";
 }
 
@@ -578,7 +563,12 @@ export function updateSurfaceFrame(now: number): void {
 
   state.controls.update();
 
-  // Idle animations
+  // Architecture-specific update (simulator, boards) — runs regardless of motion
+  if (state.hooks) {
+    state.hooks.onUpdate(surfaceContext(state), delta);
+  }
+
+  // Cosmetic idle animations — only when motion is on
   if (app.motion) {
     for (const comp of state.architecture.components) {
       const group = state.components.get(comp.id);
@@ -595,10 +585,9 @@ export function updateSurfaceFrame(now: number): void {
           const mat = (group.children[0] as THREE.Mesh)
             .material as THREE.ShaderMaterial;
           if (mat.uniforms?.uColor) {
-            const base = new THREE.Color(comp.color);
-            const factor = 1 + 0.1 * Math.sin(state.elapsed * 2.5);
-            base.multiplyScalar(factor);
-            mat.uniforms.uColor.value.copy(base);
+            _color.set(comp.color);
+            _color.multiplyScalar(1 + 0.1 * Math.sin(state.elapsed * 2.5));
+            mat.uniforms.uColor.value.copy(_color);
           }
           break;
         }
@@ -612,11 +601,6 @@ export function updateSurfaceFrame(now: number): void {
         const s = 1 + 0.08 * Math.sin(state.elapsed * 2.5);
         orb.scale.set(s, s, s);
       }
-    }
-
-    // Architecture-specific update
-    if (state.hooks) {
-      state.hooks.onUpdate(surfaceContext(state), delta);
     }
   }
 
@@ -745,7 +729,7 @@ export function pickBoard(x: number, y: number): string | null {
 
 export function focusBoard(boardId: string): void {
   if (!state) return;
-  for (const [mesh, view] of state.boardViews) {
+  for (const [, view] of state.boardViews) {
     if (view.id === boardId) {
       state.focusedBoard = boardId;
       state.tween = {
@@ -755,7 +739,6 @@ export function focusBoard(boardId: string): void {
         to: view.cameraPos.clone(),
         toTarget: view.cameraTarget.clone(),
       };
-      void mesh;
       updateBoardBar();
       return;
     }

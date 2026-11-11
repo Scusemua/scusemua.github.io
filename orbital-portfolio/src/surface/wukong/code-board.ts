@@ -30,12 +30,10 @@ const TOP_MARGIN = 530;
 const COLOR_KEYWORD = "#c586c0";
 const COLOR_DECORATOR = "#dcdcaa";
 const COLOR_FUNCTION = "#dcdcaa";
-const COLOR_STRING = "#ce9178";
 const COLOR_NUMBER = "#b5cea8";
 const COLOR_COMMENT = "#6a9955";
 const COLOR_PLAIN = "#d4d4d4";
 const COLOR_VARIABLE = "#9cdcfe";
-const COLOR_BUILTIN = "#4ec9b0";
 const COLOR_TITLE_COLOR = "rgba(160,190,220,0.6)";
 
 // ---------------------------------------------------------------------------

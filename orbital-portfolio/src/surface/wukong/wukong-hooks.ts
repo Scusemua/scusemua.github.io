@@ -11,7 +11,6 @@ import {
   updateLambdaLifecyclesStandalone,
   updatePulses,
   consumeSimEvents,
-  clearTaskVisuals,
   updateLambdaLabels,
 } from "./lambda-lifecycle.js";
 import {

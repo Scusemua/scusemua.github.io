@@ -24,8 +24,6 @@ export interface ArchConnection {
   from: string;
   to: string;
   color: string;
-  speed: number;
-  particleCount: number;
   curveHeight?: number;
 }
 

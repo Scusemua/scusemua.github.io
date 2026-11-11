@@ -243,6 +243,7 @@ function addLambdas(group: THREE.Group, destination: Destination, ud: WorldUserD
   const lambdas: LambdaOrbitData[] = [];
   if (!destination.lambdas) return lambdas;
   const lambdaGeometry = createLambdaGeometry();
+  const sharedInkMat = new THREE.MeshBasicMaterial({ color: 0x0a0b10, side: THREE.BackSide });
   for (const config of destination.lambdas) {
     const pivot = new THREE.Group();
     pivot.rotation.z = config.tilt;
@@ -252,7 +253,7 @@ function addLambdas(group: THREE.Group, destination: Destination, ud: WorldUserD
     const lambdaGroup = new THREE.Group();
     const s = (config.scale ?? 0.5) * 0.13;
     const mat = toon(config.color);
-    const inkMat = new THREE.MeshBasicMaterial({ color: 0x0a0b10, side: THREE.BackSide });
+    const inkMat = sharedInkMat;
     const lambdaInk = new THREE.Mesh(lambdaGeometry, inkMat);
     lambdaInk.scale.setScalar(s * 1.12);
     lambdaInk.raycast = () => {};

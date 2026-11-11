@@ -93,6 +93,8 @@ const STORAGE_PULSE_RADIUS = 0.15;
 const PULSE_GLOW_AMPLITUDE = 0.3;
 
 const _v3 = new THREE.Vector3();
+const _colorA = new THREE.Color();
+const _colorB = new THREE.Color();
 
 // ---------------------------------------------------------------------------
 // Task label text builder
@@ -201,13 +203,13 @@ function updateExecutingColor(lc: LambdaLifecycle, elapsed: number): void {
   const mat = (lc.group.children[0] as THREE.Mesh)
     .material as THREE.ShaderMaterial;
   if (mat.uniforms?.uColor) {
-    const base = new THREE.Color(TASK_INDICATOR_COLOR);
-    base.lerp(
-      new THREE.Color(EXECUTING_COLOR),
+    _colorA.set(TASK_INDICATOR_COLOR);
+    _colorA.lerp(
+      _colorB.set(EXECUTING_COLOR),
       EXECUTING_LERP_MIN +
         EXECUTING_LERP_RANGE * Math.sin(elapsed * EXECUTING_LERP_FREQ),
     );
-    mat.uniforms.uColor.value.copy(base);
+    mat.uniforms.uColor.value.copy(_colorA);
   }
 }
 
