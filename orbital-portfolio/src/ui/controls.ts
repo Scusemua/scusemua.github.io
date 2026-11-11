@@ -110,10 +110,10 @@ export function bindControls(): void {
   }
 
   $("surface-back").addEventListener("click", () => {
-    if (app.sceneMode === "surface") {
-      if (hasFocusedBoardFn()) unfocusBoardFn();
-      else exitSurfaceFn();
-    }
+    if (app.sceneMode === "surface") exitSurfaceFn();
+  });
+  $("camera-reset").addEventListener("click", () => {
+    if (app.sceneMode === "surface" && hasFocusedBoardFn()) unfocusBoardFn();
   });
   $("annotation-close").addEventListener("click", () => {
     dismissAnnotationFn();

@@ -1766,6 +1766,24 @@
         letter-spacing: 0.1em;
       }
 
+      /* Camera reset button */
+      .camera-reset {
+        position: fixed;
+        z-index: 6;
+        left: 44px;
+        top: 174px;
+        display: none;
+        align-items: center;
+        gap: 7px;
+        padding: 0 14px;
+        height: 34px;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+      }
+      .camera-reset:not([hidden]) {
+        display: flex;
+      }
+
       /* Surface HUD — project name */
       .surface-hud {
         position: fixed;
@@ -1852,10 +1870,147 @@
         margin: 0;
       }
 
+      /* Board shortcut bar */
+      .board-bar {
+        position: fixed;
+        z-index: 6;
+        bottom: 36px;
+        left: 44px;
+        right: 44px;
+        display: flex;
+        align-items: stretch;
+        border: 1px solid var(--line);
+        background: linear-gradient(135deg, #101b2adc, #0c1420a0);
+        border-radius: 8px;
+        backdrop-filter: blur(14px);
+        overflow: hidden;
+      }
+      .board-bar[hidden] { display: none; }
+      .board-bar-heading {
+        width: 120px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 9px;
+        padding: 16px 18px;
+        color: #788ca6;
+        border-right: 1px solid var(--line);
+        font-size: 9px;
+        letter-spacing: 0.1em;
+      }
+      .board-bar-heading b {
+        color: #c8d4e4;
+        font-size: 9px;
+        font-weight: 400;
+      }
+      .board-card {
+        position: relative;
+        min-width: 0;
+        flex: 1;
+        background: transparent;
+        text-align: left;
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        border: none;
+        border-right: 1px solid var(--line);
+        color: inherit;
+        font-family: inherit;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .board-card:last-child { border-right: 0; }
+      .board-card:hover,
+      .board-card.active {
+        background: #bacbff0b;
+      }
+      .board-card.active::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--blue);
+      }
+      .board-card .board-icon {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+      }
+      .board-card strong {
+        display: block;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.02em;
+      }
+      .board-card small {
+        font-size: 8px;
+        color: #8395ae;
+        display: block;
+        margin-top: 3px;
+        white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      /* Surface controls panel (desktop only) */
+      .surface-controls {
+        position: fixed;
+        z-index: 6;
+        right: 44px;
+        bottom: 36px;
+        width: 200px;
+        background: linear-gradient(135deg, #101b2adc, #0c1420a0);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        backdrop-filter: blur(14px);
+        padding: 16px 20px;
+        display: none;
+      }
+      .surface-controls:not([hidden]) { display: block; }
+      .surface-controls h4 {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        color: #788ca6;
+        margin: 0 0 12px;
+      }
+      .surface-controls dl {
+        margin: 0;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 6px 12px;
+        font-size: 11px;
+      }
+      .surface-controls dt {
+        color: #c8d4e4;
+        white-space: nowrap;
+      }
+      .surface-controls dd {
+        margin: 0;
+        color: #8395ae;
+        text-align: right;
+        white-space: nowrap;
+        font-family: "JetBrains Mono", "Fira Code", monospace;
+        font-size: 10px;
+      }
+
       @media (max-width: 760px) {
+        .surface-controls { display: none !important; }
         .surface-back {
           left: 22px;
           top: 100px;
+        }
+        .camera-reset {
+          left: 22px;
+          top: 144px;
         }
         .surface-hud {
           right: 22px;
@@ -1867,10 +2022,19 @@
           right: 18px;
           width: auto;
           top: auto;
-          bottom: 18px;
+          bottom: 80px;
           max-height: 40dvh;
           overflow-y: auto;
         }
+        .board-bar {
+          left: 12px;
+          right: 12px;
+          bottom: 12px;
+        }
+        .board-bar-heading { display: none; }
+        .board-card { padding: 10px 12px; }
+        .board-card strong { font-size: 10px; }
+        .board-card small { display: none; }
       }
     </style>
   </head>
@@ -1967,8 +2131,8 @@
           ><button id="next" aria-label="Next destination">Next →</button>
         </div>
       </section>
-      <button class="tool surface-back" id="surface-back" hidden aria-label="Return to orbit">&larr; BACK</button>
-      <button class="tool board-back" id="board-back" hidden aria-label="Return to overview">&larr; OVERVIEW</button>
+      <button class="tool surface-back" id="surface-back" hidden aria-label="Return to solar system">&larr; BACK TO SOLAR SYSTEM</button>
+      <button class="tool camera-reset" id="camera-reset" hidden aria-label="Reset camera">↺ RESET CAMERA</button>
       <div class="surface-hud mono" id="surface-hud" hidden aria-hidden="true"></div>
       <div class="surface-labels" id="surface-labels" aria-hidden="true"></div>
       <section class="annotation-panel" id="annotation-panel" hidden aria-labelledby="annotation-title">
@@ -1979,6 +2143,23 @@
         <h3 id="annotation-title"></h3>
         <p id="annotation-text"></p>
       </section>
+      <div class="board-bar" id="board-bar" hidden aria-label="Board shortcuts">
+        <div class="board-bar-heading mono">
+          <span>BOARDS</span><b>CLICK TO FOCUS ↗</b>
+        </div>
+        <div id="board-cards" style="display: contents"></div>
+      </div>
+      <aside class="surface-controls" id="surface-controls" hidden aria-label="Controls">
+        <h4 class="mono">CONTROLS</h4>
+        <dl>
+          <dt>Orbit</dt><dd>Left-click + drag</dd>
+          <dt>Zoom</dt><dd>Scroll wheel</dd>
+          <dt>Pan</dt><dd>Right-click + drag</dd>
+          <dt>Focus board</dt><dd>Click a board</dd>
+          <dt>Annotations</dt><dd>← → arrows</dd>
+          <dt>Close / Back</dt><dd>Esc</dd>
+        </dl>
+      </aside>
     </main>
     <footer class="bottom">
       <div class="destination-bar" aria-label="Destination shortcuts">

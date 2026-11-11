@@ -58,7 +58,6 @@ const hookFactories = new Map<string, () => SurfaceHooks>([
 // Surface state
 // ---------------------------------------------------------------------------
 
-
 interface SurfaceState {
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
@@ -81,9 +80,11 @@ interface SurfaceState {
     toTarget: THREE.Vector3;
   } | null;
   boardPickable: THREE.Object3D[];
-  boardViews: Map<THREE.Object3D, { id: string; cameraPos: THREE.Vector3; cameraTarget: THREE.Vector3 }>;
+  boardViews: Map<
+    THREE.Object3D,
+    { id: string; cameraPos: THREE.Vector3; cameraTarget: THREE.Vector3 }
+  >;
   focusedBoard: string | null;
-  preFocusCamera: { pos: THREE.Vector3; target: THREE.Vector3 } | null;
 }
 
 let state: SurfaceState | null = null;
@@ -254,7 +255,6 @@ function buildConnectionCurve(
   return { line, curve };
 }
 
-
 // ---------------------------------------------------------------------------
 // Scene construction / destruction
 // ---------------------------------------------------------------------------
@@ -360,7 +360,6 @@ function buildScene(arch: Architecture): SurfaceState {
     boardPickable: [],
     boardViews: new Map(),
     focusedBoard: null,
-    preFocusCamera: null,
   };
 
   if (hooks) {
@@ -486,9 +485,11 @@ function doEnter(arch: Architecture, id: string): void {
   document.body.classList.add("surface-mode");
   ($("surface-back") as HTMLElement).hidden = false;
   ($("surface-hud") as HTMLElement).hidden = false;
+  ($("surface-controls") as HTMLElement).hidden = false;
   $("surface-hud").textContent = arch.name.toUpperCase() + " — ARCHITECTURE";
 
   state = buildScene(arch);
+  populateBoardBar();
   app.sceneMode = "surface";
   app.surfaceTarget = id;
   invalidate();
@@ -526,8 +527,11 @@ function doExit(): void {
 
   document.body.classList.remove("surface-mode");
   ($("surface-back") as HTMLElement).hidden = true;
+  ($("camera-reset") as HTMLElement).hidden = true;
   ($("surface-hud") as HTMLElement).hidden = true;
+  ($("surface-controls") as HTMLElement).hidden = true;
   ($("annotation-panel") as HTMLElement).hidden = true;
+  clearBoardBar();
 
   app.controls.connect();
   app.sceneMode = "orbit";
@@ -743,10 +747,6 @@ export function focusBoard(boardId: string): void {
   if (!state) return;
   for (const [mesh, view] of state.boardViews) {
     if (view.id === boardId) {
-      state.preFocusCamera = {
-        pos: state.camera.position.clone(),
-        target: state.controls.target.clone(),
-      };
       state.focusedBoard = boardId;
       state.tween = {
         started: performance.now(),
@@ -755,27 +755,90 @@ export function focusBoard(boardId: string): void {
         to: view.cameraPos.clone(),
         toTarget: view.cameraTarget.clone(),
       };
-      ($("board-back") as HTMLElement).hidden = false;
       void mesh;
+      updateBoardBar();
       return;
     }
   }
 }
 
 export function unfocusBoard(): void {
-  if (!state || !state.preFocusCamera) return;
+  if (!state) return;
+  const arch = state.architecture;
   state.tween = {
     started: performance.now(),
     from: state.camera.position.clone(),
     fromTarget: state.controls.target.clone(),
-    to: state.preFocusCamera.pos.clone(),
-    toTarget: state.preFocusCamera.target.clone(),
+    to: new THREE.Vector3(...arch.cameraStart),
+    toTarget: new THREE.Vector3(...arch.cameraTarget),
   };
   state.focusedBoard = null;
-  state.preFocusCamera = null;
-  ($("board-back") as HTMLElement).hidden = true;
+  updateBoardBar();
 }
 
 export function hasFocusedBoard(): boolean {
   return state?.focusedBoard != null;
+}
+
+const BOARD_META: Record<
+  string,
+  { label: string; sub: string; icon: string; bg: string }
+> = {
+  "dag-board": { label: "DAG", sub: "Task graph", icon: "◈", bg: "#2a4060" },
+  "dep-counter-board": {
+    label: "Dependency Counters (MDS)",
+    sub: "Dependencies",
+    icon: "▦",
+    bg: "#3a2a50",
+  },
+  "kv-store-board": {
+    label: "Intermediate KV Store",
+    sub: "Inputs, intermediate data, and final results",
+    icon: "▤",
+    bg: "#2a4a3a",
+  },
+  "code-board": {
+    label: "Code",
+    sub: "Dask source",
+    icon: "⟨⟩",
+    bg: "#3a3a28",
+  },
+};
+
+function populateBoardBar(): void {
+  const container = $("board-cards");
+  container.innerHTML = "";
+  if (!state) return;
+  for (const [, view] of state.boardViews) {
+    const meta = BOARD_META[view.id];
+    if (!meta) continue;
+    const btn = document.createElement("button");
+    btn.className = "board-card";
+    btn.dataset.boardId = view.id;
+    btn.innerHTML =
+      `<span class="board-icon" style="background:${meta.bg}">${meta.icon}</span>` +
+      `<span><strong>${meta.label}</strong><small>${meta.sub}</small></span>`;
+    btn.addEventListener("click", () => focusBoard(view.id));
+    container.appendChild(btn);
+  }
+  ($("board-bar") as HTMLElement).hidden = false;
+  updateBoardBar();
+}
+
+function clearBoardBar(): void {
+  $("board-cards").innerHTML = "";
+  ($("board-bar") as HTMLElement).hidden = true;
+}
+
+function updateBoardBar(): void {
+  const cards = $("board-cards").querySelectorAll(
+    ".board-card",
+  ) as NodeListOf<HTMLElement>;
+  for (const card of cards) {
+    card.classList.toggle(
+      "active",
+      card.dataset.boardId === state?.focusedBoard,
+    );
+  }
+  ($("camera-reset") as HTMLElement).hidden = !state?.focusedBoard;
 }
