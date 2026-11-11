@@ -9,6 +9,8 @@ let exitSurfaceFn: () => void;
 let hasActiveAnnotationFn: () => boolean;
 let dismissAnnotationFn: () => void;
 let cycleSurfaceAnnotationFn: (dir: number) => void;
+let unfocusBoardFn: () => void;
+let hasFocusedBoardFn: () => boolean;
 
 export function initControls(deps: {
   invalidate: () => void;
@@ -18,6 +20,8 @@ export function initControls(deps: {
   hasActiveAnnotation: () => boolean;
   dismissAnnotation: () => void;
   cycleSurfaceAnnotation: (dir: number) => void;
+  unfocusBoard: () => void;
+  hasFocusedBoard: () => boolean;
 }): void {
   invalidateFn = deps.invalidate;
   suspendFn = deps.suspend;
@@ -26,6 +30,8 @@ export function initControls(deps: {
   hasActiveAnnotationFn = deps.hasActiveAnnotation;
   dismissAnnotationFn = deps.dismissAnnotation;
   cycleSurfaceAnnotationFn = deps.cycleSurfaceAnnotation;
+  unfocusBoardFn = deps.unfocusBoard;
+  hasFocusedBoardFn = deps.hasFocusedBoard;
 }
 
 function updateMotion(): void {
@@ -104,7 +110,10 @@ export function bindControls(): void {
   }
 
   $("surface-back").addEventListener("click", () => {
-    if (app.sceneMode === "surface") exitSurfaceFn();
+    if (app.sceneMode === "surface") {
+      if (hasFocusedBoardFn()) unfocusBoardFn();
+      else exitSurfaceFn();
+    }
   });
   $("annotation-close").addEventListener("click", () => {
     dismissAnnotationFn();
@@ -114,7 +123,8 @@ export function bindControls(): void {
     if (app.flyingIn) return;
     if (event.key === "Escape" && !document.querySelector("dialog[open]")) {
       if (app.sceneMode === "surface") {
-        if (hasActiveAnnotationFn()) dismissAnnotationFn();
+        if (hasFocusedBoardFn()) unfocusBoardFn();
+        else if (hasActiveAnnotationFn()) dismissAnnotationFn();
         else exitSurfaceFn();
         return;
       }

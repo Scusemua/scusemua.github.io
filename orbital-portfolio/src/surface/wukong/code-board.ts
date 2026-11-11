@@ -99,7 +99,7 @@ export function buildCodeBoard(
   texture.magFilter = THREE.LinearFilter;
   texture.generateMipmaps = false;
 
-  const geo = new THREE.PlaneGeometry(14, 14);
+  const geo = new THREE.PlaneGeometry(18, 18);
   const mat = new THREE.MeshBasicMaterial({
     map: texture,
     transparent: true,
@@ -107,10 +107,8 @@ export function buildCodeBoard(
     side: THREE.DoubleSide,
   });
   const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(dagBoardPos[0] - 23, dagBoardPos[1] - 2, dagBoardPos[2]);
-  if (dagBoardPos.length >= 3) {
-    mesh.rotation.set(0.15, 0, 0);
-  }
+  mesh.position.set(dagBoardPos[0] - 28, dagBoardPos[1] - 1, dagBoardPos[2] + 2);
+  mesh.rotation.set(0.15, 0.25, 0);
   scene.add(mesh);
 
   renderCodeCanvas(ctx, canvas.width, canvas.height);

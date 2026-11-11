@@ -80,6 +80,10 @@ interface SurfaceState {
     to: THREE.Vector3;
     toTarget: THREE.Vector3;
   } | null;
+  boardPickable: THREE.Object3D[];
+  boardViews: Map<THREE.Object3D, { id: string; cameraPos: THREE.Vector3; cameraTarget: THREE.Vector3 }>;
+  focusedBoard: string | null;
+  preFocusCamera: { pos: THREE.Vector3; target: THREE.Vector3 } | null;
 }
 
 let state: SurfaceState | null = null;
@@ -353,10 +357,24 @@ function buildScene(arch: Architecture): SurfaceState {
       to: new THREE.Vector3(...arch.cameraStart),
       toTarget: new THREE.Vector3(...arch.cameraTarget),
     },
+    boardPickable: [],
+    boardViews: new Map(),
+    focusedBoard: null,
+    preFocusCamera: null,
   };
 
   if (hooks) {
     hooks.onBuild(surfaceContext(s));
+    if (hooks.getBoardMeshes) {
+      for (const b of hooks.getBoardMeshes()) {
+        s.boardPickable.push(b.mesh);
+        s.boardViews.set(b.mesh, {
+          id: b.id,
+          cameraPos: new THREE.Vector3(...b.view.cameraPos),
+          cameraTarget: new THREE.Vector3(...b.view.cameraTarget),
+        });
+      }
+    }
   }
 
   return s;
@@ -704,4 +722,60 @@ export function cycleSurfaceAnnotation(direction: number): void {
     : -1;
   const next = (current + direction + list.length) % list.length;
   showAnnotation(list[next]);
+}
+
+// ---------------------------------------------------------------------------
+// Board focus interaction
+// ---------------------------------------------------------------------------
+
+export function pickBoard(x: number, y: number): string | null {
+  if (!state) return null;
+  _pointer.set((x / innerWidth) * 2 - 1, (-y / innerHeight) * 2 + 1);
+  state.camera.updateMatrixWorld();
+  _raycaster.setFromCamera(_pointer, state.camera);
+  const hits = _raycaster.intersectObjects(state.boardPickable, false);
+  if (hits.length === 0) return null;
+  const view = state.boardViews.get(hits[0].object);
+  return view?.id ?? null;
+}
+
+export function focusBoard(boardId: string): void {
+  if (!state) return;
+  for (const [mesh, view] of state.boardViews) {
+    if (view.id === boardId) {
+      state.preFocusCamera = {
+        pos: state.camera.position.clone(),
+        target: state.controls.target.clone(),
+      };
+      state.focusedBoard = boardId;
+      state.tween = {
+        started: performance.now(),
+        from: state.camera.position.clone(),
+        fromTarget: state.controls.target.clone(),
+        to: view.cameraPos.clone(),
+        toTarget: view.cameraTarget.clone(),
+      };
+      ($("board-back") as HTMLElement).hidden = false;
+      void mesh;
+      return;
+    }
+  }
+}
+
+export function unfocusBoard(): void {
+  if (!state || !state.preFocusCamera) return;
+  state.tween = {
+    started: performance.now(),
+    from: state.camera.position.clone(),
+    fromTarget: state.controls.target.clone(),
+    to: state.preFocusCamera.pos.clone(),
+    toTarget: state.preFocusCamera.target.clone(),
+  };
+  state.focusedBoard = null;
+  state.preFocusCamera = null;
+  ($("board-back") as HTMLElement).hidden = true;
+}
+
+export function hasFocusedBoard(): boolean {
+  return state?.focusedBoard != null;
 }

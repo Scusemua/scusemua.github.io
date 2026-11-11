@@ -1,4 +1,5 @@
-import type { SurfaceHooks, SurfaceContext } from "../hooks.js";
+import type * as THREE from "three";
+import type { SurfaceHooks, SurfaceContext, BoardFocusView } from "../hooks.js";
 import { DagSimulator } from "./dag-simulator.js";
 import { buildDagBoard, renderDagCanvas } from "./dag-renderer.js";
 import type { DagBoard } from "./dag-renderer.js";
@@ -180,6 +181,54 @@ export function createWukongHooks(): SurfaceHooks {
       for (const pulse of ws.invocationPulses) ctx.scene.remove(pulse.mesh);
       for (const pulse of ws.storagePulses) ctx.scene.remove(pulse.mesh);
       ws = null;
+    },
+
+    getBoardMeshes(): { mesh: THREE.Object3D; id: string; view: BoardFocusView }[] {
+      if (!ws) return [];
+      const boards: { mesh: THREE.Object3D; id: string; view: BoardFocusView }[] = [];
+
+      if (ws.dagBoard) {
+        boards.push({
+          mesh: ws.dagBoard.mesh,
+          id: "dag-board",
+          view: {
+            cameraPos: [2, 16, 18],
+            cameraTarget: [2, 14, -16],
+          },
+        });
+      }
+      if (ws.depCounterBoard) {
+        boards.push({
+          mesh: ws.depCounterBoard.mesh,
+          id: "dep-counter-board",
+          view: {
+            cameraPos: [4, 9, 22],
+            cameraTarget: [-5, 8, 5],
+          },
+        });
+      }
+      if (ws.kvStoreBoard) {
+        boards.push({
+          mesh: ws.kvStoreBoard.mesh,
+          id: "kv-store-board",
+          view: {
+            cameraPos: [-8, 9, 28],
+            cameraTarget: [-17, 7.7, 11],
+          },
+        });
+      }
+      if (ws.codeBoard) {
+        boards.push({
+          mesh: ws.codeBoard.mesh,
+          id: "code-board",
+          view: {
+            cameraPos: [-22, 14, 18],
+            cameraTarget: [-26, 13, -14],
+          },
+        });
+      }
+
+      return boards;
     },
   };
 }

@@ -29,6 +29,10 @@ import {
   dismissAnnotation,
   hasActiveAnnotation,
   cycleSurfaceAnnotation,
+  pickBoard,
+  focusBoard,
+  unfocusBoard,
+  hasFocusedBoard,
 } from "./surface/scene.js";
 
 interface Bounds {
@@ -321,7 +325,7 @@ function updateFrame(now: number): void {
 
   if (app.sceneMode === "surface") {
     if (app.hoverPoint && !app.interacting) {
-      app.renderer.domElement.style.cursor = pickAnnotation(app.hoverPoint.x, app.hoverPoint.y) ? "pointer" : "grab";
+      app.renderer.domElement.style.cursor = (pickAnnotation(app.hoverPoint.x, app.hoverPoint.y) || pickBoard(app.hoverPoint.x, app.hoverPoint.y)) ? "pointer" : "grab";
       app.hoverPoint = null;
     }
     updateSurfaceFrame(now);
@@ -529,6 +533,11 @@ function bindCanvasEvents(canvas: HTMLCanvasElement): void {
     )
       return;
     if (app.sceneMode === "surface") {
+      const boardId = pickBoard(event.clientX, event.clientY);
+      if (boardId) {
+        focusBoard(boardId);
+        return;
+      }
       const annotationId = pickAnnotation(event.clientX, event.clientY);
       if (annotationId) showAnnotation(annotationId);
       else dismissAnnotation();
@@ -637,6 +646,7 @@ initDetail(flyTo, startTween, invalidate, enterSurface);
 initControls({
   invalidate, suspend, zoom,
   exitSurface, hasActiveAnnotation, dismissAnnotation, cycleSurfaceAnnotation,
+  unfocusBoard, hasFocusedBoard,
 });
 buildDOM(visit);
 bindControls();

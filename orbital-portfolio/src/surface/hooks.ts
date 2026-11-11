@@ -10,9 +10,15 @@ export interface SurfaceContext {
   elapsed: number;
 }
 
+export interface BoardFocusView {
+  cameraPos: [number, number, number];
+  cameraTarget: [number, number, number];
+}
+
 export interface SurfaceHooks {
   onBuild(ctx: SurfaceContext): void;
   onUpdate(ctx: SurfaceContext, delta: number): void;
   onUpdateLabels(ctx: SurfaceContext): void;
   onDispose(ctx: SurfaceContext): void;
+  getBoardMeshes?(): { mesh: THREE.Object3D; id: string; view: BoardFocusView }[];
 }
