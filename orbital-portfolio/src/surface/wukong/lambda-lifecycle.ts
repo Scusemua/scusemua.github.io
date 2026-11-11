@@ -42,10 +42,54 @@ export interface LambdaLifecycle {
 // Constants
 // ---------------------------------------------------------------------------
 
+// Lambda phase timing
 const LAMBDA_SCALE = 0.18;
 const SPAWN_DURATION = 0.5;
 const DESPAWN_DURATION = 0.4;
 const INVOKING_DURATION = 0.4;
+
+// Standalone lifecycle timing (no DAG simulator)
+const STANDALONE_EXEC_BASE = 2;
+const STANDALONE_EXEC_RANGE = 2;
+const STANDALONE_IDLE_BASE = 1.5;
+const STANDALONE_IDLE_RANGE = 1.5;
+const RESPAWN_IDLE_BASE = 1;
+const RESPAWN_IDLE_RANGE = 1.5;
+const RESPAWN_POSITION_SPREAD = 3;
+
+// Task indicator visuals
+const TASK_INDICATOR_SIZE = 0.3;
+const TASK_INDICATOR_COLOR = "#60d8ff";
+const TASK_INDICATOR_Y_OFFSET = 3.5;
+const TASK_LABEL_Y_OFFSET = 3.8;
+const INDICATOR_BOB_AMPLITUDE = 0.15;
+const INDICATOR_BOB_FREQ = 4;
+const INDICATOR_SPIN_Y = 0.064;
+const INDICATOR_SPIN_X = 0.032;
+const INDICATOR_BRIGHTNESS_BASE = 0.8;
+const INDICATOR_BRIGHTNESS_RANGE = 0.2;
+const INDICATOR_BRIGHTNESS_FREQ = 6;
+
+// Executing color shift
+const EXECUTING_COLOR = "#f0c050";
+const EXECUTING_LERP_MIN = 0.3;
+const EXECUTING_LERP_RANGE = 0.3;
+const EXECUTING_LERP_FREQ = 5;
+
+// Invocation pulse geometry
+const INVOCATION_ARC_HEIGHT = 2.5;
+const INVOCATION_CP_HEIGHT = 1.5;
+const INVOCATION_PULSE_RADIUS = 0.2;
+const INVOCATION_PULSE_COLOR = "#ff9040";
+const INVOCATION_PULSE_SPEED = 0.8;
+
+// Storage pulse geometry
+const STORAGE_ARC_HEIGHT = 1.8;
+const STORAGE_CP_HEIGHT = 1.0;
+const STORAGE_PULSE_RADIUS = 0.15;
+
+// Pulse animation
+const PULSE_GLOW_AMPLITUDE = 0.3;
 
 const _v3 = new THREE.Vector3();
 
@@ -57,11 +101,15 @@ function createTaskIndicator(
   position: THREE.Vector3,
   scene: THREE.Scene,
 ): THREE.Mesh {
-  const geo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
-  const mat = toon("#60d8ff");
+  const geo = new THREE.BoxGeometry(
+    TASK_INDICATOR_SIZE,
+    TASK_INDICATOR_SIZE,
+    TASK_INDICATOR_SIZE,
+  );
+  const mat = toon(TASK_INDICATOR_COLOR);
   const mesh = new THREE.Mesh(geo, mat);
   mesh.position.copy(position);
-  mesh.position.y += 3.5;
+  mesh.position.y += TASK_INDICATOR_Y_OFFSET;
   const edges = new THREE.EdgesGeometry(geo, 30);
   const edgeLine = new THREE.LineSegments(edges, edgeMaterial);
   mesh.add(edgeLine);
@@ -90,16 +138,20 @@ function updateTaskIndicatorVisuals(
   camera: THREE.PerspectiveCamera,
 ): void {
   if (!lc.taskIndicator) return;
-  lc.taskIndicator.rotation.y += 0.016 * 4;
-  lc.taskIndicator.rotation.x += 0.016 * 2;
+  lc.taskIndicator.rotation.y += INDICATOR_SPIN_Y;
+  lc.taskIndicator.rotation.x += INDICATOR_SPIN_X;
   lc.taskIndicator.position.y =
-    lc.group.position.y + 3.5 + 0.15 * Math.sin(elapsed * 4);
-  const brightness = 0.8 + 0.2 * Math.sin(elapsed * 6);
+    lc.group.position.y +
+    TASK_INDICATOR_Y_OFFSET +
+    INDICATOR_BOB_AMPLITUDE * Math.sin(elapsed * INDICATOR_BOB_FREQ);
+  const brightness =
+    INDICATOR_BRIGHTNESS_BASE +
+    INDICATOR_BRIGHTNESS_RANGE * Math.sin(elapsed * INDICATOR_BRIGHTNESS_FREQ);
   lc.taskIndicator.scale.setScalar(brightness);
 
   if (lc.taskLabelEl) {
     _v3.copy(lc.group.position);
-    _v3.y += 3.8;
+    _v3.y += TASK_LABEL_Y_OFFSET;
     _v3.project(camera);
     const lx = (_v3.x * 0.5 + 0.5) * innerWidth;
     const ly = (-_v3.y * 0.5 + 0.5) * innerHeight;
@@ -113,8 +165,12 @@ function updateExecutingColor(lc: LambdaLifecycle, elapsed: number): void {
   const mat = (lc.group.children[0] as THREE.Mesh)
     .material as THREE.ShaderMaterial;
   if (mat.uniforms?.uColor) {
-    const base = new THREE.Color("#60d8ff");
-    base.lerp(new THREE.Color("#f0c050"), 0.3 + 0.3 * Math.sin(elapsed * 5));
+    const base = new THREE.Color(TASK_INDICATOR_COLOR);
+    base.lerp(
+      new THREE.Color(EXECUTING_COLOR),
+      EXECUTING_LERP_MIN +
+        EXECUTING_LERP_RANGE * Math.sin(elapsed * EXECUTING_LERP_FREQ),
+    );
     mat.uniforms.uColor.value.copy(base);
   }
 }
@@ -141,20 +197,20 @@ export function spawnInvocationPulse(
   scene: THREE.Scene,
 ): InvocationPulse {
   const mid = from.clone().lerp(to, 0.5);
-  mid.y += 2.5;
+  mid.y += INVOCATION_ARC_HEIGHT;
   const cp1 = from.clone().lerp(mid, 0.5);
-  cp1.y += 1.5;
+  cp1.y += INVOCATION_CP_HEIGHT;
   const cp2 = mid.clone().lerp(to, 0.5);
-  cp2.y += 1.5;
+  cp2.y += INVOCATION_CP_HEIGHT;
   const curve = new THREE.CubicBezierCurve3(from.clone(), cp1, cp2, to.clone());
 
-  const geo = new THREE.SphereGeometry(0.2, 8, 6);
-  const mat = toon("#ff9040");
+  const geo = new THREE.SphereGeometry(INVOCATION_PULSE_RADIUS, 8, 6);
+  const mat = toon(INVOCATION_PULSE_COLOR);
   const mesh = new THREE.Mesh(geo, mat);
   mesh.position.copy(from);
   scene.add(mesh);
 
-  return { curve, mesh, t: 0, speed: 0.8 };
+  return { curve, mesh, t: 0, speed: INVOCATION_PULSE_SPEED };
 }
 
 export function spawnStoragePulse(
@@ -164,14 +220,14 @@ export function spawnStoragePulse(
   scene: THREE.Scene,
 ): InvocationPulse {
   const mid = from.clone().lerp(to, 0.5);
-  mid.y += 1.8;
+  mid.y += STORAGE_ARC_HEIGHT;
   const cp1 = from.clone().lerp(mid, 0.5);
-  cp1.y += 1.0;
+  cp1.y += STORAGE_CP_HEIGHT;
   const cp2 = mid.clone().lerp(to, 0.5);
-  cp2.y += 1.0;
+  cp2.y += STORAGE_CP_HEIGHT;
   const curve = new THREE.CubicBezierCurve3(from.clone(), cp1, cp2, to.clone());
 
-  const geo = new THREE.SphereGeometry(0.15, 8, 6);
+  const geo = new THREE.SphereGeometry(STORAGE_PULSE_RADIUS, 8, 6);
   const mat = toon(color);
   const mesh = new THREE.Mesh(geo, mat);
   mesh.position.copy(from);
@@ -194,7 +250,7 @@ export function updatePulses(
     } else {
       const pt = pulse.curve.getPoint(pulse.t);
       pulse.mesh.position.copy(pt);
-      const glow = 1 + 0.3 * Math.sin(pulse.t * Math.PI);
+      const glow = 1 + PULSE_GLOW_AMPLITUDE * Math.sin(pulse.t * Math.PI);
       pulse.mesh.scale.setScalar(glow);
     }
   }
@@ -278,8 +334,10 @@ export function buildLambdaLifecycles(
       taskIndicator: null,
       taskNodeId: null,
       taskLabelEl: null,
-      executionDuration: 2 + Math.random() * 2,
-      idleDuration: 1.5 + Math.random() * 1.5,
+      executionDuration:
+        STANDALONE_EXEC_BASE + Math.random() * STANDALONE_EXEC_RANGE,
+      idleDuration:
+        STANDALONE_IDLE_BASE + Math.random() * STANDALONE_IDLE_RANGE,
       spawnScale: 0,
       spawnPulse: null,
     });
@@ -534,7 +592,8 @@ export function updateLambdaLifecyclesStandalone(
         if (lc.phaseTimer >= lc.idleDuration) {
           lc.phase = "executing";
           lc.phaseTimer = 0;
-          lc.executionDuration = 1.5 + Math.random() * 2;
+          lc.executionDuration =
+            STANDALONE_EXEC_BASE + Math.random() * STANDALONE_EXEC_RANGE;
           lc.taskIndicator = createTaskIndicator(lc.group.position, ctx.scene);
         }
         break;
@@ -574,13 +633,14 @@ export function updateLambdaLifecyclesStandalone(
           lc.phase = "spawning";
           lc.phaseTimer = 0;
           lc.spawnScale = 0;
-          lc.idleDuration = 1 + Math.random() * 1.5;
+          lc.idleDuration =
+            RESPAWN_IDLE_BASE + Math.random() * RESPAWN_IDLE_RANGE;
           const comp = ctx.architecture.components.find(
             (c) => c.id === lc.compId,
           );
           if (comp) {
-            const dx = (Math.random() - 0.5) * 3;
-            const dz = (Math.random() - 0.5) * 3;
+            const dx = (Math.random() - 0.5) * RESPAWN_POSITION_SPREAD;
+            const dz = (Math.random() - 0.5) * RESPAWN_POSITION_SPREAD;
             lc.group.position.set(
               comp.position[0] + dx,
               comp.position[1],

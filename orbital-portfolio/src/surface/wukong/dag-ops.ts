@@ -17,10 +17,7 @@ const binaryOps: Record<string, (a: number, b: number) => number> = {
   DIV: (a, b) => (b === 0 ? 0 : a / b),
 };
 
-export function evaluateOp(
-  op: DagOp,
-  inputs: readonly number[],
-): number {
+export function evaluateOp(op: DagOp, inputs: readonly number[]): number {
   if (op in unaryOps) return unaryOps[op](inputs[0] ?? 0);
   if (op in binaryOps) return binaryOps[op](inputs[0] ?? 0, inputs[1] ?? 0);
   return 0;
@@ -42,12 +39,21 @@ export interface KvStore {
   readonly values: ReadonlyMap<string, number>;
 }
 
-export function createKvStore(): KvStore & { set(key: string, value: number): void; clear(): void } {
+export function createKvStore(): KvStore & {
+  set(key: string, value: number): void;
+  clear(): void;
+} {
   const values = new Map<string, number>();
   return {
-    get values() { return values as ReadonlyMap<string, number>; },
-    set(key: string, value: number) { values.set(key, value); },
-    clear() { values.clear(); },
+    get values() {
+      return values as ReadonlyMap<string, number>;
+    },
+    set(key: string, value: number) {
+      values.set(key, value);
+    },
+    clear() {
+      values.clear();
+    },
   };
 }
 

@@ -232,14 +232,16 @@ function drawNodes(
     ctx.fillText(n.label, pos.px, pos.py - 60);
 
     const kvValue = snapshot.kvStore.values.get(n.id);
-    const displayValue = kvValue !== undefined
-      ? kvValue
-      : n.inputValue !== undefined
-        ? n.inputValue
-        : undefined;
+    const displayValue =
+      kvValue !== undefined
+        ? kvValue
+        : n.inputValue !== undefined
+          ? n.inputValue
+          : undefined;
     if (displayValue !== undefined) {
       ctx.font = FONT_NODE_VALUE;
-      ctx.fillStyle = kvValue !== undefined ? "#90dda0" : "rgba(160,190,220,0.5)";
+      ctx.fillStyle =
+        kvValue !== undefined ? "#90dda0" : "rgba(160,190,220,0.5)";
       const formatted = Number.isInteger(displayValue)
         ? String(displayValue)
         : displayValue.toFixed(2);

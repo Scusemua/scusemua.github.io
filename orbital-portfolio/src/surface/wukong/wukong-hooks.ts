@@ -82,7 +82,12 @@ export function createWukongHooks(): SurfaceHooks {
         const kvComp = arch.components.find((c) => c.id === "kv-store");
         if (kvComp) {
           kvStoreBoard = buildKvStoreBoard(kvComp.position, ctx.scene);
-          renderKvStoreBoard(kvStoreBoard, arch.dagBoard, dagSimulator.snapshot.kvStore, 0);
+          renderKvStoreBoard(
+            kvStoreBoard,
+            arch.dagBoard,
+            dagSimulator.snapshot.kvStore,
+            0,
+          );
         }
       }
 
@@ -130,7 +135,12 @@ export function createWukongHooks(): SurfaceHooks {
           renderDepCounterBoard(ws.depCounterBoard, snapshot, delta);
         }
         if (ws.kvStoreBoard && ws.dagBoard) {
-          renderKvStoreBoard(ws.kvStoreBoard, ws.dagBoard.config, snapshot.kvStore, delta);
+          renderKvStoreBoard(
+            ws.kvStoreBoard,
+            ws.dagBoard.config,
+            snapshot.kvStore,
+            delta,
+          );
         }
       } else {
         updateLambdaLifecyclesStandalone(

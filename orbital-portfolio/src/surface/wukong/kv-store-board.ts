@@ -154,7 +154,9 @@ export function renderKvStoreBoard(
     ctx.textAlign = "left";
     ctx.font = "bold 200px monospace";
     ctx.fillStyle = hasValue
-      ? (flash ? KV_BOARD_FLASH_COLOR : KV_BOARD_TEXT_COLOR)
+      ? flash
+        ? KV_BOARD_FLASH_COLOR
+        : KV_BOARD_TEXT_COLOR
       : "rgba(200,149,106,0.25)";
     ctx.fillText(node.id, 200, y);
 
@@ -163,7 +165,9 @@ export function renderKvStoreBoard(
     ctx.font = "bold 180px monospace";
     const opLabel = node.op ?? (node.inputValue !== undefined ? "INPUT" : "—");
     ctx.fillStyle = hasValue
-      ? (flash ? KV_BOARD_FLASH_COLOR : "rgba(200,149,106,0.6)")
+      ? flash
+        ? KV_BOARD_FLASH_COLOR
+        : "rgba(200,149,106,0.6)"
       : "rgba(200,149,106,0.2)";
     ctx.fillText(opLabel, w / 2, y);
 

@@ -72,6 +72,7 @@ const WRITE_OUTPUT_DURATION = 3.0;
 const DEP_CHECK_DURATION = 2;
 const INVOKE_CHILD_DURATION = 2.0;
 const RESET_PAUSE = 3.0;
+const TASK_DURATION_JITTER = 0.01;
 
 // ---------------------------------------------------------------------------
 // Graph analysis helpers
@@ -367,7 +368,7 @@ export class DagSimulator {
   private executorUpdateExecuting(executor: Executor): void {
     const duration =
       TASK_EXECUTE_DURATION_MIN +
-      Math.random() * TASK_EXECUTE_DURATION_RANGE * 0.01;
+      Math.random() * TASK_EXECUTE_DURATION_RANGE * TASK_DURATION_JITTER;
 
     if (executor.phaseTimer >= duration) {
       executor.phase = "writing-output";
