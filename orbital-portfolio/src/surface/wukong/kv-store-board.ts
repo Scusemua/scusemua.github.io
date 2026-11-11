@@ -118,11 +118,11 @@ export function renderKvStoreBoard(
   }
 
   // Column headers
-  const rowHeight = 340;
+  const rowHeight = 270;
   let y = 520;
 
   ctx.textAlign = "left";
-  ctx.font = "bold 180px monospace";
+  ctx.font = "bold 160px monospace";
   ctx.fillStyle = "rgba(200,149,106,0.5)";
   ctx.fillText("KEY", 200, y);
   ctx.textAlign = "center";
@@ -132,8 +132,8 @@ export function renderKvStoreBoard(
   y += rowHeight;
 
   ctx.beginPath();
-  ctx.moveTo(160, y - 80);
-  ctx.lineTo(w - 160, y - 80);
+  ctx.moveTo(160, y - 60);
+  ctx.lineTo(w - 160, y - 60);
   ctx.strokeStyle = "rgba(200,149,106,0.2)";
   ctx.lineWidth = 6;
   ctx.stroke();
@@ -147,12 +147,12 @@ export function renderKvStoreBoard(
     if (flash) {
       const alpha = 0.15 * (flash / KV_BOARD_FLASH_DURATION);
       ctx.fillStyle = `rgba(255, 221, 96, ${alpha})`;
-      ctx.fillRect(160, y - 60, w - 320, rowHeight - 40);
+      ctx.fillRect(160, y - 50, w - 320, rowHeight - 30);
     }
 
     // Key column
     ctx.textAlign = "left";
-    ctx.font = "bold 200px monospace";
+    ctx.font = "bold 170px monospace";
     ctx.fillStyle = hasValue
       ? flash
         ? KV_BOARD_FLASH_COLOR
@@ -162,7 +162,7 @@ export function renderKvStoreBoard(
 
     // Op column
     ctx.textAlign = "center";
-    ctx.font = "bold 180px monospace";
+    ctx.font = "bold 150px monospace";
     const opLabel = node.op ?? (node.inputValue !== undefined ? "INPUT" : "—");
     ctx.fillStyle = hasValue
       ? flash
@@ -173,7 +173,7 @@ export function renderKvStoreBoard(
 
     // Value column
     ctx.textAlign = "right";
-    ctx.font = "bold 220px monospace";
+    ctx.font = "bold 180px monospace";
     if (hasValue) {
       ctx.fillStyle = flash ? KV_BOARD_FLASH_COLOR : KV_BOARD_VALUE_COLOR;
       const formatted = Number.isInteger(value)

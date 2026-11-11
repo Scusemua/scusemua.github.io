@@ -5,6 +5,7 @@ import type { Architecture } from "../types.js";
 import type { SurfaceContext } from "../hooks.js";
 import type { Executor, SimulatorSnapshot } from "./dag-simulator.js";
 import type { DagBoard } from "./dag-renderer.js";
+import type { DagNodeConfig } from "../types.js";
 import { STORAGE_PULSE_SPEED } from "./timing.js";
 
 // ---------------------------------------------------------------------------
@@ -92,6 +93,41 @@ const STORAGE_PULSE_RADIUS = 0.15;
 const PULSE_GLOW_AMPLITUDE = 0.3;
 
 const _v3 = new THREE.Vector3();
+
+// ---------------------------------------------------------------------------
+// Task label text builder
+// ---------------------------------------------------------------------------
+
+function formatValue(v: number): string {
+  return Number.isInteger(v) ? String(v) : v.toFixed(1);
+}
+
+function buildTaskLabelText(
+  node: DagNodeConfig,
+  dagBoard: DagBoard | null,
+  snapshot: SimulatorSnapshot,
+): string {
+  if (!node.op) {
+    return `⚡ ${node.label}`;
+  }
+
+  const parentIds = dagBoard
+    ? dagBoard.config.edges
+        .filter((e) => e.to === node.id)
+        .map((e) => e.from)
+    : [];
+
+  const inputStrs: string[] = [];
+  for (const pid of parentIds) {
+    const v = snapshot.kvStore.values.get(pid);
+    if (v !== undefined) inputStrs.push(formatValue(v));
+  }
+
+  if (inputStrs.length > 0) {
+    return `⚡ ${node.label}(${inputStrs.join(", ")})`;
+  }
+  return `⚡ ${node.label}()`;
+}
 
 // ---------------------------------------------------------------------------
 // Task indicator helpers
@@ -515,7 +551,7 @@ export function syncLambdasToSimulator(
           if (node) {
             const el = document.createElement("div");
             el.className = "surface-task-label";
-            el.textContent = `⚡ ${node.label}()`;
+            el.textContent = buildTaskLabelText(node, dagBoard, snapshot);
             $("surface-labels").appendChild(el);
             lc.taskLabelEl = el;
           }

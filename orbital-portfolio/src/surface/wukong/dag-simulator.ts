@@ -379,6 +379,11 @@ export class DagSimulator {
           executorId: executor.id,
           taskId: executor.currentTask,
         });
+        this.pendingWrites.push({
+          kind: "kv",
+          taskId: executor.currentTask,
+          timer: STORAGE_WRITE_DURATION,
+        });
       }
     }
   }
@@ -390,12 +395,6 @@ export class DagSimulator {
     const node = this.nodeStates.get(taskId)!;
     node.status = "completed";
     node.assignedExecutor = null;
-
-    this.pendingWrites.push({
-      kind: "kv",
-      taskId,
-      timer: STORAGE_WRITE_DURATION,
-    });
 
     const children = this.graph.adj.get(taskId) ?? [];
     this.satisfyDependencies(executor.id, taskId, children);
