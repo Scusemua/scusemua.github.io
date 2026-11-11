@@ -16,15 +16,15 @@ export interface CodeBoard {
 // ---------------------------------------------------------------------------
 
 const CODE_BOARD_WIDTH = 4096;
-const CODE_BOARD_HEIGHT = 4096;
+const CODE_BOARD_HEIGHT = 6400;
 const CODE_BOARD_BG = "rgba(12, 14, 22, 0.94)";
 const CODE_BOARD_FRAME_COLOR = "#4a6080";
 
-const FONT_TITLE = "bold 160px monospace";
-const FONT_CODE = "140px monospace";
-const LINE_HEIGHT = 170;
-const LEFT_MARGIN = 180;
-const TOP_MARGIN = 400;
+const FONT_TITLE = "bold 210px monospace";
+const FONT_CODE = "185px monospace";
+const LINE_HEIGHT = 222;
+const LEFT_MARGIN = 250;
+const TOP_MARGIN = 530;
 
 // Syntax highlighting colors
 const COLOR_KEYWORD = "#c586c0";
@@ -99,7 +99,7 @@ export function buildCodeBoard(
   texture.magFilter = THREE.LinearFilter;
   texture.generateMipmaps = false;
 
-  const geo = new THREE.PlaneGeometry(18, 18);
+  const geo = new THREE.PlaneGeometry(18, 28);
   const mat = new THREE.MeshBasicMaterial({
     map: texture,
     transparent: true,
@@ -107,7 +107,7 @@ export function buildCodeBoard(
     side: THREE.DoubleSide,
   });
   const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(dagBoardPos[0] - 28, dagBoardPos[1] - 1, dagBoardPos[2] + 2);
+  mesh.position.set(dagBoardPos[0] - 22, dagBoardPos[1], dagBoardPos[2] + 2);
   mesh.rotation.set(0.15, 0.25, 0);
   scene.add(mesh);
 
@@ -139,9 +139,9 @@ function renderCodeCanvas(
   ctx.textBaseline = "top";
   ctx.fillText("DASK TASK GRAPH", LEFT_MARGIN, 120);
 
-  ctx.font = "bold 120px monospace";
+  ctx.font = "bold 140px monospace";
   ctx.fillStyle = "rgba(160,190,220,0.3)";
-  ctx.fillText("Python · dask.delayed", LEFT_MARGIN, 260);
+  ctx.fillText("Python · dask.delayed", LEFT_MARGIN, 310);
 
   ctx.textBaseline = "top";
   let y = TOP_MARGIN;

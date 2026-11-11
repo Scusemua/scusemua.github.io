@@ -222,8 +222,8 @@ export function createWukongHooks(): SurfaceHooks {
           mesh: ws.codeBoard.mesh,
           id: "code-board",
           view: {
-            cameraPos: [-22, 14, 18],
-            cameraTarget: [-26, 13, -14],
+            cameraPos: [-6, 16, 22],
+            cameraTarget: [-20, 13, -14],
           },
         });
       }
