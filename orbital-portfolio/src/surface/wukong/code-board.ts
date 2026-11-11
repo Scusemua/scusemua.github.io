@@ -97,7 +97,7 @@ export function buildCodeBoard(
   texture.magFilter = THREE.LinearFilter;
   texture.generateMipmaps = false;
 
-  const geo = new THREE.PlaneGeometry(18, 28);
+  const geo = new THREE.PlaneGeometry(15, 28);
   const mat = new THREE.MeshBasicMaterial({
     map: texture,
     transparent: true,
@@ -105,7 +105,7 @@ export function buildCodeBoard(
     side: THREE.DoubleSide,
   });
   const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(dagBoardPos[0] - 22, dagBoardPos[1], dagBoardPos[2] + 2);
+  mesh.position.set(dagBoardPos[0] - 28, dagBoardPos[1], dagBoardPos[2] + 2);
   mesh.rotation.set(0.15, 0.25, 0);
   scene.add(mesh);
 

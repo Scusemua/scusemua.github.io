@@ -91,7 +91,7 @@ export function renderDepCounterBoard(
   ctx.fillStyle = DEP_BOARD_HEADER_COLOR;
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
-  ctx.fillText("DEP COUNTERS", w / 2, 120);
+  ctx.fillText("DEPENDENCY COUNTERS", w / 2, 120);
 
   ctx.beginPath();
   ctx.moveTo(160, 420);
