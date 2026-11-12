@@ -168,6 +168,12 @@ const MetaEmployment: Employment = {
   description:
     "Working on the communication layer that synchronizes GPUs during large-scale AI training at Meta. My focus is designing high-performance collective protocols, building the performance infrastructure that keeps them stable in production, and preparing them for open-source release.",
   descriptionList: [
+    <span key="meta-talk-mccl">
+      <strong>Talk:</strong>{" "}
+      <a href={"https://youtu.be/46uOnloZQkE"} style={{ color: "white" }}>
+        MCCL: Fault-Tolerant Collective Communication for Large-Scale GPU Training
+      </a>
+    </span>,
     "Designed improved initialization architecture and algorithms, cutting communication setup latency by 96% at multi-thousand-GPU scales, directly reducing training job startup and recovery times across Meta's GPU fleet.",
     "Designed core low-level pipelining primitives and broadcast algorithms that are 2.4x+ faster than NCCL at small messages, now foundational to Meta's next-generation collective protocols.",
     "Built and validated automated performance regression infrastructure, effectively protecting Meta's large-scale production deployments.",
