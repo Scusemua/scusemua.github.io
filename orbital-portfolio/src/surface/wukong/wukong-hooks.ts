@@ -29,6 +29,10 @@ import {
   renderKvStoreBoard,
 } from "./kv-store-board.js";
 import { type CodeBoard, buildCodeBoard } from "./code-board.js";
+import {
+  type PlanetarySurface,
+  buildPlanetarySurface,
+} from "./planetary-surface.js";
 
 // ---------------------------------------------------------------------------
 // Wukong-specific state
@@ -45,6 +49,7 @@ interface WukongState {
   depCounterBoard: DepCounterBoard | null;
   kvStoreBoard: KvStoreBoard | null;
   codeBoard: CodeBoard | null;
+  planetarySurface: PlanetarySurface | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -109,11 +114,16 @@ export function createWukongHooks(): SurfaceHooks {
         depCounterBoard,
         kvStoreBoard,
         codeBoard,
+        planetarySurface: buildPlanetarySurface(ctx.scene),
       };
     },
 
     onUpdate(ctx: SurfaceContext, delta: number): void {
       if (!ws) return;
+
+      if (ws.planetarySurface) {
+        ws.planetarySurface.time.value = ctx.elapsed;
+      }
 
       updateTaskFunnels(ws.taskFunnels, ctx, delta);
 
@@ -173,6 +183,9 @@ export function createWukongHooks(): SurfaceHooks {
 
     onDispose(ctx: SurfaceContext): void {
       if (!ws) return;
+      if (ws.planetarySurface) {
+        for (const m of ws.planetarySurface.meshes) ctx.scene.remove(m);
+      }
       for (const lc of ws.lambdaLifecycles) {
         if (lc.taskIndicator) ctx.scene.remove(lc.taskIndicator);
         if (lc.taskLabelEl) lc.taskLabelEl.remove();

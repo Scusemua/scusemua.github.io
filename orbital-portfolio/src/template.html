@@ -1877,7 +1877,7 @@
         bottom: 36px;
         left: 44px;
         right: 44px;
-        display: flex;
+        display: none;
         align-items: stretch;
         border: 1px solid var(--line);
         background: linear-gradient(135deg, #101b2adc, #0c1420a0);
@@ -1885,6 +1885,7 @@
         backdrop-filter: blur(14px);
         overflow: hidden;
       }
+      .board-bar:not([hidden]) { display: flex; }
       .board-bar-heading {
         width: 120px;
         flex-shrink: 0;
